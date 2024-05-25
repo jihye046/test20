@@ -1,0 +1,17 @@
+@charset "UTF-8";
+.updatePage-main {
+	padding: 50px 0px;
+}
+
+.update-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.ck-editor__editable {
+	height: 400px;	
+}
+
+.ck-editor__editable p {
+	margin: 0px;
+}

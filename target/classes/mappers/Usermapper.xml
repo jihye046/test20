@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.ex.UserMapper">
+	<insert id="join" parameterType="UserDto">
+		INSERT INTO mvc_login6
+  			(userId, userPw, unickName, uemail)
+		VALUES
+    		(#{userId}, #{userPw}, #{unickName}, #{uemail})
+	</insert>
+	
+	<select id="login" resultType="UserDto" parameterType="java.util.HashMap">
+		SELECT * 
+		  FROM mvc_login6
+		 WHERE userId = #{userId} 
+		   AND userPw = #{userPw}
+	</select>
+</mapper>

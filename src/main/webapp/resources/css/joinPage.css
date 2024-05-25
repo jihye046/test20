@@ -1,0 +1,53 @@
+@charset "UTF-8";
+.join-background {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #EAEAEA;
+	height: 900px; 
+}
+
+.join-form {
+	width: 400px; 
+	height: 600px;
+	background-color: #ffffff;
+	display: flex;
+	flex-direction: column; /* 아이템들을 세로로 배치하기 위해 */
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.5);
+}
+
+.join-form p {
+	font-family: 'Pretendard-Bold', sans-serif;
+	text-align: center;
+	font-size: 25px;
+}
+
+.join-form > form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.join-form > form input,
+.join-form > form button {
+	margin: 2px 0; /* 위아래 여백 설정 */
+}
+
+.join-form input {
+	background-color: #EAEAEA;
+	border: none;
+	height: 40px;
+	padding: 5px;
+	border-radius: 10px;
+}
+
+.join-form-links {
+	padding-top: 10px;
+}
+
+.join-form-links a {
+	margin-right: 10px;
+}

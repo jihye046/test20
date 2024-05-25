@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+.container-fluid {
+	padding: 50px; width: 1200px;
+}
+
+
+.fa-comment-dots {
+	color: #8C8C8C; font-size: 13px; padding-left: 5px;
+}
+
+.commentCount {
+	color: #8C8C8C; font-size: 13px;
+}
+
+.pagination {
+	margin: 20px 0;
+}
+
+span.page-link {
+	background-color: #6B66FF; color: #ffffff;
+}

@@ -1,0 +1,78 @@
+@charset "UTF-8";
+.detailPage-main {
+	padding: 30px 20px;
+    display: block;
+    background-color: #ffffff;
+    border-left: 1px solid #EAEAEA;
+    border-right: 1px solid #EAEAEA;
+}
+
+.likeBtn-div {
+	padding: 5px 10px;
+}
+
+#likeBtn {
+	width: 15px; 
+	height: 15px;
+	cursor: pointer;
+}
+
+.reply-container {
+	font-size: 15px;
+	padding: 40px 20px;
+}
+
+.reply-form table{
+	width: 600px;
+	height: 100px;
+}
+
+.reply-form th, tr, td {
+	padding: 5px 0px;
+	text-align: left;
+}
+
+.reply-form button, a {
+	margin: 20px;
+}
+
+.detailPage-main button {
+	width: 50px;
+	height: 30px;
+	font-size: 13px;
+	text-align: center;
+}
+
+.replyChild-td {
+	background-color: #F6F6F6;
+	padding: 3px;
+	text-align: left;
+}
+
+.subTitle {
+	color: grey;
+	font-size: 13px
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+.p-wrapper {
+    display: flex;
+    justify-content: space-between; /* 요소를 양쪽 끝으로 정렬 */
+    align-items: center; /* 요소를 세로로 가운데 정렬 */
+}
+
+.p-wrapper .date {
+    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 왼쪽에 붙임 */
+}
+
+.p-wrapper .info {
+    display: flex; /* 내부 요소들을 가로로 정렬하기 위해 */
+}
+
+.p-wrapper .info .subTitle {
+    margin-left: 20px; /* 각 요소 사이의 간격을 조절 */
+    margin-top: 6px;
+}

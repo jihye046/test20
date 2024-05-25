@@ -1,0 +1,61 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+.container-fluid {
+	height: 100vh;
+}
+
+/* header */
+.header-div {
+	padding: 20px 100px 0px 100px;
+	border-bottom: solid 1px #EAEAEA;	
+	height: 50%;
+}
+
+.header-logo {
+	padding: 7px 0px;
+	text-align: left;	
+}
+
+.header-logo > a > img {
+	width: 30px;
+}
+
+.header-welcomeText {
+	text-align: right;
+}
+
+/* body */
+body {
+	font-family: 'Pretendard-Light'
+}
+
+/* footer */
+.footer {
+    display: flex;
+    height: 100px;
+    justify-content: center; /* 수직 가운데 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    background: linear-gradient(45deg, #c2e59c, #64b3f4);
+}
+
+.contact-info {
+    display: flex;
+    width: auto;
+    justify-content: center; /* 수직 가운데 정렬 */
+    align-items: center; /* 수평 가운데 정렬 */
+    padding: 0px 100px;
+    color: #353535;
+}

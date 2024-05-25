@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.ex.BoardMapper">
+	<insert id="createBoard" parameterType="BoardDto">
+		INSERT INTO mvc_board6
+			(
+			bId,
+			bName, 
+			bTitle, 
+			bContent, 
+			bGroup
+			)
+		VALUES
+			(seq_mvc_board6.nextval,
+			 #{bName},
+			 #{bTitle},
+			 #{bContent}, 
+			 seq_mvc_board6.CURRVAL
+		 	)
+	</insert>
+	
+	<select id="findAll" resultType="BoardDto">
+		SELECT *
+		  FROM mvc_board6
+		 WHERE bStep = 0 AND
+		 	   bIndent = 0
+	  ORDER BY bId DESC
+	</select>
+	
+	<select id="detailBoard" resultType="BoardDto">
+		SELECT *
+		  FROM mvc_board6
+		 WHERE bId = #{bId}
+	</select>
+	
+	<update id="updateBoard" parameterType="BoardDto">
+		UPDATE mvc_board6
+		   SET bName = #{bName},
+		   	   bTitle = #{bTitle},
+		   	   bContent = #{bContent}
+		 WHERE bId = #{bId}
+	</update>
+	
+	<delete id="deleteBoard">
+		DELETE FROM mvc_board6
+		 WHERE bId = #{bId}
+	</delete>
+	
+	<update id="updateHitCount">
+		UPDATE mvc_board6
+		   SET bHit = bHit + 1
+		 WHERE bId = #{bId}
+	</update>
+	
+	<update id="updateLike" parameterType="java.util.HashMap">
+		UPDATE mvc_board6
+		   SET bLike = #{bLike}
+		 WHERE bId = #{bId}
+	</update>
+	
+	<insert id="replyInsert" parameterType="BoardDto">
+		INSERT INTO mvc_board6
+			(
+			bId,
+			bContent,
+			bGroup,
+			bStep,
+			bIndent
+			)
+		VALUES
+			(
+			seq_mvc_board6.nextval,
+			#{bContent},
+			#{bGroup},
+			#{bStep} + 1,
+			#{bIndent} + 1
+			)
+	</insert>
+	
+	<update id="replyShape" parameterType="java.util.HashMap">
+		UPDATE mvc_board6
+		   SET bStep = bStep + 1
+		 WHERE bGroup = #{bGroup} AND
+		 	   bStep > #{bStep}
+	</update>
+	
+	<select id="replyList" resultType="BoardDto">
+		SELECT *
+		  FROM mvc_board6
+		 WHERE bGroup = #{bGroup} AND
+		 	   bStep > 0 AND
+		 	   bIndent > 0
+	  ORDER BY bGroup DESC,
+			   bStep ASC
+	</select>
+	
+	<insert id="replyChildInsert" parameterType="BoardDto">
+		INSERT INTO mvc_board6
+			 (
+			 bId,
+			 bContent,
+		 	 bGroup,
+		 	 bStep,
+			 bIndent
+			 )
+		VALUES
+			 (
+			 seq_mvc_board6.nextval,
+			 #{bContent},
+			 #{bGroup},
+			 #{bStep} + 1,
+			 #{bIndent} + 1
+			 )
+	</insert>
+	
+	<select id="pagingList" parameterType="java.util.HashMap" resultType="BoardDto">
+		SELECT * FROM (
+			 SELECT 
+        		  t.*,
+        		  ROWNUM AS rnum
+    		   FROM (
+    		   		SELECT * 
+    		   		  FROM mvc_board6 
+    		   		 WHERE bStep = 0 
+    		   		   AND bIndent = 0 
+    		   		   <if test="searchText != null and searchText != ''">
+    		   		   	   AND ${searchGubun} LIKE '%' || #{searchText} ||'%'
+    		   		   </if>
+    		   	  <if test="sortType.equals('latest')">   
+    		      	 ORDER BY bId DESC
+    		      </if>
+    		      <if test="sortType.equals('hit')">
+    		      	 ORDER BY bHit DESC, bId DESC
+    		      </if>
+   		   		) t
+		)
+	 	 WHERE rnum BETWEEN #{pagingStart} AND #{pagingEnd}
+	</select>
+	
+	<select id="boardCount" resultType="Integer">
+		SELECT COUNT(bId)
+		  FROM mvc_board6
+		 WHERE bStep = 0 AND bIndent = 0
+	</select>
+	
+	<update id="updateCommentCount">
+		UPDATE mvc_board6 
+		   SET commentCount = commentCount + 1
+		 WHERE bGroup = #{bGroup}
+		   AND bStep = 0
+		   AND bIndent = 0
+	</update>
+	
+	<select id="sort_hitPagingList" parameterType="java.util.HashMap" resultType="BoardDto">
+		SELECT * FROM (
+			 SELECT 
+        		  t.*,
+        		  ROWNUM AS rnum
+    		   FROM (
+    		   		SELECT * 
+    		   		  FROM mvc_board6 
+    		   		 WHERE bStep = 0 
+    		   		   AND bIndent = 0 
+    		   		   <if test="searchText != null and searchText != ''">
+    		   		   	   AND ${searchGubun} LIKE '%' || #{searchText} ||'%'
+    		   		   </if>
+    		         ORDER BY bHit DESC, bId DESC
+   		   		) t
+		)
+	 	 WHERE rnum BETWEEN #{pagingStart} AND #{pagingEnd}
+	</select>
+</mapper>
