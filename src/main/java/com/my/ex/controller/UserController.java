@@ -66,12 +66,4 @@ public class UserController {
 		return "redirect:loginPage";
 	}
 	
-	@ResponseBody
-	@RequestMapping(value= "/emailCheck", method = RequestMethod.POST, produces = "application/text;charset=utf8")
-	public ResponseEntity<String> emailCheck(@RequestParam("code")String code){
-		System.out.println(code);
-		String result = (code.equals("123456")) ? "인증성공" : "인증실패";
-		return new ResponseEntity<String>(result, HttpStatus.OK);
-	}
-	
 }

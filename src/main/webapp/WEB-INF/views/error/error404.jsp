@@ -8,7 +8,7 @@
 <title>error404.jsp</title>
 <style>
 	body {
-		pdding: 0;
+		padding: 0;
 		margin: 0;
 	}
 

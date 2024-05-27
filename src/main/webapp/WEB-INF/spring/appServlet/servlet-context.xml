@@ -36,7 +36,5 @@
 			<beans:bean class="com.my.ex.interceptors.Interceptors"/>
 		</interceptor>
 	</interceptors>
-	
-	<!-- Email -->
-	
+
 </beans:beans>
