@@ -16,7 +16,7 @@ local.properties
 .target/
 
 # ignore properties file
-email.properties
+config/
 
 # External tool builders
 .externalToolBuilders/
