@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
+import com.my.ex.dto.LikeDto;
 import com.my.ex.service.BoardService;
+import com.my.ex.service.LikeService;
 
 @Controller
 @RequestMapping("/board")
@@ -27,6 +29,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService service;
+	
+	@Autowired
+	private LikeService likeService;
 	
 	// 게시글 등록 페이지
 	@RequestMapping("/createPage")
@@ -40,9 +45,7 @@ public class BoardController {
 		boolean create = service.createBoard(dto);
 		String result = "false";
 		
-		if(create == true) {
-			result = "true";
-		}
+		if(create) result = "true";
 		rttr.addFlashAttribute("createResult", result);
 		return "redirect:paging";
 	}
@@ -51,12 +54,15 @@ public class BoardController {
 	@RequestMapping("/detailBoard")
 	public String detailBoard(HttpServletRequest request, Model model) {
 		int bId = Integer.parseInt(request.getParameter("bId"));
+		String userId = request.getParameter("userId");
 		updateHitCount(bId);
 		BoardDto dto = service.detailBoard(bId);
+		boolean isLiked = likeService.isLiked(bId, userId);
 		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
 		List<BoardDto> replyList = service.replyList(bGroup);
 		model.addAttribute("dto", dto);
 		model.addAttribute("replyList", replyList);
+		model.addAttribute("isLiked", isLiked);
 		return "/board/detailPage";
 	}
 	
@@ -71,7 +77,6 @@ public class BoardController {
 	// 게시글 수정
 	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
 	public String updateBoard(HttpServletRequest request, RedirectAttributes rttr) {
-		
 		int bId = Integer.parseInt(request.getParameter("bId"));
 		String bName = request.getParameter("bName");
 		String bTitle = request.getParameter("bTitle");
@@ -85,9 +90,7 @@ public class BoardController {
 		
 		boolean update = service.updateBoard(dto);
 		String result = "false";
-		if(update == true) {
-			result = "true";
-		}
+		if(update) result = "true";
 		rttr.addFlashAttribute("updateResult", result);
 		return "redirect:detailBoard?bId=" + bId + "&bGroup=" + bGroup;
 	}
@@ -98,9 +101,7 @@ public class BoardController {
 		boolean deleteResult = service.deleteBoard(bId);
 		String result = "false";
 		
-		if(deleteResult) {
-			result = "true";
-		}
+		if(deleteResult) result = "true";
 		rttr.addFlashAttribute("deleteResult", result);
 		return "redirect:paging";
 	}
@@ -112,11 +113,29 @@ public class BoardController {
 	}
 	
 	// 게시글 좋아요
-	@RequestMapping(value =  "/updateLike", method = RequestMethod.POST)
+	@RequestMapping(value =  "/addLike", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> updateLike(@RequestParam("bId")int bId, @RequestParam("bLike")String bLike) {
-		BoardDto dto = service.updateLike(bId, bLike);
-		return new ResponseEntity<String>(dto.getbLike(), HttpStatus.OK); 
+	public ResponseEntity<Integer> addLike(@RequestParam("bId")int bId, @RequestParam("userId")String userId) {
+		service.incrementLikesCount(bId);
+		LikeDto dto = new LikeDto();
+		dto.setbId(bId);
+		dto.setUserId(userId);
+		likeService.addLike(dto);
+		int totalLikes = service.getTotalLikes(bId);
+		return new ResponseEntity<>(totalLikes, HttpStatus.OK);
+	}
+	
+	// 게시글 좋아요 취소
+	@RequestMapping(value =  "/removeLike", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Integer> removeLike(@RequestParam("bId")int bId, @RequestParam("userId")String userId) {
+		service.decrementLikesCount(bId);
+		LikeDto dto = new LikeDto();
+		dto.setbId(bId);
+		dto.setUserId(userId);
+		likeService.removeLike(dto);
+		int totalLikes = service.getTotalLikes(bId);
+		return new ResponseEntity<>(totalLikes, HttpStatus.OK);
 	}
 	
 	// 댓글
@@ -148,13 +167,11 @@ public class BoardController {
 									  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
 		BoardPagingDto pageDto = service.paingParam(page);
-
 		for(BoardDto dto : pagingList) {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
 			dto.setSortType(sortType);
 		}
-		
 		model.addAttribute("boardList", pagingList);
 		model.addAttribute("paging", pageDto);
 		return "/board/pagingList";
@@ -169,13 +186,11 @@ public class BoardController {
 									  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
 		BoardPagingDto pageDto = service.paingParam(page);
-
 		for(BoardDto dto : pagingList) {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
 			dto.setSortType(sortType);
 		}
-		
 		SortResponse response = new SortResponse(pagingList, pageDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -195,7 +210,6 @@ public class BoardController {
 												   @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
 		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
 		BoardPagingDto pageDto = service.paingParam(page);
-		
 		SortResponse response = new SortResponse();
 		response.setSort_hitPagingList(sort_hitPagingList);
 		response.setPageDto(pageDto);

@@ -32,7 +32,6 @@ public class MailController {
 	@ResponseBody
 	@RequestMapping(value= "/check", method = RequestMethod.POST, produces = "application/text;charset=utf8")
 	public ResponseEntity<String> emailCheck(@RequestParam("userCode")String userCode){
-		System.out.println(userCode);
 		String result = (userCode.equals(authNum)) ? "인증성공" : "인증실패";
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	}

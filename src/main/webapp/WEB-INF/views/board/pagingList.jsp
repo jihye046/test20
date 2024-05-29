@@ -49,7 +49,7 @@
 								<tr>
 									<td>${dto.bId}</td>
 									<td>
-										<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}">${dto.bName}</a>
+										<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}&userId=${sessionScope.userId}">${dto.bName}</a>
 										<i class="fa-regular fa-comment-dots"></i> 
 										<span class="commentCount">${dto.commentCount}</span>
 									</td>

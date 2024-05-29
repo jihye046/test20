@@ -58,11 +58,20 @@ public class BoardService implements IBoardService {
 	public void updateHitCount(int bId) {
 		dao.updateHitCount(bId);
 	}
-
+	
 	@Override
-	public BoardDto updateLike(int bId, String bLike) {
-		dao.updateLike(bId, bLike);
-		return detailBoard(bId);
+	public int incrementLikesCount(int bId) {
+		return dao.incrementLikesCount(bId);
+	}
+	
+	@Override
+	public int decrementLikesCount(int bId) {
+		return dao.decrementLikesCount(bId);
+	}
+	
+	@Override
+	public int getTotalLikes(int bId) {
+		return dao.getTotalLikes(bId);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-let createElement = document.querySelector("#createResult") 
+const createElement = document.querySelector("#createResult") 
 let createResult = createElement ? createElement.getAttribute("data-create-result") : null
 
 if(createResult == "true") {

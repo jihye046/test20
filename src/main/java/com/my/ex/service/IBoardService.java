@@ -12,7 +12,9 @@ public interface IBoardService {
 	boolean updateBoard(BoardDto dto);
 	boolean deleteBoard(int bId);
 	void updateHitCount(int bId);
-	BoardDto updateLike(int bId, String bLike);
+	int incrementLikesCount(int bId);
+	int decrementLikesCount(int bId);
+	int getTotalLikes(int bId);
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);

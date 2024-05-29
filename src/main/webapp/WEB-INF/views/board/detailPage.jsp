@@ -23,7 +23,7 @@
 						    </button>
 							<div class="dropdown-menu dropdown-menu-right">
 						    	<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
-						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}">삭제</a>
+						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
 						    </div>
 					    </div>
 					</div>
@@ -35,7 +35,7 @@
 				<div>
 					<div class="likeBtn-div">
 						<img id="likeBtn" alt="unlike" src="../../../resources/images/unliked.png">
-						<span style="font-size: 13px;">0</span>
+						<span id="totalLikes" style="font-size: 13px;">${dto.bLike}</span>
 					</div>
 				</div>
 				<div class="reply-container">
@@ -84,6 +84,8 @@
 </body>
 <div id="updateResult" data-update-result="${updateResult}"></div>
 <div id="bId" data-bId="${dto.bId}"></div>
+<div id="userId" data-userId="${sessionScope.userId}"></div>
+<div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/detailPage.js"></script>
 <script>
 // 댓글
@@ -219,7 +221,6 @@ const replyChildUI = () => {
 	return output
 }
 
-bLikeStatus("${dto.bLike}")
 registerEventListeners()
 </script>
 </html>

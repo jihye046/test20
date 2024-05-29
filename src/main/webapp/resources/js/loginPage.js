@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-	let joinElement = document.querySelector("#joinResult")
+	const joinElement = document.querySelector("#joinResult")
 	let joinResult = joinElement ? joinElement.getAttribute("data-join-result") : null
 
 	if(joinResult == "true"){

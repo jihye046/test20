@@ -1,9 +1,0 @@
-CREATE TABLE mvc_login1(
-    userId VARCHAR2(20) PRIMARY KEY,
-    userPw VARCHAR2(20) NOT NULL,
-    unickName VARCHAR2(20) NOT NULL UNIQUE,
-    upoint NUMBER(5) DEFAULT 0,
-    uemail VARCHAR2(40) NOT NULL
-);
-
-COMMIT;

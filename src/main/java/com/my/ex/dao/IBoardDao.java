@@ -12,7 +12,9 @@ public interface IBoardDao {
 	int updateBoard(BoardDto dto);
 	int deleteBoard(int bId);
 	void updateHitCount(int bId);
-	void updateLike(int bId, String bLike);
+	int incrementLikesCount(int bId); 
+	int decrementLikesCount(int bId);
+	int getTotalLikes(int bId);
 	void replyInsert(BoardDto dto);
 	void replyShape(int bGroup, int bStep);
 	List<BoardDto> replyList(int bGroup);

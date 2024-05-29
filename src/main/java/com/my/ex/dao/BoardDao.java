@@ -46,13 +46,20 @@ public class BoardDao implements IBoardDao {
 	public void updateHitCount(int bId) {
 		session.update(NAMESPACE + "updateHitCount", bId);
 	}
-
+	
 	@Override
-	public void updateLike(int bId, String bLike) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("bId", bId);
-		map.put("bLike", bLike);
-		session.update(NAMESPACE + "updateLike", map);
+	public int incrementLikesCount(int bId) {
+		return session.update(NAMESPACE + "incrementLikesCount", bId);
+	}
+	
+	@Override
+	public int decrementLikesCount(int bId) {
+		return session.update(NAMESPACE + "decrementLikesCount", bId);
+	}
+	
+	@Override
+	public int getTotalLikes(int bId) {
+		return session.selectOne(NAMESPACE + "getTotalLikes", bId);
 	}
 
 	@Override

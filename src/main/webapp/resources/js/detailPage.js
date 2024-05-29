@@ -1,4 +1,4 @@
-let updateElement = document.querySelector("#updateResult")
+const updateElement = document.querySelector("#updateResult")
 let updateResult = updateElement ? updateElement.getAttribute("data-update-result") : null
 
 if(updateResult == "true"){
@@ -7,50 +7,49 @@ if(updateResult == "true"){
 
 // 좋아요
 const likeBtn = document.querySelector("#likeBtn")
-const bId = document.querySelector("#bId")
-const bIdValue = bId.getAttribute("data-bId")
+const bId = document.querySelector("#bId").getAttribute("data-bId")
+let userId = document.querySelector("#userId").getAttribute("data-userId")
+const totalLikes = document.querySelector("#totalLikes")
+const likedPng = "../../../resources/images/liked.png"
+const unlikedPng = "../../../resources/images/unliked.png"
+
+document.addEventListener("DOMContentLoaded", function() {
+	const isLiked = document.querySelector("#isLiked").getAttribute("data-isLiked") === "true"
+	likeBtn.src = (isLiked) ? likedPng : unlikedPng
+})
 
 likeBtn.addEventListener('click', function(){
 	if(likeBtn.src.includes("unliked.png")){
 		$.ajax({
 			type: "post",
 			data: {
-				bId: bIdValue,
-				bLike: "Y"
+				bId: bId, 
+				userId: userId
 			},
-			url: "/board/updateLike",
-			dataType: "text",
-			success: function(status){
-				bLikeStatus(status)
+			url: "/board/addLike",
+			success: function(data){
+				likeBtn.src = likedPng
+				totalLikes.innerHTML = data
 			},
-			error: function(){
-				console.log("updateLike1 error")
+			error: function(error){
+				console.error("fail", error)
 			}
 		})
-	} else {
+	} else if(likeBtn.src.includes("liked.png")){
 		$.ajax({
 			type: "post",
 			data: {
-				bId: bIdValue,
-				bLike: "N"
+				bId: bId, 
+				userId: userId
 			},
-			url: "/board/updateLike",
-			dataType: "text",
-			success: function(status){
-				bLikeStatus(status)
+			url: "/board/removeLike",
+			success: function(data){
+				likeBtn.src = unlikedPng
+				totalLikes.innerHTML = data
 			},
-			error: function(){
-				console.log("updateLike2 error")
+			error: function(error){
+				console.error("fail", error)
 			}
 		})
 	}
-	
 })
-
-let bLikeStatus = (status) => {
-	if(status == "N"){
-		likeBtn.src = "../../../resources/images/unliked.png"
-	} else if(status == "Y"){
-		likeBtn.src = "../../../resources/images/liked.png"
-	}
-}

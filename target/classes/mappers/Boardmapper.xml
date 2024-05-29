@@ -13,11 +13,12 @@
 			bGroup
 			)
 		VALUES
-			(seq_mvc_board6.nextval,
-			 #{bName},
-			 #{bTitle},
-			 #{bContent}, 
-			 seq_mvc_board6.CURRVAL
+			(
+			seq_mvc_board6.nextval,
+			#{bName},
+			#{bTitle},
+			#{bContent}, 
+			seq_mvc_board6.CURRVAL
 		 	)
 	</insert>
 	
@@ -54,11 +55,23 @@
 		 WHERE bId = #{bId}
 	</update>
 	
-	<update id="updateLike" parameterType="java.util.HashMap">
+	<update id="incrementLikesCount">
 		UPDATE mvc_board6
-		   SET bLike = #{bLike}
+		   SET bLike = bLike + 1
 		 WHERE bId = #{bId}
 	</update>
+	
+	<update id="decrementLikesCount">
+		UPDATE mvc_board6
+		   SET bLike = bLike - 1
+		 WHERE bId = #{bId} 
+	</update>
+	
+	<select id="getTotalLikes" resultType="Integer">
+		SELECT bLike
+		  FROM mvc_board6
+		 WHERE bId = #{bId}
+	</select>
 	
 	<insert id="replyInsert" parameterType="BoardDto">
 		INSERT INTO mvc_board6
