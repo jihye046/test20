@@ -3,6 +3,7 @@ package com.my.ex.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,9 +53,9 @@ public class BoardController {
 	
 	// 게시글 상세보기
 	@RequestMapping("/detailBoard")
-	public String detailBoard(HttpServletRequest request, Model model) {
+	public String detailBoard(HttpServletRequest request, Model model, HttpSession session) {
 		int bId = Integer.parseInt(request.getParameter("bId"));
-		String userId = request.getParameter("userId");
+		String userId = (String)session.getAttribute("userId"); 
 		updateHitCount(bId);
 		BoardDto dto = service.detailBoard(bId);
 		boolean isLiked = likeService.isLiked(bId, userId);
@@ -115,7 +116,8 @@ public class BoardController {
 	// 게시글 좋아요
 	@RequestMapping(value =  "/addLike", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Integer> addLike(@RequestParam("bId")int bId, @RequestParam("userId")String userId) {
+	public ResponseEntity<Integer> addLike(@RequestParam("bId")int bId, HttpSession session) {
+		String userId = (String)session.getAttribute("userId");
 		service.incrementLikesCount(bId);
 		LikeDto dto = new LikeDto();
 		dto.setbId(bId);
@@ -128,7 +130,8 @@ public class BoardController {
 	// 게시글 좋아요 취소
 	@RequestMapping(value =  "/removeLike", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Integer> removeLike(@RequestParam("bId")int bId, @RequestParam("userId")String userId) {
+	public ResponseEntity<Integer> removeLike(@RequestParam("bId")int bId, HttpSession session) {
+		String userId = (String)session.getAttribute("userId");
 		service.decrementLikesCount(bId);
 		LikeDto dto = new LikeDto();
 		dto.setbId(bId);

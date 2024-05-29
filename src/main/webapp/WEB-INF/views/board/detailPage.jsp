@@ -84,7 +84,7 @@
 </body>
 <div id="updateResult" data-update-result="${updateResult}"></div>
 <div id="bId" data-bId="${dto.bId}"></div>
-<div id="userId" data-userId="${sessionScope.userId}"></div>
+<%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/detailPage.js"></script>
 <script>

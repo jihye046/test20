@@ -19,11 +19,7 @@ public class BoardService implements IBoardService {
 	@Override
 	public boolean createBoard(BoardDto dto) {
 		int result = dao.createBoard(dto);
-		if(result > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return (result > 0) ? true : false;
 	}
 
 	@Override
@@ -39,19 +35,13 @@ public class BoardService implements IBoardService {
 	@Override
 	public boolean updateBoard(BoardDto dto) {
 		int result = dao.updateBoard(dto);
-		if(result > 0) {
-			return true;
-		}
-		return false;
+		return (result > 0) ? true : false;
 	}
 
 	@Override
 	public boolean deleteBoard(int bId) {
 		int result = dao.deleteBoard(bId);
-		if(result > 0) {
-			return true;
-		}
-		return false;
+		return (result > 0) ? true : false;
 	}
 
 	@Override
@@ -147,7 +137,6 @@ public class BoardService implements IBoardService {
 		pageDto.setMaxPage(maxPage);
 		pageDto.setStartPage(startPage);
 		pageDto.setEndPage(endPage);
-		
 		return pageDto;
 	}
 

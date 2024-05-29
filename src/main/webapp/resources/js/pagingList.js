@@ -195,7 +195,7 @@ const pagination = (paging) => {
 	
 
 	if(deleteResult == "true"){
-		alert("해당 게시글은 삭제되었습니다.")
+		alert("게시글이 삭제되었습니다.")
 	}
 
 	if(userId) {

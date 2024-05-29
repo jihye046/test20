@@ -2,13 +2,12 @@ const updateElement = document.querySelector("#updateResult")
 let updateResult = updateElement ? updateElement.getAttribute("data-update-result") : null
 
 if(updateResult == "true"){
-	alert("수정 완료")
+	alert("게시글이 수정되었습니다.")
 }
 
 // 좋아요
 const likeBtn = document.querySelector("#likeBtn")
 const bId = document.querySelector("#bId").getAttribute("data-bId")
-let userId = document.querySelector("#userId").getAttribute("data-userId")
 const totalLikes = document.querySelector("#totalLikes")
 const likedPng = "../../../resources/images/liked.png"
 const unlikedPng = "../../../resources/images/unliked.png"
@@ -23,8 +22,7 @@ likeBtn.addEventListener('click', function(){
 		$.ajax({
 			type: "post",
 			data: {
-				bId: bId, 
-				userId: userId
+				bId: bId
 			},
 			url: "/board/addLike",
 			success: function(data){
@@ -39,8 +37,7 @@ likeBtn.addEventListener('click', function(){
 		$.ajax({
 			type: "post",
 			data: {
-				bId: bId, 
-				userId: userId
+				bId: bId 
 			},
 			url: "/board/removeLike",
 			success: function(data){
