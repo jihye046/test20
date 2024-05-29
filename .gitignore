@@ -17,6 +17,8 @@ local.properties
 
 # ignore properties file
 config/
+pom.xml
+web.xml
 
 # External tool builders
 .externalToolBuilders/
