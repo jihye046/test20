@@ -190,6 +190,22 @@
 		    <version>3.0.21</version>
 		    <type>pom</type>
 		</dependency>
+		
+		<!-- OAuth Naver -->
+		<!-- https://mvnrepository.com/artifact/com.github.scribejava/scribejava-core -->
+		<dependency>
+		    <groupId>com.github.scribejava</groupId>
+		    <artifactId>scribejava-core</artifactId>
+		    <version>8.3.3</version>
+		</dependency>
+		<!-- Json Parsing -->
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

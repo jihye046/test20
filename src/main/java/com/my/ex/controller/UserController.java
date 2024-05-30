@@ -61,4 +61,9 @@ public class UserController {
 		return "redirect:loginPage";
 	}
 	
+	@RequestMapping("/naver/callback")
+	public void naverCallback() {
+		System.out.println("naver/callback");
+	}
+	
 }

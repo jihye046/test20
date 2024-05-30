@@ -88,7 +88,6 @@ public class BoardController {
 		dto.setbName(bName);
 		dto.setbTitle(bTitle);
 		dto.setbContent(bContent);
-		
 		boolean update = service.updateBoard(dto);
 		String result = "false";
 		if(update) result = "true";
@@ -120,7 +119,7 @@ public class BoardController {
 		String userId = (String)session.getAttribute("userId");
 		service.incrementLikesCount(bId);
 		LikeDto dto = new LikeDto();
-		dto.setbId(bId);
+		dto.setBId(bId);
 		dto.setUserId(userId);
 		likeService.addLike(dto);
 		int totalLikes = service.getTotalLikes(bId);
@@ -134,7 +133,7 @@ public class BoardController {
 		String userId = (String)session.getAttribute("userId");
 		service.decrementLikesCount(bId);
 		LikeDto dto = new LikeDto();
-		dto.setbId(bId);
+		dto.setBId(bId);
 		dto.setUserId(userId);
 		likeService.removeLike(dto);
 		int totalLikes = service.getTotalLikes(bId);
