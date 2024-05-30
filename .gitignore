@@ -19,6 +19,7 @@ local.properties
 config/
 pom.xml
 web.xml
+target/
 
 # External tool builders
 .externalToolBuilders/
