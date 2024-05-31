@@ -51,3 +51,9 @@
 .login-form-links a {
 	margin-right: 10px;
 }
+
+.social-login-logo {
+	width: 40px; 
+	padding-top: 10px;
+	cursor: pointer;
+}

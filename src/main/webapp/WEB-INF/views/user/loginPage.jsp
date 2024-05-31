@@ -16,7 +16,11 @@
 						<a href="/user/joinPage">회원가입</a>
 						<a href="#">비밀번호찾기</a>
 					</div>
-				</form>
+				</form><br>
+				<span style="color: gray;">다른 계정으로 로그인하기</span>
+				<a href="/user/naverLogin">
+					<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
+				</a>
 			</div>
 		</div>
 	</main>

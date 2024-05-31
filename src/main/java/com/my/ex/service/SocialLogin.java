@@ -4,22 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.my.ex.dao.UserDao;
-import com.my.ex.dto.UserDto;
-
-@Service
+//@Service
+@Component
 @PropertySource("classpath:config/email.properties")
-public class UserService implements IUserService {
-	
-	@Autowired
-	private UserDao dao;
+public class SocialLogin {
 	
 	@Value("${naver.baseurl}")
 	private String baseurl;
@@ -39,18 +34,6 @@ public class UserService implements IUserService {
 	@Value("${naver.redirect_uri}")
 	private String redirect_uri;
 	
-	@Override
-	public boolean join(UserDto dto) {
-		int result = dao.join(dto);
-		return (result > 0) ? true : false;
-	}
-
-	@Override
-	public boolean login(String userId, String userPw) {
-		UserDto dto = dao.login(userId, userPw);
-		return (dto != null) ? true	: false;
-	}
-
 	public String getNaverAuthorizeUrl(String type) throws URISyntaxException{
 		System.out.println("baseurl: " + baseurl);
 		System.out.println("response_type: " + response_type);
