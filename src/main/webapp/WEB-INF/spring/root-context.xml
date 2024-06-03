@@ -25,6 +25,7 @@
 	
 	<!-- .properties File load -->
 	<context:property-placeholder location="classpath:config/email.properties" />
+	<context:property-placeholder location="classpath:config/naver.properties" />
 	
 	<!-- Email -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -45,16 +46,4 @@
         </property>
     </bean>
     
-    <!-- 컴포넌트 스캔 설정 -->
-<!--     <context:component-scan base-package="com.my.ex.service" /> -->
-    
-<!--     <bean id="SocialDto" class="com.my.ex.dto.SocialDto"> -->
-<!--     	<property name="baseurl" value="${naver.baseurl}"/> -->
-<!--     	<property name="response_type" value="${naver.response_type}"/> -->
-<!--     	<property name="client_id" value="${naver.client_id}"/> -->
-<!--     	<property name="client_secret" value="${naver.client_secret}"/> -->
-<!--     	<property name="state" value="${naver.state}"/> -->
-<!--     	<property name="redirect_uri" value="${naver.redirect_uri}"/> -->
-<!--     </bean> -->
-	
 </beans>

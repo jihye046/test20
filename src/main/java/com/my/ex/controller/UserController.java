@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.my.ex.dto.SocialDto;
 import com.my.ex.dto.UserDto;
-import com.my.ex.service.SocialLogin;
+import com.my.ex.service.SocialLoginService;
 import com.my.ex.service.UserService;
 
 @Controller
@@ -32,7 +31,7 @@ public class UserController {
 	}
 	
 	@Autowired
-	private SocialLogin social;
+	private SocialLoginService social;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
@@ -73,17 +72,12 @@ public class UserController {
 	
 	@RequestMapping("/naverLogin")
 	public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-//		SocialDto dto = new SocialDto();
-		social.getNaverAuthorizeUrl("authorize");
-//		String url = service.getNaverAuthorizeUrl("authorize");
-		/*
+		String url = social.getNaverAuthorizeUrl("authorize");
 		try {
             response.sendRedirect(url);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        */
-//		dto.abc();
 	}
 	
 	@RequestMapping("/naverCallback")
