@@ -22,7 +22,6 @@ public class BoardDto {
 
 	public BoardDto(int bId, String bName, String bTitle, String bContent, Date bDate, int bHit, int bGroup, int bStep,
 			int bIndent, String bLike, int commentCount, String searchGubun, String searchText, String sortType) {
-		super();
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;

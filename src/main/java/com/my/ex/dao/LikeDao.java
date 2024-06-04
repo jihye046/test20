@@ -31,7 +31,6 @@ public class LikeDao implements ILikeDao {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("bId", bId);
 		map.put("userId", userId);
-		
 		return session.selectOne(NAMESPACE + "isLiked", map);
 	}
 

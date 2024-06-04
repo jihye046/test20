@@ -1,28 +1,27 @@
 package com.my.ex.dto;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.net.URLEncoder;
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import lombok.Data;
-
-//@Data
 public class SocialDto {
 	
 	@Value("${naver.baseurl}")
 	private String baseurl;
-	private String response_type;
-	private String client_id;
-	private String client_secret;
-	private String state;
-	private String redirect_uri;
 	
+	@Value("${naver.response_type}")
+	private String response_type;
+	
+	@Value("${naver.client_id}")
+	private String client_id;
+	
+	@Value("${naver.client_secret}")
+	private String client_secret;
+	
+	@Value("${naver.state}")
+	private String state;
+
+	@Value("${naver.redirect_uri}")
+	private String redirect_uri;
+
 	public SocialDto() {}
 
 	public SocialDto(String baseurl, String response_type, String client_id, String client_secret, String state,
@@ -82,12 +81,11 @@ public class SocialDto {
 	public void setRedirect_uri(String redirect_uri) {
 		this.redirect_uri = redirect_uri;
 	}
-	
-	public void abc() {
-		System.out.println("baseurl: " + baseurl);
-		System.out.println("response_type: " + response_type);
-		System.out.println("client_id: " + client_id);
-		System.out.println("state: " + state);
-		System.out.println("redirect_uri: " + redirect_uri);
+
+	@Override
+	public String toString() {
+		return "SocialDto [baseurl=" + baseurl + ", response_type=" + response_type + ", client_id=" + client_id
+				+ ", client_secret=" + client_secret + ", state=" + state + ", redirect_uri=" + redirect_uri + "]";
 	}
+
 }

@@ -73,7 +73,6 @@ public class BoardDao implements IBoardDao {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("bGroup", bGroup);
 		map.put("bStep", bStep);
-		
 		session.update(NAMESPACE + "replyShape", map);
 	}
 

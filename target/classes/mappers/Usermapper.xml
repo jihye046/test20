@@ -5,9 +5,19 @@
 <mapper namespace="com.my.ex.UserMapper">
 	<insert id="join" parameterType="UserDto">
 		INSERT INTO mvc_login6
-  			(userId, userPw, unickName, uemail)
+  			(
+  			userId,
+  			userPw,
+  			unickName,
+  			uemail
+  			)
 		VALUES
-    		(#{userId}, #{userPw}, #{unickName}, #{uemail})
+    		(
+    		#{userId},
+    		#{userPw},
+    		#{unickName},
+    		#{uemail}
+    		)
 	</insert>
 	
 	<select id="login" resultType="UserDto" parameterType="java.util.HashMap">

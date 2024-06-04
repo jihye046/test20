@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.ex.dto.NaverCallbackDto;
+import com.my.ex.dto.NaverProfileApi;
+import com.my.ex.dto.NaverToken;
 import com.my.ex.dto.UserDto;
-import com.my.ex.service.SocialLoginService;
 import com.my.ex.service.UserService;
 
 @Controller
@@ -25,13 +28,13 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	@Autowired
+	private NaverCallbackDto naverCallbackDto;
+	
 	@RequestMapping("/loginPage")
 	public String loginPage() {
 		return "/user/loginPage";
 	}
-	
-	@Autowired
-	private SocialLoginService social;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
@@ -70,19 +73,36 @@ public class UserController {
 		return "redirect:loginPage";
 	}
 	
+	// 네이버 로그인 연동 URL 생성
 	@RequestMapping("/naverLogin")
-	public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-		String url = social.getNaverAuthorizeUrl("authorize");
-		try {
-            response.sendRedirect(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	public String naverLogin(HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
+		return "redirect:" + service.getNaverAuthorizeUrl("authorize");
 	}
 	
+	// 네이버 로그인 연동 결과 callback
 	@RequestMapping("/naverCallback")
-	public void naverCallback() {
-		System.out.println("naverCallback Controller 들어옴");
+	public String naverCallback(HttpServletRequest request) {
+		naverCallbackDto.setCallbackCode(request.getParameter("code"));
+		naverCallbackDto.setCallbackState(request.getParameter("state"));
+		naverCallbackDto.setCallbackError(request.getParameter("error"));
+		naverCallbackDto.setCallbackError_Description(request.getParameter("error_description"));
+		return "redirect:naverGetUserInfo";
+	}
+	
+	// callback 성공 시 받은 code를 이용하여 accessToken을 발급 받고 이를 이용하여 사용자 정보 얻기 
+	@RequestMapping("naverGetUserInfo")
+	public void naverGetUserInfo(HttpServletRequest request, HttpServletResponse response) throws URISyntaxException, Exception {
+		if(naverCallbackDto.getCallbackError() == null || naverCallbackDto.getCallbackError() == "") {
+			String responseToken = service.getNaverTokenUrl("token", "authorization_code", naverCallbackDto);
+			ObjectMapper mapper = new ObjectMapper();
+			// 응답받은 json 데이터를 해당 클래스 객체로 변환, JSON 데이터의 '키'와 클래스의 멤버 변수 이름이 일치하는 경우 자동으로 매핑
+			NaverToken token = mapper.readValue(responseToken, NaverToken.class); 
+			String responseUser = service.getNaverUserByToken(token);
+			NaverProfileApi naverUser = mapper.readValue(responseUser, NaverProfileApi.class);
+			System.out.println(naverUser.toString());
+		} else {
+			System.out.println(naverCallbackDto.getCallbackError_Description());
+		}
 	}
 	
 }

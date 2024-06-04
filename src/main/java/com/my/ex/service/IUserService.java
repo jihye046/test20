@@ -1,8 +1,17 @@
 package com.my.ex.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+
+import com.my.ex.dto.NaverCallbackDto;
+import com.my.ex.dto.NaverToken;
 import com.my.ex.dto.UserDto;
 
 public interface IUserService {
 	boolean join(UserDto dto);
 	boolean login(String userId, String userPw);
+	String getNaverAuthorizeUrl(String type) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
+	String getNaverTokenUrl(String type, String grant_type, NaverCallbackDto naverCallbackDto) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
+	String getNaverUserByToken(NaverToken token);
 }

@@ -21,15 +21,13 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-									  @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
-									  @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
-									  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
+									@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+									@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
+									@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
 		BoardPagingDto pageDto = service.paingParam(page);
-		
 		model.addAttribute("boardList", pagingList);
 		model.addAttribute("paging", pageDto);
-		
 		return "/board/pagingList";
 	}
 	

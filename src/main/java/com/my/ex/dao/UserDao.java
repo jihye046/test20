@@ -26,7 +26,6 @@ public class UserDao implements IUserDao {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("userPw", userPw);
-		
 		return session.selectOne("login", map);
 	}
 	

@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						https://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context
+						https://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -24,8 +26,8 @@
 	</bean>	
 	
 	<!-- .properties File load -->
-	<context:property-placeholder location="classpath:config/email.properties" />
-	<context:property-placeholder location="classpath:config/naver.properties" />
+	<context:property-placeholder order="1" ignore-unresolvable="true"  location="classpath:config/email.properties" />
+	<context:property-placeholder order="2" ignore-unresolvable="true"  location="classpath:config/naver.properties" />
 	
 	<!-- Email -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -45,5 +47,17 @@
             </props>
         </property>
     </bean>
+    
+    <bean id="socialDto" class="com.my.ex.dto.SocialDto">
+    	<property name="baseurl" value="${naver.baseurl}"></property>
+    	<property name="response_type" value="${naver.response_type}"></property>
+    	<property name="client_id" value="${naver.client_id}"></property>
+    	<property name="client_secret" value="${naver.client_secret}"></property>
+    	<property name="state" value="${naver.state}"></property>
+    	<property name="redirect_uri" value="${naver.redirect_uri}"></property>
+    </bean>
+    
+    <!-- @Autowired 사용하는 경우 빈 생성 -->
+    <bean id="naverCallbackDto" class="com.my.ex.dto.NaverCallbackDto"/>
     
 </beans>
