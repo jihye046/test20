@@ -20,6 +20,10 @@ config/
 pom.xml
 web.xml
 target/
+.classpath
+.classpath.rej
+.project
+.springBeans
 
 # External tool builders
 .externalToolBuilders/
