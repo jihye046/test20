@@ -4,6 +4,13 @@
 <link href="../../../resources/css/joinPage.css" rel="styleSheet">
 </head>
 <body>
+	<div class="row header-div" style="background-color: #EAEAEA">
+		<div class="col-md-6 header-logo">
+			<a href="/">
+				<img alt="logo" src="../../../resources/images/home.png">
+			</a>
+		</div>
+	</div>
 	<main>
 		<div class="join-background">
 			<div class="join-form">
