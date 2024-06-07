@@ -9,7 +9,7 @@
 
 .join-form {
 	width: 400px; 
-	height: 600px;
+	height: 700px;
 	background-color: #ffffff;
 	display: flex;
 	flex-direction: column; /* 아이템들을 세로로 배치하기 위해 */

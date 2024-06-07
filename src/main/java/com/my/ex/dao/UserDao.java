@@ -28,5 +28,5 @@ public class UserDao implements IUserDao {
 		map.put("userPw", userPw);
 		return session.selectOne("login", map);
 	}
-	
+
 }

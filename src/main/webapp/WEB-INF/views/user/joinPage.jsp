@@ -9,6 +9,8 @@
 			<div class="join-form">
 				<form action="/user/join" method="post">
 					<p>👋 Hello</p>
+					<input type="text" name="username" placeholder="userName" required><br>
+					<input type="text" name="umobile" placeholder="010-xxxx-xxxx" required><br>
 					<input type="text" name="userId" placeholder="UserId" required><br>
 					<input type="password" name="userPw" placeholder="Password" required><br>
 					<input type="text" name="unickName" placeholder="Nickname" required><br>
@@ -19,6 +21,7 @@
 						<input id="mailCheckInput" type="number" placeholder="인증번호를 입력해주세요" size="6" required>
 						<span id="mailCheckSpan"></span>
 					</div>
+					
 					<button id="joinBtn" class="btn btn-block btn-outline-secondary" type="submit" disabled="disabled">Join</button>
 					<div class="join-form-links">
 						<a href="/user/loginPage">로그인</a>

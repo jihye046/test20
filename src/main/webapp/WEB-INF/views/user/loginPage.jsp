@@ -18,7 +18,7 @@
 					</div>
 				</form><br>
 				<span style="color: gray;">다른 계정으로 로그인하기</span>
-				<a href="/user/naverLogin">
+				<a href="/social/naverLogin">
 					<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
 				</a>
 			</div>
