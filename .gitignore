@@ -24,6 +24,7 @@ target/
 .classpath.rej
 .project
 .springBeans
+sql/
 
 # External tool builders
 .externalToolBuilders/
