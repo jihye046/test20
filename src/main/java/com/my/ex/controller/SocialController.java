@@ -76,4 +76,6 @@ public class SocialController {
 			return "/user/loginPage";
 		}
 	}
+	
+	// 구글 로그인
 }
