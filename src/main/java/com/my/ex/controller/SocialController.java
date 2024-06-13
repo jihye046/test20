@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.dto.google.GoogleCallbackDto;
+import com.my.ex.dto.google.GoogleProfileApi;
+import com.my.ex.dto.google.GoogleToken;
 import com.my.ex.dto.naver.NaverCallbackDto;
 import com.my.ex.dto.naver.NaverDto;
 import com.my.ex.dto.naver.NaverProfileApi;
@@ -28,10 +30,12 @@ public class SocialController {
 	private NaverCallbackDto naverCallbackDto;
 	
 	@Autowired
-	private GoogleCallbackDto goolgeCallbackDto;
+	private GoogleCallbackDto googleCallbackDto;
 	
 	@Autowired
 	private SocialService service;
+	
+	GoogleToken token;
 	
 	// 네이버 로그인 연동 URL 생성
 	@RequestMapping("/naverLogin")
@@ -56,7 +60,8 @@ public class SocialController {
 			String responseToken = service.getNaverTokenUrl("token", "authorization_code", naverCallbackDto);
 			ObjectMapper mapper = new ObjectMapper();
 			// 응답받은 json 데이터를 해당 클래스 객체로 변환, JSON 데이터의 '키'와 클래스의 멤버 변수 이름이 일치하는 경우 자동으로 매핑
-			NaverToken token = mapper.readValue(responseToken, NaverToken.class); 
+			NaverToken token = mapper.readValue(responseToken, NaverToken.class);
+			
 			String responseUser = service.getNaverUserByToken(token);
 			NaverProfileApi naverUser = mapper.readValue(responseUser, NaverProfileApi.class);
 
@@ -85,22 +90,59 @@ public class SocialController {
 	// 구글 로그인 연동 URL 생성
 	@RequestMapping("/googleLogin")
 	public String googleLogin(HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
-		System.out.println("googleLogin Controller 들어옴");
 		return "redirect:" + service.getGoogleAuthorizeUrl();
 	}
 	
 	// 구글 로그인 연동 결과 callback
 	@RequestMapping("/googleCallback")
 	public String googleCallback(HttpServletRequest request) {
-		goolgeCallbackDto.setCallbackCode(request.getParameter("code"));
-		return "redirect:googleGetUserInfo";
+		googleCallbackDto.setCallbackCode(request.getParameter("code"));
+		googleCallbackDto.setCallbackState(request.getParameter("state"));
+		googleCallbackDto.setCallbackError(request.getParameter("error"));
+		googleCallbackDto.setCallbackError_Description(request.getParameter("error_description"));
+		return "redirect:getGoogleToken";
 	}
 	
-	@RequestMapping("/googleGetUserInfo")
+	@RequestMapping("/getGoogleToken")
+	public String getGoogleToken(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
+		if(googleCallbackDto.getCallbackError() == null || googleCallbackDto.getCallbackError() == "") {
+			ObjectMapper mapper = new ObjectMapper();
+			// code 주고 token 받기
+			String responseToken = service.getGoogleTokenUrl("token", "authorization_code", googleCallbackDto);
+			System.out.println("responseToken: " + responseToken);
+			
+			GoogleToken token;
+			token = mapper.readValue(responseToken, GoogleToken.class); // 매핑
+			System.out.println("token: " + token);
+			
+			/*
+			// accesstoken 주고 userInfo 받기
+			String responseUser = service.getGoogleUserByToken(token);
+			GoogleProfileApi googleUser = mapper.readValue(responseUser, GoogleProfileApi.class); // 매핑
+			*/
+			
+			System.out.println("token: " + token);
+			return "";
+		} else {
+			System.out.println(googleCallbackDto.getCallbackError_Description());
+			return "";
+		}
+	}
+	
+	@RequestMapping("/getGoogleUserInfo")
 	public String googleGetUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
-		// code 주고 token 받기
-		
-		
-		return "";
+		if(googleCallbackDto.getCallbackError() == null || googleCallbackDto.getCallbackError() == "") {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			// accesstoken 주고 userInfo 받기
+			String responseUser = service.getGoogleUserByToken(token);
+			GoogleProfileApi googleUser = mapper.readValue(responseUser, GoogleProfileApi.class); // 매핑
+			
+			System.out.println("googleUserInfo: " + googleUser);
+			return "";
+		} else {
+			System.out.println(googleCallbackDto.getCallbackError_Description());
+			return "";
+		}
 	}
 }

@@ -16,17 +16,21 @@ public class GoogleLoginRequestDto {
 	@Value("${google.client_secret}")
 	private String client_secret;
 	
-	@Value("${naver.redirect_uri}")
+	@Value("${google.state}")
+	private String state;
+	
+	@Value("${google.redirect_uri}")
 	private String redirect_uri;
 
 	public GoogleLoginRequestDto() {}
 
 	public GoogleLoginRequestDto(String baseurl, String response_type, String client_id, String client_secret,
-			String redirect_uri) {
+			String state, String redirect_uri) {
 		this.baseurl = baseurl;
 		this.response_type = response_type;
 		this.client_id = client_id;
 		this.client_secret = client_secret;
+		this.state = state;
 		this.redirect_uri = redirect_uri;
 	}
 
@@ -62,6 +66,14 @@ public class GoogleLoginRequestDto {
 		this.client_secret = client_secret;
 	}
 
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
 	public String getRedirect_uri() {
 		return redirect_uri;
 	}
@@ -73,7 +85,8 @@ public class GoogleLoginRequestDto {
 	@Override
 	public String toString() {
 		return "GoogleLoginRequestDto [baseurl=" + baseurl + ", response_type=" + response_type + ", client_id="
-				+ client_id + ", client_secret=" + client_secret + ", redirect_uri=" + redirect_uri + "]";
+				+ client_id + ", client_secret=" + client_secret + ", state=" + state + ", redirect_uri=" + redirect_uri
+				+ "]";
 	}
 
 }

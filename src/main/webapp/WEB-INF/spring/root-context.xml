@@ -65,6 +65,7 @@
     	<property name="response_type" value="${google.response_type}"></property>
     	<property name="client_id" value="${google.client_id}"></property>
     	<property name="client_secret" value="${google.client_secret}"></property>
+    	<property name="state" value="${google.state}"></property>
     	<property name="redirect_uri" value="${google.redirect_uri}"></property>
     </bean>
     
