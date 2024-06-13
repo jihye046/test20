@@ -132,5 +132,6 @@
 <div id="createResult" data-create-result="${createResult}"></div>
 <div id="deleteResult" data-delete-result="${deleteResult}"></div>
 <div id="userId" data-userId="${sessionScope.userId}"></div>
+<div id="userNickname" data-userNickname="${sessionScope.userNickname}"></div>
 <script src="../../../resources/js/pagingList.js"></script>
 </html>

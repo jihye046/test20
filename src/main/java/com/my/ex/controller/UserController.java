@@ -31,6 +31,8 @@ public class UserController {
 		boolean loginResult = service.login(userId, userPw);
 		if(loginResult) {
 			session.setAttribute("userId", userId);
+			String userNickname = service.getUserNickname(userId);
+			session.setAttribute("userNickname", userNickname);
 			String targetLocation = (String)session.getAttribute("targetLocation");
 			return (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
 		} else {

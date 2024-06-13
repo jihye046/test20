@@ -13,10 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.my.ex.dto.NaverCallbackDto;
-import com.my.ex.dto.NaverDto;
-import com.my.ex.dto.NaverProfileApi;
-import com.my.ex.dto.NaverToken;
+import com.my.ex.dto.google.GoogleCallbackDto;
+import com.my.ex.dto.naver.NaverCallbackDto;
+import com.my.ex.dto.naver.NaverDto;
+import com.my.ex.dto.naver.NaverProfileApi;
+import com.my.ex.dto.naver.NaverToken;
 import com.my.ex.service.SocialService;
 
 @Controller
@@ -25,6 +26,9 @@ public class SocialController {
 	
 	@Autowired
 	private NaverCallbackDto naverCallbackDto;
+	
+	@Autowired
+	private GoogleCallbackDto goolgeCallbackDto;
 	
 	@Autowired
 	private SocialService service;
@@ -67,6 +71,7 @@ public class SocialController {
 			
 			boolean result = service.checkNaverIdExist(dto.getSns_id());
 			session.setAttribute("userId", dto.getSns_id());
+			session.setAttribute("userNickname", dto.getSns_nickName());
 			String targetLocation = (String)session.getAttribute("targetLocation");
 			String redirectLocation = (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
 			if(!result) service.socialJoin(dto); 
@@ -77,5 +82,25 @@ public class SocialController {
 		}
 	}
 	
-	// 구글 로그인
+	// 구글 로그인 연동 URL 생성
+	@RequestMapping("/googleLogin")
+	public String googleLogin(HttpServletRequest request) throws MalformedURLException, UnsupportedEncodingException, URISyntaxException {
+		System.out.println("googleLogin Controller 들어옴");
+		return "redirect:" + service.getGoogleAuthorizeUrl();
+	}
+	
+	// 구글 로그인 연동 결과 callback
+	@RequestMapping("/googleCallback")
+	public String googleCallback(HttpServletRequest request) {
+		goolgeCallbackDto.setCallbackCode(request.getParameter("code"));
+		return "redirect:googleGetUserInfo";
+	}
+	
+	@RequestMapping("/googleGetUserInfo")
+	public String googleGetUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
+		// code 주고 token 받기
+		
+		
+		return "";
+	}
 }

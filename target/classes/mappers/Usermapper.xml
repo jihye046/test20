@@ -31,4 +31,10 @@
 		   AND userPw = #{userPw}
 	</select>
 	
+	<select id="getUserNickname" resultType="String">
+		SELECT unickName
+		  FROM mvc_login6
+		 WHERE userId = #{userId}
+	</select>
+	
 </mapper>

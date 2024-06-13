@@ -1,36 +1,32 @@
-package com.my.ex.dto;
+package com.my.ex.dto.google;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public class SocialDto {
+public class GoogleLoginRequestDto {
 	
-	@Value("${naver.baseurl}")
+	@Value("${google.baseurl}")
 	private String baseurl;
 	
-	@Value("${naver.response_type}")
+	@Value("${google.response_type}")
 	private String response_type;
 	
-	@Value("${naver.client_id}")
+	@Value("${google.client_id}")
 	private String client_id;
 	
-	@Value("${naver.client_secret}")
+	@Value("${google.client_secret}")
 	private String client_secret;
 	
-	@Value("${naver.state}")
-	private String state;
-
 	@Value("${naver.redirect_uri}")
 	private String redirect_uri;
 
-	public SocialDto() {}
+	public GoogleLoginRequestDto() {}
 
-	public SocialDto(String baseurl, String response_type, String client_id, String client_secret, String state,
+	public GoogleLoginRequestDto(String baseurl, String response_type, String client_id, String client_secret,
 			String redirect_uri) {
 		this.baseurl = baseurl;
 		this.response_type = response_type;
 		this.client_id = client_id;
 		this.client_secret = client_secret;
-		this.state = state;
 		this.redirect_uri = redirect_uri;
 	}
 
@@ -66,14 +62,6 @@ public class SocialDto {
 		this.client_secret = client_secret;
 	}
 
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
-	}
-
 	public String getRedirect_uri() {
 		return redirect_uri;
 	}
@@ -84,8 +72,8 @@ public class SocialDto {
 
 	@Override
 	public String toString() {
-		return "SocialDto [baseurl=" + baseurl + ", response_type=" + response_type + ", client_id=" + client_id
-				+ ", client_secret=" + client_secret + ", state=" + state + ", redirect_uri=" + redirect_uri + "]";
+		return "GoogleLoginRequestDto [baseurl=" + baseurl + ", response_type=" + response_type + ", client_id="
+				+ client_id + ", client_secret=" + client_secret + ", redirect_uri=" + redirect_uri + "]";
 	}
 
 }

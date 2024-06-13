@@ -1,4 +1,4 @@
-package com.my.ex.dto;
+package com.my.ex.dto.naver;
 
 public class NaverProfileApi {
 	private String resultcode;

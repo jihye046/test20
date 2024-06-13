@@ -4,9 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-import com.my.ex.dto.NaverCallbackDto;
-import com.my.ex.dto.NaverDto;
-import com.my.ex.dto.NaverToken;
+import com.my.ex.dto.naver.NaverCallbackDto;
+import com.my.ex.dto.naver.NaverDto;
+import com.my.ex.dto.naver.NaverToken;
 
 public interface ISocialService {
 	String getNaverAuthorizeUrl(String type) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
@@ -14,4 +14,5 @@ public interface ISocialService {
 	String getNaverUserByToken(NaverToken token);
 	boolean checkNaverIdExist(String sns_id);
 	void socialJoin(NaverDto dto);
+	String getGoogleAuthorizeUrl() throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
 }

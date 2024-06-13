@@ -191,7 +191,8 @@ const pagination = (paging) => {
 	let deleteElement = document.querySelector("#deleteResult")
 	let deleteResult = deleteElement ? deleteElement.getAttribute("data-delete-result") : null
  	
-	let userId = document.querySelector("#userId").getAttribute("data-userId")
+	const userId = document.querySelector("#userId").getAttribute("data-userId")
+	const userNickname = document.querySelector("#userNickname").getAttribute("data-userNickname")
 	
 
 	if(deleteResult == "true"){
@@ -199,7 +200,7 @@ const pagination = (paging) => {
 	}
 
 	if(userId) {
-		document.querySelector("#welcomeText").innerHTML = `${userId}님 환영합니다👏`
+		document.querySelector("#welcomeText").innerHTML = `${userNickname}님 환영합니다👏`
 	} else {
 		document.querySelector("#welcomeText").innerHTML = "로그인해주세요"		
 	}

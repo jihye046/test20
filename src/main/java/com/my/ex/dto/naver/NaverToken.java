@@ -1,4 +1,4 @@
-package com.my.ex.dto;
+package com.my.ex.dto.naver;
 
 public class NaverToken {
 	private String access_token;

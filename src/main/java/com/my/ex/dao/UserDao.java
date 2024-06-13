@@ -29,4 +29,9 @@ public class UserDao implements IUserDao {
 		return session.selectOne("login", map);
 	}
 
+	@Override
+	public String getUserNickname(String userId) {
+		return session.selectOne(NAMESPACE + "getUserNickname" , userId);
+	}
+
 }

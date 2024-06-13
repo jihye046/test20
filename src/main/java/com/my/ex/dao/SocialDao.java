@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.my.ex.dto.NaverDto;
+import com.my.ex.dto.naver.NaverDto;
 
 @Repository
 public class SocialDao implements ISocialDao {

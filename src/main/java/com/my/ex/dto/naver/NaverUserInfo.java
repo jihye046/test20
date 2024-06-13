@@ -1,4 +1,4 @@
-package com.my.ex.dto;
+package com.my.ex.dto.naver;
 
 public class NaverUserInfo {
 	private String id;
@@ -11,11 +11,12 @@ public class NaverUserInfo {
 	private String profile_image;
 	private String birthyear;
 	private String mobile;
+	private String mobile_e164;
 	
 	public NaverUserInfo() {}
 
 	public NaverUserInfo(String id, String nickname, String name, String email, String gender, String age,
-			String birthday, String profile_image, String birthyear, String mobile) {
+			String birthday, String profile_image, String birthyear, String mobile, String mobile_e164) {
 		this.id = id;
 		this.nickname = nickname;
 		this.name = name;
@@ -26,6 +27,7 @@ public class NaverUserInfo {
 		this.profile_image = profile_image;
 		this.birthyear = birthyear;
 		this.mobile = mobile;
+		this.mobile_e164 = mobile_e164;
 	}
 
 	public String getId() {
@@ -108,11 +110,19 @@ public class NaverUserInfo {
 		this.mobile = mobile;
 	}
 
+	public String getMobile_e164() {
+		return mobile_e164;
+	}
+
+	public void setMobile_e164(String mobile_e164) {
+		this.mobile_e164 = mobile_e164;
+	}
+
 	@Override
 	public String toString() {
 		return "NaverUserInfo [id=" + id + ", nickname=" + nickname + ", name=" + name + ", email=" + email
 				+ ", gender=" + gender + ", age=" + age + ", birthday=" + birthday + ", profile_image=" + profile_image
-				+ ", birthyear=" + birthyear + ", mobile=" + mobile + "]";
+				+ ", birthyear=" + birthyear + ", mobile=" + mobile + ", mobile_e164=" + mobile_e164 + "]";
 	}
-	
+
 }

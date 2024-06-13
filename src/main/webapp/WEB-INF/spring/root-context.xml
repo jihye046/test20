@@ -28,6 +28,7 @@
 	<!-- .properties File load -->
 	<context:property-placeholder order="1" ignore-unresolvable="true"  location="classpath:config/email.properties" />
 	<context:property-placeholder order="2" ignore-unresolvable="true"  location="classpath:config/naver.properties" />
+	<context:property-placeholder order="3" ignore-unresolvable="true"  location="classpath:config/google.properties" />
 	
 	<!-- Email -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -48,7 +49,8 @@
         </property>
     </bean>
     
-    <bean id="socialDto" class="com.my.ex.dto.SocialDto">
+    <!-- 네이버 로그인 연동 URL 생성시 필요한 파라미터 -->
+    <bean id="NaverLoginRequestDto" class="com.my.ex.dto.naver.NaverLoginRequestDto">
     	<property name="baseurl" value="${naver.baseurl}"></property>
     	<property name="response_type" value="${naver.response_type}"></property>
     	<property name="client_id" value="${naver.client_id}"></property>
@@ -57,7 +59,17 @@
     	<property name="redirect_uri" value="${naver.redirect_uri}"></property>
     </bean>
     
+	<!-- 구글 로그인 연동 URL 생성시 필요한 파라미터 -->    
+    <bean id="GoogleLoginRequestDto" class="com.my.ex.dto.google.GoogleLoginRequestDto">
+    	<property name="baseurl" value="${google.baseurl}"></property>
+    	<property name="response_type" value="${google.response_type}"></property>
+    	<property name="client_id" value="${google.client_id}"></property>
+    	<property name="client_secret" value="${google.client_secret}"></property>
+    	<property name="redirect_uri" value="${google.redirect_uri}"></property>
+    </bean>
+    
     <!-- @Autowired 사용하는 경우 빈 생성 -->
-    <bean id="naverCallbackDto" class="com.my.ex.dto.NaverCallbackDto"/>
+    <bean id="naverCallbackDto" class="com.my.ex.dto.naver.NaverCallbackDto"/>
+    <bean id="googleCallbackDto" class="com.my.ex.dto.google.GoogleCallbackDto"/>
     
 </beans>

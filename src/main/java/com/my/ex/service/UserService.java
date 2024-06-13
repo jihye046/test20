@@ -25,5 +25,10 @@ public class UserService implements IUserService {
 		UserDto dto = dao.login(userId, userPw);
 		return (dto != null) ? true	: false;
 	}
+
+	@Override
+	public String getUserNickname(String userId) {
+		return dao.getUserNickname(userId);
+	}
 	
 }

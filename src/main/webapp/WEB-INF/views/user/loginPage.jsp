@@ -25,9 +25,14 @@
 					</div>
 				</form><br>
 				<span style="color: gray;">다른 계정으로 로그인하기</span>
-				<a href="/social/naverLogin">
-					<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
-				</a>
+				<div>
+					<a href="/social/naverLogin">
+						<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
+					</a>
+					<a href="/social/googleLogin">
+						<img class="social-login-logo" id="googleLogin" alt="googleLogin" src="../../../resources/images/btn_googleLogo.png">
+					</a>
+				</div>
 			</div>
 		</div>
 	</main>
