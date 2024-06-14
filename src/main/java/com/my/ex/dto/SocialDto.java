@@ -1,8 +1,8 @@
-package com.my.ex.dto.naver;
+package com.my.ex.dto;
 
 import java.sql.Date;
 
-public class NaverDto {
+public class SocialDto {
 	private String sns_id;
 	private String sns_nickName;
 	private String upoint;
@@ -13,9 +13,9 @@ public class NaverDto {
 	private String sns_profile;
 	private Date sns_connect_date;
 	
-	public NaverDto() {}
+	public SocialDto() {}
 
-	public NaverDto(String sns_id, String sns_nickName, String upoint, String sns_email, String sns_name,
+	public SocialDto(String sns_id, String sns_nickName, String upoint, String sns_email, String sns_name,
 			String sns_mobile, String sns_type, String sns_profile, Date sns_connect_date) {
 		this.sns_id = sns_id;
 		this.sns_nickName = sns_nickName;

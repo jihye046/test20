@@ -10,14 +10,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.my.ex.dto.SocialDto;
 import com.my.ex.dto.google.GoogleCallbackDto;
 import com.my.ex.dto.google.GoogleProfileApi;
 import com.my.ex.dto.google.GoogleToken;
 import com.my.ex.dto.naver.NaverCallbackDto;
-import com.my.ex.dto.naver.NaverDto;
 import com.my.ex.dto.naver.NaverProfileApi;
 import com.my.ex.dto.naver.NaverToken;
 import com.my.ex.service.SocialService;
@@ -57,15 +59,17 @@ public class SocialController {
 	@RequestMapping("naverGetUserInfo")
 	public String naverGetUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
 		if(naverCallbackDto.getCallbackError() == null || naverCallbackDto.getCallbackError() == "") {
-			String responseToken = service.getNaverTokenUrl("token", "authorization_code", naverCallbackDto);
 			ObjectMapper mapper = new ObjectMapper();
 			// 응답받은 json 데이터를 해당 클래스 객체로 변환, JSON 데이터의 '키'와 클래스의 멤버 변수 이름이 일치하는 경우 자동으로 매핑
-			NaverToken token = mapper.readValue(responseToken, NaverToken.class);
+			// code 주고 Accesstoken 받기
+			String responseToken = service.getNaverTokenUrl("token", "authorization_code", naverCallbackDto);
+			NaverToken token = mapper.readValue(responseToken, NaverToken.class); // Accesstoken 매핑
 			
+			// Accesstoken 주고 userInfo 받기
 			String responseUser = service.getNaverUserByToken(token);
-			NaverProfileApi naverUser = mapper.readValue(responseUser, NaverProfileApi.class);
+			NaverProfileApi naverUser = mapper.readValue(responseUser, NaverProfileApi.class); // userInfo 매핑
 
-			NaverDto dto = new NaverDto();
+			SocialDto dto = new SocialDto();
 			dto.setSns_id(naverUser.getResponse().getId());
 			dto.setSns_nickName(naverUser.getResponse().getNickname());
 			dto.setSns_email(naverUser.getResponse().getEmail());;
@@ -74,13 +78,9 @@ public class SocialController {
 			dto.setSns_type("naver");
 			dto.setSns_profile(naverUser.getResponse().getProfile_image());
 			
-			boolean result = service.checkNaverIdExist(dto.getSns_id());
-			session.setAttribute("userId", dto.getSns_id());
-			session.setAttribute("userNickname", dto.getSns_nickName());
-			String targetLocation = (String)session.getAttribute("targetLocation");
-			String redirectLocation = (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
+			boolean result = service.checkSocialIdExist(dto.getSns_id());
 			if(!result) service.socialJoin(dto); 
-			return redirectLocation;
+			return targetLocation(session, dto);
 		} else {
 			System.out.println(naverCallbackDto.getCallbackError_Description());
 			return "/user/loginPage";
@@ -103,46 +103,53 @@ public class SocialController {
 		return "redirect:getGoogleToken";
 	}
 	
+	// callback 성공 시 받은 code를 이용하여 accessToken을 발급 받고 이를 이용하여 사용자 정보 얻기 
 	@RequestMapping("/getGoogleToken")
-	public String getGoogleToken(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
+	public String getGoogleToken(HttpServletRequest request, HttpServletResponse response, Model model, HttpSession session) throws URISyntaxException, Exception {
 		if(googleCallbackDto.getCallbackError() == null || googleCallbackDto.getCallbackError() == "") {
 			ObjectMapper mapper = new ObjectMapper();
-			// code 주고 token 받기
+			// code 주고 Accesstoken 받기
 			String responseToken = service.getGoogleTokenUrl("token", "authorization_code", googleCallbackDto);
-			System.out.println("responseToken: " + responseToken);
+			GoogleToken token = mapper.readValue(responseToken, GoogleToken.class);
 			
-			GoogleToken token;
-			token = mapper.readValue(responseToken, GoogleToken.class); // 매핑
-			System.out.println("token: " + token);
+			// Accesstoken 주고 userInfo 받기
+			String responseUser = service.getGoogleUserByToken("tokeninfo", token);
+			GoogleProfileApi googleUser = mapper.readValue(responseUser, GoogleProfileApi.class);
 			
-			/*
-			// accesstoken 주고 userInfo 받기
-			String responseUser = service.getGoogleUserByToken(token);
-			GoogleProfileApi googleUser = mapper.readValue(responseUser, GoogleProfileApi.class); // 매핑
-			*/
+			SocialDto dto = new SocialDto();
+			dto.setSns_id(googleUser.getSub());
+			dto.setSns_email(googleUser.getEmail());
+			dto.setSns_profile(googleUser.getPicture());
+			dto.setSns_type("google");
+			String name = googleUser.getName();
+			String family_name = googleUser.getFamily_name();
+			dto.setSns_name((name == null ? "" : name) + (family_name == null ? "" : family_name));
 			
-			System.out.println("token: " + token);
-			return "";
+			boolean result = service.checkSocialIdExist(dto.getSns_id());
+			if(result) {
+				return targetLocation(session, dto);
+			} else {
+				model.addAttribute("socialDto", dto);
+				return "/user/socialJoinPage";
+			}
 		} else {
 			System.out.println(googleCallbackDto.getCallbackError_Description());
-			return "";
+			return "/user/loginPage";
 		}
 	}
 	
-	@RequestMapping("/getGoogleUserInfo")
-	public String googleGetUserInfo(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws URISyntaxException, Exception {
-		if(googleCallbackDto.getCallbackError() == null || googleCallbackDto.getCallbackError() == "") {
-			ObjectMapper mapper = new ObjectMapper();
-			
-			// accesstoken 주고 userInfo 받기
-			String responseUser = service.getGoogleUserByToken(token);
-			GoogleProfileApi googleUser = mapper.readValue(responseUser, GoogleProfileApi.class); // 매핑
-			
-			System.out.println("googleUserInfo: " + googleUser);
-			return "";
-		} else {
-			System.out.println(googleCallbackDto.getCallbackError_Description());
-			return "";
-		}
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String checkSocialIdExist(HttpSession session, SocialDto dto) {
+		service.socialJoin(dto); 
+		return targetLocation(session, dto);
 	}
+	
+	public String targetLocation(HttpSession session, SocialDto dto) {
+		session.setAttribute("userId", dto.getSns_id());
+		session.setAttribute("userNickname", dto.getSns_nickName());
+		String targetLocation = (String)session.getAttribute("targetLocation");
+		String redirectLocation = (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
+		return redirectLocation;
+	}
+	
 }

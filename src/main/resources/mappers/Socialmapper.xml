@@ -9,7 +9,7 @@
 		 WHERE sns_id = #{sns_id}
 	</select>
 	
-	<insert id="socialJoin" parameterType="NaverDto">
+	<insert id="socialJoin" parameterType="SocialDto">
 		INSERT INTO mvc_sns_login6
 			(
 			sns_id,

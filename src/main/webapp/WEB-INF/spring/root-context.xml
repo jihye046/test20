@@ -67,6 +67,9 @@
     	<property name="client_secret" value="${google.client_secret}"></property>
     	<property name="state" value="${google.state}"></property>
     	<property name="redirect_uri" value="${google.redirect_uri}"></property>
+    	<property name="scope" value="${google.scope}"></property>
+    	<property name="access_type" value="${google.access_type}"></property>
+    	<property name="oauthBaseUri" value="${google.oauthBaseUri}"></property>
     </bean>
     
     <!-- @Autowired 사용하는 경우 빈 생성 -->

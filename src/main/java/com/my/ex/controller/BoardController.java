@@ -182,10 +182,11 @@ public class BoardController {
 	// 현재 페이지에서 정렬 시 -> js(ajax)로 이동
 	@ResponseBody
 	@RequestMapping("/paging/ajax")
-	public ResponseEntity<SortResponse> pagingAjax(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-									  @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
-									  @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
-									  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
+	public ResponseEntity<SortResponse> pagingAjax(Model model,
+										@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+										@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+										@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
+										@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
 		BoardPagingDto pageDto = service.paingParam(page);
 		for(BoardDto dto : pagingList) {
@@ -208,8 +209,8 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("/sort_hit")
 	public ResponseEntity<SortResponse> sort_hit(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-												   @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
-												   @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
+												 @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+												 @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
 		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
 		BoardPagingDto pageDto = service.paingParam(page);
 		SortResponse response = new SortResponse();

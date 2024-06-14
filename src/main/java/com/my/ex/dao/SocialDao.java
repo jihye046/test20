@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.my.ex.dto.naver.NaverDto;
+import com.my.ex.dto.SocialDto;
 
 @Repository
 public class SocialDao implements ISocialDao {
@@ -15,12 +15,12 @@ public class SocialDao implements ISocialDao {
 	private SqlSession session;
 	
 	@Override
-	public int checkNaverIdExist(String sns_id) {
+	public int checkSocialIdExist(String sns_id) {
 		return session.selectOne(NAMESPACE + "checkNaverIdExist", sns_id);
 	}
 
 	@Override
-	public void socialJoin(NaverDto dto) {
+	public void socialJoin(SocialDto dto) {
 		session.insert(NAMESPACE + "socialJoin", dto);
 	}
 }

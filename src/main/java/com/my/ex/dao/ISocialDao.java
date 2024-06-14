@@ -1,8 +1,8 @@
 package com.my.ex.dao;
 
-import com.my.ex.dto.naver.NaverDto;
+import com.my.ex.dto.SocialDto;
 
 public interface ISocialDao {
-	int checkNaverIdExist(String sns_id);
-	void socialJoin(NaverDto dto);
+	int checkSocialIdExist(String sns_id);
+	void socialJoin(SocialDto dto);
 }
