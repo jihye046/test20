@@ -134,4 +134,5 @@
 <div id="userId" data-userId="${sessionScope.userId}"></div>
 <div id="userNickname" data-userNickname="${sessionScope.userNickname}"></div>
 <script src="../../../resources/js/pagingList.js"></script>
+<script src="../../../resources/js/common.js"></script>
 </html>

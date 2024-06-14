@@ -23,5 +23,7 @@
 			</div>
 		</div>
 	</main>
-<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script src="../../../resources/js/createPage.js"></script>
+	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+	<script src="../../../resources/js/createPage.js"></script>
+</body>
+</html>
