@@ -151,5 +151,4 @@ public class SocialController {
 		String redirectLocation = (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
 		return redirectLocation;
 	}
-	
 }
