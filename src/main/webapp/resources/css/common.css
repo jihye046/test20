@@ -48,7 +48,7 @@ body {
     height: 100px;
     justify-content: center; /* 수직 가운데 정렬 */
     align-items: center; /* 수평 가운데 정렬 */
-    background: linear-gradient(45deg, #c2e59c, #64b3f4);
+	background-color: #F5F6F7;
 }
 
 .contact-info {
@@ -61,3 +61,52 @@ body {
 }
 
 /* sidebar */
+#sidebarBtn {
+	padding-right: 10px;
+    cursor: pointer;
+}
+
+.sidebarMenu {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    transition: 0.5s; /* 0.5초 애니메이션 효과 */
+    padding-top: 60px;
+    z-index: 1000;
+}
+
+.sidebarMenu p {
+	display: block;
+    padding: 10px 15px;
+    font-size: 20px;
+    color: white;
+}
+
+.sidebarMenu a {
+	display: block;
+    padding: 10px 15px;
+    text-decoration: none; /* <a>태그의 기본 밑줄을 없앰 */
+    font-size: 14px;
+    color: white;
+}
+
+.sidebarMenu a:not(#closeBtn):hover {
+    background-color: #575757;
+}
+
+.sidebarMenu #closeBtn {
+	text-align: right;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+}
+
+.category {
+	padding: 10px; 
+	border-bottom: solid 1px gray;
+}

@@ -16,6 +16,3 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 	<!-- common.css -->
 	<link href="../../../resources/css/common.css" rel="styleSheet">
-	<!-- google flat icon -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
