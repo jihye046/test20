@@ -9,4 +9,5 @@
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
 	<h1>info.jsp 입니다.</h1>
 </body>
+<script src="../../../resources/js/common.js"></script>
 </html>

@@ -5,7 +5,9 @@
 		<!-- sidebar -->
 		<i class="fa-solid fa-bars fa-xl" id="sidebarBtn"></i>
 		<div id="sidebarMenu" class="sidebarMenu">
-			<a href="#" id="closeBtn">&times;</a>
+			<a href="#" id="closeBtn">
+				<i class="fa-solid fa-xmark fa-2xs"></i>
+			</a>
 			<div class="category">
 				<p>개인페이지</p>
 		        <a href="#">Mypage</a>
@@ -16,7 +18,7 @@
 	        </div>
 	        <div class="category">
 		        <p>기타서비스</p>
-		        <a href="#">Weather</a>
+		        <a href="/category/weather">Weather</a>
 	        </div>
 		</div>
 		<!-- sidebar End -->

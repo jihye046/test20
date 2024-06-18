@@ -29,6 +29,7 @@
 	<context:property-placeholder order="1" ignore-unresolvable="true"  location="classpath:config/email.properties" />
 	<context:property-placeholder order="2" ignore-unresolvable="true"  location="classpath:config/naver.properties" />
 	<context:property-placeholder order="3" ignore-unresolvable="true"  location="classpath:config/google.properties" />
+	<context:property-placeholder order="4" ignore-unresolvable="true"  location="classpath:config/weather.properties" />
 	
 	<!-- Email -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -70,6 +71,12 @@
     	<property name="scope" value="${google.scope}"></property>
     	<property name="access_type" value="${google.access_type}"></property>
     	<property name="oauthBaseUri" value="${google.oauthBaseUri}"></property>
+    </bean>
+    
+    <!-- 날씨 API 호출시 필요한 파라미터 -->
+    <bean id="WeatherDto" class="com.my.ex.dto.weather.WeatherRequestDto">
+    	<property name="baseurl" value="${weather.baseurl}"></property>
+    	<property name="weather_key" value="${weather.key}"></property>
     </bean>
     
     <!-- @Autowired 사용하는 경우 빈 생성 -->

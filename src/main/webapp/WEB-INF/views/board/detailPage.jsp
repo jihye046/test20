@@ -87,6 +87,7 @@
 <%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/detailPage.js"></script>
+<script src="../../../resources/js/common.js"></script>
 <script>
 // 댓글
 const replyBtn = document.querySelector("#replyBtn")
