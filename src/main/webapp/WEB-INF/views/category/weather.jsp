@@ -14,13 +14,10 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-8 detailPage-main" >
 				<i id="currentLocationBtn" class="fa-solid fa-location-crosshairs">&nbsp;현위치</i><br>			
-				<div class="currentLocationWeather">
-					<!-- 세션에 저장된 위치의 날씨 정보를 보여주고, 없다면 서울 날씨를 보여줌 -->
-					
-					<!-- getCurrentWeather(${sessionScope.latitude}, ${sessionScope.longitude})  -->
-
-				</div>
+				<div class="currentLocationWeather"></div>
+				<div class="currentLocationWeeklyWeather"></div>
 			</div>
+			<div class="col-md-2"></div>
 		</div>
 	</main>
 </body>

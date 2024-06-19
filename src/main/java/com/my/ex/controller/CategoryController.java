@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.dto.weather.WeatherDto;
+import com.my.ex.dto.weather.WeeklyWeatherDto;
 import com.my.ex.service.CategoryService;
 
 @Controller
@@ -34,17 +35,29 @@ public class CategoryController {
 	@ResponseBody
 	public ResponseEntity<WeatherDto> getCurrentWeather(@RequestParam("latitude") double latitude,
 								  @RequestParam("longitude") double longitude, HttpSession session) throws JsonParseException, JsonMappingException, IOException {
-		String response = service.getCourrentWeather("weather", latitude, longitude);
+		String response = service.getWeather("weather", latitude, longitude);
 		ObjectMapper mapper = new ObjectMapper();
-		WeatherDto weatherDto = mapper.readValue(response, WeatherDto.class);
+		WeatherDto currentWeatherDto = mapper.readValue(response, WeatherDto.class);
 		session.setAttribute("latitude", latitude);
 		session.setAttribute("longitude", longitude);
-		return new ResponseEntity<>(weatherDto, HttpStatus.OK);
+		return new ResponseEntity<>(currentWeatherDto, HttpStatus.OK);
+	}
+	
+	@RequestMapping("/getWeeklyWeather")
+	@ResponseBody
+	public ResponseEntity<WeeklyWeatherDto> getWeeklyWeather(@RequestParam("latitude") double latitude,
+			@RequestParam("longitude") double longitude, HttpSession session) throws JsonParseException, JsonMappingException, IOException {
+		String response = service.getWeather("forecast", latitude, longitude);
+		ObjectMapper mapper = new ObjectMapper();
+		WeeklyWeatherDto weeklyWeatherDto = mapper.readValue(response, WeeklyWeatherDto.class);
+//		session.setAttribute("latitude", latitude);
+//		session.setAttribute("longitude", longitude);
+		return new ResponseEntity<>(weeklyWeatherDto, HttpStatus.OK);
 	}
 	
 	@RequestMapping("/info")
 	public String info() {
 		return "/category/info";
-	}	
+	}
 	
 }

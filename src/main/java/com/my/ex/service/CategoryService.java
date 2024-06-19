@@ -20,7 +20,7 @@ public class CategoryService implements ICategoryService {
 	private WeatherRequestDto weatherDto;
 	
 	@Override
-	public String getCourrentWeather(String type, double latitude, double longitude) {
+	public String getWeather(String type, double latitude, double longitude) {
 		UriComponents uriComponents = UriComponentsBuilder
 				.fromHttpUrl(weatherDto.getBaseurl() + "/" + type)
 				.queryParam("lat", latitude)
@@ -38,7 +38,7 @@ public class CategoryService implements ICategoryService {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public String readResponse(HttpURLConnection connection) throws IOException {
 		int responseCode = connection.getResponseCode();
@@ -55,4 +55,5 @@ public class CategoryService implements ICategoryService {
 		br.close();
 		return bf.toString();
 	}
+
 }
