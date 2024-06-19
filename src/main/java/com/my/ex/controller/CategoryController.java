@@ -2,6 +2,8 @@ package com.my.ex.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,12 @@ public class CategoryController {
 	@RequestMapping("/getCurrentWeather")
 	@ResponseBody
 	public ResponseEntity<WeatherDto> getCurrentWeather(@RequestParam("latitude") double latitude,
-								  @RequestParam("longitude") double longitude) throws JsonParseException, JsonMappingException, IOException {
+								  @RequestParam("longitude") double longitude, HttpSession session) throws JsonParseException, JsonMappingException, IOException {
 		String response = service.getCourrentWeather("weather", latitude, longitude);
 		ObjectMapper mapper = new ObjectMapper();
 		WeatherDto weatherDto = mapper.readValue(response, WeatherDto.class);
+		session.setAttribute("latitude", latitude);
+		session.setAttribute("longitude", longitude);
 		return new ResponseEntity<>(weatherDto, HttpStatus.OK);
 	}
 	
