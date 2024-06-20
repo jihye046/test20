@@ -1,7 +1,11 @@
 const currentLocationWeather = document.querySelector(".currentLocationWeather")
 const currentLocationWeeklyWeather = document.querySelector(".currentLocationWeeklyWeather")
+const currentHourWeather = document.querySelector(".currentHourWeather")
+const city = document.querySelector("#city")
 const sessionLatitude = document.querySelector("#latitude")
 const sessionLongitude = document.querySelector("#longitude")
+const KELVIN_OFFSET = 273.15
+const today = new Date().getDate()
 let sessionLatitudeValue = sessionLatitude ? parseFloat(sessionLatitude.getAttribute("data-latitude")) : null
 let sessionLongitudeValue = sessionLongitude ? parseFloat(sessionLongitude.getAttribute("data-longitude")) : null
 
@@ -66,9 +70,12 @@ const getCurrentWeather = (latitude, longitude) => {
     url: "/category/getWeeklyWeather",
     data: {latitude, longitude},
     success: function(weeklyWeatherDto){
-      //let output = updateWeeklyWeatherInfo(weeklyWeatherDto)
-      //currentLocationWeeklyWeather.innerHTML = output
-      updateWeeklyWeatherInfo(weeklyWeatherDto)
+      let weeklyOutput = updateWeeklyWeatherInfo(weeklyWeatherDto)
+      currentLocationWeeklyWeather.innerHTML = weeklyOutput
+      let hourlyOutput = hourlyWeather(weeklyWeatherDto) // 오늘 날씨 시간별
+      currentHourWeather.innerHTML = hourlyOutput
+      let cityNameOutput = updateCityName(weeklyWeatherDto) // 도시 이름 업데이트
+      city.innerHTML = cityNameOutput 
     },
     error: function(){
       console.error("일주일 날씨 정보 가져오기 실패", error)
@@ -78,14 +85,13 @@ const getCurrentWeather = (latitude, longitude) => {
 
 // 오늘 날씨 정보 화면에 업데이트
 const updateCurrentWeatherInfo = (currentWeatherDto) => {
-  const KELVIN_OFFSET = 273.15
   const main = currentWeatherDto.weather[0].main // 주요 날씨
   //const description = weatherDto.weather[0].description // 주요 날씨 상세
   const feels_like = (currentWeatherDto.main.feels_like - KELVIN_OFFSET).toFixed(1) // 체감온도
   const temp = (currentWeatherDto.main.temp - KELVIN_OFFSET).toFixed(1)
   const temp_max = (currentWeatherDto.main.temp_max - KELVIN_OFFSET).toFixed(1)
   const temp_min = (currentWeatherDto.main.temp_min - KELVIN_OFFSET).toFixed(1)
-  
+  let output = ''
   let icon = ''
   let weather = ''
   switch(main){
@@ -113,13 +119,13 @@ const updateCurrentWeatherInfo = (currentWeatherDto) => {
       icon = '<p>icon err</p>'
   }
 
-  let output = 
+  output +=
     `
+        <p><span id="temp_min">${temp_min}</span> / <span id="temp_max">${temp_max}</span></p>
         <p>${icon}</p>
         <p><h2>${temp}°</h2></p>
         <p>${weather}</p>
         <p>체감 ${feels_like}</p>
-        <p><span id="temp_min">${temp_min}</span> / <span id="temp_max">${temp_max}</span></p>
     `
   return output
 }
@@ -140,57 +146,114 @@ const parseDateTime = (dt_txt) => {
 
 // 일주일 날씨 정보 화면에 업데이트
 const updateWeeklyWeatherInfo = (weeklyWeatherDto) => {
-  const KELVIN_OFFSET = 273.15
-  const main = weeklyWeatherDto.list[0].weather[0].main // 주요 날씨
-  const feels_like = (weeklyWeatherDto.list[0].main.feels_like - KELVIN_OFFSET).toFixed(1) // 체감온도
-  const temp = (weeklyWeatherDto.list[0].main.temp - KELVIN_OFFSET).toFixed(1)
-  const temp_max = (weeklyWeatherDto.list[0].main.temp_max - KELVIN_OFFSET).toFixed(1)
-  const temp_min = (weeklyWeatherDto.list[0].main.temp_min - KELVIN_OFFSET).toFixed(1)
-  const dt_txt = (weeklyWeatherDto.list[0].dt_txt)
-  let dateTime = parseDateTime(dt_txt)
-  //console.log(`hour:${dateTime.hour}`)
+  const otherdayDto = weeklyWeatherDto.list.filter((item) => parseDateTime(item.dt_txt).day != today)
+  let output = ''
 
-  // 하루 최대 8개의 dateTime 발생, 시간 지나면 순서대로 없어짐(-> 8개가 고정이 아님)
-  
-  let icon = ''
-  let weather = ''
-  switch(main){
-    case 'Clear':
-      icon = '<i class="bi bi-brightness-high"></i>'
-      weather = '맑음'
-      break;
-    case 'Wind':
-      icon = '<i class="bi bi-wind"></i>'
-      weather = '바람'
-      break;
-    case 'Clouds':
-      icon = '<i class="bi bi-clouds"></i>'
-      weather = '흐림'
-      break;
-    case 'Rain':
-      icon = '<i class="bi bi-cloud-rain-fill"></i>'
-      weather = '비'
-      break;
-    case 'Snow':
-      icon = '<i class="bi bi-snow2"></i>'
-      weather = '눈'
-      break;
-    default:
-      icon = '<p>icon err</p>'
-  }
+  otherdayDto.forEach((item) => {
+    const main = item.weather[0].main // weeklyWeatherDto.list[0].weather[0].main
+    const feels_like = (item.main.feels_like - KELVIN_OFFSET).toFixed(1) 
+    const temp = (item.main.temp - KELVIN_OFFSET).toFixed(1)
+    const temp_max = (item.main.temp_max - KELVIN_OFFSET).toFixed(1)
+    const temp_min = (item.main.temp_min - KELVIN_OFFSET).toFixed(1)
+    const dt_txt = (item.dt_txt)
+    let dateTime = parseDateTime(dt_txt)
+    let icon = ''
+    let weather = ''
+    switch(main){
+      case 'Clear':
+        icon = '<i class="bi bi-brightness-high"></i>'
+        weather = '맑음'
+        break;
+      case 'Wind':
+        icon = '<i class="bi bi-wind"></i>'
+        weather = '바람'
+        break;
+      case 'Clouds':
+        icon = '<i class="bi bi-clouds"></i>'
+        weather = '흐림'
+        break;
+      case 'Rain':
+        icon = '<i class="bi bi-cloud-rain-fill"></i>'
+        weather = '비'
+        break;
+      case 'Snow':
+        icon = '<i class="bi bi-snow2"></i>'
+        weather = '눈'
+        break;
+      default:
+        icon = '<p>icon err</p>'
+    }
 
-  let output = 
-    `
-        <p>${icon}</p>
-        <p><h2>${temp}°</h2></p>
-        <p>${weather}</p>
-        <p>체감 ${feels_like}</p>
-        <p>
-          <span id="temp_min">${temp_min}</span> / <span id="temp_max">${temp_max}</span>
-        </p>
-    `
+    output +=
+      `
+          <span>${dateTime.month} / ${dateTime.day}</span>
+          <span>${icon}</span>
+          <span id="hour">${dateTime.hour}</span>
+          <span>${temp}°</span>
+          <span>${weather}</span>
+          <span>체감 ${feels_like}</span>
+          <span>
+            <span id="temp_min">${temp_min}</span> / <span id="temp_max">${temp_max}</span>
+          </span><br>
+      `
+    })
   return output
-  
+}
+
+// 오늘 날씨 시간별
+const hourlyWeather = (weeklyWeatherDto) => {
+  const hourlyWeaterDto = weeklyWeatherDto.list.filter((item) => parseDateTime(item.dt_txt).day == today)
+  let output = ''
+
+  hourlyWeaterDto.forEach((item) => {
+    const main = item.weather[0].main
+    const temp = (item.main.temp - KELVIN_OFFSET).toFixed(1)
+    const temp_max = (item.main.temp_max - KELVIN_OFFSET).toFixed(1)
+    const temp_min = (item.main.temp_min - KELVIN_OFFSET).toFixed(1)
+    const dt_txt = (item.dt_txt)
+    let dateTime = parseDateTime(dt_txt)
+    let icon = ''
+    let weather = ''
+    switch(main){
+      case 'Clear':
+        icon = '<i class="bi bi-brightness-high"></i>'
+        weather = '맑음'
+        break;
+      case 'Wind':
+        icon = '<i class="bi bi-wind"></i>'
+        weather = '바람'
+        break;
+      case 'Clouds':
+        icon = '<i class="bi bi-clouds"></i>'
+        weather = '흐림'
+        break;
+      case 'Rain':
+        icon = '<i class="bi bi-cloud-rain-fill"></i>'
+        weather = '비'
+        break;
+      case 'Snow':
+        icon = '<i class="bi bi-snow2"></i>'
+        weather = '눈'
+        break;
+      default:
+        icon = '<p>icon err</p>'
+    }
+
+    output += 
+      `
+        <span id="hour">${dateTime.hour}시</span>
+        <span>${temp}°</span>
+        <span>${icon}</span>
+        <span>${weather}</span><br>
+      `
+  })
+  return output
+}
+
+// 도시 이름 업데이트
+const updateCityName = (weeklyWeatherDto) => {
+  const cityName = weeklyWeatherDto.city.name
+  return `${cityName}`
 }
 
 // 페이지 로드 시 함수 호출

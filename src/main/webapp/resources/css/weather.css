@@ -1,9 +1,18 @@
+.currentLocation {
+	padding-bottom: 20px;
+}
+
 #currentLocationBtn {
 	cursor: pointer;
 	padding-top: 30px;
 }
 
-.currentLocationWeather{
+#city {
+	color: blue;
+	text-decoration: underline;
+}
+
+.currentWeather-container {
 	display: block;
 	background-color: rgba(234, 234, 234, 0.7);
 	border: 1px solid #D5D5D5;
@@ -12,6 +21,27 @@
 	text-align: center;
 	margin: 0 auto; /* 가운데 정렬 */
 	width: 80%;
+	padding: 20px;
+}
+
+.currentHourWeather {
+	text-align: center;
+	margin: 0 auto;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.currentLocationWeeklyWeather {
+	
+}
+
+#hour {
+	width: 50px;
+	height: 50px;
+	border: 1px solid gray;
+	border-radius: 25px;
+	background-color: #EAEAEA;
+	padding: 5px;
 }
 
 .bi{
@@ -24,4 +54,13 @@
 
 #temp_max {
 	color: crimson;
+}
+
+span {
+	margin: 20px;
+}
+
+h3 {
+	border-bottom: 1px solid gray; 
+	padding-top: 80px;
 }

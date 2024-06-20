@@ -13,8 +13,14 @@
 		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="col-md-8 detailPage-main" >
-				<i id="currentLocationBtn" class="fa-solid fa-location-crosshairs">&nbsp;현위치</i><br>			
-				<div class="currentLocationWeather"></div>
+				<div class="currentLocation">
+					<i id="currentLocationBtn" class="fa-solid fa-location-crosshairs"><span id="city"></span></i><br>
+				</div>
+				<div class="currentWeather-container">
+					<div class="currentLocationWeather"></div>
+					<div class="currentHourWeather"></div>
+				</div>
+				<h3>주간예보</h3>
 				<div class="currentLocationWeeklyWeather"></div>
 			</div>
 			<div class="col-md-2"></div>
