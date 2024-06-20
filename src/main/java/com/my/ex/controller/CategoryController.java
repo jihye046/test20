@@ -50,8 +50,6 @@ public class CategoryController {
 		String response = service.getWeather("forecast", latitude, longitude);
 		ObjectMapper mapper = new ObjectMapper();
 		WeeklyWeatherDto weeklyWeatherDto = mapper.readValue(response, WeeklyWeatherDto.class);
-//		session.setAttribute("latitude", latitude);
-//		session.setAttribute("longitude", longitude);
 		return new ResponseEntity<>(weeklyWeatherDto, HttpStatus.OK);
 	}
 	
