@@ -22,8 +22,7 @@ public class NaverLoginRequestDto {
 	@Value("${naver.redirect_uri}")
 	private String redirect_uri;
 
-	public NaverLoginRequestDto() {
-	}
+	public NaverLoginRequestDto() {}
 
 	public NaverLoginRequestDto(String baseurl, String response_type, String client_id, String client_secret, String state,
 			String redirect_uri) {

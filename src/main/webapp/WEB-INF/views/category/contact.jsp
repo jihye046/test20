@@ -7,7 +7,10 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
-	<h1>info.jsp 입니다.</h1>
+	<!-- 지도 -->
+	<div id="map" style="width:500px;height:400px;"></div>
+	
 </body>
 <script src="../../../resources/js/common.js"></script>
+<script src="../../../resources/js/contact.js"></script>
 </html>

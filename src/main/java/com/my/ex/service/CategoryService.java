@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.my.ex.dto.map.KakaoMap;
 import com.my.ex.dto.weather.WeatherRequestDto;
 
 @Service
@@ -18,6 +19,9 @@ public class CategoryService implements ICategoryService {
 	
 	@Autowired
 	private WeatherRequestDto weatherDto;
+	
+	@Autowired
+	private KakaoMap kakaoMap;
 	
 	@Override
 	public String getWeather(String type, double latitude, double longitude) {
@@ -27,6 +31,25 @@ public class CategoryService implements ICategoryService {
 				.queryParam("lon", longitude)
 				.queryParam("lang", "kr")
 				.queryParam("appid", weatherDto.getWeather_key())
+				.build();
+		try {
+			URL url = new URL(uriComponents.toString());
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestMethod("GET");
+			return readResponse(connection);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 사용자로부터 검색할 주소를 입력받아 좌표 얻어오기
+	@Override
+	public String getAddress(String type) {
+		UriComponents uriComponents = UriComponentsBuilder
+				.fromHttpUrl(kakaoMap.getBaseurl() + "/" + type)
+				.queryParam("Authorization", "KakaoAK " + kakaoMap.getRestKey())
+				.queryParam("query", "구로구")
 				.build();
 		try {
 			URL url = new URL(uriComponents.toString());

@@ -8,6 +8,6 @@ import java.net.URISyntaxException;
 
 public interface ICategoryService {
 	String getWeather(String type, double latitude, double longitude) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
-//	String getWeeklyWeather(String type, double latitude, double longitude) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
+	String getAddress(String type) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
 	String readResponse(HttpURLConnection connection) throws IOException;
 }

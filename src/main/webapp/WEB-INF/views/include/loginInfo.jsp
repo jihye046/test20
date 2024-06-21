@@ -14,7 +14,7 @@
 	        </div>
 	        <div class="category">
 	        	<p>회사정보</p>
-		        <a href="#">Contact</a>
+		        <a href="/category/contact">Contact</a>
 	        </div>
 	        <div class="category">
 		        <p>기타서비스</p>
