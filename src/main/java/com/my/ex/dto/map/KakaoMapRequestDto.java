@@ -2,7 +2,7 @@ package com.my.ex.dto.map;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public class KakaoMap {
+public class KakaoMapRequestDto {
 	
 	@Value("${kakao.baseurl}")
 	private String baseurl;
@@ -13,9 +13,9 @@ public class KakaoMap {
 	@Value("${kakao.rest.key}")
 	private String restKey;
 
-	public KakaoMap() {}
+	public KakaoMapRequestDto() {}
 
-	public KakaoMap(String baseurl, String jsKey, String restKey) {
+	public KakaoMapRequestDto(String baseurl, String jsKey, String restKey) {
 		this.baseurl = baseurl;
 		this.jsKey = jsKey;
 		this.restKey = restKey;

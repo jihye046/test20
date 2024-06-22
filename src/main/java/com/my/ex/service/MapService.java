@@ -7,41 +7,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.my.ex.dto.map.KakaoMap;
-import com.my.ex.dto.weather.WeatherRequestDto;
+import com.my.ex.dto.map.KakaoMapRequestDto;
 
-@Service
-public class CategoryService implements ICategoryService {
+public class MapService implements IMapService {
 	
 	@Autowired
-	private WeatherRequestDto weatherDto;
-	
-	@Autowired
-	private KakaoMap kakaoMap;
-	
-	@Override
-	public String getWeather(String type, double latitude, double longitude) {
-		UriComponents uriComponents = UriComponentsBuilder
-				.fromHttpUrl(weatherDto.getBaseurl() + "/" + type)
-				.queryParam("lat", latitude)
-				.queryParam("lon", longitude)
-				.queryParam("lang", "kr")
-				.queryParam("appid", weatherDto.getWeather_key())
-				.build();
-		try {
-			URL url = new URL(uriComponents.toString());
-			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("GET");
-			return readResponse(connection);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	private KakaoMapRequestDto kakaoMap;
 	
 	// 사용자로부터 검색할 주소를 입력받아 좌표 얻어오기
 	@Override

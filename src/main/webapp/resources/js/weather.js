@@ -99,7 +99,7 @@ const getWeatherInfo = (latitude, longitude) => {
   // 오늘 날씨
   $.ajax({
     type: "get",
-    url: "/category/getCurrentWeather",
+    url: "/weather/getCurrentWeather",
     data: {latitude, longitude},
     success: function(currentWeatherDto){
       let output = updateCurrentWeatherInfo(currentWeatherDto)
@@ -113,7 +113,7 @@ const getWeatherInfo = (latitude, longitude) => {
   // 일주일 날씨
   $.ajax({
     type: "get",
-    url: "/category/getWeeklyWeather",
+    url: "/weather/getWeeklyWeather",
     data: {latitude, longitude},
     success: function(weeklyWeatherDto){
       let weeklyOutput = updateWeeklyWeatherInfo(weeklyWeatherDto)

@@ -14,7 +14,9 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-8 detailPage-main" >
 				<div class="currentLocation">
-					<i id="currentLocationBtn" class="fa-solid fa-location-crosshairs"><span id="city"></span></i><br>
+					<i id="currentLocationBtn" class="fa-solid fa-location-crosshairs">
+						<span id="city"></span>
+					</i><br>
 				</div>
 				<div class="currentWeather-container">
 					<div class="currentLocationWeather"></div>

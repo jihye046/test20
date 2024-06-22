@@ -81,7 +81,7 @@
     </bean>
     
     <!-- 카카오 지도 API 호출시 필요한 파라미터 -->
-    <bean id="KakaoMap" class="com.my.ex.dto.map.KakaoMap">
+    <bean id="KakaoMap" class="com.my.ex.dto.map.KakaoMapRequestDto">
     	<property name="baseurl" value="${kakao.baseurl}"></property>
     	<property name="jsKey" value="${kakao.javaScript.key}"></property>
     	<property name="restKey" value="${kakao.rest.key}"></property>

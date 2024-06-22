@@ -66,6 +66,15 @@ body {
     cursor: pointer;
 }
 
+.sidebarMenu #closeBtn {
+	text-align: right;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    color: white;
+}
+
 .sidebarMenu {
     height: 100%;
     width: 0;
@@ -75,17 +84,17 @@ body {
     background-color: #111;
     transition: 0.5s; /* 0.5초 애니메이션 효과 */
     padding-top: 60px;
-    z-index: 1000;
+    z-index: 1000; /* 맨 앞으로 */
 }
 
-.sidebarMenu p {
+.sidebarMenu p:not(#mapTitle) {
 	display: block;
     padding: 10px 15px;
     font-size: 20px;
     color: white;
 }
 
-.sidebarMenu a {
+.sidebarMenu a, #mapTitle {
 	display: block;
     padding: 10px 15px;
     text-decoration: none; /* <a>태그의 기본 밑줄을 없앰 */
@@ -97,16 +106,17 @@ body {
     background-color: #575757;
 }
 
-.sidebarMenu #closeBtn {
-	text-align: right;
-    position: absolute;
-    top: 10px;
-    right: 25px;
-    font-size: 36px;
-    color: white;
+.category-box {
+	padding: 10px; 
+/* 	border-bottom: solid 0.5px gray; */
 }
 
-.category {
-	padding: 10px; 
-	border-bottom: solid 0.5px gray;
+.title {
+    margin-bottom: 0;
+    font-weight: bold;
+/*     text-decoration: underline; */
+}
+
+#mapTitle {
+	margin-bottom: 0;
 }

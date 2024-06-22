@@ -8,17 +8,20 @@
 			<a href="#" id="closeBtn">
 				<i class="fa-solid fa-xmark fa-2xs"></i>
 			</a>
-			<div class="category">
-				<p>개인페이지</p>
+			<div class="category-box">
+				<p class="title">개인페이지</p>
 		        <a href="#">Mypage</a>
 	        </div>
-	        <div class="category">
-	        	<p>회사정보</p>
-		        <a href="/category/contact">Contact</a>
-	        </div>
-	        <div class="category">
-		        <p>기타서비스</p>
-		        <a href="/category/weather">Weather</a>
+	        <div class="category-box">
+	        	<!-- Category / Weather -->
+		        <p class="title">기타서비스</p>
+		        <a href="/weather/weatherPage">Weather</a>
+		        <!-- Category / Map -->
+		        <p id="mapTitle">Map</p>
+		        <a href="/map/searchedAddMap">ㄴ 검색한 주소지 지도</a>
+		        <a href="/map/specificAddMap">ㄴ 특정 주소지 지도</a>
+		        <a href="/map/findRouteToSpecificAdd">ㄴ 특정 주소지까지 길찾기</a>
+		        <a href="/map/findRouteToSearchedAdd">ㄴ 검색한 주소지까지 길찾기</a>
 	        </div>
 		</div>
 		<!-- sidebar End -->

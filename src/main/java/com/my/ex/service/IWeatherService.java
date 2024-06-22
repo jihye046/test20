@@ -6,8 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
-public interface ICategoryService {
+public interface IWeatherService {
 	String getWeather(String type, double latitude, double longitude) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
-	String getAddress(String type) throws URISyntaxException, MalformedURLException, UnsupportedEncodingException;
 	String readResponse(HttpURLConnection connection) throws IOException;
 }

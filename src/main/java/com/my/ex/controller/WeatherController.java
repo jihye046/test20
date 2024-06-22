@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,17 +17,17 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.dto.weather.WeatherDto;
 import com.my.ex.dto.weather.WeeklyWeatherDto;
-import com.my.ex.service.CategoryService;
+import com.my.ex.service.Weather;
 
 @Controller
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/weather")
+public class WeatherController {
 	
 	@Autowired
-	private CategoryService service;
+	private Weather service;
 
-	@RequestMapping("/weather")
-	public String weather() {
+	@RequestMapping("/weatherPage")
+	public String weatherPage() {
 		return "/category/weather";
 	}
 	
@@ -52,13 +51,6 @@ public class CategoryController {
 		ObjectMapper mapper = new ObjectMapper();
 		WeeklyWeatherDto weeklyWeatherDto = mapper.readValue(response, WeeklyWeatherDto.class);
 		return new ResponseEntity<>(weeklyWeatherDto, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/contact", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public void contact() {
-		String response = service.getAddress("local/search/address.json");
-		System.out.println("response: " + response);
-//		return "/category/contact";
 	}
 	
 }
