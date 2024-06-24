@@ -30,6 +30,5 @@ public class MapController {
 	
 	// 현위치부터 특정 주소지까지 길찾기
 	
-	
 	// 현위치부터 검색한 주소지까지 길찾기
 }
