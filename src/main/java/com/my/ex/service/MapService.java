@@ -7,28 +7,33 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.my.ex.dto.map.KakaoMapRequestDto;
+import com.my.ex.dto.map.NaverMapRequestDto;
 
+@Service
 public class MapService implements IMapService {
 	
 	@Autowired
-	private KakaoMapRequestDto kakaoMap;
+	private NaverMapRequestDto dto;
 	
 	// 사용자로부터 검색할 주소를 입력받아 좌표 얻어오기
 	@Override
 	public String getAddress(String type) {
 		UriComponents uriComponents = UriComponentsBuilder
-				.fromHttpUrl(kakaoMap.getBaseurl() + "/" + type)
-				.queryParam("Authorization", "KakaoAK " + kakaoMap.getRestKey())
-				.queryParam("query", "구로구")
+				.fromHttpUrl(type)
+				.queryParam("start", "126.9780,37.5665") // 예제 시작점 (서울)
+				.queryParam("goal", "126.7052,37.4563") // 예제 목표점 (인천)
+				.queryParam("option", "trafast")
 				.build();
 		try {
 			URL url = new URL(uriComponents.toString());
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			connection.setRequestMethod("GET");
+			connection.setRequestProperty("X-NCP-APIGW-API-KEY-ID", dto.getClient_id());
+			connection.setRequestProperty("X-NCP-APIGW-API-KEY", dto.getClient_secret());
 			return readResponse(connection);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -24,8 +24,8 @@ const searchedAdd = () => {
             // 주소로 상세 정보를 검색
             geocoder.addressSearch(data.address, function(results, status) {
                 if (status === daum.maps.services.Status.OK) {
-                    const result = results[0]; // 첫번째 결과의 값을 활용
-                    const coords = new daum.maps.LatLng(result.y, result.x) // 해당 주소 좌표 받기
+                    const result = results[0] // 첫번째 결과의 값을 활용
+                    const coords = new daum.maps.LatLng(result.y, result.x); // 해당 주소 좌표 받기
                     mapContainer.style.display = "block"
                     map.relayout()
                     map.setCenter(coords) // 지도 중심 변경

@@ -31,6 +31,7 @@
 	<context:property-placeholder order="3" ignore-unresolvable="true"  location="classpath:config/google.properties" />
 	<context:property-placeholder order="4" ignore-unresolvable="true"  location="classpath:config/weather.properties" />
 	<context:property-placeholder order="5" ignore-unresolvable="true"  location="classpath:config/kakao.properties" />
+	<context:property-placeholder order="6" ignore-unresolvable="true"  location="classpath:config/naverMaps.properties" />
 	
 	<!-- Email -->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -85,6 +86,12 @@
     	<property name="baseurl" value="${kakao.baseurl}"></property>
     	<property name="jsKey" value="${kakao.javaScript.key}"></property>
     	<property name="restKey" value="${kakao.rest.key}"></property>
+    </bean>
+    
+    <!-- 네이버 지도 API 호출시 필요한 파라미터 -->
+    <bean id="NaverMap" class="com.my.ex.dto.map.NaverMapRequestDto">
+    	<property name="client_id" value="${naver.map.client_id}"></property>
+    	<property name="client_secret" value="${naver.map.client_secret}"></property>
     </bean>
     
     <!-- @Autowired 사용하는 경우 빈 생성 -->

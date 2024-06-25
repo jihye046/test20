@@ -20,7 +20,8 @@
 		        <p id="mapTitle">Map</p>
 		        <a href="/map/searchedAddMap">ㄴ 검색한 주소지 지도</a>
 		        <a href="/map/specificAddMap">ㄴ 특정 주소지 지도</a>
-		        <a href="/map/findRouteToSpecificAdd">ㄴ 특정 주소지까지 길찾기</a>
+<!-- 		        <a href="/map/findRouteToSpecificAdd">ㄴ 특정 주소지까지 길찾기</a> -->
+		        <a href="/map/findRoutePage">ㄴ 특정 주소지까지 길찾기</a>
 		        <a href="/map/findRouteToSearchedAdd">ㄴ 검색한 주소지까지 길찾기</a>
 	        </div>
 		</div>
