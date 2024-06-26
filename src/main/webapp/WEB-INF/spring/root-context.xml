@@ -92,6 +92,7 @@
     <bean id="NaverMap" class="com.my.ex.dto.map.NaverMapRequestDto">
     	<property name="client_id" value="${naver.map.client_id}"></property>
     	<property name="client_secret" value="${naver.map.client_secret}"></property>
+    	<property name="baseurl" value="${naver.map.baseurl}"></property>
     </bean>
     
     <!-- @Autowired 사용하는 경우 빈 생성 -->

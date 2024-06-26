@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,17 @@ public class MapService implements IMapService {
 	
 	// 사용자로부터 검색할 주소를 입력받아 좌표 얻어오기
 	@Override
-	public String getAddress(String type) {
+	public String findRoute(String type, Map<String, String> coordinates) {
+		// 좌표값에서 괄호 제거 및 분리
+	    String startAddress = coordinates.get("startAddress");
+	    String goalAddress = coordinates.get("goalAddress");
+	    String cleanStartAddress = startAddress.replaceAll("[()]", "");
+	    String cleanGoalAddress = goalAddress.replaceAll("[()]", "");
+	    
 		UriComponents uriComponents = UriComponentsBuilder
-				.fromHttpUrl(type)
-				.queryParam("start", "126.9780,37.5665") // 예제 시작점 (서울)
-				.queryParam("goal", "126.7052,37.4563") // 예제 목표점 (인천)
+				.fromHttpUrl(dto.getBaseurl() + "/" + type)
+				.queryParam("start", cleanStartAddress)
+				.queryParam("goal", cleanGoalAddress)
 				.queryParam("option", "trafast")
 				.build();
 		try {

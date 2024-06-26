@@ -1,19 +1,17 @@
 package com.my.ex.controller;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.dto.map.NaverMapRequestDto;
-import com.my.ex.dto.weather.WeeklyWeatherDto;
 import com.my.ex.service.MapService;
 
 @Controller
@@ -43,7 +41,7 @@ public class MapController {
 		return "/category/specificAddMap";
 	}
 	
-	// 현위치부터 특정 주소지까지 길찾기
+	// 현위치부터 검색한 주소지까지 길찾기
 	@RequestMapping("/findRoutePage")
 	public String findRoutePage(Model model) {
 		model.addAttribute("jsKey", kakaoMapDto.getJsKey());
@@ -54,15 +52,11 @@ public class MapController {
 	
 	@RequestMapping("/findRoute")
 	@ResponseBody
-	public void findRoute(Model model, HttpServletRequest request) {
-		ObjectMapper mapper = new ObjectMapper();
-		String startAddress = request.getParameter("startAddress");
-		String goalAddress = request.getParameter("goalAddress");
-		System.out.println("startAddr: " + startAddress);
-		System.out.println("goalAddr: " + goalAddress);
-		//String result = service.getAddress("https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving");
-//		System.out.println(result);
+	public void findRoute(@RequestBody Map<String, String> coordinates) {
+		String response = service.findRoute("driving", coordinates);
+		System.out.println("response: " + response); // json 매핑은 안하고 응답값 확인까지만 ok
+//		ObjectMapper mapper = new ObjectMapper();
+//		WeeklyWeatherDto weeklyWeatherDto = mapper.readValue(response, WeeklyWeatherDto.class);
 	}
-	
-	// 현위치부터 검색한 주소지까지 길찾기
+
 }

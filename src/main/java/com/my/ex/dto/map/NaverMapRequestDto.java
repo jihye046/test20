@@ -9,12 +9,16 @@ public class NaverMapRequestDto {
 	
 	@Value("${naver.map.client_secret}")
 	private String client_secret;
-
+	
+	@Value("${naver.map.baseurl}")
+	private String baseurl;
+	
 	public NaverMapRequestDto() {}
 
-	public NaverMapRequestDto(String client_id, String client_secret) {
+	public NaverMapRequestDto(String client_id, String client_secret, String baseurl) {
 		this.client_id = client_id;
 		this.client_secret = client_secret;
+		this.baseurl = baseurl;
 	}
 
 	public String getClient_id() {
@@ -33,9 +37,18 @@ public class NaverMapRequestDto {
 		this.client_secret = client_secret;
 	}
 
+	public String getBaseurl() {
+		return baseurl;
+	}
+
+	public void setBaseurl(String baseurl) {
+		this.baseurl = baseurl;
+	}
+
 	@Override
 	public String toString() {
-		return "NaverMapRequestDto [client_id=" + client_id + ", client_secret=" + client_secret + "]";
+		return "NaverMapRequestDto [client_id=" + client_id + ", client_secret=" + client_secret + ", baseurl="
+				+ baseurl + "]";
 	}
-	
+
 }

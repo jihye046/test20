@@ -44,12 +44,15 @@ goalAddressBtn.addEventListener('click', function(){
 })
 navigateBtn.addEventListener('click', function(){
   if(startAddress && goalAddress){
+  	// 좌표객체 사이 공백 제거
+  	startAddress = startAddress.replace(/\s/g,'')
+    goalAddress = goalAddress.replace(/\s/g,'')
     const requestData = {
       startAddress: startAddress,
       goalAddress: goalAddress
     }
     const xhr = new XMLHttpRequest()
-    xhr.open('GET', '/map/findRoute', true) // true: 비동기, false: 동기
+    xhr.open('POST', '/map/findRoute', true) // true: 비동기, false: 동기
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.onreadystatechange = function(){
       if(xhr.readyState === XMLHttpRequest.DONE){
@@ -61,12 +64,13 @@ navigateBtn.addEventListener('click', function(){
         }
       }
     }
+	console.log(`start:${startAddress}`)
+	console.log(`goal:${goalAddress}`)
     xhr.send(JSON.stringify(requestData))
   } else {
   	alert("출발지와 목적지 주소를 입력해주세요")
   }
 })
-
 
 /* 
 $.ajax({
