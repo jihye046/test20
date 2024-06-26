@@ -56,7 +56,6 @@ public class MapController {
 		String response = service.findRoute("driving", coordinates);
 		System.out.println("response: " + response); // json 매핑은 안하고 응답값 확인까지만 ok
 //		ObjectMapper mapper = new ObjectMapper();
-//		WeeklyWeatherDto weeklyWeatherDto = mapper.readValue(response, WeeklyWeatherDto.class);
 	}
 
 }

@@ -20,7 +20,6 @@ public class MapService implements IMapService {
 	@Autowired
 	private NaverMapRequestDto dto;
 	
-	// 사용자로부터 검색할 주소를 입력받아 좌표 얻어오기
 	@Override
 	public String findRoute(String type, Map<String, String> coordinates) {
 		// 좌표값에서 괄호 제거 및 분리
