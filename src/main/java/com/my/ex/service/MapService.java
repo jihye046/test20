@@ -64,5 +64,4 @@ public class MapService implements IMapService {
 		return bf.toString();
 	}
 
-	
 }
