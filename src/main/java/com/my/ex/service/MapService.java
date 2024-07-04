@@ -62,7 +62,6 @@ public class MapService implements IMapService {
 		}
 		br.close();
 		return bf.toString();
-		
 	}
 
 	
