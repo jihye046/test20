@@ -65,5 +65,4 @@ public class MapService implements IMapService {
 		
 	}
 
-	
 }
