@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.dto.map.NaverMapRequestDto;
 import com.my.ex.service.MapService;
