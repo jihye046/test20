@@ -62,5 +62,6 @@ public class UserController {
 		session.invalidate(); // 세션 자체를 삭제
 		return "redirect:loginPage";
 	}
+
 	
 }
