@@ -63,5 +63,9 @@ public class UserController {
 		return "redirect:loginPage";
 	}
 	
+	@RequestMapping("/myPage")
+	public String myPage() {
+		return "/user/myPage";
+	}
 	
 }

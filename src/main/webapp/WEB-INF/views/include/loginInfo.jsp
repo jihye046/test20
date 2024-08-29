@@ -10,7 +10,7 @@
 			</a>
 			<div class="category-box">
 				<p class="title">개인페이지</p>
-		        <a href="#">Mypage</a>
+		        <a href="/user/myPage">Mypage</a>
 	        </div>
 	        <div class="category-box">
 	        	<!-- Category / Weather -->
