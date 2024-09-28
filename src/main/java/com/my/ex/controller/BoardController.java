@@ -1,10 +1,18 @@
 package com.my.ex.controller;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.my.ex.SortResponse;
@@ -198,12 +207,100 @@ public class BoardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	// 이미지업로드
+	// 이미지업로드(1) - 업로드한 이미지를 로컬에 저장
 	@ResponseBody
 	@RequestMapping(value = "/imgUpload", method = RequestMethod.POST)
-	public void imgUpload(@RequestParam("upload") MultipartFile img){
-		System.out.println("imgUpload controller");
+	public void imgUpload(MultipartHttpServletRequest multiRequest, 
+						  HttpServletRequest request,
+						  HttpServletResponse response) {
+		try {
+			final String real_save_path = "C:\\server_program\\imgUploadTest\\";
+
+            // 폴더가 없을 경우 생성
+            File saveFolder = new File(real_save_path);
+            if (!saveFolder.exists() || saveFolder.isFile()) {
+                saveFolder.mkdirs();
+            }
+
+            final Map<String, MultipartFile> files = multiRequest.getFileMap();
+            MultipartFile fileload = files.get("upload");
+            if (fileload == null || fileload.isEmpty()) {
+                System.out.println("파일이 없습니다.");
+                return;
+            }
+            
+            // filename 취득
+            String fileName = fileload.getOriginalFilename();
+            String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+            Random ran = new Random(System.currentTimeMillis());
+            fileName = System.currentTimeMillis() + "_" + (int)(ran.nextDouble() * 10000) + "." + ext;
+
+            // 폴더 경로 설정
+            String newfilename = real_save_path + fileName;
+            fileload.transferTo(new File(newfilename)); // 파일 저장 실행
+
+            // getImageForContents() 메서드 실행
+            JSONObject outData = new JSONObject();
+            outData.put("uploaded", true);
+            outData.put("url", request.getScheme() + "://" + request.getServerName() + "/board/getImageForContents?fileNm=" + fileName);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(outData.toString());
+        } catch (Exception e) {
+        	System.out.println("*error: " + e.getMessage());
+            e.printStackTrace();
+        }
 	}
+	
+	// 이미지업로드(2) - 로컬에 저장된 이미지를 사용자에게 제공(텍스트창)
+	@RequestMapping(value = "/getImageForContents")
+    public void getImageForContents(@RequestParam("fileNm") String fileNm, HttpServletResponse response) throws Exception {
+        String fileStr = "C:\\server_program\\imgUploadTest\\"; 
+
+        FileInputStream fis = null;
+        BufferedInputStream in = null;
+        ByteArrayOutputStream bStream = null;
+
+        try {
+            File file = new File(fileStr, fileNm);
+            if (!file.exists()) { 
+            	System.out.println("fileStr: " + fileStr);
+            	System.out.println("fileNm: " + fileNm);
+            	System.out.println("file not exists");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND); // 파일이 없으면 404 오류 응답
+                return;
+            }
+
+            fis = new FileInputStream(file);
+            in = new BufferedInputStream(fis);
+            bStream = new ByteArrayOutputStream();
+
+            int imgByte;
+            while ((imgByte = in.read()) != -1) {
+                bStream.write(imgByte);
+            }
+
+            String type = "";
+            String ext = fileNm.substring(fileNm.lastIndexOf(".") + 1).toLowerCase();
+            type = "jpg".equals(ext) ? "image/jpeg" : "image/" + ext;
+            response.setHeader("Content-Type", type);
+            response.setContentLength(bStream.size());
+            bStream.writeTo(response.getOutputStream());
+            response.getOutputStream().flush();
+        } finally {
+            // 자원 해제
+            if (bStream != null) bStream.close();
+            if (in != null) in.close();
+            if (fis != null) fis.close();
+        }
+    }
+	
+	/*
+	private String sanitizeFilePath(String filePath) {
+        // 불필요한 문자 제거
+        return filePath.replaceAll("[^a-zA-Z0-9_.-]", "_"); // 알파벳, 숫자, _ , . , - 만 허용
+    }
+    */
 	
 	// 조회순 정렬
 	@ResponseBody

@@ -11,3 +11,11 @@
 .ck-editor__editable {
 	height: 400px;	
 }
+
+.ck-editor__editable p {
+	margin: 0
+}
+
+.ck-content { 
+	font-size: 13px; 
+}
