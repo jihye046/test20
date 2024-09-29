@@ -29,7 +29,7 @@
 					</div>
 				</div>
 				<p style="border-bottom: 1px solid #EAEAEA; padding: 5px 0px;"></p>
-				<div style="border-bottom: 1px solid #EAEAEA; padding: 50px 0px;">
+				<div class="post" style="border-bottom: 1px solid #EAEAEA; padding: 50px 0px;">
 					${dto.bContent}
 				</div>
 				<div>
@@ -86,8 +86,9 @@
 <div id="bId" data-bId="${dto.bId}"></div>
 <%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
-<script src="../../../resources/js/detailPage.js"></script>
 <script src="../../../resources/js/common.js"></script>
+<script src="../../../resources/js/detailPage.js"></script>
+<script src="../../../resources/js/uploadAdapter.js"></script>
 <script>
 // 댓글
 const replyBtn = document.querySelector("#replyBtn")

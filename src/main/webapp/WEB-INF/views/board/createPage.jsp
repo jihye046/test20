@@ -13,8 +13,8 @@
         		<div class="col-md-2"></div>
 					<div class="col-md-8 createPage-main">
 						<form action="/board/createBoard" method="post" class="create-form">
-							<input type="text" size="100" name="bName" placeholder="😃 이름" required>
-							<input type="text" size="100" name="bTitle" placeholder="🔈 제목" required>
+							<input type="text" size="100" name="bName" placeholder="* 이름" required>
+							<input type="text" size="100" name="bTitle" placeholder="* 제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
 							<button class="btn btn-outline-info" type="submit">등록</button>
 						</form>
@@ -24,6 +24,7 @@
 		</div>
 	</main>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+	<script src="../../../resources/js/common.js"></script>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
 </body>

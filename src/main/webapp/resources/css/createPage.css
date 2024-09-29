@@ -8,8 +8,9 @@
     flex-direction: column;
 }
 
+/* 편집창 크기 조절 */
 .ck-editor__editable {
-	height: 400px;	
+	height: 400px;
 }
 
 .ck-editor__editable p {
