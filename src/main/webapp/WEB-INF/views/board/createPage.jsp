@@ -24,7 +24,6 @@
 		</div>
 	</main>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-	<script src="../../../resources/js/common.js"></script>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
 </body>

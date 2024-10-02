@@ -1,14 +1,20 @@
+/* ckeditor */
 let editor;
  
 ClassicEditor
   .create(document.querySelector('#editor'), {
-  	ckfinder: {
-                    uploadUrl: '/board/imgUpload' // 서버의 이미지 업로드 URL로 설정
-    }
+    // CKEditor configuration options
+    extraPlugins: [MyCustomUploadAdapterPlugin]
   })
-  .then( editor => {
-    window.editor = editor
+  .then( newEditor => {
+    editor = newEditor
   })
   .catch( error => {
     console.error( error )
   })
+
+function MyCustomUploadAdapterPlugin(editor) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new UploadAdapter(loader)
+  }
+}

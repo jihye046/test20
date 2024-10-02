@@ -12,4 +12,3 @@ const closeSidebar = () => {
   document.querySelector("#sidebarMenu").style.width = "0px"
 }
 
-

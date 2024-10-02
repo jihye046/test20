@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* ckeditor */
 .createPage-main {
 	padding: 50px 0px;
 }
@@ -8,7 +9,6 @@
     flex-direction: column;
 }
 
-/* 편집창 크기 조절 */
 .ck-editor__editable {
 	height: 400px;
 }

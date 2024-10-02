@@ -16,8 +16,12 @@
 			            <form action="/board/updateBoard" method="post" class="update-form"> <!-- 수정된 부분 -->
 			                <input type="hidden" name="bId" value="${dto.bId}">
 			                <input type="hidden" name="bGroup" value="${dto.bGroup}">
-			                😃 이름 <input type="text" name="bName" value="${dto.bName}">
-			                🔈 제목 <input type="text" name="bTitle" value="${dto.bTitle}">
+			                <div>
+			                	* 이름 <input type="text" name="bName" value="${dto.bName}">
+			                </div>
+			                <div>
+			                	* 제목 <input type="text" name="bTitle" value="${dto.bTitle}">
+			                </div>
 			                <textarea rows="10" cols="40" name="bContent" id="editor">${dto.bContent}</textarea>
 			                <button class="btn btn-outline-info" type="submit" id="updateBtn">완료</button>
 			            </form>
@@ -27,6 +31,7 @@
         </div>
     </main>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+	<script src="../../../resources/js/uploadAdapter.js"></script>
 	<script src="../../../resources/js/updatePage.js"></script>
 </body>
 </html>
