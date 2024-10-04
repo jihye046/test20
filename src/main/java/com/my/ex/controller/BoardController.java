@@ -315,4 +315,5 @@ public class BoardController {
 		response.setPageDto(pageDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
 }
