@@ -25,12 +25,12 @@
 						    	<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
 						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
 						    	<a class="dropdown-item sns_btn" onclick="shareNaver()">네이버 공유
-<!-- 							    	<span> -->
+							    	<span>
 										<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
 										<script type="text/javascript">
 										new ShareNaver.makeButton({"type": "b"});
 										</script>
-<!-- 									</span> -->
+									</span>
 								</a>	
 						    </div>
 					    </div>

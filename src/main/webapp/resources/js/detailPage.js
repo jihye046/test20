@@ -8,10 +8,10 @@ if(updateResult == "true"){
 // 네이버 공유
 function shareNaver() {
 	const title = document.querySelector("#bTitle").getAttribute("data-bTitle")
-	const currentUrl = window.location.href;
+	const currentUrl = window.location.href
 	
 	if (!currentUrl) {
-        console.error("Current URL is null or undefined");
+        console.error("Current URL is null or undefined")
         return; 
     }
 	
