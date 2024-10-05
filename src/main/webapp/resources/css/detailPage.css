@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* detailPage */
 .detailPage-main {
 	padding: 30px 20px;
     display: block;
@@ -7,46 +8,11 @@
     border-right: 1px solid #EAEAEA;
 }
 
-.likeBtn-div {
-	padding: 5px 10px;
-}
-
-#likeBtn {
-	width: 15px; 
-	height: 15px;
-	cursor: pointer;
-}
-
-.reply-container {
-	font-size: 15px;
-	padding: 40px 20px;
-}
-
-.reply-form table{
-	width: 600px;
-	height: 100px;
-}
-
-.reply-form th, tr, td {
-	padding: 5px 0px;
-	text-align: left;
-}
-
-.reply-form button, a {
-	margin: 20px;
-}
-
 .detailPage-main button {
 	width: 50px;
 	height: 30px;
 	font-size: 13px;
 	text-align: center;
-}
-
-.replyChild-td {
-	background-color: #F6F6F6;
-	padding: 3px;
-	text-align: left;
 }
 
 .subTitle {
@@ -77,6 +43,43 @@ p {
     margin-top: 6px;
 }
 
+/* like */
+.likeBtn-div {
+	padding: 5px 10px;
+}
+
+#likeBtn {
+	width: 15px; 
+	height: 15px;
+	cursor: pointer;
+}
+
+/* reply */
+.reply-container {
+	font-size: 15px;
+	padding: 40px 20px;
+}
+
+.reply-form table{
+	width: 600px;
+	height: 100px;
+}
+
+.reply-form th, tr, td {
+	padding: 5px 0px;
+	text-align: left;
+}
+
+.reply-form button, a {
+	margin: 20px;
+}
+
+.replyChild-td {
+	background-color: #F6F6F6;
+	padding: 3px;
+	text-align: left;
+}
+
 /* ckeditor_imgUpload size */
 .post > figure {
 	overflow: hidden;
@@ -87,4 +90,9 @@ img {
 	max-width: 100%;
     height: auto;
     object-fit: cover;
+}
+
+/* sns share */
+.sns_btn {
+	cursor: pointer;
 }

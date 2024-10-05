@@ -5,6 +5,25 @@ if(updateResult == "true"){
 	alert("게시글이 수정되었습니다.")
 }
 
+// 네이버 공유
+function shareNaver() {
+	const title = document.querySelector("#bTitle").getAttribute("data-bTitle")
+	const currentUrl = window.location.href;
+	
+	if (!currentUrl) {
+        console.error("Current URL is null or undefined");
+        return; 
+    }
+	
+	window.open(
+		"https://share.naver.com/web/shareView?url=" 
+		+ (encodeURI(encodeURIComponent(currentUrl))) 
+		+ "&title=" 
+		+ encodeURI(title),
+		'_blank' // 새 창에서 열기
+	)
+}
+
 // 좋아요
 const likeBtn = document.querySelector("#likeBtn")
 const bId = document.querySelector("#bId").getAttribute("data-bId")

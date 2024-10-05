@@ -24,6 +24,14 @@
 							<div class="dropdown-menu dropdown-menu-right">
 						    	<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
 						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+						    	<a class="dropdown-item sns_btn" onclick="shareNaver()">네이버 공유
+<!-- 							    	<span> -->
+										<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+										<script type="text/javascript">
+										new ShareNaver.makeButton({"type": "b"});
+										</script>
+<!-- 									</span> -->
+								</a>	
 						    </div>
 					    </div>
 					</div>
@@ -84,6 +92,7 @@
 </body>
 <div id="updateResult" data-update-result="${updateResult}"></div>
 <div id="bId" data-bId="${dto.bId}"></div>
+<div id="bTitle" data-bTitle="${dto.bTitle}"></div>
 <%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/common.js"></script>
