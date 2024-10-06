@@ -24,7 +24,7 @@
 							<div class="dropdown-menu dropdown-menu-right">
 						    	<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
 						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-						    	<a class="dropdown-item sns_btn" onclick="shareNaver()">네이버 공유
+						    	<a class="dropdown-item sns_btn" href="javascript:shareNaver()">네이버 공유
 							    	<span>
 										<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
 										<script type="text/javascript">
@@ -32,6 +32,9 @@
 										</script>
 									</span>
 								</a>	
+								<a id="kakaotalk-sharing-btn" class="dropdown-item sns_btn" href="javascript:shareKakao()">카카오 공유
+									<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="kakao">
+								</a>
 						    </div>
 					    </div>
 					</div>
@@ -97,6 +100,8 @@
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/detailPage.js"></script>
+<!-- 카카오 공유 -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 // 댓글
 const replyBtn = document.querySelector("#replyBtn")

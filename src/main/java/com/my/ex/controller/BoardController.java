@@ -30,6 +30,7 @@ import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.LikeDto;
+import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
 import com.my.ex.service.LikeService;
 
@@ -42,6 +43,9 @@ public class BoardController {
 	
 	@Autowired
 	private LikeService likeService;
+	
+	@Autowired
+	private KakaoMapRequestDto kakao;
 	
 	// 게시글 등록 페이지
 	@RequestMapping("/createPage")
@@ -316,4 +320,10 @@ public class BoardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	// 카카오 key
+	@ResponseBody
+	@RequestMapping(value =  "/getKakaoKey", method = RequestMethod.POST)
+	public ResponseEntity<String> getKakaoKey() {
+		return new ResponseEntity<>(kakao.getJsKey(), HttpStatus.OK);
+	}
 }
