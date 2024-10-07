@@ -26,18 +26,33 @@ function shareNaver() {
 
 // 카카오 공유
 function shareKakao() {
-	let kakaoKey = ""
-	$.ajax({
-		type: "post",
-		url: "/board/getKakaoKey",
-		success: function(data){
-			kakaoKey = data
-		},
-		error: function(error){
-			console.error("fail", error)
-		}
+	getKakaoKey()
+		.then(kakaoKey => {
+			Kakao.init(kakaoKey)
+			Kakao.Link.sendDefault({
+
+				
+			})
+
+		})
+}
+
+function getKakaoKey() {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+			type: "post",
+			url: "/board/getKakaoKey",
+			success: function(kakaoKey){
+				resolve(kakaoKey)
+			},
+			error: function(error){
+				reject(error)
+			}
+		})
 	})
 }
+
+
 
 // 좋아요
 const likeBtn = document.querySelector("#likeBtn")
