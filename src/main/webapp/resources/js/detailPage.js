@@ -53,7 +53,6 @@ function getKakaoKey() {
 }
 
 
-
 // 좋아요
 const likeBtn = document.querySelector("#likeBtn")
 const bId = document.querySelector("#bId").getAttribute("data-bId")
