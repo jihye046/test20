@@ -24,6 +24,7 @@ function shareNaver() {
 	)
 }
 
+
 // 카카오 공유
 function shareKakao() {
 	getKakaoKey()
