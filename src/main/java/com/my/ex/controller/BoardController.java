@@ -326,4 +326,5 @@ public class BoardController {
 	public ResponseEntity<String> getKakaoKey() {
 		return new ResponseEntity<>(kakao.getJsKey(), HttpStatus.OK);
 	}
+	
 }
