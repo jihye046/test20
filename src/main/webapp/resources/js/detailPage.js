@@ -1,8 +1,5 @@
 const updateElement = document.querySelector("#updateResult")
 let updateResult = updateElement ? updateElement.getAttribute("data-update-result") : null
-const bTitle = document.querySelector("#bTitle").getAttribute("data-bTitle")
-const bContent = document.querySelector("#bContent").getAttribute("data-bContent")
-console.log(bContent)
 
 if(updateResult == "true"){
 	alert("게시글이 수정되었습니다.")
@@ -29,57 +26,15 @@ function shareNaver() {
 
 
 // 카카오 공유
-function getThumbnailUrl() {
-	// 임시 DOM 요소를 만들어 bContent의 HTML을 파싱
-    //let tempDiv = document.createElement('div')
-    //tempDiv.innerHTML = bContent 
-    let tmpTag = document.querySelector("#tempDiv")
-    tmpTag.innerHTML = bContent
-    
-    
-	const image = document.querySelector('#tempDiv img').src;
-	
-	console.log(image)
-	
-	
-	if(image) {
-		return 'https://images.unsplash.com/photo-1719937206255-cc337bccfc7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8'
-	} else {
-		console.log(`image X ${image}`)
-		return 'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg'
-	}
-}
-
-
-
 function shareKakao() {
-	const imgUrl = getThumbnailUrl()
-	const currentURL = window.location.href;
 	getKakaoKey()
 		.then(kakaoKey => {
 			Kakao.init(kakaoKey)
 			Kakao.Link.sendDefault({
-				objectType: 'feed',
-				content: {
-					title: 'test20',
-					description: bTitle,
-					imageUrl: imgUrl,
-					link: {
-	                    mobileWebUrl: currentURL,
-	                    webUrl: currentURL,
-	                },
-				},
-				buttons: [
-	                {
-	                    title: '웹으로 보기',
-	                    link: {
-	                        mobileWebUrl: currentURL,
-	                        webUrl: currentURL,
-	                    },
-	                },
-	            ],
-	            installTalk: true,
+
+				
 			})
+
 		})
 }
 

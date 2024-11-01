@@ -33,7 +33,7 @@
 									</span>
 								</a>	
 								<a id="kakaotalk-sharing-btn" class="dropdown-item sns_btn" href="javascript:shareKakao()">카카오 공유
-									<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="kakao" style="width:42px; padding-left: 20px;">
+									<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="kakao">
 								</a>
 						    </div>
 					    </div>
@@ -92,12 +92,10 @@
 			</div>
 		</div>
 	</main>
-	<div id="tempDiv" display="none"></div>
 </body>
 <div id="updateResult" data-update-result="${updateResult}"></div>
 <div id="bId" data-bId="${dto.bId}"></div>
 <div id="bTitle" data-bTitle="${dto.bTitle}"></div>
-<div id="bContent" data-bContent='${dto.bContent}'></div>
 <%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <script src="../../../resources/js/common.js"></script>
