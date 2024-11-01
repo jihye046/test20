@@ -16,6 +16,9 @@
 - 지도 API 활용
 - 길찾기 API 활용
 - 우편번호 서비스 API 활용
+- SNS 공유 API 활용
+  - Naver
+  - Kakao
 <br>
 
 ## 부가 기능 
