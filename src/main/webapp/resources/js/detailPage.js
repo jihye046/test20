@@ -30,7 +30,7 @@ function shareNaver() {
 // 카카오 공유
 function shareKakao() {
 	const imgUrl = getThumbnailUrl()
-	const currentURL = window.location.href;
+	const currentURL = window.location.href
 	getKakaoKey()
 		.then(kakaoKey => {
 			Kakao.init(kakaoKey)
