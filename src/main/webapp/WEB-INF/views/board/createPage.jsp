@@ -13,7 +13,7 @@
         		<div class="col-md-2"></div>
 					<div class="col-md-8 createPage-main">
 						<form action="/board/createBoard" method="post" class="create-form">
-							<input type="text" size="100" name="bName" placeholder="* 이름" required>
+							<input type="text" size="100" name="bName" placeholder="${sessionScope.userId}" value="${sessionScope.userId}" readonly>
 							<input type="text" size="100" name="bTitle" placeholder="* 제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
 							<button class="btn btn-outline-info" type="submit">등록</button>

@@ -1,9 +1,12 @@
 package com.my.ex.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.my.ex.dao.UserDao;
+import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.UserDto;
 
 @Service
@@ -29,6 +32,11 @@ public class UserService implements IUserService {
 	@Override
 	public String getUserNickname(String userId) {
 		return dao.getUserNickname(userId);
+	}
+
+	@Override
+	public List<BoardDto> getUserPosts(String userId) {
+		return dao.getUserPosts(userId);
 	}
 	
 }

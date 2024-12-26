@@ -299,13 +299,6 @@ public class BoardController {
         }
     }
 	
-	/*
-	private String sanitizeFilePath(String filePath) {
-        // 불필요한 문자 제거
-        return filePath.replaceAll("[^a-zA-Z0-9_.-]", "_"); // 알파벳, 숫자, _ , . , - 만 허용
-    }
-    */
-	
 	// 조회순 정렬
 	@ResponseBody
 	@RequestMapping("/sort_hit")

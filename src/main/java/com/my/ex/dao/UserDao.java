@@ -1,11 +1,13 @@
 package com.my.ex.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.UserDto;
 
 @Repository
@@ -32,6 +34,11 @@ public class UserDao implements IUserDao {
 	@Override
 	public String getUserNickname(String userId) {
 		return session.selectOne(NAMESPACE + "getUserNickname" , userId);
+	}
+
+	@Override
+	public List<BoardDto> getUserPosts(String userId) {
+		return session.selectList(NAMESPACE + "getUserPosts", userId);
 	}
 
 }

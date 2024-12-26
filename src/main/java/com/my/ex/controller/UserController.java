@@ -1,14 +1,18 @@
 package com.my.ex.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.UserDto;
 import com.my.ex.service.UserService;
 
@@ -66,6 +70,15 @@ public class UserController {
 	@RequestMapping("/myPage")
 	public String myPage() {
 		return "/user/myPage";
+	}
+	
+	// 내가 작성한 게시글
+	@RequestMapping("/getUserPosts")
+	public String getUserPosts(HttpSession session, Model model) {
+		String userId = (String)session.getAttribute("userId");
+		List<BoardDto> list = service.getUserPosts(userId);
+		model.addAttribute("getUserPosts", list);
+		return "/user/getUserPosts";
 	}
 	
 }

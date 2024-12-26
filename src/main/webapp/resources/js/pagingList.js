@@ -186,24 +186,21 @@ const pagination = (paging) => {
 }
 
 
-//document.addEventListener('DOMContentLoaded', function(){
-	
-	let deleteElement = document.querySelector("#deleteResult")
-	let deleteResult = deleteElement ? deleteElement.getAttribute("data-delete-result") : null
- 	
-	const userId = document.querySelector("#userId").getAttribute("data-userId")
-	const userNickname = document.querySelector("#userNickname").getAttribute("data-userNickname")
-	
+let deleteElement = document.querySelector("#deleteResult")
+let deleteResult = deleteElement ? deleteElement.getAttribute("data-delete-result") : null
 
-	if(deleteResult == "true"){
-		alert("게시글이 삭제되었습니다.")
-	}
+const userId = document.querySelector("#userId").getAttribute("data-userId")
+const userNickname = document.querySelector("#userNickname").getAttribute("data-userNickname")
 
-	if(userId) {
-		document.querySelector("#welcomeText").innerHTML = `${userNickname}님 환영합니다👏`
-	} else {
-		document.querySelector("#welcomeText").innerHTML = "로그인해주세요"		
-	}
-	
-	const badge = document.querySelector(".badge")
-//})
+
+if(deleteResult == "true"){
+	alert("게시글이 삭제되었습니다.")
+}
+
+if(userId) {
+	document.querySelector("#welcomeText").innerHTML = `<a href="/user/myPage">${userNickname}</a>님 환영합니다👏`
+} else {
+	document.querySelector("#welcomeText").innerHTML = "로그인해주세요"		
+}
+
+const badge = document.querySelector(".badge")
