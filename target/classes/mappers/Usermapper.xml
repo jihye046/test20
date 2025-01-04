@@ -48,4 +48,11 @@
 		 WHERE bName = #{userId} 
 		   AND bStep >= 1
 	</select>
+	
+	<select id="getUserLikedPosts" resultType="BoardDto">
+		SELECT b.*
+		  FROM mvc_board6 b
+		  JOIN mvc_like6 l ON b.bId = l.bId
+		 WHERE l.userId = #{userId}
+	</select>
 </mapper>

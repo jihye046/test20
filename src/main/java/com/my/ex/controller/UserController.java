@@ -72,10 +72,14 @@ public class UserController {
 		return "/user/myPage";
 	}
 	
+	private String getUserIdFromSession(HttpSession session) {
+	    return (String) session.getAttribute("userId");
+	}
+	
 	// 내가 작성한 게시글
 	@RequestMapping("/getUserPosts")
 	public String getUserPosts(HttpSession session, Model model) {
-		String userId = (String)session.getAttribute("userId");
+		String userId = getUserIdFromSession(session);
 		List<BoardDto> list = service.getUserPosts(userId);
 		model.addAttribute("getUserPosts", list);
 		return "/user/getUserPosts";
@@ -84,9 +88,19 @@ public class UserController {
 	// 내가 작성한 댓글
 	@RequestMapping("/getUserComments")
 	public String getUserComments(HttpSession session, Model model) {
-		String userId = (String)session.getAttribute("userId");
+		String userId = getUserIdFromSession(session);
 		List<BoardDto> list = service.getUserComments(userId);
 		model.addAttribute("getUserComments", list);
 		return "/user/getUserComments";
 	}
+	
+	// 좋아요한 게시글
+	@RequestMapping("/getUserLikedPosts")
+	public String getUserLikedPosts(HttpSession session, Model model) {
+		String userId = getUserIdFromSession(session);
+		List<BoardDto> list = service.getUserLikedPosts(userId);
+		model.addAttribute("getUserLikedPosts", list);
+		return "/user/getUserLikedPosts";
+	}
+	
 }

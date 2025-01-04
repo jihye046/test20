@@ -29,7 +29,7 @@
 						</a>
 					</div>
 					<div class="mypage-link">
-						<a href="#">
+						<a href="/user/getUserLikedPosts">
 							<i class="fa-regular fa-heart"></i>
 							좋아요한 게시글
 						</a>

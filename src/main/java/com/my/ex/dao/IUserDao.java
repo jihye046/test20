@@ -11,4 +11,5 @@ public interface IUserDao {
 	String getUserNickname(String userId);
 	List<BoardDto> getUserPosts(String userId);
 	List<BoardDto> getUserComments(String userId);
+	List<BoardDto> getUserLikedPosts(String userId);
 }
