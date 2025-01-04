@@ -156,7 +156,9 @@ public class BoardController {
 	// 댓글
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<BoardDto>> replyInsert(BoardDto dto){
+	public ResponseEntity<List<BoardDto>> replyInsert(HttpSession session, BoardDto dto){
+		String userId = (String)session.getAttribute("userId");
+		dto.setbName(userId);
 		service.replyInsert(dto);
 		List<BoardDto> replyList = service.replyList(dto.getbGroup());
 		service.updateCommentCount(dto.getbGroup());
@@ -166,7 +168,9 @@ public class BoardController {
 	// 답글
 	@RequestMapping(value = "/replyChildInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<BoardDto>> replyChildInsert(BoardDto dto) {
+	public ResponseEntity<List<BoardDto>> replyChildInsert(HttpSession session, BoardDto dto) {
+		String userId = (String)session.getAttribute("userId");
+		dto.setbName(userId);
 		service.replyChildInsert(dto);
 		List<BoardDto> replyList = service.replyList(dto.getbGroup());
 		service.updateCommentCount(dto.getbGroup());

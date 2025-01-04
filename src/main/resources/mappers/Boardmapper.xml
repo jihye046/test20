@@ -77,6 +77,7 @@
 		INSERT INTO mvc_board6
 			(
 			bId,
+			bName,
 			bContent,
 			bGroup,
 			bStep,
@@ -85,6 +86,7 @@
 		VALUES
 			(
 			seq_mvc_board6.nextval,
+			#{bName},
 			#{bContent},
 			#{bGroup},
 			#{bStep} + 1,
@@ -113,6 +115,7 @@
 		INSERT INTO mvc_board6
 			 (
 			 bId,
+			 bName,
 			 bContent,
 		 	 bGroup,
 		 	 bStep,
@@ -121,6 +124,7 @@
 		VALUES
 			 (
 			 seq_mvc_board6.nextval,
+			 #{bName},
 			 #{bContent},
 			 #{bGroup},
 			 #{bStep} + 1,

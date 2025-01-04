@@ -81,4 +81,12 @@ public class UserController {
 		return "/user/getUserPosts";
 	}
 	
+	// 내가 작성한 댓글
+	@RequestMapping("/getUserComments")
+	public String getUserComments(HttpSession session, Model model) {
+		String userId = (String)session.getAttribute("userId");
+		List<BoardDto> list = service.getUserComments(userId);
+		model.addAttribute("getUserComments", list);
+		return "/user/getUserComments";
+	}
 }

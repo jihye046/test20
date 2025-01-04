@@ -41,4 +41,9 @@ public class UserDao implements IUserDao {
 		return session.selectList(NAMESPACE + "getUserPosts", userId);
 	}
 
+	@Override
+	public List<BoardDto> getUserComments(String userId) {
+		return session.selectList(NAMESPACE + "getUserComments", userId);
+	}
+
 }

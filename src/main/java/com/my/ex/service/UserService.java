@@ -38,5 +38,10 @@ public class UserService implements IUserService {
 	public List<BoardDto> getUserPosts(String userId) {
 		return dao.getUserPosts(userId);
 	}
+
+	@Override
+	public List<BoardDto> getUserComments(String userId) {
+		return dao.getUserComments(userId);
+	}
 	
 }

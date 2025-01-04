@@ -42,4 +42,10 @@
 		 WHERE bName = #{userId}
 		 ORDER BY bId DESC
 	</select>
+	
+	<select id="getUserComments" resultType="BoardDto">
+		SELECT * FROM mvc_board6
+		 WHERE bName = #{userId} 
+		   AND bStep >= 1
+	</select>
 </mapper>

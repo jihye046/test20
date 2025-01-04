@@ -23,7 +23,7 @@
 						</a>
 					</div>
 					<div class="mypage-link">
-						<a href="#">
+						<a href="/user/getUserComments">
 							<i class="fa-regular fa-comment"></i>
 							내가 작성한 댓글
 						</a>

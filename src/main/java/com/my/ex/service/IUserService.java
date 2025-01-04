@@ -10,4 +10,5 @@ public interface IUserService {
 	boolean login(String userId, String userPw);
 	String getUserNickname(String userId);
 	List<BoardDto> getUserPosts(String userId);
+	List<BoardDto> getUserComments(String userId);
 }

@@ -18,17 +18,6 @@
 				<div class="row">
 					<div class="col-md-6"></div>
 					<div class="col-md-6 d-flex">
-<!-- 						<div> -->
-<!-- 							<form action="/board/paging"> -->
-<!-- 								<input type="hidden" name="sortType" id="sortTypeInput"> -->
-<!-- 								<select name="searchGubun"> -->
-<!-- 									<option value="bTitle">제목</option> -->
-<!-- 									<option value="bContent">내용</option> -->
-<!-- 									<option value="bName">작성자</option> -->
-<!-- 								</select> <input type="text" name="searchText"> -->
-<!-- 								<button type="submit" class="btn">검색</button> -->
-<!-- 							</form> -->
-<!-- 						</div> -->
 						<div>
 							<button id="sort_latest" type="button" class="btn btn-sm btn-dark">최신순</button>
 							<button id="sort_hit" type="button" class="btn btn-sm">조회순</button>
@@ -45,11 +34,10 @@
 								<th>작성자</th>
 								<th>제목</th>
 								<th>작성일</th>
-								<th>조회수</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${getUserPosts}" var="dto">
+							<c:forEach items="${getUserComments}" var="dto">
 								<tr>
 									<td>${dto.bId}</td>
 									<td>
@@ -59,7 +47,6 @@
 									</td>
 									<td>${dto.bTitle}</td>
 									<td>${dto.bDate}</td>
-									<td>${dto.bHit}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
