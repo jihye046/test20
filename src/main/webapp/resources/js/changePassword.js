@@ -24,37 +24,19 @@ changePasswordBtn.addEventListener('click', function() {
     }
 
     // 서버로 비밀번호 변경 요청
-   	$.ajax({
-   		url: "/user/changePassword",
-   		type: "post",
-   		data: {
-   			oldPw: oldPassword,
-        	newPw: newPassword
-   		},
-   		success: function(){},
-   		error: function(error){
-   			colsole.log(error)
-   		}
-   	})
-    
-    /*
     fetch('/user/changePassword', {
 	    method: 'POST',
 	    headers: {
-        	'Content-Type': 'application/json'
-    	},
-	    body: JSON.stringify({
-	        oldPw: oldPassword,
-	        newPw: newPassword
-	    })
+	    	'Content-Type': 'application/json'
+		},
+    	body: JSON.stringify(param)
 	})
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
         console.log(data)
     })
     .catch(error => {
         console.error('Error:', error)
     })
-    */
     
 })

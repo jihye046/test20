@@ -17,7 +17,7 @@
 			                <input type="hidden" name="bId" value="${dto.bId}">
 			                <input type="hidden" name="bGroup" value="${dto.bGroup}">
 			                <div>
-			                	* 이름 <input type="text" name="bName" value="${dto.bName}">
+			                	* 이름 <input type="text" name="bName" value="${dto.bName}" readonly>
 			                </div>
 			                <div>
 			                	* 제목 <input type="text" name="bTitle" value="${dto.bTitle}">

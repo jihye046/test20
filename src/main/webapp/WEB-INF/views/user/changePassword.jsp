@@ -13,17 +13,12 @@
 	</div>
 	<main>
 		<div class="join-background">
-			<div class="join-form">
-				<form action="/user/changePassword" method="post">
-					<p>Change Password</p>
-					<input type="password" id="oldPassword" placeholder="현재 비밀번호" required><br>
-					<input type="password" id="newPassword" placeholder="새 비밀번호" required><br>
-					<input type="password" id="confirmPassword" name="userPw" placeholder="새 비밀번호 확인" required><br>
-					<button id="changePasswordBtn" class="btn btn-block btn-outline-secondary" type="submit">확인</button>
-					<div class="join-form-links">
-						<a href="/user/loginPage">로그인</a>
-					</div>
-				</form>
+			<div class="join-form" style="height: 600px;">
+				<p>Change Password</p>
+				<input type="password" id="oldPassword" placeholder="현재 비밀번호" required><br>
+				<input type="password" id="newPassword" placeholder="새 비밀번호" required><br>
+				<input type="password" id="confirmPassword" name="userPw" placeholder="새 비밀번호 확인" required><br>
+				<button id="changePasswordBtn" class="btn btn-block btn-outline-secondary" style="width: 200px;">확인</button>
 			</div>
 		</div>
 	</main>

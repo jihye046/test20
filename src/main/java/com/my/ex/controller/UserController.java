@@ -129,9 +129,11 @@ public class UserController {
 	
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> changePassword(HttpServletRequest request) {
-		String oldPassword = request.getParameter("oldPw");
-	    String newPassword = request.getParameter("newPw");
+	public Map<String, String> changePassword(@RequestBody Map<String, String> requestBody) {
+//		String oldPassword = request.getParameter("oldPw");
+//	    String newPassword = request.getParameter("newPw");
+		String oldPassword = requestBody.get("oldPw");
+	    String newPassword = requestBody.get("newPw");
 		
 		System.out.println("oldPassword: " + oldPassword);
 		System.out.println("newPassword: " + newPassword);
