@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -45,6 +44,7 @@ public class UserController {
 			String targetLocation = (String)session.getAttribute("targetLocation");
 			return (targetLocation != null) ? "redirect:" + targetLocation : "redirect:/board/paging";
 		} else {
+			rttr.addFlashAttribute("loginFail", true);
 			return "redirect:loginPage";
 		}
 	}
@@ -57,12 +57,10 @@ public class UserController {
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(UserDto dto, RedirectAttributes rttr, HttpSession session) {
 		boolean joinResult = service.join(dto);
-		String result = "false";
 		if(joinResult) {
-			result = "true";
 			session.setAttribute("userId", dto.getUserId());
 		}
-		rttr.addFlashAttribute("joinResult", result);
+		rttr.addFlashAttribute("joinResult", true);
 		return "redirect:loginPage";
 	}
 	
@@ -115,18 +113,6 @@ public class UserController {
 	}
 	
 	// 비밀번호 변경
-	/*
-	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-	@ResponseBody
-	public void changePassword(HttpServletRequest request) {
-		String oldPassword = request.getParameter("oldPw");
-	    String newPassword = request.getParameter("newPw");
-	    
-		System.out.println("oldPassword: " + oldPassword);
-		System.out.println("newPassword: " + newPassword);
-	}
-	*/
-	
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> changePassword(HttpSession session, @RequestBody Map<String, String> requestBody) {
@@ -134,13 +120,22 @@ public class UserController {
 		String oldPassword = requestBody.get("oldPw");
 	    String newPassword = requestBody.get("newPw");
 	    
-	    System.out.println("oldPassword: " + oldPassword);
-	    System.out.println("newPassword: " + newPassword);
-	    
 	    String updateResult = service.checkCurrentPasswordAndChange(userId, oldPassword, newPassword);
-		
-		Map<String, String> response = new HashMap<>();
-	    response.put("status", "success");
+	    Map<String, String> response = new HashMap<>();
+	    if(updateResult.equals("success")) {
+	    	session.invalidate(); // 비밀번호 변경 성공 시 로그아웃 처리
+	    	response.put("status", "success");
+	    	response.put("msg", "비밀번호가 변경되었습니다. 다시 로그인해 주세요.");
+	    } else if(updateResult.equals("oldPasswordIncorrect")) {
+	    	response.put("status", "oldPasswordIncorrect");
+	    	response.put("msg", "현재 비밀번호가 일치하지 않습니다.");
+	    } else if(updateResult.equals("isSameAsCurrentPassword")) {
+	    	response.put("status", "isSameAsCurrentPassword");
+	    	response.put("msg", "현재 비밀번호와 새 비밀번호가 동일합니다. 다른 비밀번호로 변경해주세요.");
+	    } else {
+	    	response.put("status", "error");
+	    	response.put("msg", "알 수 없는 오류가 발생했습니다.");
+	    }
 	    return response;
 	}
 }

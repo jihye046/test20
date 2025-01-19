@@ -60,6 +60,11 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
+	public String getCurrentPassword(String userId) {
+		return session.selectOne(NAMESPACE + "getCurrentPassword", userId);
+	}
+	
+	@Override
 	public boolean updatePassword(String userId, String newPassword) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userId", userId);

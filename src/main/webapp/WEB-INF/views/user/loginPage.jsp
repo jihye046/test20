@@ -38,5 +38,6 @@
 	</main>
 </body>
 <div id="joinResult" data-join-result="${joinResult}"></div>
+<div id="loginFail" data-loginFail-result="${loginFail}"></div>
 <script src="../../../resources/js/loginPage.js"></script>
 </html>

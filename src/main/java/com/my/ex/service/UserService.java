@@ -1,6 +1,5 @@
 package com.my.ex.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,15 +51,12 @@ public class UserService implements IUserService {
 
 	@Override
 	public String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword) {
-		int isOldPasswordCorrectResult = dao.isOldPasswordCorrect(userId, oldPassword);
-		if(isOldPasswordCorrectResult == 1) { // 현재 비밀번호와 일치한다면
-			if(dao.updatePassword(userId, newPassword)) { // 업데이트를 실행
-				return "success"; // 업데이트가 성공한 경우
-			} else {
-				return "fail"; // 업데이트가 실패한 경우
-			}
-		}
-		return "oldPasswordIncorrect"; // 현재 비밀번호가 일치하지 않는 경우
+		if (dao.isOldPasswordCorrect(userId, oldPassword) != 1) {
+	        return "oldPasswordIncorrect"; // 현재 비밀번호가 틀린 경우
+	    } else if (dao.getCurrentPassword(userId).equals(newPassword)) {
+	    	return "isSameAsCurrentPassword"; // 현재 비밀번호와 새 비밀번호가 동일한 경우
+	    }
+	    return dao.updatePassword(userId, newPassword) ? "success" : "fail";
 	}
 	
 }

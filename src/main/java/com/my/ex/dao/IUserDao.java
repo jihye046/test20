@@ -13,5 +13,6 @@ public interface IUserDao {
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
 	int isOldPasswordCorrect(String userId, String oldPassword);
+	String getCurrentPassword(String userId);
 	boolean updatePassword(String userId, String newPassword);
 }

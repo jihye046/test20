@@ -65,6 +65,12 @@
 		   AND userPw = #{oldPassword}
 	</select>
 	
+	<select id="getCurrentPassword" resultType="String">
+		SELECT userPw
+		  FROM mvc_login6
+		 WHERE userId = #{userId}
+	</select>
+	
 	<update id="updatePassword" parameterType="java.util.HashMap">
 		UPDATE mvc_login6
 		   SET userPw = #{newPassword}

@@ -33,7 +33,20 @@ changePasswordBtn.addEventListener('click', function() {
 	})
     .then((response) => response.json())
     .then((data) => {
-        console.log(data)
+        const handleRedirect = (msg, redirectUrl) => {
+            alert(msg)
+            window.location.href = redirectUrl
+        }
+
+        if(data.status == 'success'){
+            handleRedirect(data.msg, '/user/loginPage') 
+        } else if(data.status == 'oldPasswordIncorrect'){
+            handleRedirect(data.msg, '/user/changePasswordForm')
+        } else if(data.status == 'isSameAsCurrentPassword'){
+        	handleRedirect(data.msg, '/user/changePasswordForm')
+        } else {
+            handleRedirect(data.msg, '/user/changePasswordForm')
+        }
     })
     .catch(error => {
         console.error('Error:', error)
