@@ -51,4 +51,21 @@ public class UserDao implements IUserDao {
 		return session.selectList(NAMESPACE + "getUserLikedPosts", userId);
 	}
 
+	@Override
+	public int isOldPasswordCorrect(String userId, String oldPassword) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("oldPassword", oldPassword);
+		return session.selectOne(NAMESPACE + "isOldPasswordCorrect", map);
+	}
+
+	@Override
+	public boolean updatePassword(String userId, String newPassword) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("newPassword", newPassword);
+		int result = session.update(NAMESPACE + "updatePassword", map);
+		return result > 0;
+	}
+
 }

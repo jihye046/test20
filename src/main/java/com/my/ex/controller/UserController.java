@@ -129,14 +129,15 @@ public class UserController {
 	
 	@RequestMapping(value = "/changePassword", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> changePassword(@RequestBody Map<String, String> requestBody) {
-//		String oldPassword = request.getParameter("oldPw");
-//	    String newPassword = request.getParameter("newPw");
+	public Map<String, String> changePassword(HttpSession session, @RequestBody Map<String, String> requestBody) {
+		String userId = getUserIdFromSession(session);
 		String oldPassword = requestBody.get("oldPw");
 	    String newPassword = requestBody.get("newPw");
-		
-		System.out.println("oldPassword: " + oldPassword);
-		System.out.println("newPassword: " + newPassword);
+	    
+	    System.out.println("oldPassword: " + oldPassword);
+	    System.out.println("newPassword: " + newPassword);
+	    
+	    String updateResult = service.checkCurrentPasswordAndChange(userId, oldPassword, newPassword);
 		
 		Map<String, String> response = new HashMap<>();
 	    response.put("status", "success");

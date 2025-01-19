@@ -12,4 +12,5 @@ public interface IUserService {
 	List<BoardDto> getUserPosts(String userId);
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
+	String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword);
 }

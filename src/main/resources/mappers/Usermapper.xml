@@ -38,13 +38,15 @@
 	</select>
 	
 	<select id="getUserPosts" resultType="BoardDto">
-		SELECT * FROM mvc_board6
+		SELECT * 
+		  FROM mvc_board6
 		 WHERE bName = #{userId}
 		 ORDER BY bId DESC
 	</select>
 	
 	<select id="getUserComments" resultType="BoardDto">
-		SELECT * FROM mvc_board6
+		SELECT * 
+		  FROM mvc_board6
 		 WHERE bName = #{userId} 
 		   AND bStep >= 1
 	</select>
@@ -55,4 +57,17 @@
 		  JOIN mvc_like6 l ON b.bId = l.bId
 		 WHERE l.userId = #{userId}
 	</select>
+	
+	<select id="isOldPasswordCorrect" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_login6
+		 WHERE userId = #{userId} 
+		   AND userPw = #{oldPassword}
+	</select>
+	
+	<update id="updatePassword" parameterType="java.util.HashMap">
+		UPDATE mvc_login6
+		   SET userPw = #{newPassword}
+		 WHERE userId = #{userId}
+	</update>
 </mapper>
