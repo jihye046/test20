@@ -79,12 +79,11 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public boolean changeNickname(String userId, String newNickname) {
+	public int changeNickname(String userId, String newNickname) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("newNickname", newNickname);
-		int result = session.update(NAMESPACE + "changeNickname", map);
-		return result > 0;
+		return session.update(NAMESPACE + "changeNickname", map);
 	}
 
 }

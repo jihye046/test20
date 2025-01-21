@@ -154,14 +154,12 @@ public class UserController {
 	public Map<String, String> changeNickname(@RequestBody Map<String, String> requestBody, HttpSession session) {
 		String userId = getUserIdFromSession(session);
 		String newNickname = requestBody.get("nickname");
-		String updateResult = service.changeNickname(userId, newNickname);
+		boolean updateResult = service.changeNickname(userId, newNickname);
 		 
 		Map<String, String> response = new HashMap<>();
-		if(updateResult.equals("success")) {
-			response.put("status", "success");
+		if(updateResult) {
 			response.put("msg", "닉네임이 변경되었습니다.");
 		} else {
-			response.put("status", "fail");
 			response.put("msg", "알 수 없는 오류가 발생했습니다.");
 		}
 		return response;

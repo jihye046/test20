@@ -68,8 +68,8 @@ public class UserService implements IUserService {
 	
 	// 닉네임 변경
 	@Override
-	public String changeNickname(String userId, String unickname) {
-		return dao.changeNickname(userId, unickname) ? "success" : "fail";
+	public boolean changeNickname(String userId, String unickname) {
+		return dao.changeNickname(userId, unickname) > 0; 
 	}
 	
 }

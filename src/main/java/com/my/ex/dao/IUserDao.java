@@ -16,5 +16,5 @@ public interface IUserDao {
 	String getCurrentPassword(String userId);
 	boolean updatePassword(String userId, String newPassword);
 	String getCurrentNickname(String userId);
-	boolean changeNickname(String userId, String newNickname);
+	int changeNickname(String userId, String newNickname);
 }

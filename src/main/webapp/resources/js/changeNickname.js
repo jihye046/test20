@@ -14,11 +14,7 @@ changeNicknameBtn.addEventListener('click', function(){
     })
     .then((response) => response.json())
     .then((data) => {
-        if(data.status == 'success'){
-            alert(data.msg)
-        } else {
-            alert(data.msg)
-        }
+        alert(data.msg)
     })
     .catch(error => {
         console.error('Error:', error)
