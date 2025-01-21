@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.my.ex.dto.BoardDto;
@@ -137,5 +138,32 @@ public class UserController {
 	    	response.put("msg", "알 수 없는 오류가 발생했습니다.");
 	    }
 	    return response;
+	}
+	
+	// 닉네임 변경 페이지
+	@RequestMapping("/changeNicknameForm")
+	public String changeNicknameForm(HttpSession session, Model model) {
+		String currentNickname = service.getCurrentNickname(getUserIdFromSession(session));
+		model.addAttribute("currentNickname", currentNickname);
+		return "/user/changeNickname";
+	}
+	
+	// 닉네임 변경
+	@RequestMapping(value = "/chaneNickname", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> changeNickname(@RequestBody Map<String, String> requestBody, HttpSession session) {
+		String userId = getUserIdFromSession(session);
+		String newNickname = requestBody.get("nickname");
+		String updateResult = service.changeNickname(userId, newNickname);
+		 
+		Map<String, String> response = new HashMap<>();
+		if(updateResult.equals("success")) {
+			response.put("status", "success");
+			response.put("msg", "닉네임이 변경되었습니다.");
+		} else {
+			response.put("status", "fail");
+			response.put("msg", "알 수 없는 오류가 발생했습니다.");
+		}
+		return response;
 	}
 }

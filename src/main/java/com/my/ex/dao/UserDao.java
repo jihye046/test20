@@ -73,4 +73,18 @@ public class UserDao implements IUserDao {
 		return result > 0;
 	}
 
+	@Override
+	public String getCurrentNickname(String userId) {
+		return session.selectOne(NAMESPACE + "getCurrentNickname", userId);
+	}
+
+	@Override
+	public boolean changeNickname(String userId, String newNickname) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("newNickname", newNickname);
+		int result = session.update(NAMESPACE + "changeNickname", map);
+		return result > 0;
+	}
+
 }

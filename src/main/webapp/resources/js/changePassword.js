@@ -1,9 +1,9 @@
-const changePasswordBtn = document.querySelector("#changePasswordBtn");
+const changePasswordBtn = document.querySelector("#changePasswordBtn")
 
 changePasswordBtn.addEventListener('click', function() {
-    const oldPassword = document.querySelector("#oldPassword").value;
-    const newPassword = document.querySelector("#newPassword").value;
-    const confirmPassword = document.querySelector("#confirmPassword").value;
+    const oldPassword = document.querySelector("#oldPassword").value
+    const newPassword = document.querySelector("#newPassword").value
+    const confirmPassword = document.querySelector("#confirmPassword").value
 
     // 새 비밀번호와 새 비밀번호 확인이 비어있는지 체크
     if (!newPassword || !confirmPassword) {

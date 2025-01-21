@@ -13,4 +13,6 @@ public interface IUserService {
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
 	String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword);
+	String getCurrentNickname(String userId);
+	String changeNickname(String userId, String unickname);
 }

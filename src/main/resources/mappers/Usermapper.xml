@@ -76,4 +76,16 @@
 		   SET userPw = #{newPassword}
 		 WHERE userId = #{userId}
 	</update>
+	
+	<select id="getCurrentNickname" resultType="String">
+		SELECT unickname
+		  FROM mvc_login6
+	 	 WHERE userId = #{userId}
+	</select>
+	
+	<update id="changeNickname" parameterType="java.util.HashMap">
+		UPDATE mvc_login6
+		   SET unickname = #{newNickname}
+		 WHERE userId = #{userId}
+	</update>
 </mapper>

@@ -38,7 +38,7 @@
 						<a href="/user/changePasswordForm">비밀번호 변경</a>
 					</div>
 					<div class="mypage-link">
-						<a href="#">닉네임 변경</a>
+						<a href="/user/changeNicknameForm">닉네임 변경</a>
 					</div>
 					<div class="mypage-link">
 						<a href="#">고객센터</a>

@@ -49,6 +49,7 @@ public class UserService implements IUserService {
 		return dao.getUserLikedPosts(userId);
 	}
 
+	// 비밀번호 변경
 	@Override
 	public String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword) {
 		if (dao.isOldPasswordCorrect(userId, oldPassword) != 1) {
@@ -57,6 +58,18 @@ public class UserService implements IUserService {
 	    	return "isSameAsCurrentPassword"; // 현재 비밀번호와 새 비밀번호가 동일한 경우
 	    }
 	    return dao.updatePassword(userId, newPassword) ? "success" : "fail";
+	}
+	
+	// 현재 닉네임 조회
+	@Override
+	public String getCurrentNickname(String userId) {
+		return dao.getCurrentNickname(userId);
+	}
+	
+	// 닉네임 변경
+	@Override
+	public String changeNickname(String userId, String unickname) {
+		return dao.changeNickname(userId, unickname) ? "success" : "fail";
 	}
 	
 }

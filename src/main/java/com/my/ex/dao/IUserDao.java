@@ -15,4 +15,6 @@ public interface IUserDao {
 	int isOldPasswordCorrect(String userId, String oldPassword);
 	String getCurrentPassword(String userId);
 	boolean updatePassword(String userId, String newPassword);
+	String getCurrentNickname(String userId);
+	boolean changeNickname(String userId, String newNickname);
 }
