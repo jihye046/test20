@@ -40,10 +40,6 @@ changePasswordBtn.addEventListener('click', function() {
 
         if(data.status == 'success'){
             handleRedirect(data.msg, '/user/loginPage') 
-        } else if(data.status == 'oldPasswordIncorrect'){
-            handleRedirect(data.msg, '/user/changePasswordForm')
-        } else if(data.status == 'isSameAsCurrentPassword'){
-        	handleRedirect(data.msg, '/user/changePasswordForm')
         } else {
             handleRedirect(data.msg, '/user/changePasswordForm')
         }
