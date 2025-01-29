@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.my.ex.dto.BoardDto;
+import com.my.ex.dto.Message;
 import com.my.ex.dto.UserDto;
 import com.my.ex.service.UserService;
 
@@ -164,4 +164,11 @@ public class UserController {
 		}
 		return response;
 	}
+	
+	// 1대1 채팅
+	@RequestMapping("/chat")
+	public String chats() {
+		return "/user/chat";
+	}
+	
 }

@@ -41,7 +41,13 @@
 						<a href="/user/changeNicknameForm">닉네임 변경</a>
 					</div>
 					<div class="mypage-link">
-						<a href="#">고객센터</a>
+<!-- 						<a href="/user/chat">1:1 채팅상담</a> -->
+						<a href="javascript:void(0)" 
+						   onclick="window.open('/user/chat', 
+						                        'chat', 
+						                        'width=400,height=500,scrollbars=yes');">
+						   1:1 채팅상담
+						</a>
 					</div>
 				</div>
 			</div>
