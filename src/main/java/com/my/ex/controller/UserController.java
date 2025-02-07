@@ -158,17 +158,21 @@ public class UserController {
 		 
 		Map<String, String> response = new HashMap<>();
 		if(updateResult) {
+			response.put("status", "success");
 			response.put("msg", "닉네임이 변경되었습니다.");
+			String userNickname = service.getUserNickname(userId);
+			session.setAttribute("userNickname", userNickname);
 		} else {
+			response.put("status", "fail");
 			response.put("msg", "알 수 없는 오류가 발생했습니다.");
 		}
 		return response;
 	}
 	
-	// 1대1 채팅
+	// 1:1 채팅
 	@RequestMapping("/chat")
-	public String chats() {
-		return "/user/chat";
+	public String chatForm() {
+		return "/user/chatPage";
 	}
 	
 }

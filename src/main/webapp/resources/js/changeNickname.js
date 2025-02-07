@@ -14,7 +14,16 @@ changeNicknameBtn.addEventListener('click', function(){
     })
     .then((response) => response.json())
     .then((data) => {
-        alert(data.msg)
+    	const handleRedirect = (msg, redirectUrl) => {
+    		alert(msg)
+            window.location.href = redirectUrl		
+    	}
+    
+    	if(data.status == 'success') {
+    		handleRedirect(data.msg, '/board/paging')
+    	} else {
+    		handleRedirect(data.msg, '/user/changeNicknameForm') 
+        }
     })
     .catch(error => {
         console.error('Error:', error)

@@ -17,5 +17,5 @@
 	</div>
 </body>
 <div id="userId" data-userId="${sessionScope.userId}"></div>
-<script src="../../../resources/js/chat.js"></script>
+<script src="../../../resources/js/chatPage.js"></script>
 </html>

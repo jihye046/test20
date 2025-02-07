@@ -42,10 +42,7 @@
 					</div>
 					<div class="mypage-link">
 <!-- 						<a href="/user/chat">1:1 채팅상담</a> -->
-						<a href="javascript:void(0)" 
-						   onclick="window.open('/user/chat', 
-						                        'chat', 
-						                        'width=400,height=500,scrollbars=yes');">
+						<a href="javascript:void(0)" onclick="openChatWindow();">
 						   1:1 채팅상담
 						</a>
 					</div>
@@ -55,6 +52,7 @@
 		</div>
 	</main>
 </body>
+<script src="../../../resources/js/chatPage.js"></script>
 <script src="../../../resources/js/myPage.js"></script>
 <script src="../../../resources/js/common.js"></script>
 </html>
