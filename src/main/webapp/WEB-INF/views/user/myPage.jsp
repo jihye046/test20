@@ -52,7 +52,8 @@
 		</div>
 	</main>
 </body>
-<script src="../../../resources/js/chatPage.js"></script>
+<div id="userId" data-userId="${sessionScope.userId}"></div>
+<!-- <script src="../../../resources/js/chatPage.js" defer></script> -->
 <script src="../../../resources/js/myPage.js"></script>
 <script src="../../../resources/js/common.js"></script>
 </html>

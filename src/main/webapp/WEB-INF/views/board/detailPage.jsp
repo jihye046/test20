@@ -177,7 +177,7 @@ const editReplyTable = (replyList) => {
 // 답글
 // 새로운 댓글이 추가될 때마다 이벤트 리스너를 등록
 function registerEventListeners(){
-	const childReplyBtns = document.querySelectorAll(".childReplyBtn") // .childReplyBtn 클래스를 가진 모든 버튼 요소를 찾음
+	const childReplyBtns = document.querySelectorAll(".childReplyBtn")
 	childReplyBtns.forEach(childReplyBtn => { // childReplyBtn - 임시변수
 	    childReplyBtn.addEventListener('click', function(){
 	        

@@ -24,7 +24,7 @@ html, body {
 		padding: 5px;
 	}
 
-	#list {
+	#chatList {
 		border: 1px solid var(--border-color);
 		box-sizing: content-box;
 		padding: .5rem;
@@ -38,31 +38,31 @@ html, body {
 		margin-top: 3px;
 	}
 	
-	#list .item {
+	#chatList .item {
 		font-size: 14px;
 		margin: 15px 0;
 	}
 	
-	#list .item > div:first-child {
+	#chatList .item > div:first-child {
 		display: flex;
 	}
 	
-	#list .item.me > div:first-child {
+	#chatList .item.me > div:first-child {
 		justify-content: flex-end;
 	}
 	
-	#list .item.other > div:first-child {
+	#chatList .item.other > div:first-child {
 		justify-content: flex-end;
 		flex-direction: row-reverse;
 	}
 	
-	#list .item > div:first-child > div:first-child {
+	#chatList .item > div:first-child > div:first-child {
 		font-size: 10px;
 		color: #777;
 		margin: 3px 5px;
 	}
 	
-	#list .item > div:first-child > div:nth-child(2) {
+	#chatList .item > div:first-child > div:nth-child(2) {
 		border: 1px solid var(--border-color);
 		display: inline-block;
 		min-width: 100px;
@@ -71,32 +71,37 @@ html, body {
 		padding: 3px 7px;
 	}
 	
-	#list .state.item > div:first-child > div:nth-child(2) {
+	#chatList .state.item > div:first-child > div:nth-child(2) {
 		background-color: #EEE;
 	}
 	
-	#list .item > div:last-child {
+	#chatList .item > div:last-child {
 		font-size: 10px;
 		color: #777;
 		margin-top: 5px;
 	}
 	
-	#list .me {
+	#chatList .me {
 		text-align: right;
 	}
 	
-	#list .other {
+	#chatList .other {
 		text-align: left;
 	}
 	
-	#list .msg.me.item > div:first-child > div:nth-child(2) {
+	#chatList .firstPrint {
+		text-align: left;
+	}
+	
+	#chatList .msg.me.item > div:first-child > div:nth-child(2) {
 		background-color: rgba(255, 99, 71, .2);
 	}
 	
-	#list .msg.other.item > div:first-child > div:nth-child(2) {
+	#chatList .msg.other.item > div:first-child > div:nth-child(2) {
 		background-color: rgba(100, 149, 237, .2);
 	}
 	
-	#list .msg img {
-		width: 150px;
+	#chatList .msg img {
+/* 		weight: 50px; */
+		height: 100px;
 	}
