@@ -12,8 +12,6 @@ const scrollList = () => {
 
 /* 대화창 출력 */
 const print = (name, msg, side, state, time) => {
-	const userSide = (window.name === 'hong2') ? 'me' : 'other'
-	
 	let temp = `
 		<div class="item ${state} ${side}">
 			<div>

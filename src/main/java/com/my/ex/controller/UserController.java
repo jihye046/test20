@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.my.ex.dto.BoardDto;
-import com.my.ex.dto.Message;
 import com.my.ex.dto.UserDto;
+import com.my.ex.server.ChatServer;
 import com.my.ex.service.UserService;
 
 @Controller
@@ -28,11 +28,14 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	// 로그인 페이지
 	@RequestMapping("/loginPage")
 	public String loginPage() {
 		return "/user/loginPage";
 	}
 	
+	// 로그인
+	// 로그인 전 위치로 이동
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
 		String userId = request.getParameter("userId");
@@ -50,11 +53,20 @@ public class UserController {
 		}
 	}
 	
+	// 로그아웃
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate(); // 세션 자체를 삭제
+		return "redirect:loginPage";
+	}
+	
+	// 회원가입 페이지
 	@RequestMapping("/joinPage")
 	public String joinPage() {
 		return "/user/joinPage";
 	}
 	
+	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(UserDto dto, RedirectAttributes rttr, HttpSession session) {
 		boolean joinResult = service.join(dto);
@@ -64,18 +76,14 @@ public class UserController {
 		rttr.addFlashAttribute("joinResult", true);
 		return "redirect:loginPage";
 	}
-	
-	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate(); // 세션 자체를 삭제
-		return "redirect:loginPage";
-	}
-	
+
+	// 마이페이지
 	@RequestMapping("/myPage")
 	public String myPage() {
 		return "/user/myPage";
 	}
 	
+	// 세션에 저장된 userId 가져오기
 	private String getUserIdFromSession(HttpSession session) {
 	    return (String) session.getAttribute("userId");
 	}

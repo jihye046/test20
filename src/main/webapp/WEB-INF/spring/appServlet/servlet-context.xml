@@ -28,7 +28,7 @@
 		<interceptor>
 			<mapping path="/board/createPage"/>
 			<mapping path="/board/detailBoard"/>
-				
+			<mapping path="/user/myPage"/>
 <!-- 			<exclude-mapping path="/board/findAll"/> -->
 <!-- 			<exclude-mapping path="/user/joinPage"/> -->
 <!-- 			<exclude-mapping path="/user/loginPage"/> -->

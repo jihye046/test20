@@ -22,69 +22,48 @@ public class ChatServer {
 	@OnOpen
 	public void handleOpen(Session session) {
 		sessionList.add(session);
-		checkSessionList(); // 접속자 확인
+		checkSessionList();
 		clearSessionList();
 	}
-	
 
 	// 클라이언트로부터 받은 메시지 처리
 	@OnMessage
 	public void handleMessage(String msg, Session session) {
-		System.out.println(msg);
-		
 		// JSON 문자열을 Java 객체로 변환
 //		ObjectMapper mapper = new ObjectMapper();
 //		Message message = mapper.readValue(msg, Message.class);
-		
 		Gson gson = new Gson();
 		Message message = gson.fromJson(msg, Message.class);
 		
-		if(message.getCode().equals("1")) { // 새로운 유저일 때
+		if(message.getCode().equals("1")) { // 1: 새로운 유저일 때
 			for(Session s : sessionList) {
 				if(s != session) { // 새로운 유저를 제외한 나머지 클라이언트
-					try {
-						s.getBasicRemote().sendText(msg); // getBasicRemote(): 세션과 관련된 소켓을 반환, sendText(): 클라이언트에게 메시지를 보냄
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
+					sendMessageToSession(s, msg);
 				}
 			}
-		} else if(message.getCode().equals("2")) { // 기존 유저가 나감
+		} else if(message.getCode().equals("2")) { // 2: 기존 유저가 나감
 			sessionList.remove(session);
 			for(Session s : sessionList) {
-				try {
-					s.getBasicRemote().sendText(msg);
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+				sendMessageToSession(s, msg);
 			}
-		} else if(message.getCode().equals("3")) {
+		} else if(message.getCode().equals("3")) { // 3: 메시지 전송 
 			// 보낸 사람빼고 나머지 사람에게 전달
 			for(Session s : sessionList) {
 				if(s != session) {
-					try {
-						s.getBasicRemote().sendText(msg);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					sendMessageToSession(s, msg);
 				}
 			}
-		} else if(message.getCode().equals("4")) {
+		} else if(message.getCode().equals("4")) { // 4: 이모티콘 전송
 			for(Session s : sessionList) {
 				if(s != session) {
-					try {
-						s.getBasicRemote().sendText(msg);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					sendMessageToSession(s, msg);
 				}
 			}
 		}
 	}
 	
-	//접속자를 확인하는 메서드
+	// 접속자를 확인하는 메서드
 	private void checkSessionList() {
-		System.out.println();
 		System.out.println("[Session List]");
 		for (Session session : sessionList) {
 			System.out.println(session.getId());
@@ -100,5 +79,14 @@ public class ChatServer {
 				iterator.remove();
 			}
 		}
+	}
+	
+	// 특정 세션에 메시지 보내기
+	private void sendMessageToSession(Session s, String msg) {
+	    try {
+	        s.getBasicRemote().sendText(msg); // getBasicRemote(): 세션과 관련된 소켓을 반환, sendText(): 클라이언트에게 메시지를 보냄
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }
