@@ -86,8 +86,10 @@ public class BoardService implements IBoardService {
 
 	@Override
 	public List<BoardDto> pagingList(int page, String searchGubun, String searchText, String sortType) {
-		int pagingEnd = page * 10;
-		int pagingStart = pagingEnd - 9;
+//		int pagingEnd = page * 10;
+		int pagingEnd = page * 12;
+//		int pagingStart = pagingEnd - 9;
+		int pagingStart = pagingEnd - 11;
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("pagingStart", pagingStart);
 		map.put("pagingEnd", pagingEnd);
@@ -112,10 +114,12 @@ public class BoardService implements IBoardService {
 	@Override
 	public BoardPagingDto paingParam(int page) {
 		// 한 페이지당 보여줄 게시글 개수
-		int pageLimit = 10;
+//		int pageLimit = 10;
+		int pageLimit = 12;
 		
 		// 하단에 보여줄 페이지 [1],[2] ... 번호 개수
-		int blockLimit = 3;
+//		int blockLimit = 3;
+		int blockLimit = 5;
 		
 		// 전체 글 개수 조회
 		int boardCount = dao.boardCount();

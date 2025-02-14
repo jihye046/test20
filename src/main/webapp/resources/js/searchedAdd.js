@@ -1,6 +1,6 @@
 const mapContainer = document.querySelector('#map')
 const mapOption = { // 지도 생성 시 필요한 기본 옵션
-    center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+    center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
     level: 5 // 지도의 확대, 축소 레벨
 }
 

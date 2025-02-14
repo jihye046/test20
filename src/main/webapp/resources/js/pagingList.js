@@ -107,6 +107,7 @@ const updateSortedByHits = (pagingList, paging) => {
 	const hitContainer = document.querySelector("#hitContainer")
 	hitContainer.innerHTML = ''
 	let tableOutput = 
+	/* 
 	`
 		<table class="table table-hover">
 			<thead>
@@ -120,8 +121,13 @@ const updateSortedByHits = (pagingList, paging) => {
 			</thead>
 			<tbody>
 	`
+	*/
+	`
+		<div class="card-container">
+	`
 	pagingList.forEach(function(dto){
-		tableOutput += 
+		tableOutput +=
+		/* 
 		`
 			<tr>
 				<td>${dto.bId}</td>
@@ -135,8 +141,28 @@ const updateSortedByHits = (pagingList, paging) => {
 				<td>${dto.bHit}</td>
 	  		</tr>
   		`
+  		*/
+  		`
+  			<figure class="snip1518 hover">
+				<div class="image"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample99.jpg" alt="sample99" /></div>
+				<figcaption>
+					<h5>${dto.bName}</h5>
+					<h3>${dto.bTitle}</h3>
+					<footer>
+						<div class="date">${dto.bDate}</div>
+						<div class="icons">
+							<div class="views"><i class="ion-eye"></i>${dto.bHit}</div>
+							<div class="love"><i class="ion-heart"></i>973</div>
+							<div class="love"><i class="ion-heart"></i>${dto.commentCount}</div>
+						</div>
+					</footer>
+				</figcaption>
+				<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}"></a>
+			</figure>
+  		`
 	})
-	tableOutput += `</tbody></table>`
+	//tableOutput += `</tbody></table>`
+	tableOutput += `</div>`
 	
 	//let paginationOutput = pagination(paging)
 	//hitContainer.innerHTML = tableOutput + paginationOutput
@@ -155,9 +181,9 @@ const pagination = (paging) => {
 	if(paging.page <= 1){
 		output += `<li class="page-item"></li>`
 	} else {
-		let previousPageLink = (paging.page - 3 <= 1) ?
+		let previousPageLink = (paging.page - 5 <= 1) ?
 			`<a class="page-link" href="/board/paging?page=${paging.page-1}"> Previous </a>` :
-        	`<a class="page-link" href="/board/paging?page=${paging.page-3}"> Previous </a>`
+        	`<a class="page-link" href="/board/paging?page=${paging.page-5}"> Previous </a>`
 
 		output += `<li class="page-item">${previousPageLink}</li>`
 	}
@@ -175,9 +201,9 @@ const pagination = (paging) => {
 	if(paging.page >= paging.maxPage){
 		paginationOutput += `<li class="page-item"></li>`
 	} else {
-		let nextPageLink = (paging.page + 3 >= paging.maxPage) ? 
+		let nextPageLink = (paging.page + 5 >= paging.maxPage) ? 
 			`<a class="page-link" href="/board/paging?page=${paging.maxPage}">Next</a>` :
-			`<a class="page-link" href="/board/paging?page=${paging.page + 3}">Next</a>`
+			`<a class="page-link" href="/board/paging?page=${paging.page + 5}">Next</a>`
 			
 		output += `<li class="page-item">${nextPageLink}</li>`
 	}
@@ -204,3 +230,12 @@ if(userId) {
 }
 
 const badge = document.querySelector(".badge")
+
+// 게시글 이미지
+const boardCards = document.querySelectorAll('.image')
+boardCards.forEach(function (card)){
+	const bContent = card.getAttribute('data-content')
+	const parser = new DOMParser();
+	const doc = parser.parseFromString(bContent, 'text-html') // HTML로 파싱
+	const firstImg = doc.querySelector('img') // 첫번째 <img> 태그 찾기
+}

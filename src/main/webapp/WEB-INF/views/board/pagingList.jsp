@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/list.css" rel="styleSheet">
 <script>
@@ -40,94 +41,126 @@
 			</div>
 			<div class="col-md-12">
 				<div id="hitContainer">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>No.</th>
-								<th>작성자</th>
-								<th>제목</th>
-								<th>작성일</th>
-								<th>조회수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${boardList}" var="dto">
-								<tr>
-									<td>${dto.bId}</td>
-									<td>
-										<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}&userId=${sessionScope.userId}">${dto.bName}</a>
-										<i class="fa-regular fa-comment-dots"></i> 
-										<span class="commentCount">${dto.commentCount}</span>
-									</td>
-									<td>${dto.bTitle}</td>
-									<td>${dto.bDate}</td>
-									<td>${dto.bHit}</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+					<!-- card -->
+					<div class="card-container">
+						<c:forEach items="${boardList}" var="dto">
+							<figure class="snip1518 hover">
+								<div class="image" data-content="${dto.bContent}">
+									<!-- 이미지가 없는 게시글이면 흰색 배경 기본 -->
+									<div class="no-image"></div>
+								</div>
+								<figcaption>
+									<h5>${dto.bName}</h5>
+									<h3>${dto.bTitle}</h3>
+									<footer>
+										<div class="date">${dto.bDate}</div>
+										<div class="icons">
+											<div class="views"><i class="ion-eye"></i>${dto.bHit}</div>
+											<div class="love"><i class="ion-heart"></i>${dto.bLike}</div>
+											<div class="comment"><i class="fa-thin fa-comment fa-2xs"></i>${dto.commentCount}</div>
+										</div>
+									</footer>
+								</figcaption>
+								<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}&userId=${sessionScope.userId}"></a>
+							</figure>
+						</c:forEach>
+					</div>
+					<!-- card end-->
+					<!-- 									<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample99.jpg" alt="sample99" /> -->
+					
+					<!-- table -->
+<!-- 					<table class="table table-hover"> -->
+<!-- 						<thead> -->
+<!-- 							<tr> -->
+<!-- 								<th>No.</th> -->
+<!-- 								<th>작성자</th> -->
+<!-- 								<th>제목</th> -->
+<!-- 								<th>작성일</th> -->
+<!-- 								<th>조회수</th> -->
+<!-- 							</tr> -->
+<!-- 						</thead> -->
+<!-- 						<tbody> -->
+<%-- 							<c:forEach items="${boardList}" var="dto"> --%>
+<!-- 								<tr> -->
+<%-- 									<td>${dto.bId}</td> --%>
+<!-- 									<td> -->
+<%-- 										<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}&userId=${sessionScope.userId}">${dto.bName}</a> --%>
+<!-- 										<i class="fa-regular fa-comment-dots"></i>  -->
+<%-- 										<span class="commentCount">${dto.commentCount}</span> --%>
+<!-- 									</td> -->
+<%-- 									<td>${dto.bTitle}</td> --%>
+<%-- 									<td>${dto.bDate}</td> --%>
+<%-- 									<td>${dto.bHit}</td> --%>
+<!-- 								</tr> -->
+<%-- 							</c:forEach> --%>
+<!-- 						</tbody> -->
+<!-- 					</table> -->
+					<!-- table end -->
 				</div>
-					<nav>
-						<ul class="pagination justify-content-center">
-							<c:choose>
-								<c:when test="${paging.page <= 1}">
-									<li class="page-item"></li> <!-- 내용 표시 x -->
-								</c:when>
-								<c:otherwise>
-									<c:choose>
-										<c:when test="${paging.page - 3 <= 1}">
-											<li class="page-item">
-												<a class="page-link" href="/board/paging?page=${paging.page-1}&sortType="> Previous </a>
-											</li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item">
-												<a class="page-link" href="/board/paging?page=${paging.page-3}&sortType="> Previous </a>
-											</li>
-										</c:otherwise>
-									</c:choose>
-								</c:otherwise>
-							</c:choose>
-							<c:forEach begin="${paging.startPage}" end="${paging.endPage}"
-								var="i" step="1">
+				<!-- paging -->
+				<nav>
+					<ul class="pagination justify-content-center">
+						<c:choose>
+							<c:when test="${paging.page <= 1}">
+								<li class="page-item"></li> <!-- 내용 표시 x -->
+							</c:when>
+							<c:otherwise>
 								<c:choose>
-									<c:when test="${i eq paging.page}">
+<%-- 									<c:when test="${paging.page - 3 <= 1}"> --%>
+									<c:when test="${paging.page - 5 <= 1}">
 										<li class="page-item">
-											<span class="page-link">${i}</span>
+											<a class="page-link" href="/board/paging?page=${paging.page-1}&sortType="> Previous </a>
 										</li>
 									</c:when>
 									<c:otherwise>
 										<li class="page-item">
-											<a class="page-link" href="/board/paging?page=${i}&sortType=">${i}</a>
+											<a class="page-link" href="/board/paging?page=${paging.page-5}&sortType="> Previous </a>
 										</li>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach begin="${paging.startPage}" end="${paging.endPage}"
+							var="i" step="1">
 							<c:choose>
-								<c:when test="${paging.page >= paging.maxPage}">
-									<li class="page-item"></li> <!-- 내용 표시 x -->
+								<c:when test="${i eq paging.page}">
+									<li class="page-item">
+										<span class="page-link">${i}</span>
+									</li>
 								</c:when>
 								<c:otherwise>
-									<c:choose>
-										<c:when test="${paging.page + 3 >= paging.maxPage}">
-											<li class="page-item">
-												<a class="page-link" href="/board/paging?page=${paging.maxPage}&sortType=">Next</a>
-											</li>
-										</c:when>
-										<c:otherwise>
-											<li class="page-item">
-												<a class="page-link" href="/board/paging?page=${paging.page + 3}&sortType=">Next</a>
-											</li>
-										</c:otherwise>
-									</c:choose>
+									<li class="page-item">
+										<a class="page-link" href="/board/paging?page=${i}&sortType=">${i}</a>
+									</li>
 								</c:otherwise>
 							</c:choose>
-						</ul>
-					</nav>
+						</c:forEach>
+						<c:choose>
+							<c:when test="${paging.page >= paging.maxPage}">
+								<li class="page-item"></li> <!-- 내용 표시 x -->
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${paging.page + 5 >= paging.maxPage}">
+										<li class="page-item">
+											<a class="page-link" href="/board/paging?page=${paging.maxPage}&sortType=">Next</a>
+										</li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item">
+											<a class="page-link" href="/board/paging?page=${paging.page + 5}&sortType=">Next</a>
+										</li>
+									</c:otherwise>
+								</c:choose>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</nav>
+				<!-- paging end -->
 			</div>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
 </body>
 <div id="createResult" data-create-result="${createResult}"></div>
 <div id="deleteResult" data-delete-result="${deleteResult}"></div>
