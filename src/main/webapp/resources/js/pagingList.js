@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	updatePaginationLinks(sortType)
 	updateSortBtnStyle(sortType)
+	updateBoardCards()
 })
 
 const sortTypeInput = document.querySelector('#sortTypeInput')
@@ -106,76 +107,37 @@ const sort = (type) => {
 const updateSortedByHits = (pagingList, paging) => {
 	const hitContainer = document.querySelector("#hitContainer")
 	hitContainer.innerHTML = ''
-	let tableOutput = 
-	/* 
-	`
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th>No.</th>
-					<th>이름</th>
-					<th>제목</th>
-					<th>날짜</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
-			<tbody>
-	`
-	*/
-	`
-		<div class="card-container">
-	`
+	let tableOutput = `<div class="card-container">`
 	pagingList.forEach(function(dto){
 		tableOutput +=
-		/* 
-		`
-			<tr>
-				<td>${dto.bId}</td>
-				<td>
-					<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}">${dto.bName}</a>
-					<i class="fa-regular fa-comment-dots"></i>
-					<span class="commentCount">${dto.commentCount}</span>
-				</td>
-				<td>${dto.bTitle}</td>
-				<td>${dto.bDate}</td>
-				<td>${dto.bHit}</td>
-	  		</tr>
-  		`
-  		*/
-  		`
-  			<figure class="snip1518 hover">
-				<div class="image"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample99.jpg" alt="sample99" /></div>
-				<figcaption>
-					<h5>${dto.bName}</h5>
-					<h3>${dto.bTitle}</h3>
-					<footer>
-						<div class="date">${dto.bDate}</div>
-						<div class="icons">
-							<div class="views"><i class="ion-eye"></i>${dto.bHit}</div>
-							<div class="love"><i class="ion-heart"></i>973</div>
-							<div class="love"><i class="ion-heart"></i>${dto.commentCount}</div>
-						</div>
-					</footer>
-				</figcaption>
-				<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}"></a>
-			</figure>
-  		`
+	  		`
+	  			<figure class="snip1518 hover">
+					<div class="image" data-content="${dto.bContent}">
+					</div>
+					<figcaption>
+						<h5>${dto.bName}</h5>
+						<h3>${dto.bTitle}</h3>
+						<footer>
+							<div class="date">${dto.bDate}</div>
+							<div class="icons">
+								<div class="views"><i class="ion-eye"></i>${dto.bHit}</div>
+								<div class="love"><i class="ion-heart"></i>${dto.bLike}</div>
+								<div class="comment"><i class="fa-thin fa-comment fa-2xs"></i>${dto.commentCount}</div>
+							</div>
+						</footer>
+					</figcaption>
+					<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}"></a>
+				</figure>
+	  		`
 	})
-	//tableOutput += `</tbody></table>`
 	tableOutput += `</div>`
-	
-	//let paginationOutput = pagination(paging)
-	//hitContainer.innerHTML = tableOutput + paginationOutput
 	hitContainer.innerHTML = tableOutput
+	
+	updateBoardCards()
 }
 
 const pagination = (paging) => {
-	let output = 
-	
-	`
-		<nav>
-			<ul class="pagination justify-content-center">
-	`
+	let output = `<nav><ul class="pagination justify-content-center">`
 	
 	// Previous 버튼 추가
 	if(paging.page <= 1){
@@ -207,7 +169,6 @@ const pagination = (paging) => {
 			
 		output += `<li class="page-item">${nextPageLink}</li>`
 	}
-	
 	return output
 }
 
@@ -232,10 +193,21 @@ if(userId) {
 const badge = document.querySelector(".badge")
 
 // 게시글 이미지
-const boardCards = document.querySelectorAll('.image')
-boardCards.forEach(function (card)){
-	const bContent = card.getAttribute('data-content')
-	const parser = new DOMParser();
-	const doc = parser.parseFromString(bContent, 'text-html') // HTML로 파싱
-	const firstImg = doc.querySelector('img') // 첫번째 <img> 태그 찾기
+const updateBoardCards = () => {
+	const boardCards = document.querySelectorAll('.image')
+	boardCards.forEach(function (card) {
+		const bContent = card.getAttribute('data-content')
+		const parser = new DOMParser()
+		const doc = parser.parseFromString(bContent, 'text/html') // HTML로 파싱
+		const firstImg = doc.querySelector('img') // 첫 번째 <img> 태그 찾기
+		
+		if (firstImg) {
+			const imageSrc = firstImg.src
+			card.innerHTML = `<img src="${imageSrc}" alt="image"/>`
+		} else {
+			card.innerHTML = '<img src="https://buly.kr/1RDn8CU" alt="image">'
+		}
+	})
 }
+
+updateBoardCards()

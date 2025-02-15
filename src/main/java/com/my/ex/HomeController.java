@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.util.HtmlUtils;
 
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
@@ -26,6 +27,11 @@ public class HomeController {
 									@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
 		BoardPagingDto pageDto = service.paingParam(page);
+		for(BoardDto dto : pagingList) {
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
+		}
 		model.addAttribute("boardList", pagingList);
 		model.addAttribute("paging", pageDto);
 		return "/board/pagingList";

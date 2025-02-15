@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.HtmlUtils;
 
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
@@ -190,6 +191,10 @@ public class BoardController {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
 			dto.setSortType(sortType);
+			
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
 		}
 		model.addAttribute("boardList", pagingList);
 		model.addAttribute("paging", pageDto);
@@ -210,6 +215,10 @@ public class BoardController {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
 			dto.setSortType(sortType);
+			
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
 		}
 		SortResponse response = new SortResponse(pagingList, pageDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -311,6 +320,11 @@ public class BoardController {
 												 @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
 		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
 		BoardPagingDto pageDto = service.paingParam(page);
+		for(BoardDto dto : sort_hitPagingList) {
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
+		}
 		SortResponse response = new SortResponse();
 		response.setSort_hitPagingList(sort_hitPagingList);
 		response.setPageDto(pageDto);

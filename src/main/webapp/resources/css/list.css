@@ -11,7 +11,6 @@
 	margin: 0 auto;
 }
 
-
 .fa-comment-dots {
 	color: #8C8C8C; font-size: 13px; padding-left: 5px;
 }
@@ -28,11 +27,10 @@ span.page-link {
 	background-color: #6B66FF; color: #ffffff;
 }
 
-/* card */
 .card-container {
-	display: flex;
-  	justify-content: space-between; 
-  	flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 최소 250px, 최대 1fr로 자동 조정 */
+    gap: 20px;
 }
 
 .snip1518 {
@@ -40,14 +38,27 @@ span.page-link {
   position: relative;
   overflow: hidden;
   margin: 10px;
-  min-width: 250px;
-  max-width: 310px;
+  max-width: 250px;
+  height: 400px;
   width: 100%;
   background-color: #ffffff;
   color: #2B2B2B;
   text-align: center;
   font-size: 16px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;  
+  justify-content: space-between;
+}
+
+/* 이미지 영역 높이 고정 */
+.snip1518 .image {
+  width: 100%;
+  height: 70%; /* card 높이 지정 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .snip1518 * {
@@ -56,7 +67,9 @@ span.page-link {
 }
 
 .snip1518 img {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   vertical-align: top;
   position: relative;
 }
@@ -65,18 +78,23 @@ span.page-link {
   padding: 10%;
   padding-bottom: calc(25%);
   background-color: #ffffff;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
 .snip1518 h3 {
   font-family: 'Oswald';
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 24px;
   margin: 3px 0;
 }
 
 .snip1518 h5 {
+  font-size: 15px;
   font-weight: 400;
   margin: 0;
   text-transform: uppercase;
@@ -124,16 +142,9 @@ span.page-link {
 
 .fa-comment::before {
 	content: "\f075"; /* fa-comment 아이콘의 유니코드 값 */
- 	font-family: "Font Awesome 5 Free"; /* Font Awesome 폰트 */
-  	font-weight: 100; /* fa-thin 아이콘의 경우 'thin' 스타일은 weight가 100 */
+ 	font-family: "Font Awesome 5 Free";
+  	font-weight: 100; 
   	font-size: 11px; 
   	color: inherit; /* 기존 색상을 그대로 사용 */
   	vertical-align: middle;
-/*   	padding-top: 2px; */
-}
-
-/* 불러온 게시글에 이미지가 없을 때 기본 설정 */
-.no-image {
-	background: white;
-	width: 100%;
 }

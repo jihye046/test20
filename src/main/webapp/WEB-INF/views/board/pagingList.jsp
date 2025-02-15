@@ -47,7 +47,6 @@
 							<figure class="snip1518 hover">
 								<div class="image" data-content="${dto.bContent}">
 									<!-- 이미지가 없는 게시글이면 흰색 배경 기본 -->
-									<div class="no-image"></div>
 								</div>
 								<figcaption>
 									<h5>${dto.bName}</h5>
@@ -66,36 +65,6 @@
 						</c:forEach>
 					</div>
 					<!-- card end-->
-					<!-- 									<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample99.jpg" alt="sample99" /> -->
-					
-					<!-- table -->
-<!-- 					<table class="table table-hover"> -->
-<!-- 						<thead> -->
-<!-- 							<tr> -->
-<!-- 								<th>No.</th> -->
-<!-- 								<th>작성자</th> -->
-<!-- 								<th>제목</th> -->
-<!-- 								<th>작성일</th> -->
-<!-- 								<th>조회수</th> -->
-<!-- 							</tr> -->
-<!-- 						</thead> -->
-<!-- 						<tbody> -->
-<%-- 							<c:forEach items="${boardList}" var="dto"> --%>
-<!-- 								<tr> -->
-<%-- 									<td>${dto.bId}</td> --%>
-<!-- 									<td> -->
-<%-- 										<a href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${paging.page}&userId=${sessionScope.userId}">${dto.bName}</a> --%>
-<!-- 										<i class="fa-regular fa-comment-dots"></i>  -->
-<%-- 										<span class="commentCount">${dto.commentCount}</span> --%>
-<!-- 									</td> -->
-<%-- 									<td>${dto.bTitle}</td> --%>
-<%-- 									<td>${dto.bDate}</td> --%>
-<%-- 									<td>${dto.bHit}</td> --%>
-<!-- 								</tr> -->
-<%-- 							</c:forEach> --%>
-<!-- 						</tbody> -->
-<!-- 					</table> -->
-					<!-- table end -->
 				</div>
 				<!-- paging -->
 				<nav>
