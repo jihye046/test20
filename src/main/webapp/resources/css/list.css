@@ -27,6 +27,9 @@ span.page-link {
 	background-color: #6B66FF; color: #ffffff;
 }
 
+/* card 
+	======================================== */
+	
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 최소 250px, 최대 1fr로 자동 조정 */
@@ -147,4 +150,97 @@ span.page-link {
   	font-size: 11px; 
   	color: inherit; /* 기존 색상을 그대로 사용 */
   	vertical-align: middle;
+}
+
+/* form과 버튼을 포함한 상위 컨테이너 */
+.form-and-buttons-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%; 
+    margin-bottom: 10px;
+    padding: 0 30px; /* 양쪽에 padding 추가하여 안쪽으로 배치 */
+}
+
+/* 버튼을 왼쪽에 배치 */
+.buttons-container {
+    display: flex;
+    gap: 10px; 
+}
+
+/* 버튼 스타일 */
+.styled-button {
+	font-size: 14px;
+	padding: 8px;
+}
+
+/* form */
+.form-container {
+    display: flex;
+    justify-content: flex-end; 
+    width: 50%; 
+}
+
+/* 검색 필터 및 검색창 */
+.styled-select, .styled-input {
+    width: auto;
+}
+
+/* 검색 필터 */
+.styled-select {
+  font-size: 12px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  color: #333;
+  width: 80px;
+}
+
+/* 검색창 */
+.styled-input {
+	font-size: 12px;
+	padding: 5px;
+	width: 200px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f8f8f8;
+	color: #333;
+	transition: all 0.3s ease; /* 포커스 시 애니메이션 */	
+}
+
+/* 검색창 포커스 스타일 */
+.styled-input:focus {
+  border-color: #007bff;
+  background-color: #fff;
+  outline: none;
+}
+
+/* 검색창 placeholder 텍스트 스타일 */
+.styled-input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* 작은 화면에서 레이아웃 조정 */
+@media (max-width: 768px) {
+    .form-and-buttons-container {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch; /* 양쪽 끝까지 차지하도록 설정 */
+    }
+    
+    .buttons-container {
+        margin-bottom: 10px;
+        width: 70%;
+        justify-content: flex-start;
+    }
+
+    .form-container {
+        width: 60%;
+    }
+
+    .styled-select, .styled-input {
+        width: 100%;
+    }
 }

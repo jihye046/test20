@@ -1,63 +1,88 @@
 @charset "UTF-8";
-/* detailPage */
-.detailPage-main {
-	padding: 30px 20px;
-    display: block;
-    background-color: #ffffff;
-    border-left: 1px solid #EAEAEA;
-    border-right: 1px solid #EAEAEA;
+
+/* 포스트 상단 */
+.container-fluid {
+	padding: 20px;
+	width: 100%;
+	max-width: 770px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	box-sizing: border-box;
+} 
+
+.row {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%; 
 }
 
-.detailPage-main button {
-	width: 50px;
-	height: 30px;
-	font-size: 13px;
-	text-align: center;
+.post-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
 }
 
-.subTitle {
-	color: grey;
-	font-size: 13px
+.bName {
+	padding: 15px;
 }
 
-p {
-    margin-bottom: 5px;
+/* 포스트 중단 */
+.post {
+	padding-top: 20px;
+	flex-grow: 0; /* 크기 고정 */
+/* 	border-top: 1px solid grey; */
+/* 	border-bottom: 1px solid grey; */
 }
 
-.p-wrapper {
+.post-meta-div {
     display: flex;
-    justify-content: space-between; /* 요소를 양쪽 끝으로 정렬 */
-    align-items: center; /* 요소를 세로로 가운데 정렬 */
+    justify-content: space-between; 
+    align-items: center;
+    flex-grow: 0; 
 }
 
-.p-wrapper .date {
-    margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 왼쪽에 붙임 */
+.post-meta-dl {
+    display: flex;
+    align-items: center; 
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 18px;
+    margin: 0px;
 }
 
-.p-wrapper .info {
-    display: flex; /* 내부 요소들을 가로로 정렬하기 위해 */
+.post-meta-item {
+	color: grey;
+	font-size: 13px;
+	margin: 0px;
 }
 
-.p-wrapper .info .subTitle {
-    margin-left: 20px; /* 각 요소 사이의 간격을 조절 */
-    margin-top: 6px;
+/* 각 dt 항목 뒤에 · 추가 */
+.post-meta-dl .post-meta-item:not(:first-child)::before {
+    content: "\00A0·\00A0";
+    color: #C2C8CC;
+    font-weight: bold;
 }
 
-/* like */
-.likeBtn-div {
-	padding: 5px 10px;
+/* 마지막 항목 뒤에는 · 추가하지 않음 */
+.post-meta-dl .post-meta-item:last-child::before {
+    content: "";
 }
 
-#likeBtn {
+#like-button {
 	width: 15px; 
 	height: 15px;
 	cursor: pointer;
 }
 
-/* reply */
-.reply-container {
+/* 댓글 */
+.reply-section {
 	font-size: 15px;
-	padding: 40px 20px;
+	padding: 20px 0px;
+	flex-flow: 0; /* 크기 고정 */
 }
 
 .reply-form table{
@@ -80,19 +105,43 @@ p {
 	text-align: left;
 }
 
-/* ckeditor_imgUpload size */
+/* ckeditor 이미지 업로드 사이즈 */
 .post > figure {
 	overflow: hidden;
 	max-width: 100%;
 }
 
 .post img {
-	max-width: 70%;
+	max-width: 60%;
     height: auto; !important;
     object-fit: cover;
 }
 
-/* sns share */
-.sns_btn {
+/* 공유 버튼 */
+.social-share-btn {
 	cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        width: 90%;  /* 모바일에서 크기 줄이기 */
+    }
+    .post-header h1 {
+        font-size: 18px;  /* 모바일에서 제목 크기 줄이기 */
+    }
+    .post {
+        padding: 15px 0;
+    }
+    .reply-section {
+        padding: 15px 0;
+    }
+}
+
+hr {
+    margin: 0;
+    padding: 0;
+    height: 1px;
+    border: none;
+    background-color: #EAEDEF;
+    margin-top: 20px;
 }

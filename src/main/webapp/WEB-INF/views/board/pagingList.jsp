@@ -19,24 +19,27 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="row">
-					<div class="col-md-6"></div>
-					<div class="col-md-6 d-flex">
-						<div>
-							<form action="/board/paging">
-								<input type="hidden" name="sortType" id="sortTypeInput">
-								<select name="searchGubun">
-									<option value="bTitle">제목</option>
-									<option value="bContent">내용</option>
-									<option value="bName">작성자</option>
-								</select> <input type="text" name="searchText">
-								<button type="submit" class="btn">검색</button>
-							</form>
+<!-- 					<div class="col-md-7"></div> -->
+<!-- 					<div class="col-md-5 d-flex"> -->
+						<div class="form-and-buttons-container">
+							<div class="buttons-container">
+								<button class="styled-button" id="sort_latest" type="button" class="btn btn-sm btn-dark">최신순</button>
+								<button class="styled-button" id="sort_hit" type="button" class="btn btn-sm">조회순</button>
+							</div>
+							<div class="form-container">
+								<form action="/board/paging">
+									<input type="hidden" name="sortType" id="sortTypeInput">
+									<select class="styled-select" name="searchGubun">
+										<option value="bTitle">제목</option>
+										<option value="bContent">내용</option>
+										<option value="bName">작성자</option>
+									</select> 
+									<input class="styled-input" type="text" name="searchText" placeholder="검색">
+	<!-- 								<button type="submit" class="btn">검색</button> -->
+								</form>
+							</div>
 						</div>
-						<div>
-							<button id="sort_latest" type="button" class="btn btn-sm btn-dark">최신순</button>
-							<button id="sort_hit" type="button" class="btn btn-sm">조회순</button>
-						</div>
-					</div>
+<!-- 					</div> -->
 				</div>
 			</div>
 			<div class="col-md-12">

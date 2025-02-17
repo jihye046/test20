@@ -88,7 +88,7 @@ function getKakaoKey() {
 }
 
 // 좋아요
-const likeBtn = document.querySelector("#likeBtn")
+const likeBtn = document.querySelector("#like-button")
 const bId = document.querySelector("#bId").getAttribute("data-bId")
 const totalLikes = document.querySelector("#totalLikes")
 const likedPng = "../../../resources/images/liked.png"

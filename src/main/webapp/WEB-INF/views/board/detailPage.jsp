@@ -6,105 +6,115 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
-	<main class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-8 detailPage-main">
-				<h1>${dto.bTitle}</h1>
-				<span><strong>${dto.bName}</strong></span>
-				<div class="p-wrapper">
-					<div class="subTitle date">${dto.bDate}</div>
-					<div class="info">
-						<span class="subTitle">게시글번호 | ${dto.bId}</span>
-						<span class="subTitle">조회수 | ${dto.bHit}</span>
-						<div class="dropdown">
-							<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-						    	<i class="fa-solid fa-ellipsis-vertical" style="margin-left: 10px; color: #808080;"></i>
-						    </button>
-							<div class="dropdown-menu dropdown-menu-right">
-						    	<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
-						    	<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-						    	<a class="dropdown-item sns_btn" href="javascript:shareNaver()">네이버 공유
-							    	<span>
-										<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
-										<script type="text/javascript">
-										new ShareNaver.makeButton({"type": "b"});
-										</script>
-									</span>
-								</a>	
-								<a id="kakaotalk-sharing-btn" class="dropdown-item sns_btn" href="javascript:shareKakao()">카카오 공유
-									<img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png" alt="kakao" style="width:42px; padding-left: 20px;">
-								</a>
-						    </div>
-					    </div>
+			<div class="col-md-12">
+				<!-- 포스트 상단 -->
+				<div class="post-header">
+					<div class="title-and-name">
+						<h1>${dto.bTitle}</h1>
+						<span class=bName>${dto.bName}</span>
+						<button type="button">팔로우</button>
 					</div>
-				</div>
-				<p style="border-bottom: 1px solid #EAEAEA; padding: 5px 0px;"></p>
-				<div class="post" style="border-bottom: 1px solid #EAEAEA; padding: 50px 0px;">
+					<!-- 드롭다운 버튼 -->
+					<div class="dropdown">
+						<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+				    		<i class="fa-solid fa-ellipsis-vertical" style="margin-left: 10px; color: #808080;"></i>
+				    	</button>
+						<div class="dropdown-menu dropdown-menu-right">
+				    		<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
+				    		<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+				    		<a class="dropdown-item social-share-btn" href="javascript:shareNaver()">네이버 공유
+					    		<span>
+									<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+									<script type="text/javascript">new ShareNaver.makeButton({"type": "b"});</script>
+								</span>
+							</a>	
+							<a id="kakaotalk-sharing-btn" class="dropdown-item social-share-btn" href="javascript:shareKakao()">카카오 공유
+								<img src="https://buly.kr/DPTKLrS" alt="kakao" style="width:42px; padding-left: 20px;">
+							</a>
+			    		</div>
+			    	</div><!-- 드롭다운 end -->
+				</div> <!-- 포스트 상단 end -->
+				<hr>				
+				<!-- 포스트 중단 -->	
+				<div class="post">
 					${dto.bContent}
-				</div>
-				<div>
-					<div class="likeBtn-div">
-						<img id="likeBtn" alt="unlike" src="../../../resources/images/unliked.png">
-						<span id="totalLikes" style="font-size: 13px;">${dto.bLike}</span>
-					</div>
-				</div>
-				<div class="reply-container">
-					<div>
-						<input type="text" size="60" placeholder="댓글을 달아보세요" id="replyInput">
-						<button class="btn btn-secondary" type="button" id="replyBtn">댓글</button>
-					</div>
-					<div class="reply-form">
-						<table id="replyTable">
-							<tr id="replyTitle">
-								<th>bId</th>
-								<th>bContent</th>
-								<th>date</th>
-								<th></th>
-							</tr>
-							<c:forEach items="${replyList}" var="reply">
-								<tr id="replyContent">
-									<c:if test="${reply.bIndent == 1}"> <!-- 댓글인 경우 -->
-										<td>${reply.bId}</td>
-										<td>${reply.bContent}</td>
-										<td>${reply.bDate}</td>
-										<td>
-											<button type="button" class="btn btn-secondary childReplyBtn"
-												    data-bGroup="${reply.bGroup}"
-												    data-bStep="${reply.bStep}"
-												    data-bIndent="${reply.bIndent}">
-											     답글
-								     	    </button>
-						     	   		</td>
-						     	    </c:if>
-						     	    <c:if test="${reply.bIndent != 1}">
-						     	    	<td class="replyChild-td">${reply.bId}</td>
-										<td class="replyChild-td"><strong>@${reply.bGroup}</strong>&nbsp;${reply.bContent}</td>
-										<td class="replyChild-td">${reply.bDate}</td>
-										<td class="replyChild-td"></td>
-						     	    </c:if>
+					<div class="post-meta-div">
+						<dl class="post-meta-dl">
+							<span class="post-meta-item">${dto.bDate} </span>
+							<dt class="post-meta-item like-button-container">
+								<img id="like-button" alt="unlike" src="../../../resources/images/unliked.png">좋아요
+							</dt>
+							<dd class="post-meta-item" id="totalLikes">${dto.bLike}</dd>
+							<dt class="post-meta-item">스크랩</dt>
+							<dd class="post-meta-item">0</dd>
+							<dt class="post-meta-item">조회수</dt>
+							<dd class="post-meta-item">${dto.bHit}</dd>
+						</dl>
+					</div> 
+				</div> <!-- 포스트 중단 end -->
+				<hr>
+				<div> <!-- 포스트 하단 -->
+					<!-- 댓글 -->
+					<div class="reply-section">
+						<div>
+							<input type="text" size="60" placeholder="댓글을 달아보세요" id="replyInput">
+							<button class="btn btn-secondary" type="button" id="replyBtn">댓글</button>
+						</div>
+						<div class="reply-form">
+							<table id="replyTable">
+								<tr id="replyTitle">
+									<th>bId</th>
+									<th>bContent</th>
+									<th>date</th>
+									<th></th>
 								</tr>
-							</c:forEach>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-2"></div>
-			</div>
-		</div>
-	</main>
+								<c:forEach items="${replyList}" var="reply">
+									<tr id="replyContent">
+										<c:if test="${reply.bIndent == 1}"> <!-- 댓글인 경우 -->
+											<td>${reply.bId}</td>
+											<td>${reply.bContent}</td>
+											<td>${reply.bDate}</td>
+											<td>
+												<button type="button" class="btn btn-secondary childReplyBtn"
+													    data-bGroup="${reply.bGroup}"
+													    data-bStep="${reply.bStep}"
+													    data-bIndent="${reply.bIndent}">
+												     답글
+									     	    </button>
+							     	   		</td>
+							     	    </c:if>
+							     	    <c:if test="${reply.bIndent != 1}">
+							     	    	<td class="replyChild-td">${reply.bId}</td>
+											<td class="replyChild-td"><strong>@${reply.bGroup}</strong>&nbsp;${reply.bContent}</td>
+											<td class="replyChild-td">${reply.bDate}</td>
+											<td class="replyChild-td"></td>
+							     	    </c:if>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+					</div> <!-- 댓글 end -->
+				</div> <!-- 포스트 하단 end -->
+			</div> <!-- col-md-12 end -->
+		</div> <!-- row end -->
+	</div> <!-- container-fluid end -->
+	
 	<!-- 카카오톡 공유 임시 DOM -->
 	<div id="tempDiv"style="display: none;" ></div>
 </body>
+
 <div id="updateResult" data-update-result="${updateResult}"></div>
 <div id="bId" data-bId="${dto.bId}"></div>
 <div id="bTitle" data-bTitle="${dto.bTitle}"></div>
 <div id="bContent" data-bContent='${dto.bContent}'></div>
-<%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
+
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/detailPage.js"></script>
-<!-- 카카오 공유 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
+
 <script>
 // 댓글
 const replyBtn = document.querySelector("#replyBtn")
@@ -140,12 +150,12 @@ replyBtn.addEventListener('click', function(){
 
 const editReplyTable = (replyList) => {
 	let output = `<table id="replyTable">
-				  <tr>
-			  		  <th>bId</th>
-					  <th>bContent</th>
-					  <th>bDate</th>
-					  <th></th>
-				  </tr>`
+					  <tr>
+				  		  <th>bId</th>
+						  <th>bContent</th>
+						  <th>bDate</th>
+						  <th></th>
+					  </tr>`
   	for(let i in replyList){
   		if(replyList[i].bIndent == 1){
 	  		output += `<tr>

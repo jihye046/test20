@@ -185,9 +185,9 @@ if(deleteResult == "true"){
 }
 
 if(userId) {
-	document.querySelector("#welcomeText").innerHTML = `<a href="/user/myPage">${userNickname}</a>님 환영합니다👏`
+	document.querySelector("#welcomeText").innerHTML = `<a href="/user/myPage">${userNickname}</a>님 환영합니다.`
 } else {
-	document.querySelector("#welcomeText").innerHTML = "로그인해주세요"		
+	//document.querySelector("#welcomeText").innerHTML = "로그인"		
 }
 
 const badge = document.querySelector(".badge")
