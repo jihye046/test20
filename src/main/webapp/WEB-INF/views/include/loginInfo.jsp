@@ -31,19 +31,21 @@
 						</div>
 						<div class="col-md-6 header-welcomeText">
 							<h5 id="welcomeText"></h5>
-							<a id="loginLogoutLink" href="${empty sessionScope.userId ?
+							<a class="menubar-button-primary" id="loginLogoutLink" href="${empty sessionScope.userId ?
 														  '/user/loginPage' : 
 														  '/user/logout'}" 
-														  style="font-size: 15px; padding: 10px;">
+														  style="padding: 10px; font-size: 14px;">
 														  ${empty sessionScope.userId ? '로그인' : '로그아웃'}</a>
-							<a href="/board/createPage" style="font-size: 15px;">글쓰기</a>
+							<a class="menubar-button-primary" href="/board/createPage" style="font-size: 14px;">글쓰기</a>
 						</div>
 					</nav>		
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="my-5 py-5">
+<!-- 	<div class="my-5 py-5"> -->
+<!-- 	</div> -->
+	<div class="ee5">
 	</div>
 		<!-- logo & userInfo -->
 <!-- 		<a href="/"> -->

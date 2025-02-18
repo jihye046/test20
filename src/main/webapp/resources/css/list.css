@@ -3,6 +3,11 @@
 @import url(https://fonts.googleapis.com/css?family=Oswald);
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
+/* 상단바 */
+.start-header {
+	background-color: rgb(245, 238, 232) !important;
+}
+
 .container-fluid {
 	padding: 50px; width: 1200px;
 	padding: 50px;
@@ -52,6 +57,8 @@ span.page-link {
   display: flex;
   flex-direction: column;  
   justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 이미지 영역 높이 고정 */
@@ -182,45 +189,45 @@ span.page-link {
 }
 
 /* 검색 필터 및 검색창 */
-.styled-select, .styled-input {
-    width: auto;
-}
+/* .styled-select, .styled-input { */
+/*     width: auto; */
+/* } */
 
 /* 검색 필터 */
-.styled-select {
-  font-size: 12px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f8f8f8;
-  color: #333;
-  width: 80px;
-}
+/* .styled-select { */
+/*   font-size: 12px; */
+/*   padding: 5px; */
+/*   border: 1px solid #ccc; */
+/*   border-radius: 5px; */
+/*   background-color: #f8f8f8; */
+/*   color: #333; */
+/*   width: 80px; */
+/* } */
 
 /* 검색창 */
-.styled-input {
-	font-size: 12px;
-	padding: 5px;
-	width: 200px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	background-color: #f8f8f8;
-	color: #333;
-	transition: all 0.3s ease; /* 포커스 시 애니메이션 */	
-}
+/* .styled-input { */
+/* 	font-size: 12px; */
+/* 	padding: 5px; */
+/* 	width: 200px; */
+/* 	border: 1px solid #ccc; */
+/* 	border-radius: 5px; */
+/* 	background-color: #f8f8f8; */
+/* 	color: #333; */
+/* 	transition: all 0.3s ease; 포커스 시 애니메이션	 */
+/* } */
 
 /* 검색창 포커스 스타일 */
-.styled-input:focus {
-  border-color: #007bff;
-  background-color: #fff;
-  outline: none;
+/* .styled-input:focus { */
+/*   border-color: #007bff; */
+/*   background-color: #fff; */
+/*   outline: none; */
 }
 
 /* 검색창 placeholder 텍스트 스타일 */
-.styled-input::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
+/* .styled-input::placeholder { */
+/*   color: #aaa; */
+/*   font-style: italic; */
+/* } */
 
 /* 작은 화면에서 레이아웃 조정 */
 @media (max-width: 768px) {

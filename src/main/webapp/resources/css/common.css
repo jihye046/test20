@@ -36,7 +36,8 @@ body{
 /* 	line-height: 24px; */
 /* 	font-weight: 400; */
 /* 	color: #212112; */
-	background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat-back.svg');
+/* 	background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat-back.svg'); */
+    background-color: rgb(245, 238, 232) !important;
 	background-position: center;
 	background-repeat: repeat;
 	background-size: 7%;
@@ -210,15 +211,7 @@ h1{
 	color: #212112;
 	text-align: center;
 }
-/* p{ */
-/* 	text-align: center; */
-/* 	margin: 0; */
-/* 	padding-top: 10px; */
-/* 	opacity: 1; */
-/* 	transform: translate(0); */
-/*     transition: all 300ms linear; */
-/*     transition-delay: 1700ms; */
-/* } */
+
 body.hero-anime p{
 	opacity: 0;
 	transform: translateY(40px);
@@ -480,6 +473,54 @@ body.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 	border-color: transparent;
 }
 
+/* .buttonn-primary
+================================================== */
+
+	/* 배경이 없는 글자 버튼 */
+.button-primary {
+	border: none;
+	color: #ad9f94;
+	background-color: transparent;
+	font-size: 16px;
+	transition: color 0.3s ease;
+	text-align: center;
+}
+
+.button-primary:hover {
+	color: #C4B39D
+}
+
+	/* 배경이 있는 버튼 */
+.button-filled-primary {
+	border: none;
+	background-color: #ad9f94;
+	color: #fff;
+	font-size: 14px;
+	padding: 7px 10px;
+	border-radius: 5px;
+	transition: background-color 0.3s ease;
+}
+
+.button-filled-primary:hover {
+	background-color: #9e9a7c;
+}
+	
+	/* 상단 메뉴바 버튼 */
+.menubar-button-primary{
+	border: none;
+	color: rgb(64, 64, 64);
+	background-color: transparent;
+	font-size: 16px;
+	transition: color 0.3s ease;
+	text-align: center;
+}
+
+.menubar-button-primary:hover {
+	color: #B0B0B0;
+}
+
+	
+
 /* #Media
 ================================================== */
 
@@ -541,6 +582,48 @@ body.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 	}
 }
 
+/* input */
+.styled-input {
+	width: auto;
+}
+
+.styled-input {
+	font-size: 12px;
+	padding: 5px;
+	width: 200px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f8f8f8;
+	color: #333;
+	transition: all 0.3s ease; /* 포커스 시 애니메이션 */		
+}
+
+.styled-input:focus {
+	border-color: #007bff;
+ 	background-color: #fff;
+  	outline: none;
+}
+
+.styled-input::placeholder {
+  	color: #aaa;
+  	font-style: italic;
+}
+
+/* select-box */
+.styled-select {
+	width: auto;
+}
+
+.styled-select {
+	font-size: 12px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #f8f8f8;
+	color: #333;
+	width: 80px;	
+}
+
 /* #Link to page
 ================================================== */
 
@@ -561,4 +644,12 @@ body.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 }
 body.dark .logo img {
   	filter: brightness(100%);
+}
+
+.ee5 {
+    padding-top: 4.7rem !important;
+}
+
+.ee5 {
+    padding-bottom: 5rem !important;
 }

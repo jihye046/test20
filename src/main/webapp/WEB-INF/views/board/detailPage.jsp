@@ -14,7 +14,7 @@
 					<div class="title-and-name">
 						<h1>${dto.bTitle}</h1>
 						<span class=bName>${dto.bName}</span>
-						<button type="button">팔로우</button>
+						<button class="button-primary" type="button">팔로우</button>
 					</div>
 					<!-- 드롭다운 버튼 -->
 					<div class="dropdown">
@@ -54,49 +54,81 @@
 						</dl>
 					</div> 
 				</div> <!-- 포스트 중단 end -->
-				<hr>
-				<div> <!-- 포스트 하단 -->
+				
+<!-- 				<div> 포스트 하단 -->
+				<!-- 새로운 댓글 -->
+				<div class="reply-form">
+					<div class="comment-input-container">
+						<input class="styled-input" type="text" id="comment-input" placeholder="댓글" required>
+						<button class="submit-comment button-filled-primary" type="button" id="commentBtn">댓글</button>
+					</div>
+					<div class="comments">
+						<article>
+							<c:forEach items="${replyList}" var="comment">
+								<c:if test="${comment.bIndent == 1}">
+									<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+									<h4 class="author-name"><a href="#">${comment.bName}</a></h4>
+									<time class="post-time">${comment.bDate}</time>
+								    <p class="post-content">${comment.bContent}</p>
+								    <button type="button" class="button-filled-primary comment-child-btn" data-bGroup="${comment.bGroup}"
+								    													data-bStep="${comment.bStep}"
+								    													data-bIndent="${comment.bIndent}">
+								    	답글
+								    </button>	
+								</c:if>
+								<c:if test="${comment.bIndent != 1}">
+									<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+									<h4 class="author-name comment-child"><a href="#">${comment.bName}</a></h4>
+									<time class="post-time comment-child">${comment.bDate}</time>
+								    <p class="post-content comment-child">${comment.bContent}</p>
+								</c:if>
+						    </c:forEach>
+						</article>
+					</div>
+				 </div>
+					
 					<!-- 댓글 -->
-					<div class="reply-section">
-						<div>
-							<input type="text" size="60" placeholder="댓글을 달아보세요" id="replyInput">
-							<button class="btn btn-secondary" type="button" id="replyBtn">댓글</button>
-						</div>
-						<div class="reply-form">
-							<table id="replyTable">
-								<tr id="replyTitle">
-									<th>bId</th>
-									<th>bContent</th>
-									<th>date</th>
-									<th></th>
-								</tr>
-								<c:forEach items="${replyList}" var="reply">
-									<tr id="replyContent">
-										<c:if test="${reply.bIndent == 1}"> <!-- 댓글인 경우 -->
-											<td>${reply.bId}</td>
-											<td>${reply.bContent}</td>
-											<td>${reply.bDate}</td>
-											<td>
-												<button type="button" class="btn btn-secondary childReplyBtn"
-													    data-bGroup="${reply.bGroup}"
-													    data-bStep="${reply.bStep}"
-													    data-bIndent="${reply.bIndent}">
-												     답글
-									     	    </button>
-							     	   		</td>
-							     	    </c:if>
-							     	    <c:if test="${reply.bIndent != 1}">
-							     	    	<td class="replyChild-td">${reply.bId}</td>
-											<td class="replyChild-td"><strong>@${reply.bGroup}</strong>&nbsp;${reply.bContent}</td>
-											<td class="replyChild-td">${reply.bDate}</td>
-											<td class="replyChild-td"></td>
-							     	    </c:if>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-					</div> <!-- 댓글 end -->
-				</div> <!-- 포스트 하단 end -->
+<!-- 					<div class="reply-section"> -->
+<!-- 						<div> -->
+<!-- 							<input type="text" size="60" placeholder="댓글을 달아보세요" id="replyInput"> -->
+<!-- 							<button class="btn btn-secondary" type="button" id="replyBtn">댓글</button> -->
+<!-- 						</div> -->
+<!-- 						<div class="reply-form"> -->
+<!-- 							<table id="replyTable"> -->
+<!-- 								<tr id="replyTitle"> -->
+<!-- 									<th>bId</th> -->
+<!-- 									<th>bContent</th> -->
+<!-- 									<th>date</th> -->
+<!-- 									<th></th> -->
+<!-- 								</tr> -->
+<%-- 								<c:forEach items="${replyList}" var="reply"> --%>
+<!-- 									<tr id="replyContent"> -->
+<%-- 										<c:if test="${reply.bIndent == 1}"> <!-- 댓글인 경우 --> --%>
+<%-- 											<td>${reply.bId}</td> --%>
+<%-- 											<td>${reply.bContent}</td> --%>
+<%-- 											<td>${reply.bDate}</td> --%>
+<!-- 											<td> -->
+<!-- 												<button type="button" class="btn btn-secondary childReplyBtn" -->
+<%-- 													    data-bGroup="${reply.bGroup}" --%>
+<%-- 													    data-bStep="${reply.bStep}" --%>
+<%-- 													    data-bIndent="${reply.bIndent}"> --%>
+<!-- 												     답글 -->
+<!-- 									     	    </button> -->
+<!-- 							     	   		</td> -->
+<%-- 							     	    </c:if> --%>
+<%-- 							     	    <c:if test="${reply.bIndent != 1}"> --%>
+<%-- 							     	    	<td class="replyChild-td">${reply.bId}</td> --%>
+<%-- 											<td class="replyChild-td"><strong>@${reply.bGroup}</strong>&nbsp;${reply.bContent}</td> --%>
+<%-- 											<td class="replyChild-td">${reply.bDate}</td> --%>
+<!-- 											<td class="replyChild-td"></td> -->
+<%-- 							     	    </c:if> --%>
+<!-- 									</tr> -->
+<%-- 								</c:forEach> --%>
+<!-- 							</table> -->
+<!-- 						</div> -->
+<!-- 					</div>  -->
+					<!-- 댓글 end -->
+<!-- 				</div> 포스트 하단 end -->
 			</div> <!-- col-md-12 end -->
 		</div> <!-- row end -->
 	</div> <!-- container-fluid end -->
@@ -117,9 +149,11 @@
 
 <script>
 // 댓글
-const replyBtn = document.querySelector("#replyBtn")
-const replyTable = document.querySelector("#replyTable")
-const replyInput = document.querySelector("#replyInput")
+const replyBtn = document.querySelector("#commentBtn")
+// const replyTable = document.querySelector("#replyTable")
+const replyTable = document.querySelector(".reply-form") // jh
+// const replyInput = document.querySelector("#replyInput")
+const replyInput = document.querySelector("#comment-input") // jh
 
 replyBtn.addEventListener('click', function(){
 	let replyInputValue = replyInput.value
@@ -149,6 +183,7 @@ replyBtn.addEventListener('click', function(){
 })
 
 const editReplyTable = (replyList) => {
+	/*
 	let output = `<table id="replyTable">
 					  <tr>
 				  		  <th>bId</th>
@@ -181,11 +216,44 @@ const editReplyTable = (replyList) => {
   		}
   	}
 		output += `</table>`
+	*/
+	let output = `<table id="replyTable">
+				  <tr>
+			  		  <th>bId</th>
+					  <th>bContent</th>
+					  <th>bDate</th>
+					  <th></th>
+				  </tr>`
+				  
+		for(let i in replyList){
+			if(replyList[i].bIndent == 1){
+			output += `
+						<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+						<h4 class="author-name"><a href="#">${comment.bName}</a></h4>
+						<time class="post-time">${comment.bDate}</time>
+					    <p class="post-content">${comment.bContent}</p>
+					    <button type="button" class="button-filled-primary comment-child-btn" data-bGroup="${comment.bGroup}"
+					    													data-bStep="${comment.bStep}"
+					    													data-bIndent="${comment.bIndent}">
+					    	답글
+					    </button>	
+			   		  `
+			} else {
+				output += `
+							<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+							<h4 class="author-name comment-child"><a href="#">${comment.bName}</a></h4>
+							<time class="post-time comment-child">${comment.bDate}</time>
+						    <p class="post-content comment-child">${comment.bContent}</p>
+				   		  `
+		}
+		}
+		output += `</table>`
 	return output
 }
 
 // 답글
 // 새로운 댓글이 추가될 때마다 이벤트 리스너를 등록
+/*
 function registerEventListeners(){
 	const childReplyBtns = document.querySelectorAll(".childReplyBtn")
 	childReplyBtns.forEach(childReplyBtn => { // childReplyBtn - 임시변수
@@ -238,10 +306,118 @@ function registerEventListeners(){
 	    })
 	})
 }
+*/
+
+/*
+function registerEventListeners(){
+	const childReplyBtns = document.querySelectorAll(".comment-child-btn")
+	childReplyBtns.forEach(childReplyBtn => { // childReplyBtn - 임시변수
+	    childReplyBtn.addEventListener('click', function(){
+	        
+	        // 기존에 열려있던 답글 창이 있다면 닫기
+	        const openReplyCells = document.querySelectorAll('.commentCell'); // <td>
+			openReplyCells.forEach(cell => {
+			    cell.parentNode.removeChild(cell); // <tr>
+			})
+
+	        const tr = this.closest('tr') // 클릭된 버튼이 속한 행 찾기
+	        const bGroup = this.getAttribute('data-bGroup') // JS와 HTML 간에 데이터를 주고받을 수 있으며, 'data-'로 시작하는 속성은 원하는 데이터를 속성으로 저장할 수 있음. JS에서는 'getAttribute()' 메서드를 사용하여 해당 속성 값을 가져올 수 있음'
+	        const bStep = this.getAttribute('data-bStep')	
+	        const bIndent = this.getAttribute('data-bIndent')
+	        
+	        // 새로운 입력 필드 추가
+            const output = replyChildUI()
+            // 행의 끝에 새로운 입력 필드 추가
+            tr.insertAdjacentHTML('afterend', output);
+            
+        	const sendButton = tr.nextElementSibling.querySelector('button');
+            sendButton.addEventListener('click', function() {
+            	const bContent = tr.nextElementSibling.querySelector('input').value // 입력된 내용 가져오기
+                $.ajax({
+                	type: "post",
+                	url: "replyChildInsert",
+                	data: {
+                		bContent: bContent,
+                		bGroup: bGroup,
+                		bStep: bStep,
+                		bIndent: bIndent
+                	},
+                	dataType: "json",
+                	success: function(replyList){
+                		replyInput.value = ''
+               			replyTable.innerHTML = ''
+               			const output = editReplyTable(replyList)
+               			replyTable.innerHTML = output
+               			registerEventListeners()
+                	},
+                	error: function(){
+                		console.log("error")
+                	}
+                })
+            	
+            	tr.nextElementSibling.remove() // 답글 창 닫기
+            })
+            
+	    })
+	})
+}
+*/
+function registerEventListeners(){
+	const childReplyBtns = document.querySelectorAll(".comment-child-btn")
+	childReplyBtns.forEach(childReplyBtn => { // childReplyBtn - 임시변수
+	    childReplyBtn.addEventListener('click', function(){
+	        
+	        // 기존에 열려있던 답글 창이 있다면 닫기
+	        const openReplyCells = document.querySelectorAll('.commentCell'); // <td>
+			openReplyCells.forEach(cell => {
+			    cell.parentNode.removeChild(cell); // <tr>
+			})
+
+	        const tr = this.closest('tr') // 클릭된 버튼이 속한 행 찾기
+	        const bGroup = this.getAttribute('data-bGroup') // JS와 HTML 간에 데이터를 주고받을 수 있으며, 'data-'로 시작하는 속성은 원하는 데이터를 속성으로 저장할 수 있음. JS에서는 'getAttribute()' 메서드를 사용하여 해당 속성 값을 가져올 수 있음'
+	        const bStep = this.getAttribute('data-bStep')	
+	        const bIndent = this.getAttribute('data-bIndent')
+	        
+	        // 새로운 입력 필드 추가
+            const output = replyChildUI()
+            // 행의 끝에 새로운 입력 필드 추가
+            tr.insertAdjacentHTML('afterend', output);
+            
+        	const sendButton = tr.nextElementSibling.querySelector('button');
+            sendButton.addEventListener('click', function() {
+            	const bContent = tr.nextElementSibling.querySelector('input').value // 입력된 내용 가져오기
+                $.ajax({
+                	type: "post",
+                	url: "replyChildInsert",
+                	data: {
+                		bContent: bContent,
+                		bGroup: bGroup,
+                		bStep: bStep,
+                		bIndent: bIndent
+                	},
+                	dataType: "json",
+                	success: function(replyList){
+                		replyInput.value = ''
+               			replyTable.innerHTML = ''
+               			const output = editReplyTable(replyList)
+               			replyTable.innerHTML = output
+               			registerEventListeners()
+                	},
+                	error: function(){
+                		console.log("error")
+                	}
+                })
+            	
+            	tr.nextElementSibling.remove() // 답글 창 닫기
+            })
+            
+	    })
+	})
+}
 
 const replyChildUI = () => {
 	let output = `<tr>
-					  <td colspan="7" class="replyCell">
+					  <td colspan="7" class="commentCell">
 					      <input type="text" name="bContent" style="width: 370px;">
 					      <button class="btn btn-secondary" type="button" id="sendBtn">답글 작성</button>
 					  </td>
