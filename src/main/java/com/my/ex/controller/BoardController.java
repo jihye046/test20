@@ -70,11 +70,14 @@ public class BoardController {
 	public String detailBoard(HttpServletRequest request, Model model, HttpSession session) {
 		int bId = Integer.parseInt(request.getParameter("bId"));
 		String userId = (String)session.getAttribute("userId"); 
-		updateHitCount(bId);
+		
 		BoardDto dto = service.detailBoard(bId);
-		boolean isLiked = likeService.isLiked(bId, userId);
 		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
+		boolean isLiked = likeService.isLiked(bId, userId);
 		List<BoardDto> replyList = service.replyList(bGroup);
+		
+		updateHitCount(bId);
+		
 		model.addAttribute("dto", dto);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("isLiked", isLiked);

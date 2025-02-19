@@ -1,0 +1,101 @@
+.fixed-buttons {
+	position: fixed;
+    top: 50%;
+    right: 23%; /* 오른쪽에서 떨어지게 */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.icon-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid lightgray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-button .count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+.icon-button.like img,
+.icon-button.bookmark img,
+.icon-button.share img,
+.icon-button.link img {
+    width: 30px;
+    height: 30px;
+}
+*/
+
+/*
+.icon-button.like {
+    border-color: #E6E6E6;
+}
+
+.icon-button.bookmark {
+    border-color: #E6E6E6;
+}
+
+.icon-button.share {
+    border-color: #E6E6E6;
+}
+*/
+
+.icon-button.like,
+.icon-button.bookmark,
+.icon-button.share,
+.icon-button.link {
+	border-color: #E6E6E6;	
+}
+
+.icon-button.link:hover,
+.icon-button.like:hover,
+.icon-button.bookmark:hover,
+.icon-button.share:hover {
+    background-color: #e0e0e0;
+}
+
+.icon-button.like:hover {
+    background-color: #f0f0f0;
+}
+
+.icon-button.bookmark:hover {
+    background-color: #f0f0f0;
+}
+
+.icon-button.share:hover {
+    background-color: #f0f0f0;
+}
+
+.icon-button.link:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 900px) {
+	.fixed-buttons {
+		display: none;
+	}
+}

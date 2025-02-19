@@ -473,6 +473,14 @@ body.dark .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 	border-color: transparent;
 }
 
+hr {
+    padding: 0;
+    height: 1px;
+    border: none;
+    background-color: #EAEDEF;
+    margin-top: 20px;
+}
+
 /* .buttonn-primary
 ================================================== */
 
