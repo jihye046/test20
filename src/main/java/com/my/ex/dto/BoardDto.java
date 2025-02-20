@@ -13,6 +13,7 @@ public class BoardDto {
 	private int bStep;
 	private int bIndent;
 	private String bLike;
+	private int bBookmark;
 	private int commentCount;
 	private String searchGubun;
 	private String searchText;
@@ -21,7 +22,7 @@ public class BoardDto {
 	public BoardDto() {}
 
 	public BoardDto(int bId, String bName, String bTitle, String bContent, Date bDate, int bHit, int bGroup, int bStep,
-			int bIndent, String bLike, int commentCount, String searchGubun, String searchText, String sortType) {
+			int bIndent, String bLike, int bBookmark, int commentCount, String searchGubun, String searchText, String sortType) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -32,6 +33,7 @@ public class BoardDto {
 		this.bStep = bStep;
 		this.bIndent = bIndent;
 		this.bLike = bLike;
+		this.bBookmark = bBookmark;
 		this.commentCount = commentCount;
 		this.searchGubun = searchGubun;
 		this.searchText = searchText;
@@ -117,6 +119,14 @@ public class BoardDto {
 	public void setbLike(String bLike) {
 		this.bLike = bLike;
 	}
+	
+	public int getbBookmark() {
+		return bBookmark;
+	}
+
+	public void setbBookmark(int bBookmark) {
+		this.bBookmark = bBookmark;
+	}
 
 	public int getCommentCount() {
 		return commentCount;
@@ -154,8 +164,8 @@ public class BoardDto {
 	public String toString() {
 		return "BoardDto [bId=" + bId + ", bName=" + bName + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bDate=" + bDate + ", bHit=" + bHit + ", bGroup=" + bGroup + ", bStep=" + bStep + ", bIndent="
-				+ bIndent + ", bLike=" + bLike + ", commentCount=" + commentCount + ", searchGubun=" + searchGubun
-				+ ", searchText=" + searchText + ", sortType=" + sortType + "]";
+				+ bIndent + ", bLike=" + bLike + ", bBookmark=" + bBookmark + ", commentCount=" + commentCount
+				+ ", searchGubun=" + searchGubun + ", searchText=" + searchText + ", sortType=" + sortType + "]";
 	}
 
 }

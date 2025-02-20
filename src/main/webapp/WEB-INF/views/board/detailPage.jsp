@@ -45,7 +45,7 @@
 						<dl class="post-meta-dl">
 							<span class="post-meta-item">${dto.bDate} </span>
 							<dt class="post-meta-item like-button-container">
-								<img id="like-button" alt="unlike" src="../../../resources/images/unliked.png">좋아요
+								좋아요
 							</dt>
 							<dd class="post-meta-item" id="totalLikes">${dto.bLike}</dd>
 							<dt class="post-meta-item">스크랩</dt>
@@ -58,20 +58,32 @@
 				<!-- fixed button -->
 				<div class="fixed-buttons">
 					<button class="icon-button like ">
-						<i class="likeFont"></i>
+						<i class="fa-heart" style="color: #666666;"></i>
 						<span class="count">${dto.bLike}</span>
-					</button>				
+					</button>			
+						
 					<button class="icon-button bookmark">
-						<i class="fa-regular fa-bookmark" style="color: #666666;"></i>
-						<span class="count">3</span>
+						<i class="fa-bookmark" style="color: #666666;"></i>
+						<span class="count">${dto.bBookmark}</span>
 					</button>
-					<span class="icon-button share">
+
+					<button class="icon-button share">
 						<i class="fa-regular fa-share-from-square" style="color: #666666;"></i>
-						<span class="count">12</span>
-					</span>
-					<span class="icon-button link">
+<!-- 						<span class="count">12</span> -->
+					</button>
+					
+<!-- 					<div class="share-options"> -->
+					<button class="share-option naver">
+						<span></span>
+					</button>
+					<button class="share-option kakaoTalk">
+						<span></span>
+					</button>
+<!-- 					</div> -->
+
+					<button class="icon-button link">
 						<i class="fa-solid fa-link" style="color: #666666;"></i>
-					</span>
+					</button>
 				</div> <!-- fixed button end -->
 				<!-- 댓글 -->
 				<hr>
@@ -125,6 +137,7 @@
 <div id="bTitle" data-bTitle="${dto.bTitle}"></div>
 <div id="bContent" data-bContent='${dto.bContent}'></div>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
+<div id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
 
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/detailPage.js"></script>

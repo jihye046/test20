@@ -1,7 +1,7 @@
 .fixed-buttons {
 	position: fixed;
     top: 50%;
-    right: 23%; /* 오른쪽에서 떨어지게 */
+    right: 20%; /* 오른쪽에서 떨어지게 */
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
@@ -39,30 +39,6 @@
     justify-content: center;
     align-items: center;
 }
-
-/*
-.icon-button.like img,
-.icon-button.bookmark img,
-.icon-button.share img,
-.icon-button.link img {
-    width: 30px;
-    height: 30px;
-}
-*/
-
-/*
-.icon-button.like {
-    border-color: #E6E6E6;
-}
-
-.icon-button.bookmark {
-    border-color: #E6E6E6;
-}
-
-.icon-button.share {
-    border-color: #E6E6E6;
-}
-*/
 
 .icon-button.like,
 .icon-button.bookmark,

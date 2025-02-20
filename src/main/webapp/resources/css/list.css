@@ -150,6 +150,18 @@ span.page-link {
   z-index: 1;
 }
 
+
+.snip1518:hover {
+	color: #747474;
+	transition: all 0.3s ease;
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.snip1518:hover .image{
+	opacity: 0.6;
+}
+
+
 .fa-comment::before {
 	content: "\f075"; /* fa-comment 아이콘의 유니코드 값 */
  	font-family: "Font Awesome 5 Free";
@@ -187,47 +199,6 @@ span.page-link {
     justify-content: flex-end; 
     width: 50%; 
 }
-
-/* 검색 필터 및 검색창 */
-/* .styled-select, .styled-input { */
-/*     width: auto; */
-/* } */
-
-/* 검색 필터 */
-/* .styled-select { */
-/*   font-size: 12px; */
-/*   padding: 5px; */
-/*   border: 1px solid #ccc; */
-/*   border-radius: 5px; */
-/*   background-color: #f8f8f8; */
-/*   color: #333; */
-/*   width: 80px; */
-/* } */
-
-/* 검색창 */
-/* .styled-input { */
-/* 	font-size: 12px; */
-/* 	padding: 5px; */
-/* 	width: 200px; */
-/* 	border: 1px solid #ccc; */
-/* 	border-radius: 5px; */
-/* 	background-color: #f8f8f8; */
-/* 	color: #333; */
-/* 	transition: all 0.3s ease; 포커스 시 애니메이션	 */
-/* } */
-
-/* 검색창 포커스 스타일 */
-/* .styled-input:focus { */
-/*   border-color: #007bff; */
-/*   background-color: #fff; */
-/*   outline: none; */
-}
-
-/* 검색창 placeholder 텍스트 스타일 */
-/* .styled-input::placeholder { */
-/*   color: #aaa; */
-/*   font-style: italic; */
-/* } */
 
 /* 작은 화면에서 레이아웃 조정 */
 @media (max-width: 768px) {

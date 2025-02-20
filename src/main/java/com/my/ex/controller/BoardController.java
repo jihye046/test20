@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +32,11 @@ import org.springframework.web.util.HtmlUtils;
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
+import com.my.ex.dto.BookmarkDto;
 import com.my.ex.dto.LikeDto;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
+import com.my.ex.service.BookmarkService;
 import com.my.ex.service.LikeService;
 
 @Controller
@@ -44,6 +48,9 @@ public class BoardController {
 	
 	@Autowired
 	private LikeService likeService;
+	
+	@Autowired
+	private BookmarkService bookmarkService;
 	
 	@Autowired
 	private KakaoMapRequestDto kakao;
@@ -74,13 +81,14 @@ public class BoardController {
 		BoardDto dto = service.detailBoard(bId);
 		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
 		boolean isLiked = likeService.isLiked(bId, userId);
+		boolean isBookmarked = bookmarkService.isBookmarked(bId, userId);
 		List<BoardDto> replyList = service.replyList(bGroup);
-		
 		updateHitCount(bId);
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("isLiked", isLiked);
+		model.addAttribute("isBookmarked", isBookmarked);
 		return "/board/detailPage";
 	}
 	
@@ -155,6 +163,43 @@ public class BoardController {
 		likeService.removeLike(dto);
 		int totalLikes = service.getTotalLikes(bId);
 		return new ResponseEntity<>(totalLikes, HttpStatus.OK);
+	}
+	
+	// 게시글 북마크
+	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> addBookmark(@RequestBody Map<String, String> request, HttpSession session) {
+		int bId = Integer.parseInt(request.get("bId"));
+		String userId = UserController.getUserIdFromSession(session);
+		
+		Map<String, Integer> response = new HashMap<>();
+		BookmarkDto dto = new BookmarkDto();
+		dto.setBId(bId);
+		dto.setUserId(userId);
+		bookmarkService.addBookmark(dto);
+		
+		int bookmarkCount = service.incrementBookmarkAndGetCount(bId);
+		response.put("bookmarkCount", bookmarkCount);
+		return response;
+	}
+	
+	
+	// 게시글 북마크 해제
+	@RequestMapping(value = "/removeBookmark", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Integer> removeBookmark(@RequestBody Map<String, String> request, HttpSession session) {
+		int bId = Integer.parseInt(request.get("bId"));
+		String userId = UserController.getUserIdFromSession(session);
+		
+		BookmarkDto dto = new BookmarkDto();
+		dto.setBId(bId);
+		dto.setUserId(userId);
+		bookmarkService.removeBookmark(dto);
+		
+		Map<String, Integer> response = new HashMap<>();
+		int bookmarkCount = service.decrementBookmarkAndGetCount(bId);
+		response.put("bookmarkCount", bookmarkCount);
+		return response;
 	}
 	
 	// 댓글

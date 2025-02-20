@@ -205,7 +205,8 @@ const updateBoardCards = () => {
 			const imageSrc = firstImg.src
 			card.innerHTML = `<img src="${imageSrc}" alt="image"/>`
 		} else {
-			card.innerHTML = '<img src="https://buly.kr/1RDn8CU" alt="image">'
+			//card.innerHTML = '<img src="https://buly.kr/1RDn8CU" alt="image">' // 기본 설정 이미지 있음
+			card.innerHTML = '<img src="https://i.seadn.io/gae/OGpebYaykwlc8Tbk-oGxtxuv8HysLYKqw-FurtYql2UBd_q_-ENAwDY82PkbNB68aTkCINn6tOhpA8pF5SAewC2auZ_44Q77PcOo870?auto=format&dpr=1&w=1000" alt="image">' // 기본 설정 이미지 없음 
 		}
 	})
 }

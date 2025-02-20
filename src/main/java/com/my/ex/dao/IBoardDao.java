@@ -15,6 +15,9 @@ public interface IBoardDao {
 	int incrementLikesCount(int bId); 
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
+	int incrementBookmarksCount(int bId); 
+	int decrementBookmarksCount(int bId);
+	int getTotalBookmarks(int bId);
 	void replyInsert(BoardDto dto);
 	void replyShape(int bGroup, int bStep);
 	List<BoardDto> replyList(int bGroup);

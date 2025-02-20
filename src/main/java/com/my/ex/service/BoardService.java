@@ -63,6 +63,23 @@ public class BoardService implements IBoardService {
 	public int getTotalLikes(int bId) {
 		return dao.getTotalLikes(bId);
 	}
+	
+	@Override
+	public int incrementBookmarkAndGetCount(int bId) {
+		dao.incrementBookmarksCount(bId); 
+		return dao.getTotalBookmarks(bId);
+	}
+
+	@Override
+	public int decrementBookmarkAndGetCount(int bId) {
+		dao.decrementBookmarksCount(bId);
+		return dao.getTotalBookmarks(bId);
+	}
+	
+	@Override
+	public int getTotalBookmarks(int bId) {
+		return dao.getTotalBookmarks(bId);
+	}
 
 	@Override
 	public void replyInsert(BoardDto dto) {

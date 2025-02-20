@@ -15,6 +15,9 @@ public interface IBoardService {
 	int incrementLikesCount(int bId);
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
+	int incrementBookmarkAndGetCount(int bId);
+	int decrementBookmarkAndGetCount(int bId);
+	int getTotalBookmarks(int bId);
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);

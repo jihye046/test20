@@ -84,7 +84,7 @@ public class UserController {
 	}
 	
 	// 세션에 저장된 userId 가져오기
-	private String getUserIdFromSession(HttpSession session) {
+	public static String getUserIdFromSession(HttpSession session) {
 	    return (String) session.getAttribute("userId");
 	}
 	
@@ -181,6 +181,10 @@ public class UserController {
 	@RequestMapping("/chat")
 	public String chatForm() {
 		return "/user/chatPage";
+	}
+	
+	public void getUserId(HttpSession session) {
+		
 	}
 	
 }
