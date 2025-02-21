@@ -66,20 +66,26 @@
 						<i class="fa-bookmark" style="color: #666666;"></i>
 						<span class="count">${dto.bBookmark}</span>
 					</button>
-
-					<button class="icon-button share">
-						<i class="fa-regular fa-share-from-square" style="color: #666666;"></i>
-<!-- 						<span class="count">12</span> -->
-					</button>
 					
-<!-- 					<div class="share-options"> -->
-					<button class="share-option naver">
-						<span></span>
-					</button>
-					<button class="share-option kakaoTalk">
-						<span></span>
-					</button>
-<!-- 					</div> -->
+					<div class="share">
+						<button class="icon-button share">
+							<i class="fa-regular fa-share-from-square" style="color: #666666;"></i>
+						</button>
+					
+					<!-- share-option -->
+						<div class="share-option-div">
+							<button class="share-option naver" onclick="shareNaver()">
+					    		<span>
+									<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
+									<script type="text/javascript">new ShareNaver.makeButton({"type": "b"});</script>
+								</span>
+							</button>
+							<button class="share-option kakaoTalk" onclick="shareKakao()">
+								<img src="https://buly.kr/DPTKLrS" alt="kakao" style="width:20px;">
+							</button>
+						</div>
+					</div>
+					<!-- share option end -->
 
 					<button class="icon-button link">
 						<i class="fa-solid fa-link" style="color: #666666;"></i>
@@ -124,6 +130,7 @@
 						</div>
 					</div>
 				 </div>
+				 <div class="copy-message" id="copyMessage">링크가 복사되었습니다.</div>
 			</div> <!-- col-md-12 end -->
 		</div> <!-- row end -->
 	</div> <!-- container-fluid end -->
