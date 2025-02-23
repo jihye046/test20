@@ -25,15 +25,15 @@
 						<div class="dropdown-menu dropdown-menu-right">
 				    		<a class="dropdown-item" href="/board/updatePage?bId=${dto.bId}">수정</a>
 				    		<a class="dropdown-item" href="/board/deleteBoard?bId=${dto.bId}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-				    		<a class="dropdown-item social-share-btn" href="javascript:shareNaver()">네이버 공유
-					    		<span>
-									<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script>
-									<script type="text/javascript">new ShareNaver.makeButton({"type": "b"});</script>
-								</span>
-							</a>	
-							<a id="kakaotalk-sharing-btn" class="dropdown-item social-share-btn" href="javascript:shareKakao()">카카오 공유
-								<img src="https://buly.kr/DPTKLrS" alt="kakao" style="width:42px; padding-left: 20px;">
-							</a>
+<!-- 				    		<a class="dropdown-item social-share-btn" href="javascript:shareNaver()">네이버 공유 -->
+<!-- 					    		<span> -->
+<!-- 									<script type="text/javascript" src="https://ssl.pstatic.net/share/js/naver_sharebutton.js"></script> -->
+<!-- 									<script type="text/javascript">new ShareNaver.makeButton({"type": "b"});</script> -->
+<!-- 								</span> -->
+<!-- 							</a>	 -->
+<!-- 							<a id="kakaotalk-sharing-btn" class="dropdown-item social-share-btn" href="javascript:shareKakao()">카카오 공유 -->
+<!-- 								<img src="https://buly.kr/DPTKLrS" alt="kakao" style="width:42px; padding-left: 20px;"> -->
+<!-- 							</a> -->
 			    		</div>
 			    	</div><!-- 드롭다운 end -->
 				</div> <!-- 포스트 상단 end -->
@@ -41,6 +41,27 @@
 				<!-- 포스트 중단 -->	
 				<div class="post">
 					${dto.bContent}
+					<!-- 사용자가 올린 사진 list -->
+					<div class="image-container">
+						<button class="image-button">
+							<img alt="image1" src=""/>	
+						</button>
+						<button class="image-button">
+							<img alt="image2" src=""/>	
+						</button>
+						<button class="image-button">
+							<img alt="image3" src=""/>	
+						</button>
+						<button class="image-button">
+							<img alt="image4" src=""/>	
+						</button>
+						<button class="image-button">
+							<img alt="image5" src=""/>
+							<span class="more-text">+ 더보기</span>	
+						</button>
+						
+					</div>
+					<!-- 포스트 중단 end -->
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">
 							<span class="post-meta-item">${dto.bDate} </span>
@@ -54,7 +75,8 @@
 							<dd class="post-meta-item">${dto.bHit}</dd>
 						</dl>
 					</div> 
-				</div> <!-- 포스트 중단 end -->
+				</div> 
+				
 				<!-- fixed button -->
 				<div class="fixed-buttons">
 					<button class="icon-button like ">
@@ -72,7 +94,7 @@
 							<i class="fa-regular fa-share-from-square" style="color: #666666;"></i>
 						</button>
 					
-					<!-- share-option -->
+					<!-- 공유 옵션 -->
 						<div class="share-option-div">
 							<button class="share-option naver" onclick="shareNaver()">
 					    		<span>
@@ -85,7 +107,7 @@
 							</button>
 						</div>
 					</div>
-					<!-- share option end -->
+					<!-- 공유 옵션 end -->
 
 					<button class="icon-button link">
 						<i class="fa-solid fa-link" style="color: #666666;"></i>

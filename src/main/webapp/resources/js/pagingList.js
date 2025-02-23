@@ -31,7 +31,6 @@ sort_latest.addEventListener('click',function(){
 	}
 })
 
-
 sort_hit.addEventListener('click', function(){
 	if(!this.classList.contains('active')){
 		sort('hit')
