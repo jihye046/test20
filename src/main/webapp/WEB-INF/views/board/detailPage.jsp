@@ -4,6 +4,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/detailPage.css" rel="styleSheet">
 <link href="../../../resources/css/fixedButton.css" rel="styleSheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.0/dist/jquery.fancybox.min.css">
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
@@ -41,26 +42,45 @@
 				<!-- 포스트 중단 -->	
 				<div class="post">
 					${dto.bContent}
-					<!-- 사용자가 올린 사진 list -->
-					<div class="image-container">
-						<button class="image-button">
-							<img alt="image1" src=""/>	
-						</button>
-						<button class="image-button">
-							<img alt="image2" src=""/>	
-						</button>
-						<button class="image-button">
-							<img alt="image3" src=""/>	
-						</button>
-						<button class="image-button">
-							<img alt="image4" src=""/>	
-						</button>
-						<button class="image-button">
-							<img alt="image5" src=""/>
-							<span class="more-text">+ 더보기</span>	
-						</button>
-						
-					</div>
+					
+<!-- 					사용자가 올린 사진 list -->
+<!-- 					<div>	 -->
+<!-- 						<div class="image-container"> -->
+<!-- 							<div class="card"> -->
+<!-- 								<div class="card-image"> -->
+<!-- 									<a href="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
+<!-- 										<img src="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401_1280.jpg" alt="Image Gallery"> -->
+<!-- 									</a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="card"> -->
+<!-- 								<div class="card-image"> -->
+<!-- 									<a href="https://cdn.pixabay.com/photo/2023/07/13/05/36/mountains-8123933_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 2"> -->
+<!-- 										<img src="https://cdn.pixabay.com/photo/2023/07/13/05/36/mountains-8123933_1280.jpg" alt="Image Gallery"> -->
+<!-- 									</a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="card"> -->
+<!-- 								<div class="card-image"> -->
+<!-- 									<a href="https://cdn.pixabay.com/photo/2022/10/24/20/22/muhlviertel-7544316_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
+<!-- 							          <img src="https://cdn.pixabay.com/photo/2022/10/24/20/22/muhlviertel-7544316_1280.jpg" alt="Image Gallery"> -->
+<!-- 							        </a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 							<div class="card"> -->
+<!-- 								<div class="card-image"> -->
+<!-- 									<a href="https://cdn.pixabay.com/photo/2022/12/12/21/35/stream-7651969_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
+<!-- 							          <img src="https://cdn.pixabay.com/photo/2022/12/12/21/35/stream-7651969_1280.jpg" alt="Image Gallery"> -->
+<!-- 							        </a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<button class="next-btn" onclick="showNextImages()">></button> -->
+<!-- 					</div> -->
+
+					<!-- 동적으로 이미지를  추가할 div -->
+					<div id="image-gallery"></div>
+					
 					<!-- 포스트 중단 end -->
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">
@@ -159,6 +179,9 @@
 	
 	<!-- 카카오톡 공유 임시 DOM -->
 	<div id="tempDiv"style="display: none;" ></div>
+	
+	<!-- fancybox 이미지 갤러리 -->
+	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.0/dist/jquery.fancybox.min.js"></script>	
 </body>
 
 <div id="updateResult" data-update-result="${updateResult}"></div>
@@ -172,6 +195,7 @@
 <script src="../../../resources/js/detailPage.js"></script>
 <script src="../../../resources/js/fixedButton.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
+
 
 <script>
 // 댓글

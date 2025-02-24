@@ -113,8 +113,63 @@ body {
 
 /* 이미지 목록
 ================================================== */
+.image-container {
+	display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 추가 이미지들이 넘칠 때 보이지 않게 설정 */
+}
 
+.card {
+	border-radius: 2px;
+    background: #ffffff; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24); /* box shadow */
+}
 
+.card-image {
+	position: relative;
+    display: block;
+    width: 100%;
+    padding-top: 70%; /* 비율 맞추기 위해 padding-top 사용 */
+    background: #ffffff;
+}
+
+.card-image img {
+	display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.extra-images {
+	display: none; /* 초기에는 안보이게 설정 */
+	display: flex;
+	gap: 10px;
+}
+
+.next-btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .main .container {
+    grid-template-columns: 1fr;
+  }
+}
 
 
 /* 댓글
