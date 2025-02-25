@@ -124,6 +124,7 @@ const shareOptionDiv = document.querySelector(".share-option-div")
 
 const bTitle = document.querySelector("#bTitle").getAttribute("data-bTitle")
 const bContent = document.querySelector("#bContent").getAttribute("data-bContent")
+window.bContent = bContent
 
 shareBtn.addEventListener('click', function(){
 	shareBtn.classList.toggle('active')
@@ -192,7 +193,7 @@ function getThumbnailUrl() {
     tmpTag.innerHTML = bContent
     
 	// 게시글에 이미지가 없는 경우 설정할 기본 이미지
-	const defaultImageUrl = 'https://plus.unsplash.com/premium_photo-1674939147629-bfb664a1ae68?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+	const defaultImageUrl = 'https://buly.kr/611YAUp'
 	
 	// 첫 번째 img 요소의 src를 가져오고, 없을 경우 기본 이미지 URL 반환
 	const imgElement = tmpTag.querySelector('img')

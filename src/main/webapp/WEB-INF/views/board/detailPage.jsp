@@ -42,46 +42,6 @@
 				<!-- 포스트 중단 -->	
 				<div class="post">
 					${dto.bContent}
-					
-<!-- 					사용자가 올린 사진 list -->
-<!-- 					<div>	 -->
-<!-- 						<div class="image-container"> -->
-<!-- 							<div class="card"> -->
-<!-- 								<div class="card-image"> -->
-<!-- 									<a href="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
-<!-- 										<img src="https://cdn.pixabay.com/photo/2023/05/22/10/49/houses-8010401_1280.jpg" alt="Image Gallery"> -->
-<!-- 									</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="card"> -->
-<!-- 								<div class="card-image"> -->
-<!-- 									<a href="https://cdn.pixabay.com/photo/2023/07/13/05/36/mountains-8123933_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 2"> -->
-<!-- 										<img src="https://cdn.pixabay.com/photo/2023/07/13/05/36/mountains-8123933_1280.jpg" alt="Image Gallery"> -->
-<!-- 									</a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="card"> -->
-<!-- 								<div class="card-image"> -->
-<!-- 									<a href="https://cdn.pixabay.com/photo/2022/10/24/20/22/muhlviertel-7544316_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
-<!-- 							          <img src="https://cdn.pixabay.com/photo/2022/10/24/20/22/muhlviertel-7544316_1280.jpg" alt="Image Gallery"> -->
-<!-- 							        </a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 							<div class="card"> -->
-<!-- 								<div class="card-image"> -->
-<!-- 									<a href="https://cdn.pixabay.com/photo/2022/12/12/21/35/stream-7651969_1280.jpg" data-fancybox="gallery" data-caption="Caption Images 1"> -->
-<!-- 							          <img src="https://cdn.pixabay.com/photo/2022/12/12/21/35/stream-7651969_1280.jpg" alt="Image Gallery"> -->
-<!-- 							        </a> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<button class="next-btn" onclick="showNextImages()">></button> -->
-<!-- 					</div> -->
-
-					<!-- 동적으로 이미지를  추가할 div -->
-					<div id="image-gallery"></div>
-					
-					<!-- 포스트 중단 end -->
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">
 							<span class="post-meta-item">${dto.bDate} </span>
@@ -95,8 +55,19 @@
 							<dd class="post-meta-item">${dto.bHit}</dd>
 						</dl>
 					</div> 
+					<hr>
 				</div> 
-				
+				<!-- 동적으로 이미지를  추가할 div -->
+				<div class="image-container"></div> <!-- 포스트 중단 end -->
+				<!-- 전체 이미지를 보여줄 모달 -->
+				<div id="modal" class="modal">
+					<div class="modal-content">
+						<span class="close-button" id="closeModal">&times;</span>
+						<div class="modal-image-container">
+							<!-- 이미지 영역 -->
+						</div>
+					</div>
+				</div> 
 				<!-- fixed button -->
 				<div class="fixed-buttons">
 					<button class="icon-button like ">
@@ -171,7 +142,7 @@
 						    </c:forEach>
 						</div>
 					</div>
-				 </div>
+				 </div> <!-- 댓글 end -->
 				 <div class="copy-message" id="copyMessage">링크가 복사되었습니다.</div>
 			</div> <!-- col-md-12 end -->
 		</div> <!-- row end -->
@@ -179,7 +150,6 @@
 	
 	<!-- 카카오톡 공유 임시 DOM -->
 	<div id="tempDiv"style="display: none;" ></div>
-	
 	<!-- fancybox 이미지 갤러리 -->
 	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.0/dist/jquery.fancybox.min.js"></script>	
 </body>
@@ -192,10 +162,9 @@
 <div id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
 
 <script src="../../../resources/js/common.js"></script>
-<script src="../../../resources/js/detailPage.js"></script>
 <script src="../../../resources/js/fixedButton.js"></script>
+<script src="../../../resources/js/detailPage.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
-
 
 <script>
 // 댓글

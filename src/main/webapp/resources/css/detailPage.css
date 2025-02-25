@@ -97,11 +97,11 @@ body {
 /* ckeditor 이미지 업로드 사이즈 */
 .post > figure {
 	overflow: hidden;
-	max-width: 100%;
+	max-width: 80%;
 }
 
 .post img {
-	max-width: 100%;
+	max-width: 80%;
     height: auto; !important;
     object-fit: cover;
 }
@@ -115,24 +115,24 @@ body {
 ================================================== */
 .image-container {
 	display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.5rem;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* 추가 이미지들이 넘칠 때 보이지 않게 설정 */
+    width: 70%;
 }
 
 .card {
 	border-radius: 2px;
     background: #ffffff; 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24); /* box shadow */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.24);
 }
 
 .card-image {
 	position: relative;
     display: block;
     width: 100%;
-    padding-top: 70%; /* 비율 맞추기 위해 padding-top 사용 */
+    padding-top: 70%;
     background: #ffffff;
 }
 
@@ -146,31 +146,99 @@ body {
     object-fit: cover; 
 }
 
-.extra-images {
-	display: none; /* 초기에는 안보이게 설정 */
-	display: flex;
-	gap: 10px;
+.more-button {
+	position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    cursor: pointer;
 }
 
-.next-btn {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 20px;
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
+
+.more-text {
+    color: white;
+    font-size: 14px;
+}
+
+/* 모달 */
+.modal {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.7);
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal-content {
+	position: relative;
+	background-color: white;
+	padding: 20px;
+	max-width: 90%;
+	max-height: 90%;
+	overflow: auto;
+	box-sizing: border-box;
+}
+
+.close-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 30px;
+	cursor: pointer;	
+}
+
+.modal-image-container {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 0.5rem;
+	justify-content: center;
+	margin-top: 20px; 
+}
+
+.modal-image-container img {
+	width: 100%;
+	height: auto;
+	cursor: pointer;
+	object-fit: cover;
+	border-radius: 5px;
+	transition: transform 0.3s ease;
+}
+
+.modal-image-container img:hover {
+	transform: scale(1.05);
+}
+
 
 @media only screen and (max-width: 600px) {
   .main .container {
     grid-template-columns: 1fr;
   }
+  
+  .main .more-text {
+  	font-size: 12px;
+  }
 }
-
 
 /* 댓글
 ================================================== */
