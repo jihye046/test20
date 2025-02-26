@@ -54,15 +54,19 @@
 							<dt class="post-meta-item">조회수</dt>
 							<dd class="post-meta-item">${dto.bHit}</dd>
 						</dl>
-					</div> 
-					<hr>
+					</div>
+					<hr id="postImageDivider" class="hidden-hr">
 				</div> 
 				<!-- 동적으로 이미지를  추가할 div -->
 				<div class="image-container"></div> <!-- 포스트 중단 end -->
 				<!-- 전체 이미지를 보여줄 모달 -->
 				<div id="modal" class="modal">
 					<div class="modal-content">
-						<span class="close-button" id="closeModal">&times;</span>
+						<div class="modal-header">
+							<span>사진 모아보기</span>
+							<span class="close-button" id="closeModal">&times;</span>
+						</div>
+						
 						<div class="modal-image-container">
 							<!-- 이미지 영역 -->
 						</div>
@@ -108,13 +112,17 @@
 				<hr>
 				<div class="reply-form">
 					<div class="commentCount-div">
-						<span>댓글</span> <span class="commentCount">${dto.commentCount}</span>
+						<span>댓글</span><span class="commentCount">${dto.commentCount}</span>
 					</div>
 					<div class="comment-input-container">
 						<input class="styled-input" type="text" id="comment-input" placeholder="댓글" required>
 						<button class="submit-comment button-filled-primary" type="button" id="commentBtn">댓글</button>
 					</div>
 					<div class="comments">
+						<div class="comments-sortButton-container">
+							<span class="comments-sortButton" id="commnts_sort_hit">추천순</span>
+							<span class="comments-sortButton" id="commnts_sort_latest">최신순</span>
+						</div>
 						<div>
 							<c:forEach items="${replyList}" var="comment">
 								<c:if test="${comment.bIndent == 1}">

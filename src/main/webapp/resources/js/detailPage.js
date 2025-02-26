@@ -59,29 +59,65 @@ const generateMoreButton = () => {
 		<div class='card'>
 			<div class='card-image more-button'>
 				<div class='overlay'>
-					<span class='more-text'>더보기</span>
+					<span class='more-text'>+ 더보기</span>
 				</div>
 			</div>
 		</div>
 	`
 }
 
+	// 이미지 모달 카드 생성
+const generateModalCard = (image) => {
+	return `
+		<div class='modal-card'>
+			<div class='modal-card-image'>
+				<a href='${image.src}' data-fancybox='gallery' data-caption='${image.caption}'>
+					<img src='${image.src}' alt='Image Gallery'>
+				</a>
+			</div>
+		</div>
+	`
+}
+
+	// 'bContent' 중 <img>만 추출한 배열
 const img_array = extractImagesFromContent(window.bContent)
+
+	// post와 image-container 구분선
+const hr = document.querySelector('#postImageDivider')
+if(img_array && img_array.length > 0){
+	hr.classList.remove('hidden-hr')
+	hr.classList.add('show-hr')
+} else {
+	hr.classList.remove('show-hr')
+	hr.classList.add('hidden-hr')
+}
+
+	// 모달창 열기
 const openModal = () => {
 	const modal = document.querySelector('#modal')
-	const modalImageContainer = document.querySelector('.modal-image-container')
+	const modalImageContainer = modal.querySelector('.modal-image-container')
 
 	modalImageContainer.innerHTML = ''
-
-	/* 
 	img_array.forEach((image) => {
-		
+		const result = generateModalCard(image)
+		const tempDiv = document.createElement('div')
+		tempDiv.innerHTML = result
+		modalImageContainer.append(tempDiv.firstElementChild)
 	})
-	*/
+
+	modal.style.display = 'block'
+}
+
+	// 모달창 닫기
+const closeModal = () => {
+	const closeModalButton = document.querySelector('#closeModal')
+	closeModalButton.addEventListener('click', function(){
+		const modal = document.querySelector('.modal')
+		modal.style.display = 'none'
+	})
 }
 
 	// 이미지 갤러리 랜더링
-
 const renderImages = () => {
 	const container = document.querySelector('.image-container')
 	const maxImage = 4
@@ -103,7 +139,7 @@ const renderImages = () => {
 			// 네번째 이미지 위에 '더보기' 버튼 덮어씌우기
 			const moreButton = container.querySelector('.more-button')
 			const lastImage = container.querySelectorAll('.card-image')[maxImage - 1]
-			lastImage.appendChild(moreButton)
+			lastImage.append(moreButton)
 
 			moreButton.addEventListener('click', function(){
 				openModal()
@@ -112,4 +148,8 @@ const renderImages = () => {
 	})
 }
 
+
+/* 페이지 로드 시 실행될 함수
+================================================== */
 renderImages()
+closeModal()
