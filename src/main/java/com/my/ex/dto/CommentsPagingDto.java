@@ -1,14 +1,14 @@
 package com.my.ex.dto;
 
-public class BoardPagingDto {
+public class CommentsPagingDto {
 	private int page; // 현재 페이지
 	private int maxPage; // 전체 블록 개수
 	private int startPage; // 시작 블록 값
 	private int endPage; // 끝 블록 값
 	
-	public BoardPagingDto() {}
+	public CommentsPagingDto() {}
 
-	public BoardPagingDto(int page, int maxPage, int startPage, int endPage) {
+	public CommentsPagingDto(int page, int maxPage, int startPage, int endPage) {
 		this.page = page;
 		this.maxPage = maxPage;
 		this.startPage = startPage;
@@ -49,8 +49,8 @@ public class BoardPagingDto {
 
 	@Override
 	public String toString() {
-		return "BoardPagingDto [page=" + page + ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage="
+		return "CommentsPagingDto [page=" + page + ", maxPage=" + maxPage + ", startPage=" + startPage + ", endPage="
 				+ endPage + "]";
-	};
-	
+	}
+
 }

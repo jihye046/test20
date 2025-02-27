@@ -125,8 +125,7 @@
 		 WHERE bGroup = #{bGroup} AND
 		 	   bStep > 0 AND
 		 	   bIndent > 0
-	  ORDER BY bGroup DESC,
-			   bStep ASC
+	  ORDER BY bStep ASC
 	</select>
 	
 	<insert id="replyChildInsert" parameterType="BoardDto">
@@ -174,6 +173,36 @@
 	 	 WHERE rnum BETWEEN #{pagingStart} AND #{pagingEnd}
 	</select>
 	
+	<select id="commentsPagingList" parameterType="java.util.HashMap" resultType="BoardDto">
+		SELECT * FROM (
+			 SELECT 
+        		  t.*,
+        		  ROWNUM AS rnum
+    		   FROM (
+    		   		SELECT * 
+    		   		  FROM mvc_board6 
+    		   		 WHERE bGroup = #{bGroup}
+                       AND bStep > 0 
+    		   		   AND bIndent > 0
+    		   	  <if test="commentsSortType.equals('latest')">     
+                 	 ORDER BY bStep ASC
+                  </if>
+                  <if test="commentsSortType.equals('like')">
+                     ORDER BY bStep ASC
+                 </if>
+   		   		) t
+		)
+	 	 WHERE rnum BETWEEN #{commentsPagingStart} AND #{commentsPagingEnd}
+	</select>
+	
+	<select id="commentsCount" resultType="Integer">
+		SELECT COUNT(bId)
+		  FROM mvc_board6
+		 WHERE bStep > 0 AND 
+		 	   bIndent > 0 AND
+		 	   bGroup = #{bGroup}
+	</select>
+	
 	<select id="boardCount" resultType="Integer">
 		SELECT COUNT(bId)
 		  FROM mvc_board6
@@ -206,4 +235,5 @@
 		)
 	 	 WHERE rnum BETWEEN #{pagingStart} AND #{pagingEnd}
 	</select>
+	
 </mapper>

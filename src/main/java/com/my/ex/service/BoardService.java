@@ -9,10 +9,17 @@ import org.springframework.stereotype.Service;
 import com.my.ex.dao.BoardDao;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
+import com.my.ex.dto.CommentsPagingDto;
 
 @Service
 public class BoardService implements IBoardService {
 
+	// BETWEEN A AND B
+	private static final int PAGE_LIMIT = 12;  // 한 페이지에 표시할 게시글 개수
+    private static final int BLOCK_LIMIT = 5;  // 하단에 표시할 페이지 번호 블록 개수 [1],[2] ..
+    private static final int COMMENTS_PAGE_LIMIT = 3;  // 한 페이지에 표시할 댓글 개수
+    private static final int COMMENTS_BLOCK_LIMIT = 3;  // 하단에 표시할 페이지 번호 블록 개수 [1],[2] ..
+	
 	@Autowired
 	private BoardDao dao;
 	
@@ -101,12 +108,11 @@ public class BoardService implements IBoardService {
 		return null;
 	}
 
+	// 게시글 목록 가져오기
 	@Override
 	public List<BoardDto> pagingList(int page, String searchGubun, String searchText, String sortType) {
-//		int pagingEnd = page * 10;
-		int pagingEnd = page * 12;
-//		int pagingStart = pagingEnd - 9;
-		int pagingStart = pagingEnd - 11;
+		int pagingEnd = page * PAGE_LIMIT;
+		int pagingStart = pagingEnd - (PAGE_LIMIT - 1);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("pagingStart", pagingStart);
 		map.put("pagingEnd", pagingEnd);
@@ -116,10 +122,11 @@ public class BoardService implements IBoardService {
 		return dao.pagingList(map);
 	}
 	
+	// 게시글 조회순 정렬
 	@Override
 	public List<BoardDto> sort_hitPagingList(int page, String searchGubun, String searchText) {
-		int pagingEnd = page * 10;
-		int pagingStart = pagingEnd - 9;
+		int pagingEnd = page * PAGE_LIMIT;
+		int pagingStart = pagingEnd - (PAGE_LIMIT - 1);
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("pagingStart", pagingStart);
 		map.put("pagingEnd", pagingEnd);
@@ -128,27 +135,20 @@ public class BoardService implements IBoardService {
 		return dao.sort_hitPagingList(map);
 	}
 
+	// 게시글 페이지 하단 번호 블록
 	@Override
-	public BoardPagingDto paingParam(int page) {
-		// 한 페이지당 보여줄 게시글 개수
-//		int pageLimit = 10;
-		int pageLimit = 12;
-		
-		// 하단에 보여줄 페이지 [1],[2] ... 번호 개수
-//		int blockLimit = 3;
-		int blockLimit = 5;
-		
-		// 전체 글 개수 조회
+	public BoardPagingDto pagingParam(int page) {
+		// 전체 글 개수
 		int boardCount = dao.boardCount();
 		
-		// 전체 페이지 개수 
-		int maxPage = (int)(Math.ceil((double) boardCount / pageLimit));
+		// 전체 블록 개수 
+		int maxPage = (int)(Math.ceil((double) boardCount / PAGE_LIMIT));
 		
-		// 시작 페이지 값 계산
-		int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+		// 시작 블록 값
+		int startPage = (((int)(Math.ceil((double) page / BLOCK_LIMIT))) - 1) * BLOCK_LIMIT + 1;
 		
-		// 끝 페이지 값 계산
-		int endPage = startPage + blockLimit - 1;
+		// 끝 블록 값
+		int endPage = startPage + BLOCK_LIMIT - 1;
 		if(endPage > maxPage) {
 			endPage = maxPage;
 		}
@@ -159,6 +159,45 @@ public class BoardService implements IBoardService {
 		pageDto.setStartPage(startPage);
 		pageDto.setEndPage(endPage);
 		return pageDto;
+	}
+	
+	// 댓글 목록 가져오기
+	@Override
+	public List<BoardDto> commentsPagingList(int page, String sortType, int bGroup) {
+		int pagingEnd = page * COMMENTS_PAGE_LIMIT;
+		int pagingStart = pagingEnd - (COMMENTS_PAGE_LIMIT - 1) ; 
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("commentsPagingStart", pagingStart);
+		map.put("commentsPagingEnd", pagingEnd);
+		map.put("commentsSortType", sortType);
+		map.put("bGroup", bGroup);
+ 		return dao.commentsPagingList(map);
+	}
+	
+	// 댓글 페이지 하단 번호 블록
+	@Override
+	public CommentsPagingDto commentsPagingParam(int page, int bGroup) {
+		// 전체 글 개수
+		int boardCount = dao.commentsCount(bGroup);
+		
+		// 전체 블록 개수 
+		int maxPage = (int)(Math.ceil((double) boardCount / COMMENTS_PAGE_LIMIT));
+		
+		// 시작 블록 값
+		int startPage = (((int)(Math.ceil((double) page / COMMENTS_BLOCK_LIMIT))) - 1) * COMMENTS_BLOCK_LIMIT + 1;
+		
+		// 끝 블록 값
+		int endPage = startPage + COMMENTS_BLOCK_LIMIT - 1;
+		if(endPage > maxPage) {
+			endPage = maxPage;
+		}
+		
+		CommentsPagingDto commentsPageDto = new CommentsPagingDto();
+		commentsPageDto.setPage(page);
+		commentsPageDto.setMaxPage(maxPage);
+		commentsPageDto.setStartPage(startPage);
+		commentsPageDto.setEndPage(endPage);
+		return commentsPageDto;
 	}
 
 	@Override

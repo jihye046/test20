@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
+import com.my.ex.dto.CommentsPagingDto;
 
 public interface IBoardService {
 	boolean createBoard(BoardDto dto);
@@ -21,9 +22,19 @@ public interface IBoardService {
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
+	void updateCommentCount(int bGroup);
 	List<BoardDto> replyChildList(int bGruop);
+
+	// 게시글 페이징
 	List<BoardDto> pagingList(int page, String searchGubun, String searchText, String sortType);
 	List<BoardDto> sort_hitPagingList(int page, String searchGubun, String searchText);
-	BoardPagingDto paingParam(int page); // 페이징처리 시 하단에 보일 번호
-	void updateCommentCount(int bGroup);
+	BoardPagingDto pagingParam(int page); // 페이징처리 시 하단에 보일 번호
+	
+	// 댓글 페이징
+	List<BoardDto> commentsPagingList(int page, String sortType, int bGroup);
+//	List<BoardDto> comments_sort_likePagingList(int page, String sortType, int bGroup);
+	
+	// 공통
+	CommentsPagingDto commentsPagingParam(int page, int bGroup); // 페이징처리 시 하단에 보일 번호
+	
 }

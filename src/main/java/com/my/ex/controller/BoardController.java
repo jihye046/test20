@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.style.DefaultValueStyler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,10 +30,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
+import com.my.ex.CommentsListResponse;
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.BookmarkDto;
+import com.my.ex.dto.CommentsPagingDto;
 import com.my.ex.dto.LikeDto;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
@@ -74,7 +77,9 @@ public class BoardController {
 	
 	// 게시글 상세보기
 	@RequestMapping("/detailBoard")
-	public String detailBoard(HttpServletRequest request, Model model, HttpSession session) {
+	public String detailBoard(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+							  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+							  HttpServletRequest request, Model model, HttpSession session) {
 		int bId = Integer.parseInt(request.getParameter("bId"));
 		String userId = (String)session.getAttribute("userId"); 
 		
@@ -82,11 +87,12 @@ public class BoardController {
 		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
 		boolean isLiked = likeService.isLiked(bId, userId);
 		boolean isBookmarked = bookmarkService.isBookmarked(bId, userId);
-		List<BoardDto> replyList = service.replyList(bGroup);
+		//List<BoardDto> replyList = service.replyList(bGroup);
+		commentsPaging(page, sortType, bGroup, model);
 		updateHitCount(bId);
 		
 		model.addAttribute("dto", dto);
-		model.addAttribute("replyList", replyList);
+		//model.addAttribute("replyList", replyList);
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
 		return "/board/detailPage";
@@ -203,15 +209,21 @@ public class BoardController {
 	}
 	
 	// 댓글
-	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<BoardDto>> replyInsert(HttpSession session, BoardDto dto){
+	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
+	public ResponseEntity<CommentsListResponse> replyInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+													  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+													  HttpSession session,
+													  BoardDto dto) {
 		String userId = (String)session.getAttribute("userId");
 		dto.setbName(userId);
 		service.replyInsert(dto);
-		List<BoardDto> replyList = service.replyList(dto.getbGroup());
+		
+//		List<BoardDto> replyList = service.replyList(dto.getbGroup());
+		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
+		
 		service.updateCommentCount(dto.getbGroup());
-		return new ResponseEntity<>(replyList, HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	// 답글
@@ -234,7 +246,7 @@ public class BoardController {
 									  @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
 									  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
-		BoardPagingDto pageDto = service.paingParam(page);
+		BoardPagingDto pageDto = service.pagingParam(page);
 		for(BoardDto dto : pagingList) {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
@@ -258,7 +270,7 @@ public class BoardController {
 										@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
 										@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
-		BoardPagingDto pageDto = service.paingParam(page);
+		BoardPagingDto pageDto = service.pagingParam(page);
 		for(BoardDto dto : pagingList) {
 			dto.setSearchGubun(searchGubun);
 			dto.setSearchText(searchText);
@@ -270,6 +282,59 @@ public class BoardController {
 		}
 		SortResponse response = new SortResponse(pagingList, pageDto);
 		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	// 조회순 정렬
+	@ResponseBody
+	@RequestMapping("/sort_hit")
+	public ResponseEntity<SortResponse> sort_hit(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+			@RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
+		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
+		BoardPagingDto pageDto = service.pagingParam(page);
+		for(BoardDto dto : sort_hitPagingList) {
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
+		}
+		SortResponse response = new SortResponse();
+		response.setSort_hitPagingList(sort_hitPagingList);
+		response.setPageDto(pageDto);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	// 댓글 페이징 로드
+	public Model commentsPaging(int page, String sortType, int bGroup, Model model) {
+		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
+		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
+		for(BoardDto dto : commentsPagingList) {
+			dto.setSortType(sortType);
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
+		}
+		model.addAttribute("commentsPagingList", commentsPagingList);
+		model.addAttribute("commentsPaging", commentsPageDto);
+		return model;
+	}
+	
+	// 댓글 페이징_비동기 처리
+	@ResponseBody
+	@RequestMapping("/commentsPaging/ajax")
+	public CommentsListResponse commentsPagingAjax(
+												@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+												@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+												int bGroup) {
+		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
+		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
+		for(BoardDto dto : commentsPagingList) {
+			dto.setSortType(sortType);
+			// HTML 이스케이프 처리
+			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
+			dto.setbContent(escapedContent);
+		}
+		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
+		return response;
 	}
 	
 	// 이미지업로드(1) - 업로드한 이미지를 로컬에 저장
@@ -359,25 +424,6 @@ public class BoardController {
             if (fis != null) fis.close();
         }
     }
-	
-	// 조회순 정렬
-	@ResponseBody
-	@RequestMapping("/sort_hit")
-	public ResponseEntity<SortResponse> sort_hit(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-												 @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
-												 @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
-		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
-		BoardPagingDto pageDto = service.paingParam(page);
-		for(BoardDto dto : sort_hitPagingList) {
-			// HTML 이스케이프 처리
-			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
-			dto.setbContent(escapedContent);
-		}
-		SortResponse response = new SortResponse();
-		response.setSort_hitPagingList(sort_hitPagingList);
-		response.setPageDto(pageDto);
-		return new ResponseEntity<>(response, HttpStatus.OK);
-	}
 	
 	// 카카오 key
 	@ResponseBody

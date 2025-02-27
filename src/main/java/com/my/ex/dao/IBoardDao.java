@@ -23,8 +23,15 @@ public interface IBoardDao {
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
 	List<BoardDto> replyChildList(int bGroup);
-	List<BoardDto> pagingList(HashMap<String, Object> map);
-	List<BoardDto> sort_hitPagingList(HashMap<String, Object> map);
 	int boardCount();
 	void updateCommentCount(int bGroup);
+	
+	// 게시글 페이징
+	List<BoardDto> pagingList(HashMap<String, Object> map);
+	List<BoardDto> sort_hitPagingList(HashMap<String, Object> map);
+	
+	//댓글 페이징
+	List<BoardDto> commentsPagingList(HashMap<String, Object> map);
+	List<BoardDto> comments_sort_likePagingList(HashMap<String, Object> map);
+	int commentsCount(int bGroup);
 }

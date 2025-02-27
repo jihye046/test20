@@ -109,12 +109,22 @@ public class BoardDao implements IBoardDao {
 
 	@Override
 	public List<BoardDto> pagingList(HashMap<String, Object> map) {
-		return session.selectList("pagingList", map);
+		return session.selectList(NAMESPACE + "pagingList", map);
 	}
 	
 	@Override
 	public List<BoardDto> sort_hitPagingList(HashMap<String, Object> map) {
-		return session.selectList("sort_hitPagingList", map);
+		return session.selectList(NAMESPACE + "sort_hitPagingList", map);
+	}
+	
+	@Override
+	public List<BoardDto> commentsPagingList(HashMap<String, Object> map) {
+		return session.selectList(NAMESPACE + "commentsPagingList", map);
+	}
+
+	@Override
+	public List<BoardDto> comments_sort_likePagingList(HashMap<String, Object> map) {
+		return session.selectList(NAMESPACE + "commentsPagingList", map);
 	}
 
 	@Override
@@ -125,6 +135,11 @@ public class BoardDao implements IBoardDao {
 	@Override
 	public void updateCommentCount(int bGroup) {
 		session.update(NAMESPACE + "updateCommentCount", bGroup);
+	}
+
+	@Override
+	public int commentsCount(int bGroup) {
+		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
 	}
 
 }

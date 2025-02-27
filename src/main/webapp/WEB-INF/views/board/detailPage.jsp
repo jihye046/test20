@@ -120,11 +120,11 @@
 					</div>
 					<div class="comments">
 						<div class="comments-sortButton-container">
-							<span class="comments-sortButton" id="commnts_sort_hit">추천순</span>
+							<span class="comments-sortButton" id="commnts_sort_like">추천순</span>
 							<span class="comments-sortButton" id="commnts_sort_latest">최신순</span>
 						</div>
 						<div>
-							<c:forEach items="${replyList}" var="comment">
+							<c:forEach items="${commentsPagingList}" var="comment">
 								<c:if test="${comment.bIndent == 1}">
 									<article>
 										<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
@@ -148,6 +148,63 @@
 								    </article>
 								</c:if>
 						    </c:forEach>
+						    <!-- paging -->
+							<nav>
+								<ul class="pagination justify-content-center">
+									<!-- Previous 버튼 -->
+									<c:choose>
+										<c:when test="${commentsPaging.page <= 1}">
+											<li class="page-item"></li> <!-- Previous 버튼 표시 x -->
+										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${commentsPaging.page - 3 >= 1}">
+													<li class="page-item">
+														<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page-3}&sortType="> Previous </a>
+													</li>
+												</c:when>
+											</c:choose>
+										</c:otherwise>
+									</c:choose> <!-- Previous 버튼 end -->
+									<!-- 페이징 블록 번호 -->
+									<c:forEach begin="${commentsPaging.startPage}" end="${commentsPaging.endPage}"
+										var="i" step="1">
+										<c:choose>
+											<c:when test="${i eq commentsPaging.page}">
+												<li class="page-item">
+													<span class="page-link">${i}</span>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item">
+													<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${i}&sortType=">${i}</a>
+												</li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach> <!-- 페이징 블록 번호 end -->
+									<!-- Next 버튼 -->
+									<c:choose>
+										<c:when test="${commentsPaging.page >= commentsPaging.maxPage}">
+											<li class="page-item"></li> <!-- 내용 표시 x -->
+										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${commentsPaging.page + 5 >= commentsPaging.maxPage}">
+													<li class="page-item">
+														<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.maxPage}&sortType=">Next</a>
+													</li>
+												</c:when>
+												<c:otherwise>
+													<li class="page-item">
+														<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page + 5}&sortType=">Next</a>
+													</li>
+												</c:otherwise>
+											</c:choose>
+										</c:otherwise>
+									</c:choose> <!-- Next 버튼 end -->
+								</ul>
+							</nav>
+							<!-- paging end -->
 						</div>
 					</div>
 				 </div> <!-- 댓글 end -->
@@ -197,10 +254,13 @@ replyBtn.addEventListener('click', function(){
 				bIndent: "${dto.bIndent}"
 			},
 			dataType: "json",
-			success: function(replyList){
+			success: function(data){
 				replyInput.value = '' // replyInputValue = ''으로 하면 안됨
 				replyTable.innerHTML = ''
-				const output = editReplyTable(replyList)
+				let dto = data["commentsPagingList"]
+				let commentsPaging = data["commentsPagingDto"]
+				let output = editReplyTable(dto)
+				output += pagination(dto, commentsPaging)
 				replyTable.innerHTML = output
 				registerEventListeners()
 			},
@@ -240,6 +300,43 @@ const editReplyTable = (replyList) => {
 	output += `</div>`
 	return output
 }
+
+const pagination = (dto, commentsPaging) => {
+	console.log(`dto bId: ${dto}`) 
+	console.log(`dto bGroup: ${dto.bGroup}`) 
+	let output = `<nav><ul class="pagination justify-content-center">`
+		
+	// Previous 버튼
+	if(commentsPaging.page <= 1){
+		output += `<li class="page-item"></li>`
+	} else if(commentsPaging.page - 3 >= 1) {
+		let previousPageLink = `<a class="page-link" href="/board/detailBoard?bId=\${dto.bId}&bGroup=\${dto.bGroup}&page=\${commentsPaging.page-3}&sortType="> Previous </a>`
+		output += `<li class="page-item">\${previousPageLink}</li>`
+	}
+	
+	// 페이지 블록 번호
+	for(let i = 1; i <= 3; i++){
+	    let pagingLink = (i == commentsPaging.page) ? 
+	    	`<span class="page-link">\${i}</span>` :
+	    	`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${i}&sortType=">\${i}</a>`
+		        
+		    output += `<li class="page-item">\${pagingLink}</li>`
+		}
+	
+	// Next 버튼
+	if(commentsPaging.page >= commentsPaging.maxPage){
+		output += `<li class="page-item"></li>`
+	} else {
+		let nextPageLink = (commentsPaging.page + 5 >= commentsPaging.maxPage) ? 
+			`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.maxPage}&sortType=">Next</a>` :
+			`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page + 5}&sortType=">Next</a>`
+			
+		output += `<li class="page-item">\${nextPageLink}</li>`
+	}
+	return output
+}
+
+
 
 // 답글 버튼을 눌렀을 때
 function registerEventListeners(){

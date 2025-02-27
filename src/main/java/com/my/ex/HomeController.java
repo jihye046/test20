@@ -26,7 +26,7 @@ public class HomeController {
 									@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
 									@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		List<BoardDto> pagingList = service.pagingList(page, searchGubun, searchText, sortType);
-		BoardPagingDto pageDto = service.paingParam(page);
+		BoardPagingDto pageDto = service.pagingParam(page);
 		for(BoardDto dto : pagingList) {
 			// HTML 이스케이프 처리
 			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
