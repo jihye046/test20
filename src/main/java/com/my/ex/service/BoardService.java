@@ -17,7 +17,7 @@ public class BoardService implements IBoardService {
 	// BETWEEN A AND B
 	private static final int PAGE_LIMIT = 12;  // 한 페이지에 표시할 게시글 개수
     private static final int BLOCK_LIMIT = 5;  // 하단에 표시할 페이지 번호 블록 개수 [1],[2] ..
-    private static final int COMMENTS_PAGE_LIMIT = 3;  // 한 페이지에 표시할 댓글 개수
+    private static final int COMMENTS_PAGE_LIMIT = 6;  // 한 페이지에 표시할 댓글 개수
     private static final int COMMENTS_BLOCK_LIMIT = 3;  // 하단에 표시할 페이지 번호 블록 개수 [1],[2] ..
 	
 	@Autowired
@@ -201,8 +201,8 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public void updateCommentCount(int bGroup) {
-		dao.updateCommentCount(bGroup);
+	public int updateCommentCount(int bGroup) {
+		return dao.updateCommentCount(bGroup);
 	}
 
 }

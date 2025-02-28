@@ -128,23 +128,31 @@
 								<c:if test="${comment.bIndent == 1}">
 									<article>
 										<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-										<h4 class="author-name"><a href="#">${comment.bName}</a></h4>
-										<time class="post-time">${comment.bDate}</time>
+										<span class="author-name"><a href="#">${comment.bName}</a></span>
 									    <p class="post-content">${comment.bContent}</p>
+									    <time class="post-time">${comment.bDate}</time>
 									    <button type="button" class="button-filled-primary comment-child-btn" 
 									    					  data-bGroup="${comment.bGroup}"
 									    					  data-bStep="${comment.bStep}"
 									    					  data-bIndent="${comment.bIndent}">
-									    	답글
+									    	답글 달기
 									    </button>
+									    <button type="button" class="button-filled-primary" >
+									    	<i class="fa-regular fa-thumbs-up"></i>
+									    	<span class="total-Recommendation">97</span>
+								    	</button>
 								    </article>	
 								</c:if>
 								<c:if test="${comment.bIndent != 1}">
 									<article class="comment-child">
 										<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
 										<h4 class="author-name comment-child"><a href="#">${comment.bName}</a></h4>
-										<time class="post-time comment-child">${comment.bDate}</time>
 									    <p class="post-content comment-child">${comment.bContent}</p>
+										<time class="post-time comment-child">${comment.bDate}</time>
+										<button type="button" class="button-filled-primary comment-child">
+									    	<i class="fa-regular fa-thumbs-up"></i>
+									    	<span>97</span>
+							    		</button>
 								    </article>
 								</c:if>
 						    </c:forEach>
@@ -153,55 +161,40 @@
 								<ul class="pagination justify-content-center">
 									<!-- Previous 버튼 -->
 									<c:choose>
-										<c:when test="${commentsPaging.page <= 1}">
-											<li class="page-item"></li> <!-- Previous 버튼 표시 x -->
+										<c:when test="${commentsPaging.page <= 3}">
+											<li class="page-item"></li> <!-- < 버튼 표시 x -->
 										</c:when>
 										<c:otherwise>
-											<c:choose>
-												<c:when test="${commentsPaging.page - 3 >= 1}">
 													<li class="page-item">
-														<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page-3}&sortType="> Previous </a>
+														<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="${commentsPaging.page-3}" data-sortType=""> < </a>
 													</li>
-												</c:when>
-											</c:choose>
 										</c:otherwise>
-									</c:choose> <!-- Previous 버튼 end -->
-									<!-- 페이징 블록 번호 -->
+									</c:choose> 
 									<c:forEach begin="${commentsPaging.startPage}" end="${commentsPaging.endPage}"
 										var="i" step="1">
 										<c:choose>
 											<c:when test="${i eq commentsPaging.page}">
 												<li class="page-item">
-													<span class="page-link">${i}</span>
+													<span class="page-link" style="pointer-events: none;">${i}</span>
 												</li>
 											</c:when>
 											<c:otherwise>
 												<li class="page-item">
-													<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${i}&sortType=">${i}</a>
+													<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="${i}" data-sortType="">${i}</a>
 												</li>
 											</c:otherwise>
 										</c:choose>
-									</c:forEach> <!-- 페이징 블록 번호 end -->
-									<!-- Next 버튼 -->
+									</c:forEach> 
 									<c:choose>
-										<c:when test="${commentsPaging.page >= commentsPaging.maxPage}">
-											<li class="page-item"></li> <!-- 내용 표시 x -->
+										<c:when test="${commentsPaging.maxPage <= (commentsPaging.page+3) || commentsPaging.page >= commentsPaging.maxPage}">
+											<li class="page-item"></li>
 										</c:when>
 										<c:otherwise>
-											<c:choose>
-												<c:when test="${commentsPaging.page + 5 >= commentsPaging.maxPage}">
 													<li class="page-item">
-														<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.maxPage}&sortType=">Next</a>
+														<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="${commentsPaging.page + 3}" data-sortType=""> > </a>
 													</li>
-												</c:when>
-												<c:otherwise>
-													<li class="page-item">
-														<a class="page-link" href="/board/commentsPaging/ajax?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page + 5}&sortType=">Next</a>
-													</li>
-												</c:otherwise>
-											</c:choose>
 										</c:otherwise>
-									</c:choose> <!-- Next 버튼 end -->
+									</c:choose>
 								</ul>
 							</nav>
 							<!-- paging end -->
@@ -232,11 +225,151 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
 
 <script>
-// 댓글
+/* 댓글 리스너, 페이징
+================================================== */
 const replyBtn = document.querySelector("#commentBtn")
 const replyTable = document.querySelector(".comments")
 const replyInput = document.querySelector("#comment-input")
+const COMMENTS_PAGE_LIMIT = 6
+const COMMENTS_BLOCK_LIMIT = 3
+let currentPage = 1
 
+	// 현재 페이지 블록
+const setPage = (page) => {
+	currentPage = page
+}
+
+	// 댓글 개수UI 업데이트
+const editCommentCount = (commentCount) => {
+	const commentCountDiv = document.querySelector(".commentCount-div")
+	const commentCountSpan = commentCountDiv.querySelector(".commentCount")
+	commentCountSpan.textContent = commentCount
+}
+	
+	// 댓글UI 업데이트
+const editCommentTable = (replyList) => {
+	let output = `<div>`
+		for(let i in replyList){
+			if(replyList[i].bIndent == 1){ // 댓글
+			output += `<article>
+							<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+							<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
+					    	<p class="post-content">\${replyList[i].bContent}</p>
+					    	<time class="post-time">\${replyList[i].bDate}</time>
+					    	<button type="button" class="button-filled-primary comment-child-btn" 
+					    						  data-bGroup="\${replyList[i].bGroup}"
+					    						  data-bStep="\${replyList[i].bStep}"
+					    						  data-bIndent="\${replyList[i].bIndent}">
+					    		답글 달기
+					    	</button>
+				    		<button type="button" class="button-filled-primary">
+						    	<i class="fa-regular fa-thumbs-up"></i>
+						    	<span class="total-Recommendation">97</span>
+					    	</button>
+				       </article>`
+			   		  
+			} else { // 답글
+				output += `<article class="comment-child">
+								<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+								<h4 class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
+							    <p class="post-content comment-child">\${replyList[i].bContent}</p>
+							    <time class="post-time comment-child">\${replyList[i].bDate}</time>
+							    <button type="button" class="button-filled-primary comment-child">
+							    	<i class="fa-regular fa-thumbs-up"></i>
+							    	<span class="total-Recommendation">97</span>
+					    		</button>
+							</article>`
+			}
+		}
+	output += `</div>`
+	return output
+}
+
+	// 답글UI 업데이트
+const replyChildUI = () => {
+	let output = `<div class="comment-input-container commentCell">
+					<input type="text" name="bContent" class="styled-input" required>
+					<button class="submit-comment button-filled-primary" type="button" id="commentChildSendBtn">작성</button>
+				  </div>`
+	return output
+}
+
+	// 페이지네이션 블록UI 업데이트
+const updatePagingBlock = (dto, commentsPaging) => {
+	let output = `<nav><ul class="pagination justify-content-center">`
+		
+	// Previous 버튼
+	if(commentsPaging.page <= COMMENTS_BLOCK_LIMIT) {
+		output += `<li class="page-item"></li>`
+	} else {
+		let previousPageLink = `<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="\${commentsPaging.page - COMMENTS_BLOCK_LIMIT}" data-sortType=""> < </a>`
+		output += `<li class="page-item">\${previousPageLink}</li>`
+	}
+	
+	// 페이지 블록 번호
+	for(let i = commentsPaging.startPage; i <= commentsPaging.endPage; i++){
+	    let pagingLink = (i == commentsPaging.page) ? 
+	    	`<span class="page-link" style="pointer-events: none;">\${i}</span>` :
+	    	`<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="\${i}" data-sortType="">\${i}</a>`
+		        
+		    output += `<li class="page-item">\${pagingLink}</li>`
+	}
+		    
+	// Next 버튼
+	if(commentsPaging.page >= commentsPaging.maxPage){
+		output += `<li class="page-item"></li>`
+	} else {
+		let nextPageLink = (commentsPaging.page + COMMENTS_BLOCK_LIMIT >= commentsPaging.maxPage) ? 
+			`<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="\${commentsPaging.maxPage}" data-sortType=""> > </a>` :
+			`<a class="page-link" href="#" data-bGroup="${dto.bGroup}" data-page="\${commentsPaging.page + COMMENTS_BLOCK_LIMIT}" data-sortType=""> > </a>`
+		output += `<li class="page-item">\${nextPageLink}</li>`
+	} 
+	
+	return output
+}
+
+	// 댓글 블록 링크 리스너
+const ajaxBlockLink  = () => {
+	document.querySelectorAll('a.page-link').forEach(function(link){
+		link.addEventListener('click', function(){
+			event.preventDefault()
+			
+			const bGroup = link.getAttribute('data-bGroup')
+			const pageNum = link.getAttribute('data-page')
+			setPage(pageNum)
+			const sortType = link.getAttribute('data-sortType')
+			
+			$.ajax({
+				url: "/board/commentsPaging/ajax",
+				data: {
+					bGroup: `\${bGroup}`,
+					page: `\${pageNum}`,
+					sortType: `\${sortType}`
+				},
+				success: function(data){
+					replyInput.value = '' 
+					replyTable.innerHTML = ''
+					let dto = data["commentsPagingList"];
+			        let commentsPaging = data["commentsPagingDto"];
+			        
+			        // UI 업데이트
+			        let output = editCommentTable(dto) // 댓글
+					output += updatePagingBlock(dto, commentsPaging) // 페이징 블록
+					replyTable.innerHTML = output
+					
+					// 리스너 재등록
+					ajaxBlockLink() // 댓글 블록 링크
+					registerEventListeners() // 답글
+				},
+				error: function(error){
+					console.log(error)
+				} 
+			})
+		})
+	})
+}
+
+	// 댓글 버튼 리스너
 replyBtn.addEventListener('click', function(){
 	let replyInputValue = replyInput.value
 	if(!replyInputValue || !(replyInputValue.trim())){
@@ -247,6 +380,7 @@ replyBtn.addEventListener('click', function(){
 			type: "post",
 			url: "/board/replyInsert",
 			data: {
+				page: currentPage,
 				bId: "${dto.bId}",
 				bContent: replyInputValue,
 				bGroup: "${dto.bGroup}",
@@ -255,13 +389,20 @@ replyBtn.addEventListener('click', function(){
 			},
 			dataType: "json",
 			success: function(data){
-				replyInput.value = '' // replyInputValue = ''으로 하면 안됨
+				replyInput.value = '' 
 				replyTable.innerHTML = ''
-				let dto = data["commentsPagingList"]
-				let commentsPaging = data["commentsPagingDto"]
-				let output = editReplyTable(dto)
-				output += pagination(dto, commentsPaging)
+				let dto = data.commentsListResponse.commentsPagingList
+				let commentsPaging = data.commentsListResponse.commentsPagingDto
+				let commentsCount = data.commentsCount // dto에 set안했음. dto.commentCount값으로 확인하지말고 map에 담긴걸로 확인 
+				
+				// UI 업데이트
+				let output = editCommentTable(dto)
+				output += updatePagingBlock(dto, commentsPaging)
 				replyTable.innerHTML = output
+				editCommentCount(commentsCount)
+				
+				// 리스너 재등록
+				ajaxBlockLink()
 				registerEventListeners()
 			},
 			error: function(){
@@ -271,74 +412,7 @@ replyBtn.addEventListener('click', function(){
 	}
 })
 
-const editReplyTable = (replyList) => {
-	let output = `<div>`
-		for(let i in replyList){
-			if(replyList[i].bIndent == 1){ // 댓글
-			output += `<article>
-							<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-							<h4 class="author-name"><a href="#">\${replyList[i].bName}</a></h4>
-							<time class="post-time">\${replyList[i].bDate}</time>
-					    	<p class="post-content">\${replyList[i].bContent}</p>
-					    	<button type="button" class="button-filled-primary comment-child-btn" 
-					    						  data-bGroup="\${replyList[i].bGroup}"
-					    						  data-bStep="\${replyList[i].bStep}"
-					    						  data-bIndent="\${replyList[i].bIndent}">
-					    		답글
-					    	</button>	
-				       </article>`
-			   		  
-			} else { // 답글
-				output += `<article class="comment-child">
-								<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-								<h4 class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
-								<time class="post-time comment-child">\${replyList[i].bDate}</time>
-							    <p class="post-content comment-child">\${replyList[i].bContent}</p>
-							</article>`
-			}
-		}
-	output += `</div>`
-	return output
-}
-
-const pagination = (dto, commentsPaging) => {
-	console.log(`dto bId: ${dto}`) 
-	console.log(`dto bGroup: ${dto.bGroup}`) 
-	let output = `<nav><ul class="pagination justify-content-center">`
-		
-	// Previous 버튼
-	if(commentsPaging.page <= 1){
-		output += `<li class="page-item"></li>`
-	} else if(commentsPaging.page - 3 >= 1) {
-		let previousPageLink = `<a class="page-link" href="/board/detailBoard?bId=\${dto.bId}&bGroup=\${dto.bGroup}&page=\${commentsPaging.page-3}&sortType="> Previous </a>`
-		output += `<li class="page-item">\${previousPageLink}</li>`
-	}
-	
-	// 페이지 블록 번호
-	for(let i = 1; i <= 3; i++){
-	    let pagingLink = (i == commentsPaging.page) ? 
-	    	`<span class="page-link">\${i}</span>` :
-	    	`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${i}&sortType=">\${i}</a>`
-		        
-		    output += `<li class="page-item">\${pagingLink}</li>`
-		}
-	
-	// Next 버튼
-	if(commentsPaging.page >= commentsPaging.maxPage){
-		output += `<li class="page-item"></li>`
-	} else {
-		let nextPageLink = (commentsPaging.page + 5 >= commentsPaging.maxPage) ? 
-			`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.maxPage}&sortType=">Next</a>` :
-			`<a class="page-link" href="/board/detailBoard?bId=${dto.bId}&bGroup=${dto.bGroup}&page=${commentsPaging.page + 5}&sortType=">Next</a>`
-			
-		output += `<li class="page-item">\${nextPageLink}</li>`
-	}
-	return output
-}
-
-
-
-// 답글 버튼을 눌렀을 때
+	// 답글 버튼 리스너
 function registerEventListeners(){
 	const childReplyBtns = document.querySelectorAll(".comment-child-btn")
 	childReplyBtns.forEach(childReplyBtn => { 
@@ -371,17 +445,28 @@ function registerEventListeners(){
                     	type: "post",
                     	url: "replyChildInsert",
                     	data: {
+                    		page: currentPage,
                     		bContent: bContent,
                     		bGroup: bGroup,
                     		bStep: bStep,
                     		bIndent: bIndent
                     	},
                     	dataType: "json",
-                    	success: function(replyList){
+                    	success: function(data){
                     		replyInput.value = ''
                    			replyTable.innerHTML = ''
-                   			const output = editReplyTable(replyList)
+               				let dto = data.commentsListResponse.commentsPagingList
+              				let commentsPaging = data.commentsListResponse.commentsPagingDto
+              				let commentsCount = data.commentsCount
+                    		
+                    		// UI 업데이트
+                    		let output = editCommentTable(dto)
+                    		output += updatePagingBlock(dto, commentsPaging)
                    			replyTable.innerHTML = output
+                   			editCommentCount(commentsCount)
+                   			
+                   			// 리스너 재등록
+                   			ajaxBlockLink()
                    			registerEventListeners()
                     	},
                     	error: function(){
@@ -389,23 +474,18 @@ function registerEventListeners(){
                     	}
                     })
             	}
-            	
             	article.nextElementSibling.remove() // 답글 창 닫기
             })
-            
 	    })
 	})
 }
+	
+/* 댓글 추천순
+================================================== */	
 
-// 답글 작성 UI
-const replyChildUI = () => {
-	let output = `<div class="comment-input-container commentCell">
-					<input type="text" name="bContent" class="styled-input" required>
-					<button class="submit-comment button-filled-primary" type="button" id="commentChildSendBtn">작성</button>
-				  </div>`
-	return output
-}
-
+/* 페이지 로드 시 실행될 함수
+================================================== */
 registerEventListeners()
+ajaxBlockLink()
 </script>
 </html>

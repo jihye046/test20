@@ -22,7 +22,7 @@ public interface IBoardService {
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
-	void updateCommentCount(int bGroup);
+	int updateCommentCount(int bGroup);
 	List<BoardDto> replyChildList(int bGruop);
 
 	// 게시글 페이징

@@ -111,7 +111,7 @@ body {
 	cursor: pointer;
 }
 
-/* 이미지 목록
+/* 이미지 갤러리
 ================================================== */
 .image-container {
 	display: grid;
@@ -309,9 +309,10 @@ body {
 }
 
 .comments {
-/* 	min-height: 150px; */
-	max-height: 300px;
-	overflow-y: auto;
+/* 	max-height: 300px; */
+	max-height: none;
+/* 	overflow-y: auto; */
+	overflow-y: visible;
 	margin-bottom: 50px;
 }
 
@@ -342,7 +343,7 @@ span.page-link	{
 article {
 	position: relative;
 	border-bottom: solid 1px var(--light) !important; 
-	padding: 30px 0px;
+	padding: 15px 0px;
 	
 	&:last-child {
 		border: none;
@@ -356,7 +357,7 @@ article {
 	
 	img {
 		position: relative;
-		top: -10px;
+		top: -5px;
 		left: 0;
 		vertical-align: middle; 
 		width: 30px;
@@ -368,9 +369,10 @@ article {
 	
 	.author-name {
 		display: inline-block;
-		font-weight: 400;
+		font-weight: 500;
         margin-left: 0.5rem;
 		margin-bottom: 0.5rem;
+		font-size: 16px;
 		
 		a {
 			color: #404040;
@@ -411,8 +413,8 @@ article {
 	}
 	
 	.post-content {
-		margin-bottom: 1rem;
-		
+		font-size: 16px;
+		margin: 0.5rem 0rem;
 		.reply {
 			color: var(--theme);
 			cursor: pointer;

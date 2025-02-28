@@ -14,8 +14,8 @@
 .footer {
     display: flex;
     height: 100px;
-    justify-content: center; /* 수직 가운데 정렬 */
-    align-items: center; /* 수평 가운데 정렬 */
+    justify-content: center; 
+    align-items: center;
 	background-color: #F5F6F7;
 }
 
@@ -501,16 +501,25 @@ hr {
 	/* 배경이 있는 버튼 */
 .button-filled-primary {
 	border: none;
-	background-color: #ad9f94;
-	color: #fff;
-	font-size: 14px;
+	background-color: #fff;
+	color: #404040;
+	font-size: 12px;
 	padding: 7px 10px;
 	border-radius: 5px;
 	transition: background-color 0.3s ease;
 }
 
+.button-filled-primary .comment-child {
+	background-color: #F6F6F6;	
+}
+
 .button-filled-primary:hover {
-	background-color: #9e9a7c;
+	color: #BFBFA8;
+}
+
+.submit-comment {
+	background-color: #ad9f94;
+	color: #fff;
 }
 	
 	/* 상단 메뉴바 버튼 */
@@ -526,8 +535,6 @@ hr {
 .menubar-button-primary:hover {
 	color: #B0B0B0;
 }
-
-	
 
 /* #Media
 ================================================== */

@@ -24,7 +24,7 @@ public interface IBoardDao {
 	void replyChildInsert(BoardDto dto);
 	List<BoardDto> replyChildList(int bGroup);
 	int boardCount();
-	void updateCommentCount(int bGroup);
+	int updateCommentCount(int bGroup);
 	
 	// 게시글 페이징
 	List<BoardDto> pagingList(HashMap<String, Object> map);

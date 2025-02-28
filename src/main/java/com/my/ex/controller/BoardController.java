@@ -211,32 +211,44 @@ public class BoardController {
 	// 댓글
 	@ResponseBody
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
-	public ResponseEntity<CommentsListResponse> replyInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-													  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-													  HttpSession session,
-													  BoardDto dto) {
+	public Map<String, Object> replyInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+											    @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+											    HttpSession session,
+											    BoardDto dto) {
 		String userId = (String)session.getAttribute("userId");
 		dto.setbName(userId);
 		service.replyInsert(dto);
 		
 //		List<BoardDto> replyList = service.replyList(dto.getbGroup());
-		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
 		
-		service.updateCommentCount(dto.getbGroup());
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		int commentsCount = service.updateCommentCount(dto.getbGroup());
+		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
+		Map<String, Object> map = new HashMap<>();
+		map.put("commentsCount", commentsCount);
+		map.put("commentsListResponse", response);
+		
+//		return new ResponseEntity<>(map, HttpStatus.OK);
+		return map;
 	}
 	
 	// 답글
-	@RequestMapping(value = "/replyChildInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<BoardDto>> replyChildInsert(HttpSession session, BoardDto dto) {
+	@RequestMapping(value = "/replyChildInsert", method = RequestMethod.POST)
+	public Map<String, Object> replyChildInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+										  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+										  HttpSession session, BoardDto dto) {
 		String userId = (String)session.getAttribute("userId");
 		dto.setbName(userId);
 		service.replyChildInsert(dto);
-		List<BoardDto> replyList = service.replyList(dto.getbGroup());
-		service.updateCommentCount(dto.getbGroup());
+		
+//		List<BoardDto> replyList = service.replyList(dto.getbGroup());
+		int commentsCount = service.updateCommentCount(dto.getbGroup());
+		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
+		Map<String, Object> map = new HashMap<>();
+		map.put("commentsCount", commentsCount);
+		map.put("commentsListResponse", response);
 //		List<BoardDto> replyChildList = service.replyChildList(dto.getbGroup());
-		return new ResponseEntity<>(replyList, HttpStatus.OK);
+		return map;
 	}
 	
 	// 정렬 유지한채로 페이지 이동 시 -> jsp(html)로 이동
@@ -321,10 +333,9 @@ public class BoardController {
 	// 댓글 페이징_비동기 처리
 	@ResponseBody
 	@RequestMapping("/commentsPaging/ajax")
-	public CommentsListResponse commentsPagingAjax(
-												@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-												@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-												int bGroup) {
+	public CommentsListResponse commentsPagingAjax(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+												   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+												   int bGroup) {
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
 		for(BoardDto dto : commentsPagingList) {
@@ -335,6 +346,11 @@ public class BoardController {
 		}
 		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
 		return response;
+	}
+	
+	// 댓글 수_비동기 처리
+	public void updateCommentCount() {
+		
 	}
 	
 	// 이미지업로드(1) - 업로드한 이미지를 로컬에 저장
