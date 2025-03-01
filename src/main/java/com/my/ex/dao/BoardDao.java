@@ -71,7 +71,17 @@ public class BoardDao implements IBoardDao {
 	public int decrementBookmarksCount(int bId) {
 		return session.update(NAMESPACE + "decrementBookmarksCount", bId);
 	}
+	
+	@Override
+	public void incrementRecommendation(int bId) {
+		session.update(NAMESPACE + "incrementLikesCount", bId);
+	}
 
+	@Override
+	public void decrementRecommendation(int bId) {
+		session.update(NAMESPACE + "decrementLikesCount", bId);
+	}
+	
 	@Override
 	public int getTotalBookmarks(int bId) {
 		return session.selectOne(NAMESPACE + "getTotalBookmarks", bId);

@@ -16,8 +16,15 @@ public interface IBoardService {
 	int incrementLikesCount(int bId);
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
+	
+	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);
 	int decrementBookmarkAndGetCount(int bId);
+	
+	// 댓글 추천
+	int incrementRecommendationAndGetCount(int bId);
+	int decrementRecommendationAndGetCount(int bId);
+	
 	int getTotalBookmarks(int bId);
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
@@ -32,9 +39,6 @@ public interface IBoardService {
 	
 	// 댓글 페이징
 	List<BoardDto> commentsPagingList(int page, String sortType, int bGroup);
-//	List<BoardDto> comments_sort_likePagingList(int page, String sortType, int bGroup);
-	
-	// 공통
 	CommentsPagingDto commentsPagingParam(int page, int bGroup); // 페이징처리 시 하단에 보일 번호
 	
 }

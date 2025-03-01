@@ -24,4 +24,26 @@
 		 WHERE bId = #{bId} AND
 		       userId = #{userId} 
 	</select>
+	
+	<insert id="addRecommend" parameterType="LikeDto">
+		INSERT INTO mvc_like6
+		VALUES
+			(
+			seq_mvc_like6.nextval,
+			#{bId},
+			#{userId}
+			)			
+	</insert>
+	
+	<delete id="removeRecommend" parameterType="LikeDto">
+		DELETE FROM mvc_like6
+		 WHERE bId = #{bId} AND userId = #{userId}
+	</delete>
+	
+	<select id="isRecommended" parameterType="LikeDto" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_like6
+		 WHERE bId = #{bId} AND
+		 	   userId = #{userId}
+	</select>
 </mapper>

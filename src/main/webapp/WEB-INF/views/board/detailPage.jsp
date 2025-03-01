@@ -137,9 +137,9 @@
 									    					  data-bIndent="${comment.bIndent}">
 									    	답글 달기
 									    </button>
-									    <button type="button" class="button-filled-primary" >
-									    	<i class="fa-regular fa-thumbs-up"></i>
-									    	<span class="total-Recommendation">97</span>
+									    <button type="button" class="button-filled-primary" id="thumbupButton" data-recommend-bId="${comment.bId}">
+											<i class="${comment.recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}"></i>
+									    	<span class="total-Recommendation">${comment.bLike}</span>
 								    	</button>
 								    </article>	
 								</c:if>
@@ -149,9 +149,9 @@
 										<h4 class="author-name comment-child"><a href="#">${comment.bName}</a></h4>
 									    <p class="post-content comment-child">${comment.bContent}</p>
 										<time class="post-time comment-child">${comment.bDate}</time>
-										<button type="button" class="button-filled-primary comment-child">
-									    	<i class="fa-regular fa-thumbs-up"></i>
-									    	<span>97</span>
+										<button type="button" class="button-filled-primary comment-child"  id="thumbupButton" data-recommend-bId="${comment.bId}">
+											<i class="${comment.recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}"></i>
+									    	<span class="total-Recommendation">${comment.bLike}</span>
 							    		</button>
 								    </article>
 								</c:if>
@@ -248,7 +248,12 @@ const editCommentCount = (commentCount) => {
 	
 	// 댓글UI 업데이트
 const editCommentTable = (replyList) => {
-	let output = `<div>`
+	let output = `
+		<div class="comments-sortButton-container">
+			<span class="comments-sortButton" id="commnts_sort_like">추천순</span>
+			<span class="comments-sortButton" id="commnts_sort_latest">최신순</span>
+		</div>	
+		<div>`
 		for(let i in replyList){
 			if(replyList[i].bIndent == 1){ // 댓글
 			output += `<article>
@@ -262,9 +267,9 @@ const editCommentTable = (replyList) => {
 					    						  data-bIndent="\${replyList[i].bIndent}">
 					    		답글 달기
 					    	</button>
-				    		<button type="button" class="button-filled-primary">
-						    	<i class="fa-regular fa-thumbs-up"></i>
-						    	<span class="total-Recommendation">97</span>
+				    		<button type="button" class="button-filled-primary"  id="thumbupButton" data-recommend-bId="\${replyList[i].bId}">
+						    	<i class="\${replyList[i].recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}" ></i>
+						    	<span class="total-Recommendation">\${replyList[i].bLike}</span>
 					    	</button>
 				       </article>`
 			   		  
@@ -274,9 +279,9 @@ const editCommentTable = (replyList) => {
 								<h4 class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
 							    <p class="post-content comment-child">\${replyList[i].bContent}</p>
 							    <time class="post-time comment-child">\${replyList[i].bDate}</time>
-							    <button type="button" class="button-filled-primary comment-child">
-							    	<i class="fa-regular fa-thumbs-up"></i>
-							    	<span class="total-Recommendation">97</span>
+							    <button type="button" class="button-filled-primary comment-child"  id="thumbupButton" data-recommend-bId="\${replyList[i].bId}">
+							    	<i class="\${replyList[i].recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}"></i>
+							    	<span class="total-Recommendation">\${replyList[i].bLike}</span>
 					    		</button>
 							</article>`
 			}
@@ -360,6 +365,7 @@ const ajaxBlockLink  = () => {
 					// 리스너 재등록
 					ajaxBlockLink() // 댓글 블록 링크
 					registerEventListeners() // 답글
+					handleRecommendation() // 추천 버튼
 				},
 				error: function(error){
 					console.log(error)
@@ -404,6 +410,7 @@ replyBtn.addEventListener('click', function(){
 				// 리스너 재등록
 				ajaxBlockLink()
 				registerEventListeners()
+				handleRecommendation()
 			},
 			error: function(){
 				console.log("error")
@@ -468,6 +475,7 @@ function registerEventListeners(){
                    			// 리스너 재등록
                    			ajaxBlockLink()
                    			registerEventListeners()
+							handleRecommendation()
                     	},
                     	error: function(){
                     		console.log("error")
@@ -481,11 +489,70 @@ function registerEventListeners(){
 }
 	
 /* 댓글 추천순
-================================================== */	
+================================================== */
+const addRecommend = (bId, icon, totalRecommendation) => {
+	fetch('/board/addRecommend', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		}, 
+		body: JSON.stringify({
+			bId: bId
+		})
+	})
+	.then((response) => response.json())
+	.then((data) => {
+		icon.classList.remove('fa-regular')
+		icon.classList.add('fa-solid')
+		totalRecommendation.textContent = data
+	})
+	.catch(error => {
+		console.log('error: ', error)
+	})
+}
+
+const removeRecommend = (bId, icon, totalRecommendation) => {
+	fetch('/board/removeRecommend', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		}, 
+		body: JSON.stringify({
+			bId: bId
+		})
+	})
+	.then((response) => response.json())
+	.then((data) => {
+		icon.classList.remove('fa-solid')
+		icon.classList.add('fa-regular')
+		totalRecommendation.textContent = data
+	})
+	.catch(error => {
+		console.log('error: ', error)
+	})
+}
+
+const handleRecommendation = () => {
+	document.querySelectorAll('#thumbupButton').forEach(thumbupBtn => {
+		thumbupBtn.addEventListener('click', function() {
+			const icon = thumbupBtn.querySelector('i')
+			const bId = thumbupBtn.getAttribute('data-recommend-bId')
+			const totalRecommendation = thumbupBtn.querySelector('.total-Recommendation')
+
+			if(icon.classList.contains('fa-regular')) {
+				addRecommend(bId, icon, totalRecommendation)
+			} else if(icon.classList.contains('fa-solid')) {
+				removeRecommend(bId, icon, totalRecommendation)
+			}
+		})
+	})
+}
+
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
 registerEventListeners()
 ajaxBlockLink()
+handleRecommendation()
 </script>
 </html>

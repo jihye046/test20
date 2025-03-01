@@ -18,11 +18,13 @@ public class BoardDto {
 	private String searchGubun;
 	private String searchText;
 	private String sortType;
+	private boolean recommended;
 	
 	public BoardDto() {}
 
 	public BoardDto(int bId, String bName, String bTitle, String bContent, Date bDate, int bHit, int bGroup, int bStep,
-			int bIndent, String bLike, int bBookmark, int commentCount, String searchGubun, String searchText, String sortType) {
+			int bIndent, String bLike, int bBookmark, int commentCount, String searchGubun, String searchText,
+			String sortType, boolean recommended) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -38,6 +40,7 @@ public class BoardDto {
 		this.searchGubun = searchGubun;
 		this.searchText = searchText;
 		this.sortType = sortType;
+		this.recommended = recommended;
 	}
 
 	public int getbId() {
@@ -119,7 +122,7 @@ public class BoardDto {
 	public void setbLike(String bLike) {
 		this.bLike = bLike;
 	}
-	
+
 	public int getbBookmark() {
 		return bBookmark;
 	}
@@ -160,12 +163,21 @@ public class BoardDto {
 		this.sortType = sortType;
 	}
 
+	public boolean isRecommended() {
+		return recommended;
+	}
+
+	public void setRecommended(boolean recommended) {
+		this.recommended = recommended;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardDto [bId=" + bId + ", bName=" + bName + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bDate=" + bDate + ", bHit=" + bHit + ", bGroup=" + bGroup + ", bStep=" + bStep + ", bIndent="
 				+ bIndent + ", bLike=" + bLike + ", bBookmark=" + bBookmark + ", commentCount=" + commentCount
-				+ ", searchGubun=" + searchGubun + ", searchText=" + searchText + ", sortType=" + sortType + "]";
+				+ ", searchGubun=" + searchGubun + ", searchText=" + searchText + ", sortType=" + sortType
+				+ ", recommended=" + recommended + "]";
 	}
 
 }

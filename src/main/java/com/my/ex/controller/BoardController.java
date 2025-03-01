@@ -88,7 +88,7 @@ public class BoardController {
 		boolean isLiked = likeService.isLiked(bId, userId);
 		boolean isBookmarked = bookmarkService.isBookmarked(bId, userId);
 		//List<BoardDto> replyList = service.replyList(bGroup);
-		commentsPaging(page, sortType, bGroup, model);
+		commentsPaging(page, sortType, bGroup, model, userId);
 		updateHitCount(bId);
 		
 		model.addAttribute("dto", dto);
@@ -208,6 +208,38 @@ public class BoardController {
 		return response;
 	}
 	
+	// 댓글 추천
+	@ResponseBody
+	@RequestMapping(value = "/addRecommend", method = RequestMethod.POST)
+	public ResponseEntity<Integer> addRecommend(@RequestBody Map<String, String> request, HttpSession session) {
+		int bId = Integer.parseInt(request.get("bId"));
+		String userId = UserController.getUserIdFromSession(session);
+		
+		LikeDto dto = new LikeDto();
+		dto.setBId(bId);
+		dto.setUserId(userId);
+		
+		likeService.addRecommend(dto);
+		int totalRecommendations = service.incrementRecommendationAndGetCount(bId);
+		return new ResponseEntity<>(totalRecommendations, HttpStatus.OK);
+	}
+	
+	// 댓글 추천 취소
+	@ResponseBody
+	@RequestMapping(value = "/removeRecommend", method = RequestMethod.POST)
+	public ResponseEntity<Integer> removeRecommend(@RequestBody Map<String, String> request, HttpSession session) {
+		int bId = Integer.parseInt(request.get("bId"));
+		String userId = UserController.getUserIdFromSession(session);
+		
+		LikeDto dto = new LikeDto();
+		dto.setBId(bId);
+		dto.setUserId(userId);
+		
+		likeService.removeRecommend(dto);
+		int totalRecommendations = service.decrementRecommendationAndGetCount(bId);
+		return new ResponseEntity<>(totalRecommendations, HttpStatus.OK);
+	}
+	
 	// 댓글
 	@ResponseBody
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
@@ -222,7 +254,7 @@ public class BoardController {
 //		List<BoardDto> replyList = service.replyList(dto.getbGroup());
 		
 		int commentsCount = service.updateCommentCount(dto.getbGroup());
-		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
+		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup(), session);
 		Map<String, Object> map = new HashMap<>();
 		map.put("commentsCount", commentsCount);
 		map.put("commentsListResponse", response);
@@ -243,7 +275,7 @@ public class BoardController {
 		
 //		List<BoardDto> replyList = service.replyList(dto.getbGroup());
 		int commentsCount = service.updateCommentCount(dto.getbGroup());
-		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup());
+		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup(), session);
 		Map<String, Object> map = new HashMap<>();
 		map.put("commentsCount", commentsCount);
 		map.put("commentsListResponse", response);
@@ -315,8 +347,8 @@ public class BoardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	// 댓글 페이징 로드
-	public Model commentsPaging(int page, String sortType, int bGroup, Model model) {
+	// 댓글 페이징_로드
+	public Model commentsPaging(int page, String sortType, int bGroup, Model model, String userId) {
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
 		for(BoardDto dto : commentsPagingList) {
@@ -324,33 +356,37 @@ public class BoardController {
 			// HTML 이스케이프 처리
 			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
 			dto.setbContent(escapedContent);
+			
+			boolean isRecommended = likeService.isRecommended(dto.getbId(), userId);
+			dto.setRecommended(isRecommended);
 		}
 		model.addAttribute("commentsPagingList", commentsPagingList);
 		model.addAttribute("commentsPaging", commentsPageDto);
 		return model;
 	}
 	
-	// 댓글 페이징_비동기 처리
+	// 댓글 페이징_비동기
 	@ResponseBody
 	@RequestMapping("/commentsPaging/ajax")
 	public CommentsListResponse commentsPagingAjax(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 												   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-												   int bGroup) {
+												   int bGroup,
+												   HttpSession session) {
+		
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
+		String userId = UserController.getUserIdFromSession(session);
 		for(BoardDto dto : commentsPagingList) {
 			dto.setSortType(sortType);
 			// HTML 이스케이프 처리
 			String escapedContent = HtmlUtils.htmlEscape(dto.getbContent());
 			dto.setbContent(escapedContent);
+			
+			boolean isRecommended = likeService.isRecommended(dto.getbId(), userId);
+			dto.setRecommended(isRecommended);
 		}
 		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
 		return response;
-	}
-	
-	// 댓글 수_비동기 처리
-	public void updateCommentCount() {
-		
 	}
 	
 	// 이미지업로드(1) - 업로드한 이미지를 로컬에 저장

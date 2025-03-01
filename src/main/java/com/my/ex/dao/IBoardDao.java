@@ -12,12 +12,21 @@ public interface IBoardDao {
 	int updateBoard(BoardDto dto);
 	int deleteBoard(int bId);
 	void updateHitCount(int bId);
+	
+	// 게시글 좋아요
 	int incrementLikesCount(int bId); 
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
+	
+	// 북마크
 	int incrementBookmarksCount(int bId); 
 	int decrementBookmarksCount(int bId);
 	int getTotalBookmarks(int bId);
+	
+	// 댓글 추천
+	void incrementRecommendation(int bId);
+	void decrementRecommendation(int bId);
+	
 	void replyInsert(BoardDto dto);
 	void replyShape(int bGroup, int bStep);
 	List<BoardDto> replyList(int bGroup);

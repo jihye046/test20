@@ -23,7 +23,7 @@ public class LikeDao implements ILikeDao {
 
 	@Override
 	public void removeLike(LikeDto dto) {
-		session.insert(NAMESPACE + "removeLike", dto);
+		session.delete(NAMESPACE + "removeLike", dto);
 	}
 
 	@Override
@@ -32,6 +32,24 @@ public class LikeDao implements ILikeDao {
 		map.put("bId", bId);
 		map.put("userId", userId);
 		return session.selectOne(NAMESPACE + "isLiked", map);
+	}
+
+	@Override
+	public void addRecommend(LikeDto dto) {
+		session.insert(NAMESPACE + "addRecommend", dto);
+	}
+
+	@Override
+	public void removeRecommend(LikeDto dto) {
+		session.delete(NAMESPACE + "removeRecommend", dto);
+	}
+
+	@Override
+	public int isRecommended(int bId, String userId) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("bId", bId);
+		map.put("userId", userId);
+		return session.selectOne(NAMESPACE + "isRecommended", map);
 	}
 
 }
