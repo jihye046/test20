@@ -35,8 +35,8 @@
 														  '/user/loginPage' : 
 														  '/user/logout'}" 
 														  style="padding: 10px; font-size: 14px;">
-														  ${empty sessionScope.userId ? '로그인' : '로그아웃'}</a>
-							<a class="menubar-button-primary" href="/board/createPage" style="font-size: 14px;">글쓰기</a>
+														  ${empty sessionScope.userId ? 'LOGIN' : 'Logout'}</a>
+							<a class="menubar-button-primary" href="/board/createPage" style="font-size: 14px;">Write</a>
 						</div>
 					</nav>		
 				</div>

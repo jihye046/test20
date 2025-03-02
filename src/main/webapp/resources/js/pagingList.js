@@ -143,8 +143,8 @@ const pagination = (paging) => {
 		output += `<li class="page-item"></li>`
 	} else {
 		let previousPageLink = (paging.page - 5 <= 1) ?
-			`<a class="page-link" href="/board/paging?page=${paging.page-1}"> Previous </a>` :
-        	`<a class="page-link" href="/board/paging?page=${paging.page-5}"> Previous </a>`
+			`<a class="page-link" href="/board/paging?page=${paging.page-1}"> < </a>` :
+        	`<a class="page-link" href="/board/paging?page=${paging.page-5}"> < </a>`
 
 		output += `<li class="page-item">${previousPageLink}</li>`
 	}
@@ -152,7 +152,7 @@ const pagination = (paging) => {
 	// 페이지번호 추가 및 링크 생성
 	for(let i = paging.startPage; i <= paging.endPage; i++){
 	    let pagingLink = (i == paging.page) ? 
-	    	`<span class="page-link">${i}</span>` :
+	    	`<span class="page-link" style="background-color: #ad9f94; pointer-events: none;">${i}</span>` :
 	    	`<a class="page-link" href="/board/paging?page=${i}">${i}</a>`
 	        
 	    output += `<li class="page-item">${pagingLink}</li>`
@@ -163,8 +163,8 @@ const pagination = (paging) => {
 		paginationOutput += `<li class="page-item"></li>`
 	} else {
 		let nextPageLink = (paging.page + 5 >= paging.maxPage) ? 
-			`<a class="page-link" href="/board/paging?page=${paging.maxPage}">Next</a>` :
-			`<a class="page-link" href="/board/paging?page=${paging.page + 5}">Next</a>`
+			`<a class="page-link" href="/board/paging?page=${paging.maxPage}"> > </a>` :
+			`<a class="page-link" href="/board/paging?page=${paging.page + 5}"> > </a>`
 			
 		output += `<li class="page-item">${nextPageLink}</li>`
 	}
@@ -209,5 +209,8 @@ const updateBoardCards = () => {
 		}
 	})
 }
+
+
+
 
 updateBoardCards()

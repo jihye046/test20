@@ -143,8 +143,14 @@ public class BoardDao implements IBoardDao {
 	}
 
 	@Override
-	public int updateCommentCount(int bGroup) {
-		session.update(NAMESPACE + "updateCommentCount", bGroup);
+	public int incrementCommentCount(int bGroup) {
+		session.update(NAMESPACE + "incrementCommentCount", bGroup);
+		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
+	}
+	
+	@Override
+	public int decrementCommentCount(int bGroup) {
+		session.update(NAMESPACE + "decrementCommentCount", bGroup);
 		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
 	}
 

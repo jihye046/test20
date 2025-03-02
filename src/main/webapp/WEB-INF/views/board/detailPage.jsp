@@ -119,16 +119,19 @@
 						<button class="submit-comment button-filled-primary" type="button" id="commentBtn">댓글</button>
 					</div>
 					<div class="comments">
-						<div class="comments-sortButton-container">
-							<span class="comments-sortButton" id="commnts_sort_like">추천순</span>
-							<span class="comments-sortButton" id="commnts_sort_latest">최신순</span>
-						</div>
 						<div>
 							<c:forEach items="${commentsPagingList}" var="comment">
 								<c:if test="${comment.bIndent == 1}">
 									<article>
-										<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-										<span class="author-name"><a href="#">${comment.bName}</a></span>
+										<div class="user-info">
+											<div class="left-info">
+												<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+												<span class="author-name"><a href="#">${comment.bName}</a></span>
+											</div>
+											<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" data-bGroup="${comment.bGroup}">
+												<i class="fa-regular fa-trash-can"></i>
+											</button>
+										</div>
 									    <p class="post-content">${comment.bContent}</p>
 									    <time class="post-time">${comment.bDate}</time>
 									    <button type="button" class="button-filled-primary comment-child-btn" 
@@ -145,8 +148,15 @@
 								</c:if>
 								<c:if test="${comment.bIndent != 1}">
 									<article class="comment-child">
-										<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-										<h4 class="author-name comment-child"><a href="#">${comment.bName}</a></h4>
+										<div class="user-info">
+											<div class="left-info">
+												<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+												<span class="author-name comment-child"><a href="#">${comment.bName}</a></span>
+											</div>
+											<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}" data-bGroup="${comment.bGroup}">
+												<i class="fa-regular fa-trash-can"></i>
+											</button>
+										</div>
 									    <p class="post-content comment-child">${comment.bContent}</p>
 										<time class="post-time comment-child">${comment.bDate}</time>
 										<button type="button" class="button-filled-primary comment-child"  id="thumbupButton" data-recommend-bId="${comment.bId}">
@@ -248,17 +258,19 @@ const editCommentCount = (commentCount) => {
 	
 	// 댓글UI 업데이트
 const editCommentTable = (replyList) => {
-	let output = `
-		<div class="comments-sortButton-container">
-			<span class="comments-sortButton" id="commnts_sort_like">추천순</span>
-			<span class="comments-sortButton" id="commnts_sort_latest">최신순</span>
-		</div>	
-		<div>`
+	let output = `<div>`
 		for(let i in replyList){
 			if(replyList[i].bIndent == 1){ // 댓글
 			output += `<article>
-							<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-							<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
+							<div class="user-info">
+								<div class="left-info">
+									<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+									<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
+								</div>
+								<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}" data-bGroup="\${replyList[i].bGroup}">
+									<i class="fa-regular fa-trash-can"></i>
+								</button>
+							</div>
 					    	<p class="post-content">\${replyList[i].bContent}</p>
 					    	<time class="post-time">\${replyList[i].bDate}</time>
 					    	<button type="button" class="button-filled-primary comment-child-btn" 
@@ -275,8 +287,15 @@ const editCommentTable = (replyList) => {
 			   		  
 			} else { // 답글
 				output += `<article class="comment-child">
-								<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-								<h4 class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
+								<div class="user-info">
+									<div class="left-info">
+										<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+										<span class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
+									</div>
+									<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}" data-bGroup="\${replyList[i].bGroup}">
+										<i class="fa-regular fa-trash-can"></i>
+									</button>
+								</div>
 							    <p class="post-content comment-child">\${replyList[i].bContent}</p>
 							    <time class="post-time comment-child">\${replyList[i].bDate}</time>
 							    <button type="button" class="button-filled-primary comment-child"  id="thumbupButton" data-recommend-bId="\${replyList[i].bId}">
@@ -333,6 +352,27 @@ const updatePagingBlock = (dto, commentsPaging) => {
 	return output
 }
 
+	// 댓글 UI 업데이트 및 리스너 재등록
+const updateCommentUI = (data) => {
+	replyInput.value = ''
+	replyTable.innerHTML = ''
+	let dto = data.commentsListResponse.commentsPagingList
+	let commentsPaging = data.commentsListResponse.commentsPagingDto
+	let commentsCount = data.commentsCount // dto.setCommentCount를 안했기때문에 dto. 값이 아니라 서버에서 직접 map에 담은 값으로 확인 
+	
+	// UI 업데이트
+	let output = editCommentTable(dto) // 댓글 UI
+	output += updatePagingBlock(dto, commentsPaging) // 페이징블록 UI
+	replyTable.innerHTML = output // '.comments' UI
+	editCommentCount(commentsCount) // 댓글 개수 UI
+		
+	// 리스너 재등록
+	ajaxBlockLink() // 댓글 블록 링크
+	registerEventListeners() // 답글 등록
+	handleRecommendation() // 댓글, 답글 추천
+	handleCommentRemove() // 댓글, 답글 삭제
+}
+
 	// 댓글 블록 링크 리스너
 const ajaxBlockLink  = () => {
 	document.querySelectorAll('a.page-link').forEach(function(link){
@@ -354,7 +394,7 @@ const ajaxBlockLink  = () => {
 				success: function(data){
 					replyInput.value = '' 
 					replyTable.innerHTML = ''
-					let dto = data["commentsPagingList"];
+					let dto = data["commentsPagingList"]; // 객체로 리턴했기때문에 Map으로 리턴했을때와는 접근 방식 다름
 			        let commentsPaging = data["commentsPagingDto"];
 			        
 			        // UI 업데이트
@@ -366,6 +406,7 @@ const ajaxBlockLink  = () => {
 					ajaxBlockLink() // 댓글 블록 링크
 					registerEventListeners() // 답글
 					handleRecommendation() // 추천 버튼
+					handleCommentRemove() // 댓글 삭제 버튼
 				},
 				error: function(error){
 					console.log(error)
@@ -395,11 +436,12 @@ replyBtn.addEventListener('click', function(){
 			},
 			dataType: "json",
 			success: function(data){
+				/*
 				replyInput.value = '' 
 				replyTable.innerHTML = ''
 				let dto = data.commentsListResponse.commentsPagingList
 				let commentsPaging = data.commentsListResponse.commentsPagingDto
-				let commentsCount = data.commentsCount // dto에 set안했음. dto.commentCount값으로 확인하지말고 map에 담긴걸로 확인 
+				let commentsCount = data.commentsCount 
 				
 				// UI 업데이트
 				let output = editCommentTable(dto)
@@ -411,6 +453,9 @@ replyBtn.addEventListener('click', function(){
 				ajaxBlockLink()
 				registerEventListeners()
 				handleRecommendation()
+				handleCommentRemove()
+				*/
+				updateCommentUI(data)
 			},
 			error: function(){
 				console.log("error")
@@ -460,6 +505,7 @@ function registerEventListeners(){
                     	},
                     	dataType: "json",
                     	success: function(data){
+                    		/*
                     		replyInput.value = ''
                    			replyTable.innerHTML = ''
                				let dto = data.commentsListResponse.commentsPagingList
@@ -476,6 +522,9 @@ function registerEventListeners(){
                    			ajaxBlockLink()
                    			registerEventListeners()
 							handleRecommendation()
+							handleCommentRemove()
+                    		*/
+                    		updateCommentUI(data)
                     	},
                     	error: function(){
                     		console.log("error")
@@ -487,9 +536,10 @@ function registerEventListeners(){
 	    })
 	})
 }
-	
-/* 댓글 추천순
+
+/* 댓글 추천 
 ================================================== */
+	// 추천 등록
 const addRecommend = (bId, icon, totalRecommendation) => {
 	fetch('/board/addRecommend', {
 		method: 'POST',
@@ -511,6 +561,7 @@ const addRecommend = (bId, icon, totalRecommendation) => {
 	})
 }
 
+	// 추천 취소
 const removeRecommend = (bId, icon, totalRecommendation) => {
 	fetch('/board/removeRecommend', {
 		method: 'POST',
@@ -532,6 +583,7 @@ const removeRecommend = (bId, icon, totalRecommendation) => {
 	})
 }
 
+	// 추천 핸들러
 const handleRecommendation = () => {
 	document.querySelectorAll('#thumbupButton').forEach(thumbupBtn => {
 		thumbupBtn.addEventListener('click', function() {
@@ -548,11 +600,65 @@ const handleRecommendation = () => {
 	})
 }
 
+/* 댓글 삭제
+================================================== */
+const handleCommentRemove = () => {
+	document.querySelectorAll('.comment-remove').forEach(removeButton => {
+		removeButton.addEventListener('click', function(){
+			const confirmation = confirm('삭제하시겠습니까?')
+
+			if(confirmation) {
+				const bId = removeButton.getAttribute('data-comment-remove-bId')
+				const bGroup = removeButton.getAttribute('data-bGroup')
+
+				
+				$.ajax({
+					type: "post",
+					url: "/board/removeReply",
+					data: {
+						page: currentPage,
+						bId: bId,
+						bGroup: bGroup
+					},
+					dataType: "json",
+					success: function(data) {
+						/*
+						replyInput.value = ''
+               			replyTable.innerHTML = ''
+           				let dto = data.commentsListResponse.commentsPagingList
+          				let commentsPaging = data.commentsListResponse.commentsPagingDto
+          				let commentsCount = data.commentsCount
+
+                		// UI 업데이트
+                		let output = editCommentTable(dto)
+                		output += updatePagingBlock(dto, commentsPaging)
+               			replyTable.innerHTML = output
+               			editCommentCount(commentsCount)
+               			
+               			// 리스너 재등록
+               			ajaxBlockLink()
+               			registerEventListeners()
+						handleRecommendation()
+						handleCommentRemove()
+						*/
+						updateCommentUI(data)
+					},
+					error: function(error){
+						console.log("error:", error)
+					}
+				})
+			}
+		})
+	})
+}
+
+
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
 registerEventListeners()
 ajaxBlockLink()
 handleRecommendation()
+handleCommentRemove()
 </script>
 </html>

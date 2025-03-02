@@ -332,7 +332,7 @@ body {
 }
 
 span.page-link	{
-	background-color: #ad9f94;	
+	background-color: #ad9f94 !important;	
 	color: #fff;
 }
 
@@ -441,6 +441,37 @@ article {
 .reply-form article:hover .like-count {
 	opacity: 1;		
 }
+
+/* 추가 */
+.user-info {
+  display: flex;
+  justify-content: space-between; /* '휴지통'과 프로필을 양 끝에 배치 */
+  align-items: center; /* 수직 정렬 */
+}
+
+.left-info {
+  display: flex;
+  align-items: center; /* 프로필 이미지와 이름을 수평 정렬 */
+}
+
+.left-info img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.left-info .author-name {
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.comment-remove {
+	padding-right: 1rem;
+	font-size: 14px;
+	padding-top: 0;
+}
+
 
 /* 답글
 ================================================== */

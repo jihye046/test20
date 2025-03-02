@@ -16,6 +16,7 @@ public interface IBoardService {
 	int incrementLikesCount(int bId);
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
+	int commentsCount(int bGroup);
 	
 	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);
@@ -29,7 +30,8 @@ public interface IBoardService {
 	void replyInsert(BoardDto dto);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
-	int updateCommentCount(int bGroup);
+	int incrementCommentCount(int bGroup);
+	int decrementCommentCount(int bGroup);
 	List<BoardDto> replyChildList(int bGruop);
 
 	// 게시글 페이징

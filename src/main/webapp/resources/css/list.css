@@ -3,6 +3,22 @@
 @import url(https://fonts.googleapis.com/css?family=Oswald);
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
+/* 미디어 쿼리 */
+@media screen and (min-width: 768px) {
+    .carousel {
+        height: 500px;
+    }
+
+    .carousel-inner > .item {
+        height: 500px;
+    }
+
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
+        height: 500px; /* 세로 높이를 늘림 */
+    }
+}
+
 /* 상단바 */
 .start-header {
 	background-color: rgb(245, 238, 232) !important;
@@ -24,6 +40,8 @@
 	color: #8C8C8C; font-size: 13px;
 }
 
+/* pagination 
+	======================================== */
 .pagination {
 	margin: 20px 0;
 }
@@ -222,3 +240,4 @@ span.page-link {
         width: 100%;
     }
 }
+

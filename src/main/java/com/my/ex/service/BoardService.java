@@ -189,7 +189,7 @@ public class BoardService implements IBoardService {
 	// 댓글 페이지 하단 번호 블록
 	@Override
 	public CommentsPagingDto commentsPagingParam(int page, int bGroup) {
-		// 전체 글 개수
+		// 전체 댓글 개수
 		int boardCount = dao.commentsCount(bGroup);
 		
 		// 전체 블록 개수 
@@ -213,8 +213,18 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public int updateCommentCount(int bGroup) {
-		return dao.updateCommentCount(bGroup);
+	public int incrementCommentCount(int bGroup) {
+		return dao.incrementCommentCount(bGroup);
+	}
+
+	@Override
+	public int decrementCommentCount(int bGroup) {
+		return dao.decrementCommentCount(bGroup);
+	}
+
+	@Override
+	public int commentsCount(int bGroup) {
+		return dao.commentsCount(bGroup);
 	}
 
 }

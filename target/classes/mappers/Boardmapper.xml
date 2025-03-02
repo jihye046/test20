@@ -209,9 +209,17 @@
 		 WHERE bStep = 0 AND bIndent = 0
 	</select>
 	
-	<update id="updateCommentCount">
+	<update id="incrementCommentCount">
 		UPDATE mvc_board6 
 		   SET commentCount = commentCount + 1
+		 WHERE bGroup = #{bGroup}
+		   AND bStep = 0
+		   AND bIndent = 0
+	</update>
+	
+	<update id="decrementCommentCount">
+		UPDATE mvc_board6 
+		   SET commentCount = commentCount - 1
 		 WHERE bGroup = #{bGroup}
 		   AND bStep = 0
 		   AND bIndent = 0

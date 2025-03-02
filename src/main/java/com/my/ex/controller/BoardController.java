@@ -240,7 +240,7 @@ public class BoardController {
 		return new ResponseEntity<>(totalRecommendations, HttpStatus.OK);
 	}
 	
-	// 댓글
+	// 댓글 등록
 	@ResponseBody
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	public Map<String, Object> replyInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -251,19 +251,16 @@ public class BoardController {
 		dto.setbName(userId);
 		service.replyInsert(dto);
 		
-//		List<BoardDto> replyList = service.replyList(dto.getbGroup());
-		
-		int commentsCount = service.updateCommentCount(dto.getbGroup());
+		int commentsCount = service.incrementCommentCount(dto.getbGroup());
 		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup(), session);
 		Map<String, Object> map = new HashMap<>();
 		map.put("commentsCount", commentsCount);
 		map.put("commentsListResponse", response);
 		
-//		return new ResponseEntity<>(map, HttpStatus.OK);
 		return map;
 	}
 	
-	// 답글
+	// 답글 등록
 	@ResponseBody
 	@RequestMapping(value = "/replyChildInsert", method = RequestMethod.POST)
 	public Map<String, Object> replyChildInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -273,13 +270,32 @@ public class BoardController {
 		dto.setbName(userId);
 		service.replyChildInsert(dto);
 		
-//		List<BoardDto> replyList = service.replyList(dto.getbGroup());
-		int commentsCount = service.updateCommentCount(dto.getbGroup());
+		int commentsCount = service.incrementCommentCount(dto.getbGroup());
 		CommentsListResponse response = commentsPagingAjax(page, sortType, dto.getbGroup(), session);
 		Map<String, Object> map = new HashMap<>();
 		map.put("commentsCount", commentsCount);
 		map.put("commentsListResponse", response);
-//		List<BoardDto> replyChildList = service.replyChildList(dto.getbGroup());
+		return map;
+	}
+	
+	// 댓글, 답글 삭제
+	@ResponseBody
+	@RequestMapping(value = "/removeReply", method = RequestMethod.POST)
+	public Map<String, Object> replyRemove(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+										   @RequestParam(value = "bGroup") int bGroup,
+										   @RequestParam("bId") int bId, 
+										   HttpSession session){
+		boolean deleteResult = service.deleteBoard(bId);
+		String msg = (deleteResult) ? "삭제되었습니다." : "알 수 없는 오류가 발생했습니다.";
+		int commentsCount = service.decrementCommentCount(bGroup);
+		CommentsListResponse response = commentsPagingAjax(page, sortType, bGroup, session);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("commentsListResponse", response);
+		map.put("commentsCount", commentsCount);
+		map.put("msg", msg);
+		
 		return map;
 	}
 	
@@ -372,7 +388,7 @@ public class BoardController {
 												   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
 												   int bGroup,
 												   HttpSession session) {
-		
+		// 'page', 'sortType' 값이 없는 경우 지정해주어야하는데, fetch로 보내면 @RequestParam을 사용못하기때문에 $.ajax로 요청하고 @RequestParam을 사용 
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
 		String userId = UserController.getUserIdFromSession(session);
@@ -384,6 +400,8 @@ public class BoardController {
 			
 			boolean isRecommended = likeService.isRecommended(dto.getbId(), userId);
 			dto.setRecommended(isRecommended);
+			
+//			dto.setCommentCount(service.commentsCount(bGroup));
 		}
 		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
 		return response;

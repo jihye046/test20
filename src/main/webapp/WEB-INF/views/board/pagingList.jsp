@@ -81,12 +81,12 @@
 <%-- 									<c:when test="${paging.page - 3 <= 1}"> --%>
 									<c:when test="${paging.page - 5 <= 1}">
 										<li class="page-item">
-											<a class="page-link" href="/board/paging?page=${paging.page-1}&sortType="> Previous </a>
+											<a class="page-link" href="/board/paging?page=${paging.page-1}&sortType="> < </a>
 										</li>
 									</c:when>
 									<c:otherwise>
 										<li class="page-item">
-											<a class="page-link" href="/board/paging?page=${paging.page-5}&sortType="> Previous </a>
+											<a class="page-link" href="/board/paging?page=${paging.page-5}&sortType="> < </a>
 										</li>
 									</c:otherwise>
 								</c:choose>
@@ -97,7 +97,7 @@
 							<c:choose>
 								<c:when test="${i eq paging.page}">
 									<li class="page-item">
-										<span class="page-link">${i}</span>
+										<span class="page-link" style="background-color: #ad9f94; pointer-events: none;">${i}</span>
 									</li>
 								</c:when>
 								<c:otherwise>
@@ -115,12 +115,12 @@
 								<c:choose>
 									<c:when test="${paging.page + 5 >= paging.maxPage}">
 										<li class="page-item">
-											<a class="page-link" href="/board/paging?page=${paging.maxPage}&sortType=">Next</a>
+											<a class="page-link" href="/board/paging?page=${paging.maxPage}&sortType="> > </a>
 										</li>
 									</c:when>
 									<c:otherwise>
 										<li class="page-item">
-											<a class="page-link" href="/board/paging?page=${paging.page + 5}&sortType=">Next</a>
+											<a class="page-link" href="/board/paging?page=${paging.page + 5}&sortType="> > </a>
 										</li>
 									</c:otherwise>
 								</c:choose>

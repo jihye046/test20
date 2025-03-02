@@ -33,7 +33,8 @@ public interface IBoardDao {
 	void replyChildInsert(BoardDto dto);
 	List<BoardDto> replyChildList(int bGroup);
 	int boardCount();
-	int updateCommentCount(int bGroup);
+	int incrementCommentCount(int bGroup);
+	int decrementCommentCount(int bGroup);
 	
 	// 게시글 페이징
 	List<BoardDto> pagingList(HashMap<String, Object> map);
