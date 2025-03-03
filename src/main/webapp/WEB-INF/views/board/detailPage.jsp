@@ -436,25 +436,6 @@ replyBtn.addEventListener('click', function(){
 			},
 			dataType: "json",
 			success: function(data){
-				/*
-				replyInput.value = '' 
-				replyTable.innerHTML = ''
-				let dto = data.commentsListResponse.commentsPagingList
-				let commentsPaging = data.commentsListResponse.commentsPagingDto
-				let commentsCount = data.commentsCount 
-				
-				// UI 업데이트
-				let output = editCommentTable(dto)
-				output += updatePagingBlock(dto, commentsPaging)
-				replyTable.innerHTML = output
-				editCommentCount(commentsCount)
-				
-				// 리스너 재등록
-				ajaxBlockLink()
-				registerEventListeners()
-				handleRecommendation()
-				handleCommentRemove()
-				*/
 				updateCommentUI(data)
 			},
 			error: function(){
@@ -505,25 +486,6 @@ function registerEventListeners(){
                     	},
                     	dataType: "json",
                     	success: function(data){
-                    		/*
-                    		replyInput.value = ''
-                   			replyTable.innerHTML = ''
-               				let dto = data.commentsListResponse.commentsPagingList
-              				let commentsPaging = data.commentsListResponse.commentsPagingDto
-              				let commentsCount = data.commentsCount
-                    		
-                    		// UI 업데이트
-                    		let output = editCommentTable(dto)
-                    		output += updatePagingBlock(dto, commentsPaging)
-                   			replyTable.innerHTML = output
-                   			editCommentCount(commentsCount)
-                   			
-                   			// 리스너 재등록
-                   			ajaxBlockLink()
-                   			registerEventListeners()
-							handleRecommendation()
-							handleCommentRemove()
-                    		*/
                     		updateCommentUI(data)
                     	},
                     	error: function(){
@@ -610,7 +572,6 @@ const handleCommentRemove = () => {
 			if(confirmation) {
 				const bId = removeButton.getAttribute('data-comment-remove-bId')
 				const bGroup = removeButton.getAttribute('data-bGroup')
-
 				
 				$.ajax({
 					type: "post",
@@ -622,25 +583,6 @@ const handleCommentRemove = () => {
 					},
 					dataType: "json",
 					success: function(data) {
-						/*
-						replyInput.value = ''
-               			replyTable.innerHTML = ''
-           				let dto = data.commentsListResponse.commentsPagingList
-          				let commentsPaging = data.commentsListResponse.commentsPagingDto
-          				let commentsCount = data.commentsCount
-
-                		// UI 업데이트
-                		let output = editCommentTable(dto)
-                		output += updatePagingBlock(dto, commentsPaging)
-               			replyTable.innerHTML = output
-               			editCommentCount(commentsCount)
-               			
-               			// 리스너 재등록
-               			ajaxBlockLink()
-               			registerEventListeners()
-						handleRecommendation()
-						handleCommentRemove()
-						*/
 						updateCommentUI(data)
 					},
 					error: function(error){
