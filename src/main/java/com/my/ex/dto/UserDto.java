@@ -12,11 +12,12 @@ public class UserDto {
 	private int upoint;
 	private Date create_date;
 	private Date modify_date;
+	private String uprofile_image;
 	
 	public UserDto() {}
 
 	public UserDto(String username, String umobile, String userId, String userPw, String unickName, String uemail,
-			int upoint, Date create_date, Date modify_date) {
+			int upoint, Date create_date, Date modify_date, String uprofile_image) {
 		this.username = username;
 		this.umobile = umobile;
 		this.userId = userId;
@@ -26,6 +27,7 @@ public class UserDto {
 		this.upoint = upoint;
 		this.create_date = create_date;
 		this.modify_date = modify_date;
+		this.uprofile_image = uprofile_image;
 	}
 
 	public String getUsername() {
@@ -100,11 +102,19 @@ public class UserDto {
 		this.modify_date = modify_date;
 	}
 
+	public String getUprofile_image() {
+		return uprofile_image;
+	}
+
+	public void setUprofile_image(String uprofile_image) {
+		this.uprofile_image = uprofile_image;
+	}
+
 	@Override
 	public String toString() {
 		return "UserDto [username=" + username + ", umobile=" + umobile + ", userId=" + userId + ", userPw=" + userPw
 				+ ", unickName=" + unickName + ", uemail=" + uemail + ", upoint=" + upoint + ", create_date="
-				+ create_date + ", modify_date=" + modify_date + "]";
+				+ create_date + ", modify_date=" + modify_date + ", uprofile_image=" + uprofile_image + "]";
 	}
 
 }

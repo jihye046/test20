@@ -5,9 +5,9 @@
 </head>
 <body>
 	<div class="row header-div" style="background-color: #EAEAEA">
-		<div class="col-md-6 header-logo">
+		<div class="col-md-12 header-logo">
 			<a href="/">
-				<img alt="logo" src="../../../resources/images/home.png">
+				<img alt="logo" src="../../../resources/images/logo2.png">
 			</a>
 		</div>
 	</div>
@@ -31,7 +31,7 @@
 					
 					<button id="joinBtn" class="btn btn-block btn-outline-secondary" type="submit" disabled="disabled">Join</button>
 					<div class="join-form-links">
-						<a href="/user/loginPage">로그인</a>
+						<a href="/user/loginPage">돌아가기</a>
 					</div>
 				</form>
 			</div>

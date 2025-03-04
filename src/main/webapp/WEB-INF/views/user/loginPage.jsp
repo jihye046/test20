@@ -5,9 +5,9 @@
 </head>
 <body>
 	<div class="row header-div" style="background-color: #EAEAEA">
-		<div class="col-md-6 header-logo">
+		<div class="col-md-12 header-logo">
 			<a href="/">
-				<img alt="logo" src="../../../resources/images/home.png">
+				<img alt="logo" src="../../../resources/images/logo2.png">
 			</a>
 		</div>
 	</div>
@@ -25,7 +25,7 @@
 					</div>
 				</form><br>
 				<span style="color: gray;">다른 계정으로 로그인하기</span>
-				<div>
+				<div class="social-button">
 					<a href="/social/naverLogin">
 						<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
 					</a>

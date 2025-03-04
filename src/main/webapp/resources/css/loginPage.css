@@ -1,18 +1,47 @@
 @charset "UTF-8";
+
+body {
+	background-color: #EAEAEA !important;
+}
+
+/* logo */
+.header-logo {
+    position: relative;  
+    top: 20px;              
+    left: 30px;             
+    display: block;
+    width: 100%;         
+    z-index: 100;
+    transition: all 250ms linear;
+}
+
+.header-logo img {
+    height: 3rem;
+    width: auto;
+    display: block;
+    filter: brightness(10%);
+    transition: all 250ms linear;
+}
+
+/* form */
 .login-background {
+	width: 100%;
+	height: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background-color: #EAEAEA;
-	height: 900px; 
 }
 
 .login-form {
-	width: 400px; 
-	height: 600px;
+/* 	width: 400px;  */
+/* 	height: 600px; */
+	width: 30vw;
+	height: 85vh;
 	background-color: #ffffff;
 	display: flex;
-	flex-direction: column; /* 아이템들을 세로로 배치하기 위해 */
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	border-radius: 20px;
@@ -22,11 +51,16 @@
 .login-form p {
 	font-family: 'Pretendard-Bold', sans-serif;
 	text-align: center;
-	font-size: 25px;
+	font-size: 30px;
+	width: 60%;
+	padding-bottom: 4rem;
 }
 
 .login-form > form {
+	width: 100%;
+	height: 100%;
 	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	align-items: center;
 }
@@ -34,26 +68,47 @@
 .login-form > form input,
 .login-form > form button {
 	margin: 2px 0; /* 위아래 여백 설정 */
+	width: 70%;
 }
 
 .login-form input {
 	background-color: #EAEAEA;
 	border: none;
-	height: 40px;
+	height: 9%;
+	width: 20%;
 	padding: 5px;
 	border-radius: 10px;
 }
 
 .login-form-links {
 	padding-top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
 }
 
 .login-form-links a {
 	margin-right: 10px;
 }
 
+.social-button {
+	padding-bottom: 7rem;
+}
 .social-login-logo {
 	width: 40px; 
 	padding-top: 10px;
 	cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        width: 80vw;  /* 화면 너비의 80% */
+        height: 50vh; /* 화면 높이의 50% */
+    }
+    
+    .login-form > form input,
+    .login-form > form button {
+    	width: 20%;
+    }
 }

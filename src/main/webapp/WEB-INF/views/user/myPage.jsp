@@ -17,6 +17,12 @@
 				</div>
 				<div class="mypage-links">
 					<div class="mypage-link">
+						<a href="/user/updateProfileForm">프로필 수정</a>
+					</div>
+					<div class="mypage-link">
+						<a href="/user/changePasswordForm">비밀번호 변경</a>
+					</div>
+					<div class="mypage-link">
 						<a href="/user/getUserPosts">
 							<i class="fa-regular fa-pen-to-square"></i>
 							내가 작성한 게시글
@@ -33,12 +39,6 @@
 							<i class="fa-regular fa-heart"></i>
 							좋아요한 게시글
 						</a>
-					</div>
-					<div class="mypage-link">
-						<a href="/user/changePasswordForm">비밀번호 변경</a>
-					</div>
-					<div class="mypage-link">
-						<a href="/user/changeNicknameForm">닉네임 변경</a>
 					</div>
 					<div class="mypage-link">
 <!-- 						<a href="/user/chat">1:1 채팅상담</a> -->

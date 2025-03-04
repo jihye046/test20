@@ -1,32 +1,91 @@
 @charset "UTF-8";
+
+body {
+	background-color: #EAEAEA !important;
+}
+
+/* logo */
+.header-logo {
+    position: relative;  
+    top: 20px;              
+    left: 30px;             
+    display: block;
+    width: 100%;         
+    z-index: 100;
+    transition: all 250ms linear;
+}
+
+.header-logo img {
+    height: 3rem;
+    width: auto;
+    display: block;
+    filter: brightness(10%);
+    transition: all 250ms linear;
+}
+
+/* form */
 .join-background {
+	width: 100%;
+	height: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	background-color: #EAEAEA;
-	height: 900px; 
 }
 
 .join-form {
-	width: 400px; 
-	height: 700px;
+/* 	width: 400px;  */
+/* 	height: 600px; */
+	width: 30vw;
+	height: 85vh;
 	background-color: #ffffff;
 	display: flex;
-	flex-direction: column; /* 아이템들을 세로로 배치하기 위해 */
+	flex-direction: column; 
 	justify-content: center;
 	align-items: center;
 	border-radius: 20px;
 	box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.5);
 }
 
+.form-header {
+	text-align: center;
+	width: 100%;
+	font-size: 1.5rem;
+	padding-bottom: 50px;
+}
+
+.form-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+/* 	flex-grow: 1; */
+}
+
+.form-footer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	padding-top: 2rem;
+}
+
+.form-footer button {
+	width: 30%;
+}
+
 .join-form p {
 	font-family: 'Pretendard-Bold', sans-serif;
 	text-align: center;
-	font-size: 25px;
+	font-size: 30px;
+	width: 80%;
 }
 
 .join-form > form {
+	width: 100%;
+	height: 100%;
 	display: flex;
+	justify-content: center;
 	flex-direction: column;
 	align-items: center;
 }
@@ -34,18 +93,25 @@
 .join-form > form input,
 .join-form > form button {
 	margin: 2px 0; /* 위아래 여백 설정 */
+	width: 70%;
 }
 
 .join-form input {
 	background-color: #EAEAEA;
 	border: none;
-	height: 40px;
+/* 	height: 40px; */
+	height: 7%;
+	width: 20%;
 	padding: 5px;
 	border-radius: 10px;
 }
 
 .join-form-links {
 	padding-top: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80%;
 }
 
 .join-form-links a {
@@ -62,4 +128,99 @@
 
 .mailCheckFail {
 	color: red;
+}
+
+/* 프로필 이미지 스타일
+================================================== */
+.profile-section {
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	margin-bottom: 20px;
+}
+
+.profile-image {
+	width: 100px !important;
+	height: 100px !important;
+	border-radius: 50%;
+	object-fit: cover;
+	border: 2px solid #ddd;
+}
+
+#nickname {
+	width: 100%;
+	height: 20%;
+}
+
+/* 드롭다운 메뉴 스타일
+================================================== */
+.dropdown-menu {
+	width: 300px;
+	display: none;
+	position: absolute;
+	top: 90%;
+	left: 100%;
+	background-color: #fff;
+	border-radius: 10%;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	z-index: 100;
+}
+
+.dropdown-menu a {
+	width: 100%;
+	padding: 10px;
+	background: #fff;
+	border: none;
+	text-align: left;
+	cursor: pointer;
+	font-size: 14px;
+	color: #333;
+}
+
+.dropdown-menu a:hover {
+	background-color: #ad9f94;
+}
+
+#profileImageInput {
+/* 	display: none; */
+	width: 200px;;
+}
+
+/* 프로필 변경 메시지
+================================================== */
+.profile-message {
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: black;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	opacity: 0; /* 처음에는 투명 */
+	visibility: hidden;
+	font-size: 14px;
+	z-index: 9999;
+	transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.profile-message.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+#nickname {
+	text-align: center;
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        width: 80vw;  
+        height: 50vh; 
+    }
+    
+    .join-form > form input,
+	.join-form > form button {
+		width: 20%;
+	}
 }

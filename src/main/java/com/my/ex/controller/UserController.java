@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.my.ex.dto.BoardDto;
@@ -148,23 +150,34 @@ public class UserController {
 	    return response;
 	}
 	
-	// 닉네임 변경 페이지
-	@RequestMapping("/changeNicknameForm")
-	public String changeNicknameForm(HttpSession session, Model model) {
+	// 프로필 변경 페이지
+	@RequestMapping("/updateProfileForm")
+	public String updateProfileForm(HttpSession session, Model model) {
 		String currentNickname = service.getCurrentNickname(getUserIdFromSession(session));
 		model.addAttribute("currentNickname", currentNickname);
-		return "/user/changeNickname";
+		return "/user/updateProfile";
 	}
 	
-	// 닉네임 변경
-	@RequestMapping(value = "/chaneNickname", method = RequestMethod.POST)
+	// 프로필 변경
+	@RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> changeNickname(@RequestBody Map<String, String> requestBody, HttpSession session) {
+	public Map<String, String> updateProfile(
+		@RequestParam("nickname") String newNickname,
+		@RequestParam(value = "profileImage", required = false) MultipartFile profileImage,
+		HttpSession session) {
+		
 		String userId = getUserIdFromSession(session);
-		String newNickname = requestBody.get("nickname");
 		boolean updateResult = service.changeNickname(userId, newNickname);
-		 
+		
+		// 프로필 이미지 변경
+		if(profileImage != null && !profileImage.isEmpty()) {
+			String uploadDir = "C:\\server_program\\profileImgTest\\";
+			
+		}
+		
+		
 		Map<String, String> response = new HashMap<>();
+		// 닉네임 변경
 		if(updateResult) {
 			response.put("status", "success");
 			response.put("msg", "닉네임이 변경되었습니다.");
