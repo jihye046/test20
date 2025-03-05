@@ -22,7 +22,8 @@
 				<div class="form-body">
 					<!-- 프로필 이미지 -->
 					<div class="profile-section">
-				        <img id="profileImage" src="../../../resources/images/profile_default.png" alt="Profile Image" 
+<!-- 				        <img id="profileImage" src="../../../resources/images/profile_default.png" alt="Profile Image"  -->
+				        <img id="profileImage" src="/user/getProfileImage/${uprofile_image}" alt="Profile Image"
 				        	 class="profile-image" style="cursor: pointer;">
 				        <!-- 드롭다운 메뉴 -->	
 						<div class="dropdown-menu" id="dropdownMenu">
@@ -34,7 +35,8 @@
 						</div>
 					</div>
 					<!-- 닉네임 변경 -->
-					<input type="text" id="nickname" value="${currentNickname}"><br>
+<%-- 					<input type="text" id="nickname" value="${currentNickname}"><br> --%>
+					<input type="text" id="nickname" value="${sessionScope.userNickname}"><br>
 				</div>
 				<!-- 변경 버튼 -->
 				<div class="form-footer">
@@ -46,8 +48,9 @@
 		</div>
 	</main>
 </body>
-<div id="currentNickname" data-currentNickname="${currentNickname}"></div>
-<script src="../../../resources/js/changeNickname.js"></script>
+<%-- <div id="currentNickname" data-currentNickname="${currentNickname}"></div> --%>
+<div id="currentNickname" data-currentNickname="${sessionScope.userNickname}"></div>
+<script src="../../../resources/js/updateProfile.js"></script>
 <!-- FilePond -->
 <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
 </html>

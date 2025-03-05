@@ -2,6 +2,7 @@ package com.my.ex.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,17 +74,29 @@ public class UserDao implements IUserDao {
 		return result > 0;
 	}
 
+	// 현재 프로필 정보 조회
 	@Override
-	public String getCurrentNickname(String userId) {
-		return session.selectOne(NAMESPACE + "getCurrentNickname", userId);
+	public UserDto getCurrentProfile(String userId) {
+		return session.selectOne(NAMESPACE + "getCurrentProfile", userId);
 	}
 
+	// 닉네임만 변경하는 경우
 	@Override
-	public int changeNickname(String userId, String newNickname) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("userId", userId);
-		map.put("newNickname", newNickname);
-		return session.update(NAMESPACE + "changeNickname", map);
+	public int updateNickname(Map<String, String> map) {
+		return session.update(NAMESPACE + "updateNickname", map);
 	}
+
+	// 프로필 이미지만 변경하는 경우
+	@Override
+	public int updateProfileImage(Map<String, String> map) {
+		return session.update(NAMESPACE + "updateProfileImage", map);
+	}
+
+	// 닉네임 + 프로필 이미지 변경하는 경우
+	@Override
+	public int updateNicknameAndProfileImage(Map<String, String> map) {
+		return session.update(NAMESPACE + "updateNicknameAndProfileImage", map);
+	}
+
 
 }

@@ -2,9 +2,9 @@
 ================================================== */
 const showProfileMessage = (msg) => {
     const profileMessage = document.querySelector("#profileMessage")
-    profileImage.textContent = msg
-
+    profileMessage.textContent = msg
     profileMessage.classList.add('show')
+    
     setTimeout(() => {
         profileMessage.classList.remove('show')
     }, 2000)
@@ -33,13 +33,19 @@ const toggleDropdwon = () => {
 
 /* 프로필 이미지 변경
 ================================================== */
+    // 기본 이미지 선택 여부 플래그
+let isCustomImageSelected = false
+	// 아무 동작하지 않은 경우 감지 플래그
+let event = false
+
     // 기본 이미지로 변경
 const setDefaultImage = () => {
     const defaultImage = document.querySelector("#defaultImage")
     defaultImage.addEventListener('click', function() {
         profileImage.src = '../../../resources/images/profile_default.png'
+        event = true
         closeDropdownMenu()
-        showProfileMessage('프로필이 수정되었습니다.')
+        showProfileMessage('기본 프로필 이미지가 선택되었습니다.')
     })
 }
 
@@ -70,6 +76,7 @@ const setProfileImageFromFile = () => {
                             const imageUrl = URL.createObjectURL(file.file)
                             profileImage.src = imageUrl
                             selectedFile = file.file
+                            event = true
                         }
                     } else {
                         alert('알 수 없는 오류가 발생했습니다.')
@@ -92,38 +99,63 @@ updateButton.addEventListener('click', function(){
     const currentNickname = document.querySelector("#currentNickname").getAttribute("data-currentNickname")
     const newNickname = document.querySelector("#nickname").value.trim()
     const selectedFile = getSelectedFile() // 클로저 함수에 담긴 값
-    const defaultImg = '../../../resources/images/profile_default.png'
+    const defaultImage = 'profile_default.png'
 
     // 닉네임 검사
     if(!newNickname) {
         alert('닉네임을 입력해주세요.')
         return
-    } else if(newNickname == currentNickname) {
-        alert('동일한 닉네임입니다.')
-        return
+    }
+    
+    if(currentNickname != newNickname) {
+    	event = true
+    }
+    
+    // 아무 동작하지 않은 경우
+    if(!event) {
+    	alert('변경사항이 없습니다.')
+    	return
     }
 
     // 파일 검사
-    if(selectedFile) {
-        // 프로필 이미지, 닉네임 모두 변경하는 경우
-        updateProfile(selectedFile, newNickname)
+    const formData = new FormData()
+	if((currentNickname == newNickname) && !selectedFile) {
+        // 프로필 이미지만 기본 이미지로 변경하는 경우
+        isCustomImageSelected = false
+        formData.append('isCustomImageSelected', isCustomImageSelected)
+        formData.append('defaultImage', defaultImage)
+        
+    } else if((currentNickname == newNickname) && selectedFile) {
+    	// 프로필 이미지만 업로드한 이미지로 변경하는 경우
+        isCustomImageSelected = true
+        formData.append('isCustomImageSelected', isCustomImageSelected)
+        formData.append('profileImage', selectedFile)
+        
+    } else if((currentNickname != newNickname) && !selectedFile) {
+        // 닉네임 변경 + 기본 이미지로 변경하는 경우
+		isCustomImageSelected = false
+        formData.append('isCustomImageSelected', isCustomImageSelected)
+		formData.append('defaultImage', defaultImage)        
+		formData.append('nickname', newNickname)
+		
+    } else if((currentNickname != newNickname) && selectedFile) {
+    	// 닉네임 변경 + 업로드한 이미지로 변경하는 경우
+    	isCustomImageSelected = true
+        formData.append('isCustomImageSelected', isCustomImageSelected)
+        formData.append('profileImage', selectedFile)
+        formData.append('nickname', newNickname)
+        
     } else {
-        // 프로필 이미지를 변경하지 않고 닉네임만 변경하는 경우
-        updateProfile(defaultImg, newNickname)
+        // 닉네임만 변경하는 경우
+        formData.append('nickname', newNickname)
+        
     } 
+    return updateProfile(formData)
 })
 
 /* 프로필 이미지와 닉네임을 서버로 전송
 ================================================== */
-const updateProfile = (newFile, newNickname) => {
-    const formData = new FormData()
-
-    if(newFile) {
-        // 프로필 이미지, 닉네임 모두 변경하는 경우
-        formData.append('profileImage', newFile)
-    }
-    // 닉네임은 항상 추가 (파일이 없더라도)
-    formData.append('nickname', newNickname)
+const updateProfile = (formData) => {
 
 	// formData 내용 확인
     for (let [key, value] of formData.entries()) {
@@ -137,15 +169,36 @@ const updateProfile = (newFile, newNickname) => {
     })
     .then(response => response.json())
     .then(data => {
-        /* 
-        const handleRedirect = (msg) => {
-            showProfileMessage(msg)
-        }
-            */
-        showProfileMessage(data.msg) 
+       	if(data.filename) {
+       		fileServing(data.filename)
+       	}
+        
+        showProfileMessage(data.msg)
     })
     .catch(error => {
     	console.log('Error', error)
+    })
+}
+
+/* 서버 서빙 설정
+================================================== */
+const fileServing = (filename) => {
+    fetch(`/user/getProfileImage/${filename}`, {
+        method: 'GET'
+    })
+    .then(response => {
+        if(!response.ok) {
+            throw new Error('File not found')
+        }
+        return response.blob() // 파일을 blob 형태로 받음
+    })
+    .then(blob => {
+        const imageUrl = URL.createObjectURL(blob) // blob을 url로 변환(외부에서 로컬 파일에 접근이 불가능하기때문에 url로 변환)
+        document.querySelector("#profileImage").src = imageUrl
+    })
+    .catch(error => {
+        console.log('Error', error)
+        showProfileMessage('오류 발생')
     })
 }
 
@@ -154,5 +207,3 @@ const updateProfile = (newFile, newNickname) => {
 toggleDropdwon()
 setDefaultImage()
 setProfileImageFromFile()
-//updateNickname()
-//updateProfile()

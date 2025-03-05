@@ -1,6 +1,7 @@
 package com.my.ex.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,16 +61,29 @@ public class UserService implements IUserService {
 	    return dao.updatePassword(userId, newPassword) ? "success" : "fail";
 	}
 	
-	// 현재 닉네임 조회
+	// 현재 프로필 정보 조회
 	@Override
-	public String getCurrentNickname(String userId) {
-		return dao.getCurrentNickname(userId);
+	public UserDto getCurrentProfile(String userId) {
+		return dao.getCurrentProfile(userId);
 	}
 	
-	// 닉네임 변경
+	// 닉네임만 변경하는 경우
 	@Override
-	public boolean changeNickname(String userId, String unickname) {
-		return dao.changeNickname(userId, unickname) > 0; 
+	public boolean updateNickname(Map<String, String> map) {
+		return dao.updateNickname(map) > 0;
 	}
+	
+	// 프로필 이미지만 변경하는 경우
+	@Override
+	public boolean updateProfileImage(Map<String, String> map) {
+		return dao.updateProfileImage(map) > 0;
+	}
+
+	// 닉네임 + 프로필 이미지 변경하는 경우
+	@Override
+	public boolean updateNicknameAndProfileImage(Map<String, String> map) {
+		return dao.updateNicknameAndProfileImage(map) > 0;
+	}
+
 	
 }

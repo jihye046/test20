@@ -1,6 +1,7 @@
 package com.my.ex.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.UserDto;
@@ -15,6 +16,10 @@ public interface IUserDao {
 	int isOldPasswordCorrect(String userId, String oldPassword);
 	String getCurrentPassword(String userId);
 	boolean updatePassword(String userId, String newPassword);
-	String getCurrentNickname(String userId);
-	int changeNickname(String userId, String newNickname);
+	
+	// 프로필 이미지, 닉네임
+	UserDto getCurrentProfile(String userId);
+	int updateNickname(Map<String, String> map); 
+	int updateProfileImage(Map<String, String> map); 
+	int updateNicknameAndProfileImage(Map<String, String> map); 
 }

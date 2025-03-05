@@ -77,15 +77,31 @@
 		 WHERE userId = #{userId}
 	</update>
 	
-	<select id="getCurrentNickname" resultType="String">
-		SELECT unickname
+	<select id="getCurrentProfile" resultType="UserDto">
+		SELECT unickname, uprofile_image 
 		  FROM mvc_login6
 	 	 WHERE userId = #{userId}
 	</select>
 	
-	<update id="changeNickname" parameterType="java.util.HashMap">
+	<!-- 닉네임만 변경하는 경우 -->
+	<update id="updateNickname" parameterType="java.util.HashMap">
 		UPDATE mvc_login6
-		   SET unickname = #{newNickname}
+		   SET unickname = #{nickname}
 		 WHERE userId = #{userId}
 	</update>
+	
+	<!-- 프로필 이미지만 변경하는 경우 -->
+	<update id="updateProfileImage" parameterType="java.util.HashMap">
+		UPDATE mvc_login6
+		   SET uprofile_image = #{filename}
+		 WHERE userId = #{userId} 
+	</update>
+
+	<!-- 닉네임 + 프로필 이미지 변경하는 경우 -->
+	<update id="updateNicknameAndProfileImage" parameterType="java.util.HashMap">
+		UPDATE mvc_login6
+		   SET unickname = #{nickname},
+		   	   uprofile_image = #{filename}
+		 WHERE userId = #{userId} 
+	</update>	
 </mapper>
