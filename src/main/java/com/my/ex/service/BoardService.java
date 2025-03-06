@@ -2,6 +2,7 @@ package com.my.ex.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -225,6 +226,11 @@ public class BoardService implements IBoardService {
 	@Override
 	public int commentsCount(int bGroup) {
 		return dao.commentsCount(bGroup);
+	}
+
+	@Override
+	public boolean removeReply(Map<String, Object> map) {
+		return dao.removeReply(map) > 0;
 	}
 
 }

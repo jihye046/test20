@@ -1,6 +1,7 @@
 package com.my.ex.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
@@ -26,12 +27,14 @@ public interface IBoardService {
 	int incrementRecommendationAndGetCount(int bId);
 	int decrementRecommendationAndGetCount(int bId);
 	
-	int getTotalBookmarks(int bId);
 	void replyInsert(BoardDto dto);
-	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
 	int incrementCommentCount(int bGroup);
 	int decrementCommentCount(int bGroup);
+	boolean removeReply(Map<String, Object> map);
+	
+	int getTotalBookmarks(int bId);
+	List<BoardDto> replyList(int bGroup);
 	List<BoardDto> replyChildList(int bGruop);
 
 	// 게시글 페이징

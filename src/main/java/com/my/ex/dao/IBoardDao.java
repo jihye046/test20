@@ -2,6 +2,7 @@ package com.my.ex.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.my.ex.dto.BoardDto;
 
@@ -32,6 +33,8 @@ public interface IBoardDao {
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
 	List<BoardDto> replyChildList(int bGroup);
+	int removeReply(Map<String, Object> map);
+	
 	int boardCount();
 	int incrementCommentCount(int bGroup);
 	int decrementCommentCount(int bGroup);

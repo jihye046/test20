@@ -135,7 +135,7 @@ body {
 .profile-section {
 	position: relative;
 	display: inline-block;
-	width: 100px;
+/* 	width: 100px; */
 	margin-bottom: 20px;
 }
 
@@ -147,9 +147,25 @@ body {
 	border: 2px solid #ddd;
 }
 
-#nickname {
+#nickname,
+#oldPassword,
+#newPassword,
+#confirmPassword {
 	width: 100%;
-	height: 20%;
+	height: 30%;
+	margin-bottom: 1rem;
+	background-color: #f0f0f0;
+	transition: all 0.3s ease;
+}
+
+#nickname:focus,
+#oldPassword:focus,
+#newPassword:focus,
+#confirmPassword:focus {
+    background-color: #fff; 
+    border: 1px solid #286EFA; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+    outline: none; 
 }
 
 /* 드롭다운 메뉴 스타일

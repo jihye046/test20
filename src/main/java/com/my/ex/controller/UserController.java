@@ -158,9 +158,6 @@ public class UserController {
 	@RequestMapping("/updateProfileForm")
 	public String updateProfileForm(HttpSession session, Model model) {
 		UserDto currentProfile = service.getCurrentProfile(getUserIdFromSession(session));
-		System.out.println("db_unickname: " + currentProfile.getUnickName());
-		System.out.println("db_profileImage: " + currentProfile.getUprofile_image());
-//		model.addAttribute("currentNickname", currentProfile.getUnickName());
 		model.addAttribute("uprofile_image", currentProfile.getUprofile_image());
 		return "/user/updateProfile";
 	}
@@ -175,38 +172,35 @@ public class UserController {
 		@RequestParam(value = "isCustomImageSelected", defaultValue = "false") boolean isCustomImageSelected,
 		HttpSession session) throws IOException {
 		
-		Map<String, String> response = new HashMap<>();
-		
 		Map<String, String> map = new HashMap<>();
 		String userId = getUserIdFromSession(session);
-//		String defaultImg = "profile_default.png";
 		map.put("userId", userId);
 		
+		Map<String, String> response = new HashMap<>();
 		boolean updateResult = false;
-		// 업로드된 이미지가 있는 상태에서 닉네임만 수정하는 경우 기본 이미지로 바뀌는 문제 해결하기
 		
 		// 닉네임만 변경하는 경우
 		if((defaultImage == null && profileImage == null) && nickname != null) {
 			map.put("nickname", nickname);
 			updateResult = service.updateNickname(map);
-		}
+		} 
 		// 프로필 이미지만 기본 이미지로 변경하는 경우
 		else if(defaultImage != null && !isCustomImageSelected && nickname == null) {
 			map.put("filename", defaultImage);
 			updateResult = service.updateProfileImage(map);
-		} // 기본이미지가 db에 저장이 안됨
+		} 
 		// 프로필 이미지만 업로드한 이미지로 변경하는 경우
 		else if(profileImage != null && isCustomImageSelected && nickname == null) {
 			String filename = saveProfileImage(profileImage, userId);
 			map.put("filename", filename);
 			updateResult = service.updateProfileImage(map);
-		}
+		} 
 		// 닉네임 변경 + 기본 이미지로 변경하는 경우
 		else if(defaultImage != null && !isCustomImageSelected && nickname != null) {
 			map.put("nickname", nickname);
 			map.put("filename", defaultImage);
 			updateResult = service.updateNicknameAndProfileImage(map);
-		}
+		} 
 		// 닉네임 변경 + 업로드한 이미지로 변경하는 경우
 		else if(profileImage != null && isCustomImageSelected && nickname != null) {
 			String filename = saveProfileImage(profileImage, userId);
@@ -226,7 +220,6 @@ public class UserController {
 			response.put("status", "fail");
 			response.put("msg", "알 수 없는 오류가 발생했습니다.");
 		}
-		System.out.println("session에 저장된 nickname: " + session.getAttribute("userNickname"));
 		return response;
 	}
 	
@@ -237,12 +230,6 @@ public class UserController {
 		String uploadDir = "C:\\server_program\\profileImgTest\\";
 		File file = new File(uploadDir, filename);
 		
-		// 로그
-	    System.out.println("파일 요청: " + filename);
-	    System.out.println("파일 실제 경로: " + file.getAbsolutePath());
-	    System.out.println("파일 존재 여부: " + file.exists());
-
-		
 		if (file.exists()) {
 			return new FileSystemResource(file); // file자체를 보내는 것은 X, HTTP 본문 응답으로 자동 변환해주는 API(FileSystemResource())를 이용해서 보내야 함
 		} else {
@@ -250,7 +237,7 @@ public class UserController {
 		}
 	}
 	
-	// 파일 저장 로직
+	// 파일 저장
 	private String saveProfileImage(MultipartFile profileImage, String userId) throws IOException {
 		// 파일 저장 경로 설정
 		String uploadDir = "C:\\server_program\\profileImgTest\\";

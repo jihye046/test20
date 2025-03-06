@@ -149,6 +149,31 @@
 			 )
 	</insert>
 	
+	<update id="updateCommentContent" parameterType="java.util.HashMap">
+		UPDATE mvc_board6
+		   SET bContent = '삭제된 댓글입니다.'
+	 	 WHERE bId = #{bId} AND 
+	 	EXISTS (
+			   SELECT 1 
+			   FROM mvc_board6
+			   WHERE bGroup = #{bGroup} AND
+			   	 	 bStep = #{bStep} + 1 AND 
+			   	 	 bIndent = #{bIndent}
+			   )
+	</update>
+	
+	<delete id="removeComment" parameterType="java.util.HashMap">
+		DELETE FROM mvc_board6
+		 WHERE bId = #{bId} AND 
+	NOT EXISTS (
+		       SELECT 1
+		       FROM mvc_board6
+		       WHERE bGroup = #{bGroup} AND 
+		       		 bStep = #{bStep} + 1 AND 
+		       		 bIndent = 2
+		  	   )
+	</delete>
+	
 	<select id="pagingList" parameterType="java.util.HashMap" resultType="BoardDto">
 		SELECT * FROM (
 			 SELECT 

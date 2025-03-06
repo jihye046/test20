@@ -7,7 +7,7 @@ const showProfileMessage = (msg) => {
     
     setTimeout(() => {
         profileMessage.classList.remove('show')
-    }, 2000)
+    }, 3000)
 }
 
 /* 드롭다운 메뉴 닫기
@@ -87,6 +87,7 @@ const setProfileImageFromFile = () => {
             console.log('input 업로드 안됨')
         }
     })
+    
     return () => selectedFile
 }
 
@@ -94,12 +95,14 @@ const setProfileImageFromFile = () => {
 ================================================== */
 const updateButton = document.querySelector("#updateButton")
 const getSelectedFile = setProfileImageFromFile() // 클로저 함수 자체
+const defaultImage = 'profile_default.png'
+const currentProfileImage = document.querySelector("#profileImage").getAttribute("data-currentImage")
+const isUploadedImage = currentProfileImage != defaultImage
 
 updateButton.addEventListener('click', function(){
     const currentNickname = document.querySelector("#currentNickname").getAttribute("data-currentNickname")
     const newNickname = document.querySelector("#nickname").value.trim()
     const selectedFile = getSelectedFile() // 클로저 함수에 담긴 값
-    const defaultImage = 'profile_default.png'
 
     // 닉네임 검사
     if(!newNickname) {
@@ -119,7 +122,12 @@ updateButton.addEventListener('click', function(){
 
     // 파일 검사
     const formData = new FormData()
-	if((currentNickname == newNickname) && !selectedFile) {
+    
+    if(currentNickname != newNickname && !selectedFile && isUploadedImage) {
+        // 닉네임만 변경하는 경우
+        formData.append('nickname', newNickname)
+        
+    } else if((currentNickname == newNickname) && !selectedFile) {
         // 프로필 이미지만 기본 이미지로 변경하는 경우
         isCustomImageSelected = false
         formData.append('isCustomImageSelected', isCustomImageSelected)
@@ -131,7 +139,7 @@ updateButton.addEventListener('click', function(){
         formData.append('isCustomImageSelected', isCustomImageSelected)
         formData.append('profileImage', selectedFile)
         
-    } else if((currentNickname != newNickname) && !selectedFile) {
+    } else if((currentNickname != newNickname) && !selectedFile && !isUploadedImage) {
         // 닉네임 변경 + 기본 이미지로 변경하는 경우
 		isCustomImageSelected = false
         formData.append('isCustomImageSelected', isCustomImageSelected)
@@ -145,11 +153,8 @@ updateButton.addEventListener('click', function(){
         formData.append('profileImage', selectedFile)
         formData.append('nickname', newNickname)
         
-    } else {
-        // 닉네임만 변경하는 경우
-        formData.append('nickname', newNickname)
-        
-    } 
+    }
+    
     return updateProfile(formData)
 })
 
@@ -158,10 +163,11 @@ updateButton.addEventListener('click', function(){
 const updateProfile = (formData) => {
 
 	// formData 내용 확인
+	/*
     for (let [key, value] of formData.entries()) {
         console.log(key, value);
     }
-
+    */
 
     fetch('/user/updateProfile', {
         method: 'POST',
@@ -205,5 +211,5 @@ const fileServing = (filename) => {
 /* 페이지 로드 시 실행될 함수
 ================================================== */
 toggleDropdwon()
-setDefaultImage()
 setProfileImageFromFile()
+setDefaultImage()

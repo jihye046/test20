@@ -9,7 +9,7 @@
     <logger name="jdbc.resultset"      level="WARN"/>
     <logger name="jdbc.resultsettable" level="INFO"/>
     <logger name="jdbc.connection"     level="ERROR"/>
-<!-- 	<logger name="jdbc.sqlonly"        level="DEBUG"/> -->
+	<logger name="jdbc.sqlonly"        level="DEBUG"/>
 <!--     <logger name="jdbc.sqltiming"      level="INFO"/> -->
 <!--     <logger name="jdbc.audit"          level="WARN"/> -->
 <!--     <logger name="jdbc.resultset"      level="ERROR"/> -->

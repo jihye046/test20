@@ -2,6 +2,7 @@ package com.my.ex.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,6 +158,17 @@ public class BoardDao implements IBoardDao {
 	@Override
 	public int commentsCount(int bGroup) {
 		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
+	}
+
+	@Override
+	public int removeReply(Map<String, Object> map) {
+		int updateCount = session.update(NAMESPACE + "updateCommentContent", map);
+		int deleteCount = session.delete(NAMESPACE + "removeComment", map);
+		
+		if(updateCount > 0 || deleteCount > 0) {
+			return 1;
+		}
+		return 0;
 	}
 
 }

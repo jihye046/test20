@@ -42,6 +42,8 @@ import com.my.ex.service.BoardService;
 import com.my.ex.service.BookmarkService;
 import com.my.ex.service.LikeService;
 
+import groovy.console.ui.SystemOutputInterceptor;
+
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -278,10 +280,43 @@ public class BoardController {
 		return map;
 	}
 	
-	// 댓글, 답글 삭제
-	@ResponseBody
+	// 댓글 삭제
 	@RequestMapping(value = "/removeReply", method = RequestMethod.POST)
-	public Map<String, Object> replyRemove(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+	public Map<String, Object> removeReply(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+										   @RequestParam(value = "bGroup") int bGroup,
+										   @RequestParam(value = "bStep") int bStep,
+										   @RequestParam(value = "bIndent") int bIndent,
+										   @RequestParam("bId") int bId, 
+										   HttpSession session){
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("bGroup", bGroup);
+		map.put("bStep", bStep);
+		map.put("bIndent", bIndent);
+		map.put("bId", bId);
+		
+		boolean removeReplyResult = service.removeReply(map);
+		String msg = (removeReplyResult) ? "삭제되었습니다." : "알 수 없는 오류가 발생했습니다.";
+		int commentsCount = 0;
+		if(removeReplyResult) {
+			commentsCount = service.decrementCommentCount(bGroup);
+		}
+		CommentsListResponse commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("commentsListResponse", commentListResponse);
+		commentListResponse.toString();
+		response.put("commentsCount", commentsCount);
+		response.put("msg", msg);
+		
+		return response;
+	}
+	
+	// 답글 삭제
+	@ResponseBody
+	@RequestMapping(value = "/removeChildReply", method = RequestMethod.POST)
+	public Map<String, Object> removeChildReply(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
 										   @RequestParam(value = "bGroup") int bGroup,
 										   @RequestParam("bId") int bId, 
@@ -289,14 +324,14 @@ public class BoardController {
 		boolean deleteResult = service.deleteBoard(bId);
 		String msg = (deleteResult) ? "삭제되었습니다." : "알 수 없는 오류가 발생했습니다.";
 		int commentsCount = service.decrementCommentCount(bGroup);
-		CommentsListResponse response = commentsPagingAjax(page, sortType, bGroup, session);
+		CommentsListResponse commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
 		
-		Map<String, Object> map = new HashMap<>();
-		map.put("commentsListResponse", response);
-		map.put("commentsCount", commentsCount);
-		map.put("msg", msg);
+		Map<String, Object> response = new HashMap<>();
+		response.put("commentsListResponse", commentListResponse);
+		response.put("commentsCount", commentsCount);
+		response.put("msg", msg);
 		
-		return map;
+		return response;
 	}
 	
 	// 정렬 유지한채로 페이지 이동 시 -> jsp(html)로 이동

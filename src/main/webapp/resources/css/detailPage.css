@@ -487,7 +487,6 @@ article {
 	padding-left: 30px;
 }
 
-
 @media (max-width: 768px) {
     .container-fluid {
         width: 90%;  /* 모바일에서 크기 줄이기 */

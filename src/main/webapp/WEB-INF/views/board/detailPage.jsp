@@ -16,7 +16,7 @@
 					<div class="title-and-name">
 						<h1>${dto.bTitle}</h1>
 						<span class=bName>${dto.bName}</span>
-						<button class="button-primary" type="button">팔로우</button>
+						<button class="button-primary" type="button" id="followButton">팔로우</button>
 					</div>
 					<!-- 드롭다운 버튼 -->
 					<div class="dropdown">
@@ -128,7 +128,10 @@
 												<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
 												<span class="author-name"><a href="#">${comment.bName}</a></span>
 											</div>
-											<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" data-bGroup="${comment.bGroup}">
+											<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
+																											   data-bGroup="${comment.bGroup}"
+																											   data-bStep="${comment.bStep}"
+																											   data-bIndent="${comment.bIndent}">
 												<i class="fa-regular fa-trash-can"></i>
 											</button>
 										</div>
@@ -235,6 +238,17 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
 
 <script>
+/* 결과 메시지
+================================================== */
+const setMessage = (msg) => {
+	const message = document.querySelector("#copyMessage")
+	message.textContent = msg
+	message.classList.add('show')
+	setTimeout(() => {
+		message.classList.remove('show')
+	}, 2000)
+}
+
 /* 댓글 리스너, 페이징
 ================================================== */
 const replyBtn = document.querySelector("#commentBtn")
@@ -564,37 +578,71 @@ const handleRecommendation = () => {
 
 /* 댓글 삭제
 ================================================== */
+	// 댓글인지, 답글인지 판단
 const handleCommentRemove = () => {
 	document.querySelectorAll('.comment-remove').forEach(removeButton => {
 		removeButton.addEventListener('click', function(){
 			const confirmation = confirm('삭제하시겠습니까?')
 
 			if(confirmation) {
-				const bId = removeButton.getAttribute('data-comment-remove-bId')
-				const bGroup = removeButton.getAttribute('data-bGroup')
+				const bId = this.getAttribute('data-comment-remove-bId')
+				const bGroup = this.getAttribute('data-bGroup')
+				const bStep = this.getAttribute('data-bStep')
+				const bIndent = this.getAttribute('data-bIndent')
 				
-				$.ajax({
-					type: "post",
-					url: "/board/removeReply",
-					data: {
-						page: currentPage,
-						bId: bId,
-						bGroup: bGroup
-					},
-					dataType: "json",
-					success: function(data) {
-						updateCommentUI(data)
-					},
-					error: function(error){
-						console.log("error:", error)
-					}
-				})
+				if(bIndent == 1) {
+					commentRemove(bId, bGroup, bStep, bIndent)
+				} else {
+					commentChildRemove(bId, bGroup)
+				}
 			}
 		})
 	})
 }
 
+	// 댓글 삭제
+const commentRemove = (bId, bGroup, bStep, bIndent) => {
+	$.ajax({
+		type: "post",
+		url: "/board/removeReply",
+		data: {
+			page: currentPage,
+			bId: bId,
+			bGroup: bGroup,
+			bStep: bStep,
+			bIndent: bIndent
+		},
+		dataType: "json",
+		success: function(data) {
+			updateCommentUI(data)
+			setMessage('댓글이 삭제되었습니다.')
+		},
+		error: function(error){
+			console.log("error:", error)
+		}
+	})
+}
 
+	// 답글 삭제
+const commentChildRemove = (bId, bGroup) => {
+	$.ajax({
+		type: "post",
+		url: "/board/removeChildReply",
+		data: {
+			page: currentPage,
+			bId: bId,
+			bGroup: bGroup
+		},
+		dataType: "json",
+		success: function(data) {
+			updateCommentUI(data)
+			setMessage('답글이 삭제되었습니다.')
+		},
+		error: function(error){
+			console.log("error:", error)
+		}
+	})
+}
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
