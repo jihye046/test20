@@ -162,13 +162,24 @@ public class BoardDao implements IBoardDao {
 
 	@Override
 	public int removeReply(Map<String, Object> map) {
-		int updateCount = session.update(NAMESPACE + "updateCommentContent", map);
+ 		int updateCount = session.update(NAMESPACE + "updateCommentContent", map);
 		int deleteCount = session.delete(NAMESPACE + "removeComment", map);
 		
 		if(updateCount > 0 || deleteCount > 0) {
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public int removeReplyIfNoChildReplies(Map<String, Integer> map) {
+		 int result = session.delete(NAMESPACE + "removeReplyIfNoChildReplies", map);
+		 return result > 0 ? 1 : 0;
+	}
+
+	@Override
+	public int updateCommentStep(Map<String, Integer> map) {
+		return session.update(NAMESPACE + "updateCommentStep", map);
 	}
 
 }

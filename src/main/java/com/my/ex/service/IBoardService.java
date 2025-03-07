@@ -27,11 +27,14 @@ public interface IBoardService {
 	int incrementRecommendationAndGetCount(int bId);
 	int decrementRecommendationAndGetCount(int bId);
 	
+	// 댓글 및 답글 등록, 삭제
 	void replyInsert(BoardDto dto);
 	void replyChildInsert(BoardDto dto);
 	int incrementCommentCount(int bGroup);
 	int decrementCommentCount(int bGroup);
 	boolean removeReply(Map<String, Object> map);
+	boolean updateCommentStep(Map<String, Integer> map);
+	boolean removeReplyIfNoChildReplies(Map<String, Integer> map);
 	
 	int getTotalBookmarks(int bId);
 	List<BoardDto> replyList(int bGroup);

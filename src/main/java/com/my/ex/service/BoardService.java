@@ -233,4 +233,15 @@ public class BoardService implements IBoardService {
 		return dao.removeReply(map) > 0;
 	}
 
+	@Override
+	public boolean removeReplyIfNoChildReplies(Map<String, Integer> map) {
+		int result = dao.removeReplyIfNoChildReplies(map);
+		return result == 1 ? true : false;
+	}
+
+	@Override
+	public boolean updateCommentStep(Map<String, Integer> map) {
+		return dao.updateCommentStep(map) > 0;
+	}
+
 }

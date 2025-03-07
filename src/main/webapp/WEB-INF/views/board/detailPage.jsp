@@ -123,30 +123,38 @@
 							<c:forEach items="${commentsPagingList}" var="comment">
 								<c:if test="${comment.bIndent == 1}">
 									<article>
-										<div class="user-info">
-											<div class="left-info">
-												<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
-												<span class="author-name"><a href="#">${comment.bName}</a></span>
-											</div>
-											<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
-																											   data-bGroup="${comment.bGroup}"
-																											   data-bStep="${comment.bStep}"
-																											   data-bIndent="${comment.bIndent}">
-												<i class="fa-regular fa-trash-can"></i>
-											</button>
-										</div>
-									    <p class="post-content">${comment.bContent}</p>
-									    <time class="post-time">${comment.bDate}</time>
-									    <button type="button" class="button-filled-primary comment-child-btn" 
-									    					  data-bGroup="${comment.bGroup}"
-									    					  data-bStep="${comment.bStep}"
-									    					  data-bIndent="${comment.bIndent}">
-									    	답글 달기
-									    </button>
-									    <button type="button" class="button-filled-primary" id="thumbupButton" data-recommend-bId="${comment.bId}">
-											<i class="${comment.recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}"></i>
-									    	<span class="total-Recommendation">${comment.bLike}</span>
-								    	</button>
+										<c:choose>
+											<c:when test="${comment.bContent == '작성자가 삭제한 댓글입니다.'}">
+												<p class="post-content removeMessage">${comment.bContent}</p>
+											</c:when>
+											<c:otherwise>
+												<div class="user-info">
+													<div class="left-info">
+														<c:set var="filename" value="/getProfileFilename/${comment.bName}" />
+															<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+														<span class="author-name"><a href="#">${comment.bName}</a></span>
+													</div>
+													<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
+																													   data-bGroup="${comment.bGroup}"
+																													   data-bStep="${comment.bStep}"
+																													   data-bIndent="${comment.bIndent}">
+														<i class="fa-regular fa-trash-can"></i>
+													</button>
+												</div>
+												<p class="post-content">${comment.bContent}</p>
+												<time class="post-time">${comment.bDate}</time>
+												<button type="button" class="button-filled-primary comment-child-btn" 
+																	  data-bGroup="${comment.bGroup}"
+																	  data-bStep="${comment.bStep}"
+																	  data-bIndent="${comment.bIndent}">
+													답글 달기
+												</button>
+												<button type="button" class="button-filled-primary" id="thumbupButton" data-recommend-bId="${comment.bId}">
+													<i class="${comment.recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}"></i>
+													<span class="total-Recommendation">${comment.bLike}</span>
+												</button>
+											</c:otherwise>
+										</c:choose>
 								    </article>	
 								</c:if>
 								<c:if test="${comment.bIndent != 1}">
@@ -156,7 +164,10 @@
 												<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
 												<span class="author-name comment-child"><a href="#">${comment.bName}</a></span>
 											</div>
-											<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}" data-bGroup="${comment.bGroup}">
+											<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}"
+																															 data-bGroup="${comment.bGroup}"
+																															 data-bStep="${comment.bStep}"
+																															 data-bIndent="${comment.bIndent}">
 												<i class="fa-regular fa-trash-can"></i>
 											</button>
 										</div>
@@ -271,17 +282,24 @@ const editCommentCount = (commentCount) => {
 }
 	
 	// 댓글UI 업데이트
+const removeMessage = '작성자가 삭제한 댓글입니다.'
 const editCommentTable = (replyList) => {
 	let output = `<div>`
 		for(let i in replyList){
 			if(replyList[i].bIndent == 1){ // 댓글
-			output += `<article>
-							<div class="user-info">
+			output += `<article>`
+				if(replyList[i].bContent == removeMessage) {
+					output += `<p class="post-content removeMessage">\${replyList[i].bContent}</p>`
+				} else {
+					output += `<div class="user-info">
 								<div class="left-info">
 									<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
 									<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
 								</div>
-								<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}" data-bGroup="\${replyList[i].bGroup}">
+								<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
+																								   data-bGroup="\${replyList[i].bGroup}"
+																								   data-bStep="\${replyList[i].bStep}"
+																								   data-bIndent="\${replyList[i].bIndent}">
 									<i class="fa-regular fa-trash-can"></i>
 								</button>
 							</div>
@@ -296,9 +314,9 @@ const editCommentTable = (replyList) => {
 				    		<button type="button" class="button-filled-primary"  id="thumbupButton" data-recommend-bId="\${replyList[i].bId}">
 						    	<i class="\${replyList[i].recommended ? 'fa-solid fa-thumbs-up' : 'fa-regular fa-thumbs-up'}" ></i>
 						    	<span class="total-Recommendation">\${replyList[i].bLike}</span>
-					    	</button>
-				       </article>`
-			   		  
+					    	</button> `
+				}
+				output += `</article>`
 			} else { // 답글
 				output += `<article class="comment-child">
 								<div class="user-info">
@@ -306,7 +324,10 @@ const editCommentTable = (replyList) => {
 										<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
 										<span class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
 									</div>
-									<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}" data-bGroup="\${replyList[i].bGroup}">
+									<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
+																												 	 data-bGroup="\${replyList[i].bGroup}"
+																												 	 data-bStep="\${replyList[i].bStep}"
+																											 		 data-bIndent="\${replyList[i].bIndent}">
 										<i class="fa-regular fa-trash-can"></i>
 									</button>
 								</div>
@@ -483,7 +504,7 @@ function registerEventListeners(){
             
         	const sendButton = article.nextElementSibling.querySelector('button');
             sendButton.addEventListener('click', function() {
-            	const bContent = article.nextElementSibling.querySelector('input').value // 입력된 내용 가져오기
+            	const bContent = article.nextElementSibling.querySelector('input').value
             	if(!bContent || !(bContent.trim())){
             		alert("내용을 입력해주세요.")
             		return
@@ -576,16 +597,15 @@ const handleRecommendation = () => {
 	})
 }
 
-/* 댓글 삭제
+/* 댓글, 답글 삭제
 ================================================== */
 	// 댓글인지, 답글인지 판단
 const handleCommentRemove = () => {
 	document.querySelectorAll('.comment-remove').forEach(removeButton => {
 		removeButton.addEventListener('click', function(){
 			const confirmation = confirm('삭제하시겠습니까?')
-
 			if(confirmation) {
-				const bId = this.getAttribute('data-comment-remove-bId')
+				const bId = removeButton.getAttribute('data-comment-remove-bId')
 				const bGroup = this.getAttribute('data-bGroup')
 				const bStep = this.getAttribute('data-bStep')
 				const bIndent = this.getAttribute('data-bIndent')
@@ -593,7 +613,7 @@ const handleCommentRemove = () => {
 				if(bIndent == 1) {
 					commentRemove(bId, bGroup, bStep, bIndent)
 				} else {
-					commentChildRemove(bId, bGroup)
+					commentChildRemove(bId, bGroup, bStep)
 				}
 			}
 		})
@@ -615,7 +635,7 @@ const commentRemove = (bId, bGroup, bStep, bIndent) => {
 		dataType: "json",
 		success: function(data) {
 			updateCommentUI(data)
-			setMessage('댓글이 삭제되었습니다.')
+			setMessage(data.msg)
 		},
 		error: function(error){
 			console.log("error:", error)
@@ -624,19 +644,20 @@ const commentRemove = (bId, bGroup, bStep, bIndent) => {
 }
 
 	// 답글 삭제
-const commentChildRemove = (bId, bGroup) => {
+const commentChildRemove = (bId, bGroup, bStep) => {
 	$.ajax({
 		type: "post",
 		url: "/board/removeChildReply",
 		data: {
 			page: currentPage,
 			bId: bId,
-			bGroup: bGroup
+			bGroup: bGroup,
+			bStep: bStep
 		},
 		dataType: "json",
 		success: function(data) {
 			updateCommentUI(data)
-			setMessage('답글이 삭제되었습니다.')
+			setMessage(data.msg)
 		},
 		error: function(error){
 			console.log("error:", error)

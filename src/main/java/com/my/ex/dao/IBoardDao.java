@@ -28,12 +28,15 @@ public interface IBoardDao {
 	void incrementRecommendation(int bId);
 	void decrementRecommendation(int bId);
 	
+	// 댓글 및 답글 등록, 삭제
 	void replyInsert(BoardDto dto);
 	void replyShape(int bGroup, int bStep);
 	List<BoardDto> replyList(int bGroup);
 	void replyChildInsert(BoardDto dto);
 	List<BoardDto> replyChildList(int bGroup);
 	int removeReply(Map<String, Object> map);
+	int removeReplyIfNoChildReplies(Map<String, Integer> map);
+	int updateCommentStep(Map<String, Integer> map);
 	
 	int boardCount();
 	int incrementCommentCount(int bGroup);

@@ -5,7 +5,10 @@
 <configuration>
 	<!-- INSERT NULL 값 설정  -->
 	<settings> 
-		<setting name="jdbcTypeForNull" value="VARCHAR"/> 
+		<setting name="jdbcTypeForNull" value="VARCHAR"/>
+		
+		<!-- sql 콘솔 출력 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/> 
 	</settings>
 	<typeAliases>
 		<!-- 클래스 단위 -->
@@ -14,4 +17,5 @@
 		<!-- 패키지 단위 -->
 		<package name="com.my.ex.dto"/>
 	</typeAliases>
+	
 </configuration>

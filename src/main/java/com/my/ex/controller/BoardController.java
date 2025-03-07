@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -89,12 +90,10 @@ public class BoardController {
 		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
 		boolean isLiked = likeService.isLiked(bId, userId);
 		boolean isBookmarked = bookmarkService.isBookmarked(bId, userId);
-		//List<BoardDto> replyList = service.replyList(bGroup);
 		commentsPaging(page, sortType, bGroup, model, userId);
 		updateHitCount(bId);
 		
 		model.addAttribute("dto", dto);
-		//model.addAttribute("replyList", replyList);
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
 		return "/board/detailPage";
@@ -110,22 +109,12 @@ public class BoardController {
 	
 	// 게시글 수정
 	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
-	public String updateBoard(HttpServletRequest request, RedirectAttributes rttr) {
-		int bId = Integer.parseInt(request.getParameter("bId"));
-		String bName = request.getParameter("bName");
-		String bTitle = request.getParameter("bTitle");
-		String bContent = request.getParameter("bContent");
-		int bGroup = Integer.parseInt(request.getParameter("bGroup"));
-		BoardDto dto = new BoardDto();
-		dto.setbId(bId);
-		dto.setbName(bName);
-		dto.setbTitle(bTitle);
-		dto.setbContent(bContent);
+	public String updateBoard(HttpServletRequest request, @ModelAttribute BoardDto dto, RedirectAttributes rttr) {
 		boolean update = service.updateBoard(dto);
 		String result = "false";
 		if(update) result = "true";
 		rttr.addFlashAttribute("updateResult", result);
-		return "redirect:detailBoard?bId=" + bId + "&bGroup=" + bGroup;
+		return "redirect:detailBoard?bId=" + dto.getbId() + "&bGroup=" + dto.getbGroup();
 	}
 	
 	// 게시글 삭제
@@ -281,6 +270,7 @@ public class BoardController {
 	}
 	
 	// 댓글 삭제
+	@ResponseBody
 	@RequestMapping(value = "/removeReply", method = RequestMethod.POST)
 	public Map<String, Object> removeReply(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
@@ -296,17 +286,19 @@ public class BoardController {
 		map.put("bIndent", bIndent);
 		map.put("bId", bId);
 		
-		boolean removeReplyResult = service.removeReply(map);
-		String msg = (removeReplyResult) ? "삭제되었습니다." : "알 수 없는 오류가 발생했습니다.";
+		String msg = "";
 		int commentsCount = 0;
-		if(removeReplyResult) {
+		if(service.removeReply(map)) {
 			commentsCount = service.decrementCommentCount(bGroup);
+			msg = "댓글이 삭제되었습니다.";
+		} else {
+			msg = "알 수 없는 오류가 발생했습니다.";
 		}
+		
 		CommentsListResponse commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
 		
 		Map<String, Object> response = new HashMap<>();
 		response.put("commentsListResponse", commentListResponse);
-		commentListResponse.toString();
 		response.put("commentsCount", commentsCount);
 		response.put("msg", msg);
 		
@@ -319,12 +311,30 @@ public class BoardController {
 	public Map<String, Object> removeChildReply(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
 										   @RequestParam(value = "bGroup") int bGroup,
-										   @RequestParam("bId") int bId, 
+										   @RequestParam("bId") int bId,
+										   @RequestParam("bStep") int bStep,
 										   HttpSession session){
-		boolean deleteResult = service.deleteBoard(bId);
-		String msg = (deleteResult) ? "삭제되었습니다." : "알 수 없는 오류가 발생했습니다.";
-		int commentsCount = service.decrementCommentCount(bGroup);
-		CommentsListResponse commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
+		
+		String msg = "";
+		int commentsCount = 0; 
+		CommentsListResponse commentListResponse = null;
+		if(service.deleteBoard(bId)) {
+			commentsCount = service.decrementCommentCount(bGroup);
+			
+			// 답글 삭제 후 다른 답글이 더 있다면 bStep을 1씩 줄임 
+			Map<String, Integer> map = new HashMap<>();
+			map.put("bGroup", bGroup);
+			map.put("bStep", bStep);
+			boolean updateCommentStepResult = service.updateCommentStep(map);
+			if(!updateCommentStepResult) {
+				// 답글이 없는 삭제된 댓글이라면 delete를 함
+				service.removeReplyIfNoChildReplies(map);
+			}
+			commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
+			msg = "답글이 삭제되었습니다.";
+		} else {
+			msg = "알 수 없는 오류가 발생했습니다.";
+		}
 		
 		Map<String, Object> response = new HashMap<>();
 		response.put("commentsListResponse", commentListResponse);
@@ -413,6 +423,8 @@ public class BoardController {
 		}
 		model.addAttribute("commentsPagingList", commentsPagingList);
 		model.addAttribute("commentsPaging", commentsPageDto);
+		UserController controller = new UserController();
+		model.addAttribute("userController", controller);
 		return model;
 	}
 	
@@ -435,8 +447,6 @@ public class BoardController {
 			
 			boolean isRecommended = likeService.isRecommended(dto.getbId(), userId);
 			dto.setRecommended(isRecommended);
-			
-//			dto.setCommentCount(service.commentsCount(bGroup));
 		}
 		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
 		return response;

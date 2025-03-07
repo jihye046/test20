@@ -445,13 +445,13 @@ article {
 /* 추가 */
 .user-info {
   display: flex;
-  justify-content: space-between; /* '휴지통'과 프로필을 양 끝에 배치 */
-  align-items: center; /* 수직 정렬 */
+  justify-content: space-between; 
+  align-items: center; 
 }
 
 .left-info {
   display: flex;
-  align-items: center; /* 프로필 이미지와 이름을 수평 정렬 */
+  align-items: center; 
 }
 
 .left-info img {
@@ -472,6 +472,9 @@ article {
 	padding-top: 0;
 }
 
+p.removeMessage {
+	color: gray;
+}
 
 /* 답글
 ================================================== */

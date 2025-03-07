@@ -223,6 +223,15 @@ public class UserController {
 		return response;
 	}
 	
+	// 프로필 이미지 파일이름
+	@RequestMapping("/getProfileFilename")
+	public void getProfileFilename(@PathVariable String bName) {
+		System.out.println("getProfileFilename 호출");
+		System.out.println("bName: " + bName);
+//		String filename = service.getProfileFilename(bName);
+//		return filename;
+	}
+	
 	// 프로필 이미지 파일 서빙
 	@RequestMapping("/getProfileImage/{filename:.+}")
 	@ResponseBody

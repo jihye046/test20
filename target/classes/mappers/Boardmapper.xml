@@ -115,16 +115,16 @@
 	<update id="replyShape" parameterType="java.util.HashMap">
 		UPDATE mvc_board6
 		   SET bStep = bStep + 1
-		 WHERE bGroup = #{bGroup} AND
-		 	   bStep > #{bStep}
+		 WHERE bGroup = #{bGroup} 
+		   AND bStep > #{bStep}
 	</update>
 	
 	<select id="replyList" resultType="BoardDto">
 		SELECT *
 		  FROM mvc_board6
-		 WHERE bGroup = #{bGroup} AND
-		 	   bStep > 0 AND
-		 	   bIndent > 0
+		 WHERE bGroup = #{bGroup} 
+		   AND bStep > 0 
+		   AND bIndent > 0
 	  ORDER BY bStep ASC
 	</select>
 	
@@ -151,27 +151,57 @@
 	
 	<update id="updateCommentContent" parameterType="java.util.HashMap">
 		UPDATE mvc_board6
-		   SET bContent = '삭제된 댓글입니다.'
+		   SET bContent = '작성자가 삭제한 댓글입니다.',
+		   	   isDeleted = 'Y'
 	 	 WHERE bId = #{bId} AND 
 	 	EXISTS (
 			   SELECT 1 
-			   FROM mvc_board6
-			   WHERE bGroup = #{bGroup} AND
-			   	 	 bStep = #{bStep} + 1 AND 
-			   	 	 bIndent = #{bIndent}
+			     FROM mvc_board6
+			    WHERE bGroup = #{bGroup} 
+			   	  AND bStep = #{bStep} + 1 
+			   	  AND bIndent = 2
 			   )
 	</update>
 	
 	<delete id="removeComment" parameterType="java.util.HashMap">
 		DELETE FROM mvc_board6
-		 WHERE bId = #{bId} AND 
-	NOT EXISTS (
-		       SELECT 1
-		       FROM mvc_board6
-		       WHERE bGroup = #{bGroup} AND 
-		       		 bStep = #{bStep} + 1 AND 
-		       		 bIndent = 2
-		  	   )
+		 WHERE bId = #{bId} 
+		 AND NOT EXISTS (
+		       			SELECT 1
+		       			  FROM mvc_board6
+		       	  		 WHERE bGroup = #{bGroup}
+		       	  		   AND bStep = #{bStep} + 1 
+		       	  		   AND bIndent = 2
+		  	   			)
+	</delete>
+	
+	<update id="updateCommentStep" parameterType="java.util.HashMap">
+		UPDATE mvc_board6
+		   SET bStep = CASE
+		   				  WHEN bStep > #{bStep} THEN bStep - 1
+		   				  ELSE bStep
+	   				    END
+		 WHERE bStep > #{bStep}
+		   AND bGroup = #{bGroup}
+		   AND bIndent = 2
+	</update>
+	
+	<delete id="removeReplyIfNoChildReplies" parameterType="java.util.HashMap">
+		DELETE FROM mvc_board6
+		 WHERE bId IN (
+		 			  SELECT bId
+		  				FROM mvc_board6
+		 			   WHERE bStep = #{bStep} - 1 
+		 			   	 AND bIndent = 1 
+		 			   	 AND isDeleted = 'Y'
+		 			   	 AND NOT EXISTS (
+		 			   	 	 SELECT 1
+		 			   	 	   FROM mvc_board6
+		 			   	 	  WHERE bGroup = #{bGroup}
+		 			   	 	    AND bStep = #{bStep} + 1
+		 			   	 	    AND bIndent = 2 	
+		 			   	 	 )
+ 	   				  )
 	</delete>
 	
 	<select id="pagingList" parameterType="java.util.HashMap" resultType="BoardDto">
@@ -223,15 +253,17 @@
 	<select id="commentsCount" resultType="Integer">
 		SELECT COUNT(bId)
 		  FROM mvc_board6
-		 WHERE bStep > 0 AND 
-		 	   bIndent > 0 AND
-		 	   bGroup = #{bGroup}
+		 WHERE bStep > 0 
+		   AND bIndent > 0 
+		   AND bGroup = #{bGroup} 
+		   AND isDeleted = 'N'
 	</select>
 	
 	<select id="boardCount" resultType="Integer">
 		SELECT COUNT(bId)
 		  FROM mvc_board6
-		 WHERE bStep = 0 AND bIndent = 0
+		 WHERE bStep = 0 
+		   AND bIndent = 0
 	</select>
 	
 	<update id="incrementCommentCount">
