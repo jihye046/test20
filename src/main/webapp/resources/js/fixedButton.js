@@ -215,7 +215,8 @@ function getKakaoKey() {
 	})
 }
 
-// 링크 버튼 클릭시
+/* 링크
+================================================== */
 const linkBtn = document.querySelector(".icon-button.link")
 linkBtn.addEventListener('click', function(){
 	const url = window.location.href
@@ -231,5 +232,14 @@ linkBtn.addEventListener('click', function(){
 		})
 })
 
+/* 맨 위로
+================================================== */
+const backToTopBtn = document.querySelector(".back-to-top")
+backToTopBtn.addEventListener('click', function(){
+	window.scrollTo({top:0, behavior: "smooth"})
+})
+
+/* 페이지 로드 시 실행될 함수
+================================================== */
 setInitialLikeIcon()
 setInitialBookmarkIcon()

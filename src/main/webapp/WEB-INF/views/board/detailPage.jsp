@@ -107,6 +107,10 @@
 					<button class="icon-button link">
 						<i class="fa-solid fa-link" style="color: #666666;"></i>
 					</button>
+					
+					<button class="icon-button back-to-top">
+						<i class="fa-solid fa-angle-up" style="color: #666666;"></i>
+					</button>
 				</div> <!-- fixed button end -->
 				<!-- 댓글 -->
 				<hr>
