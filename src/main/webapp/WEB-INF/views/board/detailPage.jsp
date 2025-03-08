@@ -124,7 +124,7 @@
 					</div>
 					<div class="comments">
 						<div>
-							<c:forEach items="${commentsPagingList}" var="comment">
+							<c:forEach items="${commentsPagingList}" var="comment"  varStatus="status">
 								<c:if test="${comment.bIndent == 1}">
 									<article>
 										<c:choose>
@@ -134,8 +134,7 @@
 											<c:otherwise>
 												<div class="user-info">
 													<div class="left-info">
-														<c:set var="filename" value="/getProfileFilename/${comment.bName}" />
-															<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+															<img id="profile-photo-${comment.bId}" src="${profileImageUrls[status.index]}" />
 														<span class="author-name"><a href="#">${comment.bName}</a></span>
 													</div>
 													<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
@@ -165,7 +164,8 @@
 									<article class="comment-child">
 										<div class="user-info">
 											<div class="left-info">
-												<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+<!-- 												<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" /> -->
+												<img id="profile-photo-${comment.bId} comment-child" src="${profileImageUrls[status.index]}" />
 												<span class="author-name comment-child"><a href="#">${comment.bName}</a></span>
 											</div>
 											<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}"
@@ -287,7 +287,7 @@ const editCommentCount = (commentCount) => {
 	
 	// 댓글UI 업데이트
 const removeMessage = '작성자가 삭제한 댓글입니다.'
-const editCommentTable = (replyList) => {
+const editCommentTable = (replyList, profileImageUrls) => {
 	let output = `<div>`
 		for(let i in replyList){
 			if(replyList[i].bIndent == 1){ // 댓글
@@ -297,7 +297,7 @@ const editCommentTable = (replyList) => {
 				} else {
 					output += `<div class="user-info">
 								<div class="left-info">
-									<img id="profile-photo" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+									<img id="profile-photo-\${replyList[i].bId}" src="\${profileImageUrls[i]}" />
 									<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
 								</div>
 								<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
@@ -325,7 +325,7 @@ const editCommentTable = (replyList) => {
 				output += `<article class="comment-child">
 								<div class="user-info">
 									<div class="left-info">
-										<img id="profile-photo comment-child" src="https://25.media.tumblr.com/avatar_c5eeb4b2e95b_128.png" />
+										<img id="profile-photo-\${replyList[i].bId} comment-child" src="\${profileImageUrls[i]}" />
 										<span class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
 									</div>
 									<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
@@ -397,12 +397,13 @@ const updateCommentUI = (data) => {
 	replyTable.innerHTML = ''
 	let dto = data.commentsListResponse.commentsPagingList
 	let commentsPaging = data.commentsListResponse.commentsPagingDto
+	let profileImageUrls = data.commentsListResponse.profileImageUrls
 	let commentsCount = data.commentsCount // dto.setCommentCount를 안했기때문에 dto. 값이 아니라 서버에서 직접 map에 담은 값으로 확인 
 	
 	// UI 업데이트
-	let output = editCommentTable(dto) // 댓글 UI
+	let output = editCommentTable(dto, profileImageUrls) // 댓글 UI
 	output += updatePagingBlock(dto, commentsPaging) // 페이징블록 UI
-	replyTable.innerHTML = output // '.comments' UI
+	replyTable.innerHTML = output // 댓글 컨테이너(class='comments') UI
 	editCommentCount(commentsCount) // 댓글 개수 UI
 		
 	// 리스너 재등록
@@ -435,9 +436,10 @@ const ajaxBlockLink  = () => {
 					replyTable.innerHTML = ''
 					let dto = data["commentsPagingList"]; // 객체로 리턴했기때문에 Map으로 리턴했을때와는 접근 방식 다름
 			        let commentsPaging = data["commentsPagingDto"];
+					let profileImageUrls = data["profileImageUrls"]
 			        
 			        // UI 업데이트
-			        let output = editCommentTable(dto) // 댓글
+			        let output = editCommentTable(dto, profileImageUrls) // 댓글
 					output += updatePagingBlock(dto, commentsPaging) // 페이징 블록
 					replyTable.innerHTML = output
 					
@@ -668,6 +670,7 @@ const commentChildRemove = (bId, bGroup, bStep) => {
 		}
 	})
 }
+
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */

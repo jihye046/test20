@@ -98,5 +98,10 @@ public class UserDao implements IUserDao {
 		return session.update(NAMESPACE + "updateNicknameAndProfileImage", map);
 	}
 
+	// 댓글 프로필 이미지 가져오기
+	@Override
+	public String getProfileFilename(String bName) {
+		return session.selectOne(NAMESPACE + "getProfileFilename" , bName);
+	}
 
 }

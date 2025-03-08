@@ -157,7 +157,8 @@ public class BoardDao implements IBoardDao {
 
 	@Override
 	public int commentsCount(int bGroup) {
-		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
+//		return session.selectOne(NAMESPACE + "commentsCount", bGroup);
+		return session.selectOne(NAMESPACE + "commentsAllCount", bGroup);
 	}
 
 	@Override

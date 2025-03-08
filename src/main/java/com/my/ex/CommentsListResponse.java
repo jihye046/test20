@@ -8,10 +8,15 @@ import com.my.ex.dto.CommentsPagingDto;
 public class CommentsListResponse {
 	List<BoardDto> commentsPagingList;
 	CommentsPagingDto commentsPagingDto;
+	List<String> profileImageUrls;
 	
-	public CommentsListResponse(List<BoardDto> commentsPagingList, CommentsPagingDto commentsPagingDto) {
+	public CommentsListResponse() {}
+
+	public CommentsListResponse(List<BoardDto> commentsPagingList, CommentsPagingDto commentsPagingDto,
+			List<String> profileImageUrls) {
 		this.commentsPagingList = commentsPagingList;
 		this.commentsPagingDto = commentsPagingDto;
+		this.profileImageUrls = profileImageUrls;
 	}
 
 	public List<BoardDto> getCommentsPagingList() {
@@ -30,10 +35,18 @@ public class CommentsListResponse {
 		this.commentsPagingDto = commentsPagingDto;
 	}
 
+	public List<String> getProfileImageUrls() {
+		return profileImageUrls;
+	}
+
+	public void setProfileImageUrls(List<String> profileImageUrls) {
+		this.profileImageUrls = profileImageUrls;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentsListResponse [commentsPagingList=" + commentsPagingList + ", commentsPagingDto="
-				+ commentsPagingDto + "]";
+				+ commentsPagingDto + ", profileImageUrls=" + profileImageUrls + "]";
 	}
 	
 }

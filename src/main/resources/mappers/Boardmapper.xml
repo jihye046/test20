@@ -177,13 +177,9 @@
 	
 	<update id="updateCommentStep" parameterType="java.util.HashMap">
 		UPDATE mvc_board6
-		   SET bStep = CASE
-		   				  WHEN bStep > #{bStep} THEN bStep - 1
-		   				  ELSE bStep
-	   				    END
+		   SET bStep = bStep - 1
 		 WHERE bStep > #{bStep}
 		   AND bGroup = #{bGroup}
-		   AND bIndent = 2
 	</update>
 	
 	<delete id="removeReplyIfNoChildReplies" parameterType="java.util.HashMap">
@@ -191,14 +187,14 @@
 		 WHERE bId IN (
 		 			  SELECT bId
 		  				FROM mvc_board6
-		 			   WHERE bStep = #{bStep} - 1 
+		 			   WHERE bStep = #{bStep} - 1
 		 			   	 AND bIndent = 1 
 		 			   	 AND isDeleted = 'Y'
 		 			   	 AND NOT EXISTS (
 		 			   	 	 SELECT 1
 		 			   	 	   FROM mvc_board6
 		 			   	 	  WHERE bGroup = #{bGroup}
-		 			   	 	    AND bStep = #{bStep} + 1
+		 			   	 	    AND bStep = #{bStep} <!-- UdateCommentStep 실행 후 삭제된 답글이 있던 자리에 새로운 답글이 오는 경우 -->
 		 			   	 	    AND bIndent = 2 	
 		 			   	 	 )
  	   				  )
@@ -257,6 +253,14 @@
 		   AND bIndent > 0 
 		   AND bGroup = #{bGroup} 
 		   AND isDeleted = 'N'
+	</select>
+	
+	<select id="commentsAllCount" resultType="Integer">
+		SELECT COUNT(bId)
+		  FROM mvc_board6
+		 WHERE bStep > 0 
+		   AND bIndent > 0 
+		   AND bGroup = #{bGroup} 
 	</select>
 	
 	<select id="boardCount" resultType="Integer">

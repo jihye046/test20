@@ -85,5 +85,10 @@ public class UserService implements IUserService {
 		return dao.updateNicknameAndProfileImage(map) > 0;
 	}
 
+	// 댓글 프로필 이미지 가져오기
+	@Override
+	public String getProfileFilename(String bName) {
+		return dao.getProfileFilename(bName);
+	}
 	
 }

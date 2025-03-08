@@ -191,6 +191,7 @@ public class BoardService implements IBoardService {
 	@Override
 	public CommentsPagingDto commentsPagingParam(int page, int bGroup) {
 		// 전체 댓글 개수
+//		int boardCount = dao.commentsCount(bGroup);
 		int boardCount = dao.commentsCount(bGroup);
 		
 		// 전체 블록 개수 

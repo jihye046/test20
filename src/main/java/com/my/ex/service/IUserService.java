@@ -19,8 +19,8 @@ public interface IUserService {
 	UserDto getCurrentProfile(String userId);
 	boolean updateNickname(Map<String, String> map); 
 	boolean updateProfileImage(Map<String, String> map); 
-	boolean updateNicknameAndProfileImage(Map<String, String> map); 
-
-//	boolean changeNickname(String userId, String unickname);
-//	int updateProfile(String fileName);
+	boolean updateNicknameAndProfileImage(Map<String, String> map);
+	
+	// 댓글 프로필 이미지 가져오기
+	String getProfileFilename(String bName);
 }

@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.style.DefaultValueStyler;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,8 +43,7 @@ import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
 import com.my.ex.service.BookmarkService;
 import com.my.ex.service.LikeService;
-
-import groovy.console.ui.SystemOutputInterceptor;
+import com.my.ex.service.UserService;
 
 @Controller
 @RequestMapping("/board")
@@ -57,6 +57,9 @@ public class BoardController {
 	
 	@Autowired
 	private BookmarkService bookmarkService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private KakaoMapRequestDto kakao;
@@ -135,8 +138,8 @@ public class BoardController {
 	}
 	
 	// 게시글 좋아요
-	@RequestMapping(value =  "/addLike", method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value =  "/addLike", method = RequestMethod.POST)
 	public ResponseEntity<Integer> addLike(@RequestParam("bId")int bId, HttpSession session) {
 		String userId = (String)session.getAttribute("userId");
 		service.incrementLikesCount(bId);
@@ -149,8 +152,8 @@ public class BoardController {
 	}
 	
 	// 게시글 좋아요 취소
-	@RequestMapping(value =  "/removeLike", method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value =  "/removeLike", method = RequestMethod.POST)
 	public ResponseEntity<Integer> removeLike(@RequestParam("bId")int bId, HttpSession session) {
 		String userId = (String)session.getAttribute("userId");
 		service.decrementLikesCount(bId);
@@ -163,8 +166,8 @@ public class BoardController {
 	}
 	
 	// 게시글 북마크
-	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value = "/addBookmark", method = RequestMethod.POST)
 	public Map<String, Integer> addBookmark(@RequestBody Map<String, String> request, HttpSession session) {
 		int bId = Integer.parseInt(request.get("bId"));
 		String userId = UserController.getUserIdFromSession(session);
@@ -182,8 +185,8 @@ public class BoardController {
 	
 	
 	// 게시글 북마크 해제
-	@RequestMapping(value = "/removeBookmark", method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(value = "/removeBookmark", method = RequestMethod.POST)
 	public Map<String, Integer> removeBookmark(@RequestBody Map<String, String> request, HttpSession session) {
 		int bId = Integer.parseInt(request.get("bId"));
 		String userId = UserController.getUserIdFromSession(session);
@@ -309,11 +312,11 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/removeChildReply", method = RequestMethod.POST)
 	public Map<String, Object> removeChildReply(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-										   @RequestParam(value = "bGroup") int bGroup,
-										   @RequestParam("bId") int bId,
-										   @RequestParam("bStep") int bStep,
-										   HttpSession session){
+										   		@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+									   			@RequestParam(value = "bGroup") int bGroup,
+									   			@RequestParam("bId") int bId,
+									   			@RequestParam("bStep") int bStep,
+									   			HttpSession session){
 		
 		String msg = "";
 		int commentsCount = 0; 
@@ -326,10 +329,10 @@ public class BoardController {
 			map.put("bGroup", bGroup);
 			map.put("bStep", bStep);
 			boolean updateCommentStepResult = service.updateCommentStep(map);
-			if(!updateCommentStepResult) {
+//			if(!updateCommentStepResult) {
 				// 답글이 없는 삭제된 댓글이라면 delete를 함
 				service.removeReplyIfNoChildReplies(map);
-			}
+//			}
 			commentListResponse = commentsPagingAjax(page, sortType, bGroup, session);
 			msg = "답글이 삭제되었습니다.";
 		} else {
@@ -393,8 +396,8 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping("/sort_hit")
 	public ResponseEntity<SortResponse> sort_hit(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
-			@RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
+												 @RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+										 		 @RequestParam(value= "searchText", required = false, defaultValue = "") String searchText) {
 		List<BoardDto> sort_hitPagingList = service.sort_hitPagingList(page, searchGubun, searchText);
 		BoardPagingDto pageDto = service.pagingParam(page);
 		for(BoardDto dto : sort_hitPagingList) {
@@ -410,7 +413,17 @@ public class BoardController {
 	
 	// 댓글 페이징_로드
 	public Model commentsPaging(int page, String sortType, int bGroup, Model model, String userId) {
+		// 댓글 목록
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
+		
+		// 프로필 이미지 목록
+		List<String> profileImageUrls = new ArrayList<>();
+		for(BoardDto dto : commentsPagingList) {
+			String filename = userService.getProfileFilename(dto.getbName()); // 파일 이름
+			String imageUrl = "/user/getProfileImage/" + filename;
+			profileImageUrls.add(imageUrl);
+		}
+		
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
 		for(BoardDto dto : commentsPagingList) {
 			dto.setSortType(sortType);
@@ -423,8 +436,7 @@ public class BoardController {
 		}
 		model.addAttribute("commentsPagingList", commentsPagingList);
 		model.addAttribute("commentsPaging", commentsPageDto);
-		UserController controller = new UserController();
-		model.addAttribute("userController", controller);
+		model.addAttribute("profileImageUrls", profileImageUrls);
 		return model;
 	}
 	
@@ -437,6 +449,15 @@ public class BoardController {
 												   HttpSession session) {
 		// 'page', 'sortType' 값이 없는 경우 지정해주어야하는데, fetch로 보내면 @RequestParam을 사용못하기때문에 $.ajax로 요청하고 @RequestParam을 사용 
 		List<BoardDto> commentsPagingList = service.commentsPagingList(page, sortType, bGroup);
+		
+		// 프로필 이미지 목록
+		List<String> profileImageUrls = new ArrayList<>();
+		for(BoardDto dto : commentsPagingList) {
+			String filename = userService.getProfileFilename(dto.getbName()); // 파일 이름
+			String imageUrl = "/user/getProfileImage/" + filename;
+			profileImageUrls.add(imageUrl);
+		}
+		
 		CommentsPagingDto commentsPageDto = service.commentsPagingParam(page, bGroup);
 		String userId = UserController.getUserIdFromSession(session);
 		for(BoardDto dto : commentsPagingList) {
@@ -448,7 +469,7 @@ public class BoardController {
 			boolean isRecommended = likeService.isRecommended(dto.getbId(), userId);
 			dto.setRecommended(isRecommended);
 		}
-		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto);
+		CommentsListResponse response = new CommentsListResponse(commentsPagingList, commentsPageDto, profileImageUrls);
 		return response;
 	}
 	

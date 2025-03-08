@@ -21,5 +21,8 @@ public interface IUserDao {
 	UserDto getCurrentProfile(String userId);
 	int updateNickname(Map<String, String> map); 
 	int updateProfileImage(Map<String, String> map); 
-	int updateNicknameAndProfileImage(Map<String, String> map); 
+	int updateNicknameAndProfileImage(Map<String, String> map);
+	
+	// 댓글 프로필 이미지 가져오기
+	String getProfileFilename(String bName);
 }
