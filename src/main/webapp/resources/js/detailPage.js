@@ -148,6 +148,18 @@ const renderImages = () => {
 	})
 }
 
+/* 웹소캣 1:1 채팅
+================================================== */
+const chatButton = document.querySelector("#chatButton")
+chatButton.addEventListener('click', () => {
+	const chatWindow = window.open('/user/chat', 'chat', 'width=400,height=500,scrollbars=yes')
+	
+	chatWindow.addEventListener('load', function(){
+    	chatWindow.displayDate()
+		chatWindow.connect()
+    })
+})
+
 /* 페이지 로드 시 실행될 함수
 ================================================== */
 renderImages()

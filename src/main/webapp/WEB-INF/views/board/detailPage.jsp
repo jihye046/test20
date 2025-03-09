@@ -17,6 +17,9 @@
 						<h1>${dto.bTitle}</h1>
 						<span class=bName>${dto.bName}</span>
 						<button class="button-primary" type="button" id="followButton">팔로우</button>
+						<button class="button-primary" type="button" id="chatButton">
+							<i class="fa-regular fa-comment-dots"></i>
+						</button>
 					</div>
 					<!-- 드롭다운 버튼 -->
 					<div class="dropdown">

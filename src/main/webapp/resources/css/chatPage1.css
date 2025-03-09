@@ -35,7 +35,16 @@ html, body {
 	}
 	
 	#msg {
-		margin-top: 3px;
+		margin-top: 1rem;
+		background-color: #f0f0f0;
+		transition: all 0.3s ease;
+	}
+	
+	#msg:focus {
+		background-color: #fff; 
+	    border: 1px solid #286EFA; 
+	    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
+	    outline: none;
 	}
 	
 	#chatList .item {

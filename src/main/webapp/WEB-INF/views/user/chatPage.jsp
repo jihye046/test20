@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div id="main">
-		<div id="header"><h2>고객센터<small>${sessionScope.userId}</small></h2></div>
+		<div id="header"><h2>><small>${sessionScope.userId}</small></h2></div>
 		<div id="dateDisplay"></div>
 		<div id="chatList">
 		

@@ -107,11 +107,7 @@ window.connect = () => {
 		
         // 연결된 서버에게 메시지를 전송할 때: ws.send('전달할 메시지')
 		ws.send(JSON.stringify(message))
-		if(window.name === 'hong2'){
-			print('', `안녕하세요. ${userId} 고객님😊<br>무엇을 도와드릴까요?`, 'me', 'state', message.regdate) // 관리자
-		} else {
-			print('', `안녕하세요. ${userId} 고객님😊<br>무엇을 도와드릴까요?`, 'other', 'state', message.regdate) // 클라이언트
-		}
+		print('', `대화방에 참여했습니다.`, 'me', 'state', message.regdate)
 		
 		msg.focus()
     }
@@ -191,7 +187,7 @@ window.displayDate = () => {
     const month = ("0" + (today.getMonth() + 1)).slice(-2)
     const date = ("0" + today.getDate()).slice(-2)
     const dayList = ["일", "월", "화", "수", "목", "금", "토"]
-    const day = dayList[today.getDay()] // today.getDay(): 요일을 숫자로 변환 (0 = 일요일, 1 = 월요일 ...)
+    const day = dayList[today.getDay()]
 
     dateDisplay.innerText = `${year}.${month}.${date} (${day})`
 }
