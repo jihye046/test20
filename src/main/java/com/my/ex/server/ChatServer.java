@@ -23,12 +23,12 @@ public class ChatServer {
 
 	@Autowired
 	private MessageService service;
+	
 	// 연결이 성공적으로 이루어졌을 때 처리
 	@OnOpen
 	public void handleOpen(Session session) {
 		sessionList.add(session);
 		checkSessionList();
-		sendPastMessagesToClient(session); // 연결된 유저와의 과거 대화내용 불러와서 보내기
 		clearSessionList();
 	}
 	
@@ -41,26 +41,35 @@ public class ChatServer {
 		Gson gson = new Gson();
 		MessageDto message = gson.fromJson(msg, MessageDto.class);
 		
-		if(message.getCode().equals("1")) { // 1: 새로운 유저일 때
+		// 1: 새로운 유저일 때
+		if(message.getCode().equals("1")) { 
 			for(Session s : sessionList) {
 				if(s != session) { // 메시지를 보낸 클라이언트의 세션을 제외한 나머지 클라이언트(자기 자신에게 메시지를 보내지 않기 위해)
 					sendMessageToSession(s, msg);
 				}
 			}
-		} else if(message.getCode().equals("2")) { // 2: 기존 유저가 나감
+		}
+		// 2: 기존 유저가 나감
+		else if(message.getCode().equals("2")) { 
 			sessionList.remove(session);
 			for(Session s : sessionList) {
 				sendMessageToSession(s, msg);
 			}
-		} else if(message.getCode().equals("3")) { // 3: 메시지 전송
-			service.saveMessage(message);
+		}
+		// 3: 메시지 전송
+		else if(message.getCode().equals("3")) { 
+			saveMessages(message);
 			
 			for(Session s : sessionList) {
 				if(s != session) {
 					sendMessageToSession(s, msg);
 				}
 			}
-		} else if(message.getCode().equals("4")) { // 4: 이모티콘 전송
+		} 
+		// 4: 이모티콘 전송
+		else if(message.getCode().equals("4")) { 
+			saveMessages(message);
+			
 			for(Session s : sessionList) {
 				if(s != session) {
 					sendMessageToSession(s, msg);
@@ -88,7 +97,7 @@ public class ChatServer {
 		}
 	}
 	
-	// 특정 세션에 메시지 보내기
+	// 특정 세션에 메시지 보내기(json 문자열인 msg를 받아서 그대로 클라이언트에게 json 데이터를 보내고있음)
 	private void sendMessageToSession(Session s, String msg) {
 	    try {
 	        s.getBasicRemote().sendText(msg); // getBasicRemote(): 세션과 관련된 소켓을 반환, sendText(): 클라이언트에게 메시지를 보냄
@@ -97,8 +106,9 @@ public class ChatServer {
 	    }
 	}
 	
-	// 과거 대화 내용 보내기
-	private void sendPastMessagesToClient(Session session) {
-		
+	// 실시간 대화 내용 저장
+	private void saveMessages(MessageDto dto) {
+		service.saveMessage(dto);
 	}
+	
 }

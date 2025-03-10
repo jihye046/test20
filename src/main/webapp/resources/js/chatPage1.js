@@ -74,10 +74,15 @@ window.connect = () => {
     }
     
     // window.name 여부 체크
-    const element = document.querySelector("#userId")
-	const userId = element ? element.getAttribute("data-userId") : null
-
-	window.name = `${userId}`
+    const userIdElement = document.querySelector("#userId")
+	const userId = userIdElement ? userIdElement.getAttribute("data-userId") : null
+	const bNameElement = document.querySelector("#bName")
+	const receiver = bNameElement ? bNameElement.getAttribute("data-bName") : null
+	
+	console.log(`userId: ${userId}`)
+	console.log(`receiver: ${receiver}`)
+	
+	window.name = `${userNickname}`
 	if(!window.name) {
 		console.log('window.name 없음')
 		return
@@ -162,7 +167,6 @@ window.connect = () => {
     // 서버에서 클라이언트에게 전달한 메시지
     ws.onmessage = function(evt) {
 		let message = JSON.parse(evt.data)
-		console.log(`message: ${message}`)
 		
 		if(message.code == '1') {
 			print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regdate)

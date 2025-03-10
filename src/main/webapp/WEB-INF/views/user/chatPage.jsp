@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div id="main">
-		<div id="header"><h2>><small>${sessionScope.userId}</small></h2></div>
+		<div id="header"><small>${bName}님과의 대화방</small></div>
 		<div id="dateDisplay"></div>
 		<div id="chatList">
 		
@@ -16,5 +16,6 @@
 	</div>
 </body>
 <div id="userId" data-userId="${sessionScope.userId}"></div>
+<div id="bName" data-bName="${bName}"></div>
 <script src="../../../resources/js/chatPage1.js" defer></script>
 </html>

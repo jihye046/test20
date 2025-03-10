@@ -259,8 +259,9 @@ public class UserController {
 	}
 	
 	// 1:1 채팅
-	@RequestMapping("/chat")
-	public String chatForm() {
+	@RequestMapping("/chat/{bName}")
+	public String chatForm(@PathVariable String bName, Model model) {
+		model.addAttribute("bName", bName);
 		return "/user/chatPage";
 	}
 	

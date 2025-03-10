@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.ex.MessageMapper">
+	<insert id="saveMessages" parameterType="MessageDto">
+		INSERT INTO mvc_chat6
+			(
+			message_id,
+			room_id,
+			code,
+			sender,
+			receiver,
+			content,
+			regdate
+			)
+		VALUES
+			(
+			seq_mvc_chat6.nextval,
+			#{roomId},
+			#{code},
+			#{sender},
+			#{receiver},
+			#{content},
+			#{regdate}
+			)
+	</insert>
+	
+	<select id="getPastMessages" resultType="MessageDto" parameterType="Integer">
+		SELECT *
+		  FROM mvc_chat6
+		 WHERE message_id = #{messageId}
+	  ORDER BY regdate DESC  
+	</select>
+
+</mapper>

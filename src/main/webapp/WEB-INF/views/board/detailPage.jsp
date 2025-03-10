@@ -17,7 +17,7 @@
 						<h1>${dto.bTitle}</h1>
 						<span class=bName>${dto.bName}</span>
 						<button class="button-primary" type="button" id="followButton">팔로우</button>
-						<button class="button-primary" type="button" id="chatButton">
+						<button class="button-primary" type="button" id="chatButton" data-bName="${dto.bName}">
 							<i class="fa-regular fa-comment-dots"></i>
 						</button>
 					</div>
@@ -249,6 +249,7 @@
 <div id="bContent" data-bContent='${dto.bContent}'></div>
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <div id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
+<div id="userNickname" data-userId="${sessionScope.userNickname}"></div>
 
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/fixedButton.js"></script>

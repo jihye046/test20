@@ -152,7 +152,10 @@ const renderImages = () => {
 ================================================== */
 const chatButton = document.querySelector("#chatButton")
 chatButton.addEventListener('click', () => {
-	const chatWindow = window.open('/user/chat', 'chat', 'width=400,height=500,scrollbars=yes')
+
+	const bName = chatButton.getAttribute("data-bName") // receiver
+
+	const chatWindow = window.open(`/user/chat/${bName}`, 'chat', 'width=400,height=500,scrollbars=yes')
 	
 	chatWindow.addEventListener('load', function(){
     	chatWindow.displayDate()
