@@ -3,12 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.ex.MessageMapper">
-	<insert id="saveMessages" parameterType="MessageDto">
+
+	<select id="findRoomId" parameterType="java.util.HashMap" resultType="String">
+		SELECT DISTINCT room_Id
+		  FROM mvc_chat6
+		 WHERE (sender = #{sender} AND receiver = #{receiver})
+		    OR (sender = #{receiver} AND receiver = #{sender})
+	</select>
+
+	<insert id="saveMessage" parameterType="MessageDto">
 		INSERT INTO mvc_chat6
 			(
 			message_id,
 			room_id,
-			code,
 			sender,
 			receiver,
 			content,
@@ -18,7 +25,6 @@
 			(
 			seq_mvc_chat6.nextval,
 			#{roomId},
-			#{code},
 			#{sender},
 			#{receiver},
 			#{content},
@@ -26,11 +32,11 @@
 			)
 	</insert>
 	
-	<select id="getPastMessages" resultType="MessageDto" parameterType="Integer">
+	<select id="getPastMessages" resultType="MessageDto">
 		SELECT *
 		  FROM mvc_chat6
-		 WHERE message_id = #{messageId}
-	  ORDER BY regdate DESC  
+		 WHERE room_id = #{roomId}
+	  ORDER BY message_id  
 	</select>
 
 </mapper>

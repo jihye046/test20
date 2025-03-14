@@ -68,6 +68,7 @@
 						</c:forEach>
 					</div>
 					<!-- card end-->
+					
 				</div>
 				<!-- paging -->
 				<nav>
@@ -132,6 +133,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- 채팅아이콘 -->
+	<%@ include file="/WEB-INF/views/include/chatManage.jsp" %>
 <%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
 </body>
 <div id="createResult" data-create-result="${createResult}"></div>

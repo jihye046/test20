@@ -1,6 +1,40 @@
+/* 채팅 아이콘 클릭시 창 열기 
+================================================== */
+	// 모달 창 열기
+function openChatModal() {
+    document.querySelector('#chatModal').style.display = 'flex'
+}
+
+	// 메시지 전송
+function sendMessage() {
+    const input = document.querySelector('.chat-input input')
+    const message = input.value.trim()
+    if (message !== "") {
+        const newMessage = document.createElement('div')
+        newMessage.classList.add('chat-bubble', 'chat-bubble-right')
+        newMessage.textContent = message
+        document.querySelector('.chat-records').appendChild(newMessage)
+        input.value = ""
+    }
+}
+
+	// 모달 밖 클릭 시 닫기
+window.onclick = function(event) {
+	const galleryModal = document.querySelector('.gallery-modal')
+	const chatModal = document.querySelector('#chatModal')
+    
+    if (event.target == galleryModal) {
+        galleryModal.style.display = 'none'
+    } else if (event.target == chatModal) {
+    	chatModal.style.display = 'none'
+    }
+}
+
+/* 1:1 대화
+================================================== */
 let chatList = document.querySelector("#chatList")
 
-/* 가장 아래로 스크롤 */
+	// 가장 아래로 스크롤
 const scrollList = () => {
 	if(chatList) {
 		chatList.scrollTop = chatList.scrollHeight
@@ -10,7 +44,7 @@ const scrollList = () => {
 	}
 }
 
-/* 대화창 출력 */
+	// 대화창 출력
 const print = (name, msg, side, state, time) => {
 	let temp = `
 		<div class="item ${state} ${side}">
@@ -33,12 +67,27 @@ const print = (name, msg, side, state, time) => {
 	scrollList() // 새로운 내용이 추가되면 가장 아래로 스크롤
 }
 
-/* 서버 연결 상태 출력 */
+	// 오늘 일자 표시
+window.displayDate = () => {
+	const dateDisplay = document.querySelector("#dateDisplay")
+	if(!dateDisplay) return
+
+	const today = new Date()
+	const year = today.getFullYear()
+	const month = ("0" + (today.getMonth() + 1)).slice(-2)
+	const date = ("0" + today.getDate()).slice(-2)
+	const dayList = ["일", "월", "화", "수", "목", "금", "토"]
+	const day = dayList[today.getDay()]
+
+	dateDisplay.innerText = `${year}.${month}.${date} (${day})`
+}
+
+	// 서버 연결 상태 출력
 const log = (msg) => {
     console.log(`[${new Date().toLocaleTimeString()}] ${msg}`)
 }
 
-/* 이모티콘 출력 */
+	// 이모티콘 출력
 const printEmotion = (name, msg, side, state, time) => {
 	let temp = `
 		<div class="item ${state} ${side}">
@@ -62,8 +111,9 @@ const printEmotion = (name, msg, side, state, time) => {
 	setTimeout(scrollList, 100) // 이미지 로딩 시간때문에 0.1초 시간차 둠
 }
 
-/* 웹소캣 연결 */
+	// 웹소캣 연결
 window.connect = () => {
+
 	// msg 요소 여부 체크
     const msg = document.querySelector("#msg")
     if (msg) {
@@ -79,12 +129,9 @@ window.connect = () => {
 	const bNameElement = document.querySelector("#bName")
 	const receiver = bNameElement ? bNameElement.getAttribute("data-bName") : null
 	
-	console.log(`userId: ${userId}`)
-	console.log(`receiver: ${receiver}`)
-	
-	window.name = `${userNickname}`
+	window.name = `${userId}`
 	if(!window.name) {
-		console.log('window.name 없음')
+		log('window.name 없음')
 		return
 	}
 	
@@ -99,21 +146,24 @@ window.connect = () => {
 	*/
 	
 	// code: 1 웹소켓 연결이 성공한 경우
+	// 내 대화창
     ws.onopen = function(evt) {
 		log('서버 연결 성공')
 		
 		let message = {
 			code: '1', 
 			sender: window.name, 
-			receiver: '', 
+			receiver: receiver, 
 			content: '', 
 			regdate: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
 		}
-		
         // 연결된 서버에게 메시지를 전송할 때: ws.send('전달할 메시지')
 		ws.send(JSON.stringify(message))
-		print('', `대화방에 참여했습니다.`, 'me', 'state', message.regdate)
 		
+		
+		//print('', `대화방에 참여했습니다.`, 'me', 'state', message.regdate)
+		
+		// 과거 메시지가 있으면 가져오고 오늘일자를 그 밑에 보여줌, 그 밑에는 오늘 대화 내용이 들어가도록
 		msg.focus()
     }
     
@@ -139,10 +189,11 @@ window.connect = () => {
 	// cdoe: 3, 메시지를 전송하는 경우
 	window.handleKeyDown = (event) => {
 		if(event.key === 'Enter') {
+			
 			let message = {
 				code: '3',
 				sender: window.name,
-				receiver: '',
+				receiver: receiver,
 				content: msg.value,
 				regdate: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
 			}
@@ -165,11 +216,21 @@ window.connect = () => {
 	}
 
     // 서버에서 클라이언트에게 전달한 메시지
-    ws.onmessage = function(evt) {
-		let message = JSON.parse(evt.data)
+    // 상대방 대화창
+    ws.onmessage = function(msg) {
+		let message = JSON.parse(msg.data)
+		console.log(msg.data)
+		console.log(message)
 		
 		if(message.code == '1') {
-			print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regdate)
+			if(message.sender == window.name) {
+				print(message.sender, message.content, 'me', 'msg', message.regdate)
+			} else {
+				print(message.sender, message.content, 'other', 'msg', message.regdate)	
+			}
+			displayDate()
+			
+			//print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regdate)
 		} else if (message.code == '2') {
 			print('', `[${message.sender}]님이 나갔습니다.`, 'other', 'state', message.regdate)
 		} else if (message.code == '3') {
@@ -180,18 +241,3 @@ window.connect = () => {
     }
 	
 } /* connect */
-
-/* 오늘 일자 표시 */
-window.displayDate = () => {
-    const dateDisplay = document.querySelector("#dateDisplay")
-    if(!dateDisplay) return
-
-    const today = new Date()
-    const year = today.getFullYear()
-    const month = ("0" + (today.getMonth() + 1)).slice(-2)
-    const date = ("0" + today.getDate()).slice(-2)
-    const dayList = ["일", "월", "화", "수", "목", "금", "토"]
-    const day = dayList[today.getDay()]
-
-    dateDisplay.innerText = `${year}.${month}.${date} (${day})`
-}

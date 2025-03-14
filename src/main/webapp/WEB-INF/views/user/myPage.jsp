@@ -51,6 +51,8 @@
 			<div class="col-md-2"></div>
 		</div>
 	</main>
+	<!-- 채팅아이콘 -->
+	<%@ include file="/WEB-INF/views/include/chatManage.jsp" %>
 </body>
 <%-- <div id="userId" data-userId="${sessionScope.userId}"></div> --%>
 <!-- <script src="../../../resources/js/chatPage.js" defer></script> -->

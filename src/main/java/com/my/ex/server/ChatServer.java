@@ -1,8 +1,10 @@
 package com.my.ex.server;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -10,20 +12,22 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.my.ex.dto.MessageDto;
 import com.my.ex.service.MessageService;
 
-@ServerEndpoint("/chatServer")
+@Component
+@ServerEndpoint(value="/chatServer", configurator = ServerEndpointConfigurator.class)
 public class ChatServer {
 	
 	// 각각의 상태 관리를 위해 클라이언트들의 세션을 리스트에 담아 관리
 	private static List<Session> sessionList = new ArrayList<>();
-
+	
 	@Autowired
 	private MessageService service;
-	
+
 	// 연결이 성공적으로 이루어졌을 때 처리
 	@OnOpen
 	public void handleOpen(Session session) {
@@ -42,7 +46,22 @@ public class ChatServer {
 		MessageDto message = gson.fromJson(msg, MessageDto.class);
 		
 		// 1: 새로운 유저일 때
-		if(message.getCode().equals("1")) { 
+		if(message.getCode().equals("1")) {
+			Map<String, String> map = new HashMap<>();
+			map.put("sender", message.getSender());
+			map.put("receiver", message.getReceiver());
+			String roomId = null;
+			roomId = service.findRoomId(map);
+			
+			if(roomId != null) {
+				sendPastMessagesToClient(session, roomId);
+			} else {
+				roomId = service.generateRoomId(map);
+			}
+			session.getUserProperties().put("roomId", roomId);
+			message.setRoomId(roomId);
+			
+			
 			for(Session s : sessionList) {
 				if(s != session) { // 메시지를 보낸 클라이언트의 세션을 제외한 나머지 클라이언트(자기 자신에게 메시지를 보내지 않기 위해)
 					sendMessageToSession(s, msg);
@@ -57,8 +76,11 @@ public class ChatServer {
 			}
 		}
 		// 3: 메시지 전송
-		else if(message.getCode().equals("3")) { 
-			saveMessages(message);
+		else if(message.getCode().equals("3")) {
+			String roomId = (String)session.getUserProperties().get("roomId");
+			message.setRoomId(roomId);
+			
+			service.saveMessage(message);
 			
 			for(Session s : sessionList) {
 				if(s != session) {
@@ -67,8 +89,8 @@ public class ChatServer {
 			}
 		} 
 		// 4: 이모티콘 전송
-		else if(message.getCode().equals("4")) { 
-			saveMessages(message);
+		else if(message.getCode().equals("4")) {
+			service.saveMessage(message);
 			
 			for(Session s : sessionList) {
 				if(s != session) {
@@ -106,9 +128,14 @@ public class ChatServer {
 	    }
 	}
 	
-	// 실시간 대화 내용 저장
-	private void saveMessages(MessageDto dto) {
-		service.saveMessage(dto);
+	// 과거 메시지를 클라이언트에게 전송
+	private void sendPastMessagesToClient(Session session, String roomId) {
+		List<MessageDto> pastMessages = service.getPastMessages(roomId);
+		Gson gson = new Gson();
+		for(MessageDto message: pastMessages) {
+			message.setCode("1");
+			sendMessageToSession(session, gson.toJson(message));
+		}
 	}
 	
 }

@@ -94,7 +94,7 @@ if(img_array && img_array.length > 0){
 
 	// 모달창 열기
 const openModal = () => {
-	const modal = document.querySelector('#modal')
+	const modal = document.querySelector('#gallery-modal')
 	const modalImageContainer = modal.querySelector('.modal-image-container')
 
 	modalImageContainer.innerHTML = ''
@@ -110,9 +110,10 @@ const openModal = () => {
 
 	// 모달창 닫기
 const closeModal = () => {
+	// 닫기 버튼 눌렀을 때 모달 닫기
 	const closeModalButton = document.querySelector('#closeModal')
-	closeModalButton.addEventListener('click', function(){
-		const modal = document.querySelector('.modal')
+	closeModalButton.addEventListener('click', function() {
+		const modal = document.querySelector('.gallery-modal')
 		modal.style.display = 'none'
 	})
 }

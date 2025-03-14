@@ -63,8 +63,8 @@
 				<!-- 동적으로 이미지를  추가할 div -->
 				<div class="image-container"></div> <!-- 포스트 중단 end -->
 				<!-- 전체 이미지를 보여줄 모달 -->
-				<div id="modal" class="modal">
-					<div class="modal-content">
+				<div id="gallery-modal" class="gallery-modal">
+					<div class="gallery-modal-content">
 						<div class="modal-header">
 							<span>사진 모아보기</span>
 							<span class="close-button" id="closeModal">&times;</span>
@@ -236,6 +236,8 @@
 			</div> <!-- col-md-12 end -->
 		</div> <!-- row end -->
 	</div> <!-- container-fluid end -->
+	<!-- 채팅아이콘 -->
+	<%@ include file="/WEB-INF/views/include/chatManage.jsp" %>
 	
 	<!-- 카카오톡 공유 임시 DOM -->
 	<div id="tempDiv"style="display: none;" ></div>
