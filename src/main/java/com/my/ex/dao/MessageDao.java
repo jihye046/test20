@@ -31,5 +31,5 @@ public class MessageDao implements IMessageDao {
 	public List<MessageDto> getPastMessages(String roomId) {
 		return session.selectList(NAMESPACE + "getPastMessages", roomId);
 	}
-	
+
 }

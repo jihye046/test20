@@ -1,11 +1,110 @@
+/* 전역 변수
+================================================== */
+let chatList = document.querySelector("#chatList")
+let roomList = document.querySelector("#roomList")
+let chatRecords = document.querySelector(".chat-records")
+
+/* 채팅 아이콘 - 안읽은 메시지 총 개수
+================================================== */
+const getUnreadMessageTotalCount = () => {
+	const userId = document.querySelector("#userId").getAttribute("data-userId")
+	
+	fetch(`/chat/getUnreadMessageTotalCount?receiver=${userId}`)
+	.then(response => response.json())
+	.then(data => {
+		if(data > 0){
+			const badge = document.querySelector(".badge")
+			badge.innerHTML = `<div id="notificationBadge" class="notification-badge">${data}</div>`
+		} else {
+			badge.innerHTML = ''
+		}
+	})	
+	.catch(error => {
+		console.error('error: ', error)
+	})
+} 
+
 /* 채팅 아이콘 클릭시 창 열기 
 ================================================== */
 	// 모달 창 열기
-function openChatModal() {
-    document.querySelector('#chatModal').style.display = 'flex'
+const loadChatRooms = () => {
+	document.querySelector('#chatModal').style.display = 'flex'
+	const userId = document.querySelector("#userId").getAttribute("data-userId")
+	
+	// 채팅 목록 가져오기
+	fetch(`/chat/getRoomList?userId=${userId}`)
+	.then(response => response.json())
+	.then(data => {
+		roomList.innerHTML = ''
+
+		data.forEach(chatRoomDto => {
+			printRoomList(chatRoomDto)
+		})
+
+		// 채팅 목록 클릭시 채팅방 열기
+		document.querySelectorAll(".chat-room").forEach(room => {
+			room.addEventListener('click', function() {
+				const roomId = this.getAttribute('data-room-id')
+				const otherUserId = this.querySelector(".userNickname").textContent
+				const imageUrl = this.querySelector("img").src
+				const unreadBadge = this.querySelector(".message-badge")
+
+				if(unreadBadge) {
+					// 안읽음표시 없애기
+					fetch('/chat/setIsRead', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							roomId: roomId,
+							receiver: userId
+						})
+					})
+					.then(response => {
+						if(response.ok) {
+							this.querySelector(".message-badge").style.display = 'none'
+							getUnreadMessageTotalCount()
+						} else {
+							console.error('failed to update')
+						}
+					})
+					.catch(error => {
+						console.error('error: ', error)
+					})
+				}
+
+				// 채팅방 내용 불러오기
+				fetch(`/chat/getChatHistory?roomId=${roomId}`)
+				.then(response => response.json())
+				.then(data => {
+					chatList.innerHTML = ''
+
+					data.forEach(messageDto => {
+						if(messageDto.sender == userId) {
+							print(messageDto.sender, messageDto.content, 'me', 'msg', messageDto.regTime)	
+						} else {
+							print(messageDto.sender, messageDto.content, 'other', 'msg', messageDto.regTime)
+						}
+					})
+
+					printHeader(imageUrl, otherUserId)
+					document.querySelector('.chat-rooms').classList.add('shrink')
+					document.querySelector('.chat-records').classList.add('show')
+				})
+				.catch(error => {
+					console.error('error: ', error)
+				})
+			})
+		})
+	})
+	.catch(error => {
+		console.error('Error:', error)
+	})
 }
 
-	// 메시지 전송
+/* 메시지 전송
+================================================== */
 function sendMessage() {
     const input = document.querySelector('.chat-input input')
     const message = input.value.trim()
@@ -18,7 +117,8 @@ function sendMessage() {
     }
 }
 
-	// 모달 밖 클릭 시 닫기
+/* 모달 밖 클릭 시 닫기
+================================================== */	
 window.onclick = function(event) {
 	const galleryModal = document.querySelector('.gallery-modal')
 	const chatModal = document.querySelector('#chatModal')
@@ -28,13 +128,19 @@ window.onclick = function(event) {
     } else if (event.target == chatModal) {
     	chatModal.style.display = 'none'
     }
+	
+	document.querySelector('.chat-rooms').classList.remove('shrink')
+	document.querySelector('.chat-records').classList.remove('show')
 }
 
-/* 1:1 대화
+/* 클릭 이벤트 전파 차단
 ================================================== */
-let chatList = document.querySelector("#chatList")
+chatRecords.addEventListener('click', function(event) {
+    event.stopPropagation(); 
+})
 
-	// 가장 아래로 스크롤
+/* 가장 아래로 스크롤
+================================================== */
 const scrollList = () => {
 	if(chatList) {
 		chatList.scrollTop = chatList.scrollHeight
@@ -44,18 +150,97 @@ const scrollList = () => {
 	}
 }
 
-	// 대화창 출력
+/* 채팅방 상대정보(header) 출력
+================================================== */
+const printHeader = (uprofile_image, otherUserId) => {
+	const header = document.querySelector("#header")
+			
+	header.innerHTML = 
+	`
+		<div class="header">
+			<img src=${uprofile_image} alt="image" class="user-avatar">
+			<span class="userNickname">${otherUserId}</span>
+		</div>
+	`
+}
+
+/* 채팅방 목록 출력
+================================================== */
+const printRoomList = (chatRoomDto) => {
+	const messageDto = chatRoomDto["messageDto"]
+	const otherUserId = chatRoomDto["otherUserId"]
+	const uprofile_image = chatRoomDto["uprofile_image"]
+	const unreadMessageCount = chatRoomDto["unreadMessageCount"]
+	const today = displayDate()
+	const messageTime = (messageDto.regdate == today) ? messageDto.regTime : messageDto.regdate
+	
+	let temp = 
+	`
+		<div class="chat-room" data-room-id=${messageDto.roomId}>
+			<img src="${uprofile_image}" alt="image" class="user-avatar"/>
+			<div class="chat-room-info">
+            	<span class="userNickname">${otherUserId}</span>
+            	<span class="last-message">${messageDto.content}</span>
+				<span class="chat-time">${messageTime}</span>	
+        	</div>
+	`
+        	
+	if(unreadMessageCount != 0) {
+		temp += `<span class="message-badge">${unreadMessageCount}</span>`
+	}
+	
+	temp += `</div>`
+	
+	if(roomList){
+        const div = document.createElement('div')
+        div.innerHTML = temp
+        roomList.append(div)
+	} else {
+		alert('chatList 찾을 수 없음')
+		return
+	}
+	
+	printHeader(uprofile_image, otherUserId)
+	scrollList()
+}
+
+/* 채팅 일자 출력
+================================================== */
+const printDate = (regdate) => {
+	let temp = 
+	`
+		<div class="date-wrapper">
+			<div class="date">${regdate}</div>
+		</div>
+	`
+	
+	if(chatList){
+        const div = document.createElement('div')
+        div.innerHTML = temp
+        chatList.append(div)
+	} else {
+		alert('chatList 찾을 수 없음')
+		return
+	}
+	
+	scrollList()
+}
+
+/* 채팅창 출력
+================================================== */
 const print = (name, msg, side, state, time) => {
-	let temp = `
+	let temp = 
+	`
 		<div class="item ${state} ${side}">
 			<div>
 				<div>${name}</div>
 				<div>${msg}</div>
 			</div>
 			<div>${time}</div>
-		</div>`
+		</div>
+	`
 
-	if(chatList){
+	if(chatList) {
         const div = document.createElement('div')
         div.innerHTML = temp
         chatList.append(div)
@@ -67,7 +252,8 @@ const print = (name, msg, side, state, time) => {
 	scrollList() // 새로운 내용이 추가되면 가장 아래로 스크롤
 }
 
-	// 오늘 일자 표시
+/* 오늘 일자 표시
+================================================== */
 window.displayDate = () => {
 	const dateDisplay = document.querySelector("#dateDisplay")
 	if(!dateDisplay) return
@@ -80,16 +266,20 @@ window.displayDate = () => {
 	const day = dayList[today.getDay()]
 
 	dateDisplay.innerText = `${year}.${month}.${date} (${day})`
+	return `${year}년 ${month}월 ${date}일 ${day}요일`
 }
 
-	// 서버 연결 상태 출력
+/* 서버 연결 상태 출력
+================================================== */
 const log = (msg) => {
     console.log(`[${new Date().toLocaleTimeString()}] ${msg}`)
 }
 
-	// 이모티콘 출력
+/* 이모티콘 출력
+================================================== */
 const printEmotion = (name, msg, side, state, time) => {
-	let temp = `
+	let temp = 
+	`
 		<div class="item ${state} ${side}">
 			<div>
 				<div>${name}</div>
@@ -98,7 +288,8 @@ const printEmotion = (name, msg, side, state, time) => {
 				</div>
 				<div>${time}</div>
 			</div>
-		</div>`
+		</div>
+	`
 
 	if(chatList){
 		const div = document.createElement('div')
@@ -111,7 +302,8 @@ const printEmotion = (name, msg, side, state, time) => {
 	setTimeout(scrollList, 100) // 이미지 로딩 시간때문에 0.1초 시간차 둠
 }
 
-	// 웹소캣 연결
+/* 웹소캣 연결
+================================================== */
 window.connect = () => {
 
 	// msg 요소 여부 체크
@@ -155,13 +347,14 @@ window.connect = () => {
 			sender: window.name, 
 			receiver: receiver, 
 			content: '', 
-			regdate: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+			regdate: displayDate(),
+			regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
 		}
         // 연결된 서버에게 메시지를 전송할 때: ws.send('전달할 메시지')
 		ws.send(JSON.stringify(message))
 		
 		
-		//print('', `대화방에 참여했습니다.`, 'me', 'state', message.regdate)
+		//print('', `대화방에 참여했습니다.`, 'me', 'state', message.regTime)
 		
 		// 과거 메시지가 있으면 가져오고 오늘일자를 그 밑에 보여줌, 그 밑에는 오늘 대화 내용이 들어가도록
 		msg.focus()
@@ -174,7 +367,8 @@ window.connect = () => {
 			sender: window.name,
 			receiver: '',
 			content: '',
-			regdate: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+			regdate: displayDate(),
+			regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
 		}
 	
 		ws.send(JSON.stringify(message))
@@ -195,7 +389,8 @@ window.connect = () => {
 				sender: window.name,
 				receiver: receiver,
 				content: msg.value,
-				regdate: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+				regdate: displayDate(),
+				regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
 			}
 			
 			// code: 4, 이모티콘을 전송하는 경우 
@@ -208,9 +403,9 @@ window.connect = () => {
 			msg.focus()
 
 			if(message.code == '3') {
-				print(window.name, message.content, 'me', 'msg', message.regdate)	
+				print(window.name, message.content, 'me', 'msg', message.regTime)	
 			} else if(message.code == '4') {
-				printEmotion(window.name, '고양이', 'me', 'msg', message.regdate)	
+				printEmotion(window.name, '고양이', 'me', 'msg', message.regTime)	
 			}
 		}
 	}
@@ -224,20 +419,26 @@ window.connect = () => {
 		
 		if(message.code == '1') {
 			if(message.sender == window.name) {
-				print(message.sender, message.content, 'me', 'msg', message.regdate)
+				print(message.sender, message.content, 'me', 'msg', message.regTime)
 			} else {
-				print(message.sender, message.content, 'other', 'msg', message.regdate)	
+				print(message.sender, message.content, 'other', 'msg', message.regTime)	
 			}
 			displayDate()
 			
-			//print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regdate)
+			//print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regTime)
 		} else if (message.code == '2') {
-			print('', `[${message.sender}]님이 나갔습니다.`, 'other', 'state', message.regdate)
+			print('', `[${message.sender}]님이 나갔습니다.`, 'other', 'state', message.regTime)
 		} else if (message.code == '3') {
-			print(message.sender, message.content, 'other', 'msg', message.regdate)
+			print(message.sender, message.content, 'other', 'msg', message.regTime)
 		} else if (message.code == '4') {
-			printEmotion(message.sender, message.content, 'other', 'msg', message.regdate)
+			printEmotion(message.sender, message.content, 'other', 'msg', message.regTime)
 		}
     }
 	
 } /* connect */
+
+/* 페이지 로드 시 실행될 함수
+================================================== */
+window.onload = function(){
+	getUnreadMessageTotalCount()
+}

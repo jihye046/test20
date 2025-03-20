@@ -105,7 +105,7 @@
 		 WHERE userId = #{userId} 
 	</update>	
 	
-	<!-- 댓글 프로필 이미지 가져오기 -->
+	<!-- 프로필 이미지 가져오기 -->
 	<select id="getProfileFilename" resultType="String">
 		SELECT uprofile_image
 		  FROM mvc_login6

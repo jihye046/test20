@@ -2,8 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<link href="../../../resources/css/chatPage1.css" rel="styleSheet">
-<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+	<!-- 채팅메신저 -->
+	<link href="../../../resources/css/chatPage1.css" rel="styleSheet">
+	<link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 </head>
 <body>
 	<div id="main">

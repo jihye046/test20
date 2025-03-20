@@ -12,4 +12,6 @@ public class MessageDto {
 	private String receiver; 
 	private String content; 
 	private String regdate; 
+	private String regTime;
+	private String isRead;
 }

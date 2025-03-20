@@ -10,7 +10,68 @@
 		 WHERE (sender = #{sender} AND receiver = #{receiver})
 		    OR (sender = #{receiver} AND receiver = #{sender})
 	</select>
-
+	
+	<select id="getRoomId" resultType="String">
+		SELECT DISTINCT room_id
+		  FROM mvc_chat6
+		 WHERE sender = #{userId}
+		    OR receiver = #{userId}
+	</select>
+	
+	<!-- 마지막 대화 내용 조회 -->
+	<select id="getLastMessage" resultType="MessageDto">
+		SELECT *
+		  FROM (
+		       SELECT *
+		         FROM mvc_chat6
+		        WHERE room_id = #{roomId}
+		     ORDER BY message_id DESC
+		       )
+		 WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 대화 상대방이 누군지 조회 -->
+	<select id="getReceiver" parameterType="java.util.HashMap" resultType="String">
+		<choose>
+			<when test="userId == sender">
+				SELECT DISTINCT receiver
+		  		  FROM mvc_chat6
+		 		 WHERE room_id = #{roomId}
+			</when>
+			<otherwise>
+				SELECT DISTINCT sender
+		  		  FROM mvc_chat6
+		 		 WHERE room_id = #{roomId}
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 안읽은 메시지 총 개수 -->
+	<select id="getUnreadMessageTotalCount" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_chat6
+		 WHERE receiver = #{userId}
+		   AND is_read = 'N'
+	</select>
+	
+	<!-- 각 채팅방별 안읽은 메시지 개수 -->
+	<select id="getUnreadMessageCount" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_chat6
+		 WHERE room_Id = #{roomId}
+		   AND receiver = #{userId}
+		   AND is_read = 'N'
+	</select>
+	
+	<!-- 안읽음 표시 없애기 -->
+	<update id="setIsRead" parameterType="java.util.HashMap">
+		UPDATE mvc_chat6
+		   SET is_read = 'Y'
+		 WHERE room_id = #{roomId}
+		   AND receiver = #{receiver}
+	</update>	
+	
+	<!-- 메시지 전송한 경우 -->
 	<insert id="saveMessage" parameterType="MessageDto">
 		INSERT INTO mvc_chat6
 			(
@@ -19,7 +80,8 @@
 			sender,
 			receiver,
 			content,
-			regdate
+			regdate,
+			regTime
 			)
 		VALUES
 			(
@@ -28,15 +90,17 @@
 			#{sender},
 			#{receiver},
 			#{content},
-			#{regdate}
+			#{regdate},
+			#{regTime}
 			)
 	</insert>
 	
+	<!-- 과거 대화내용 불러오기 -->
 	<select id="getPastMessages" resultType="MessageDto">
 		SELECT *
 		  FROM mvc_chat6
 		 WHERE room_id = #{roomId}
 	  ORDER BY message_id  
 	</select>
-
+	
 </mapper>
