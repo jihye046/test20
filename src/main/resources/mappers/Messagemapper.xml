@@ -19,14 +19,21 @@
 	</select>
 	
 	<!-- 마지막 대화 내용 조회 -->
-	<select id="getLastMessage" resultType="MessageDto">
+	<select id="getLastMessage" parameterType="java.util.HashMap" resultType="MessageDto">
 		SELECT *
 		  FROM (
-		       SELECT *
+		       SELECT DISTINCT *
 		         FROM mvc_chat6
 		        WHERE room_id = #{roomId}
+		        <if test="searchText != null and searchText != ''">
+		        	AND (
+						content LIKE '%' || #{searchText} || '%'
+						OR receiver LIKE '%' || #{searchText} || '%'
+						OR sender LIKE '%' || #{searchText} || '%'		        	
+		        	)
+		        </if>
 		     ORDER BY message_id DESC
-		       )
+          )
 		 WHERE ROWNUM = 1
 	</select>
 	

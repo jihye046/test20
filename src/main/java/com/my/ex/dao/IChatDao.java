@@ -9,7 +9,7 @@ public interface IChatDao {
 	int getUnreadMessageTotalCount(String receiver);
 	List<MessageDto> getChatHistory(String roomId);
 	List<String> getRoomId(String userId);
-	MessageDto getLastMessage(String roomId);
+	MessageDto getLastMessage(Map<String, String> map);
 	String getReceiver(Map<String, String> map);
 	int getUnreadMessageCount(Map<String, String> map);
 	void setIsRead(Map<String, String> map);

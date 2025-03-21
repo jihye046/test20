@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,21 +36,24 @@ public class ChatController {
 	
 	// 채팅방 목록
 	@RequestMapping("/getRoomList")
-	public List<ChatRoomDto> getRoomList(@RequestParam String userId) {
+	public List<ChatRoomDto> getRoomList(@RequestParam String userId,
+										 @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText) {
 		List<String> roomIdList = service.getRoomId(userId);
 		
 		List<ChatRoomDto> lastMessageList = new ArrayList<>();
 		for(String roomId : roomIdList) {
-			MessageDto messageDto = service.getLastMessage(roomId);
-			messageDto.setRoomId(roomId);
-			String receiver = service.getReceiver(roomId, userId, messageDto.getSender());
-			int unreadMessageCount = service.getUnreadMessageCount(roomId, userId);
-			String filename = userService.getProfileFilename(receiver);
-			String imageUrl = "/user/getProfileImage/" + filename;
-			
-			// 목록에 보여줄 정보
-			ChatRoomDto dto = new ChatRoomDto(messageDto, receiver, imageUrl, unreadMessageCount);
-			lastMessageList.add(dto);
+			MessageDto messageDto = service.getLastMessage(roomId, searchText);
+			if(messageDto != null) {
+				messageDto.setRoomId(roomId);
+				String receiver = service.getReceiver(roomId, userId, messageDto.getSender());
+				int unreadMessageCount = service.getUnreadMessageCount(roomId, userId);
+				String filename = userService.getProfileFilename(receiver);
+				String imageUrl = "/user/getProfileImage/" + filename;
+				
+				// 목록에 보여줄 정보
+				ChatRoomDto dto = new ChatRoomDto(messageDto, receiver, imageUrl, unreadMessageCount);
+				lastMessageList.add(dto);
+			}
 		}
 		
 		return lastMessageList;

@@ -95,10 +95,13 @@ public class BoardController {
 		boolean isBookmarked = bookmarkService.isBookmarked(bId, userId);
 		commentsPaging(page, sortType, bGroup, model, userId);
 		updateHitCount(bId);
+		String filename = userService.getProfileFilename(userId);
+		String imageUrl = "/user/getProfileImage/" + filename;
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
+		model.addAttribute("imageUrl", imageUrl);
 		return "/board/detailPage";
 	}
 	
@@ -238,9 +241,9 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	public Map<String, Object> replyInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-											    @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-											    HttpSession session,
-											    BoardDto dto) {
+										   @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+										   HttpSession session,
+										   BoardDto dto) {
 		String userId = (String)session.getAttribute("userId");
 		dto.setbName(userId);
 		service.replyInsert(dto);
@@ -258,8 +261,8 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/replyChildInsert", method = RequestMethod.POST)
 	public Map<String, Object> replyChildInsert(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-										  @RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
-										  HttpSession session, BoardDto dto) {
+										  		@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType,
+										  		HttpSession session, BoardDto dto) {
 		String userId = (String)session.getAttribute("userId");
 		dto.setbName(userId);
 		service.replyChildInsert(dto);

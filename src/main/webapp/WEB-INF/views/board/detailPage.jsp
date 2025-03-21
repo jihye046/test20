@@ -15,11 +15,14 @@
 				<div class="post-header">
 					<div class="title-and-name">
 						<h1>${dto.bTitle}</h1>
-						<span class=bName>${dto.bName}</span>
-						<button class="button-primary" type="button" id="followButton">팔로우</button>
-						<button class="button-primary" type="button" id="chatButton" data-bName="${dto.bName}">
-							<i class="fa-regular fa-comment-dots"></i>
-						</button>
+						<div>
+							<img src="${imageUrl}" alt="image" class="user-avatar">
+							<span class=bName>${dto.bName}</span>
+							<button class="button-primary" type="button" id="followButton">팔로우</button>
+							<button class="button-primary" type="button" id="chatButton" data-bName="${dto.bName}">
+								<i class="fa-regular fa-comment-dots"></i>
+							</button>
+						</div>
 					</div>
 					<!-- 드롭다운 버튼 -->
 					<div class="dropdown">

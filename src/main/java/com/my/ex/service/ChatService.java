@@ -32,8 +32,11 @@ public class ChatService implements IChatService {
 	}
 
 	@Override
-	public MessageDto getLastMessage(String roomId) {
-		return dao.getLastMessage(roomId);
+	public MessageDto getLastMessage(String roomId, String searchText) {
+		Map<String, String> map = new HashMap<>();
+		map.put("roomId", roomId);
+		map.put("searchText", searchText);
+		return dao.getLastMessage(map);
 	}
 
 	@Override

@@ -14,4 +14,5 @@ public class MessageDto {
 	private String regdate; 
 	private String regTime;
 	private String isRead;
+	private String searchText;
 }

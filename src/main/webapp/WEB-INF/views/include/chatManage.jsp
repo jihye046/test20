@@ -16,19 +16,17 @@
 	        	<!-- 채팅방 검색 -->
 	        	<div class="input-wrapper">
 			    	<i class="fa-solid fa-magnifying-glass" style="color: #6d6f74;"></i>
-			    	<input placeholder="검색" type="text">
+			    	<input id="searchTextInput" placeholder="검색" type="text">
+
 			    </div>
 <!-- 	            <div class="no-chat-rooms-message">채팅방이 없습니다.</div> 채팅방이 없을 때 표시되는 멘트 -->
 				<!-- 채팅방 목록 -->
 				<div class="roomList" id="roomList"></div>
-	        </div>
+	        </div> 
 	        
 	        <!-- 채팅 내용 -->
 	        <div class="chat-records" >
-	            <div id="header">
-	            	<img src="https://buly.kr/AapLwSi" alt="image" class="user-avatar">
-	            	<span class="userNickname">사용자1</span>
-            	</div>
+	            <div id="header"></div>
 				<div id="dateDisplay"></div>
 				<div id="chatList"></div>
 				<input type="text" id="msg" placeholder = "메시지를 입력하세요." onkeydown="handleKeyDown(event)">

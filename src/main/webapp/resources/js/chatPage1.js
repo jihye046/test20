@@ -3,6 +3,7 @@
 let chatList = document.querySelector("#chatList")
 let roomList = document.querySelector("#roomList")
 let chatRecords = document.querySelector(".chat-records")
+const searchTextInput = document.querySelector("#searchTextInput")
 
 /* 채팅 아이콘 - 안읽은 메시지 총 개수
 ================================================== */
@@ -24,82 +25,135 @@ const getUnreadMessageTotalCount = () => {
 	})
 } 
 
-/* 채팅 아이콘 클릭시 창 열기 
+/* 채팅 아이콘 클릭시 모달창 열기 
 ================================================== */
-	// 모달 창 열기
 const loadChatRooms = () => {
 	document.querySelector('#chatModal').style.display = 'flex'
+	roomList.innerHTML = ''
+	searchTextInput.value = ''
+	getRoomList()
+}
+
+/* 채팅 목록 가져오기
+================================================== */
+const getRoomList = () => {
 	const userId = document.querySelector("#userId").getAttribute("data-userId")
 	
-	// 채팅 목록 가져오기
 	fetch(`/chat/getRoomList?userId=${userId}`)
 	.then(response => response.json())
 	.then(data => {
-		roomList.innerHTML = ''
-
 		data.forEach(chatRoomDto => {
 			printRoomList(chatRoomDto)
 		})
-
-		// 채팅 목록 클릭시 채팅방 열기
-		document.querySelectorAll(".chat-room").forEach(room => {
-			room.addEventListener('click', function() {
-				const roomId = this.getAttribute('data-room-id')
-				const otherUserId = this.querySelector(".userNickname").textContent
-				const imageUrl = this.querySelector("img").src
-				const unreadBadge = this.querySelector(".message-badge")
-
-				if(unreadBadge) {
-					// 안읽음표시 없애기
-					fetch('/chat/setIsRead', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							roomId: roomId,
-							receiver: userId
-						})
-					})
-					.then(response => {
-						if(response.ok) {
-							this.querySelector(".message-badge").style.display = 'none'
-							getUnreadMessageTotalCount()
-						} else {
-							console.error('failed to update')
-						}
-					})
-					.catch(error => {
-						console.error('error: ', error)
-					})
-				}
-
-				// 채팅방 내용 불러오기
-				fetch(`/chat/getChatHistory?roomId=${roomId}`)
-				.then(response => response.json())
-				.then(data => {
-					chatList.innerHTML = ''
-
-					data.forEach(messageDto => {
-						if(messageDto.sender == userId) {
-							print(messageDto.sender, messageDto.content, 'me', 'msg', messageDto.regTime)	
-						} else {
-							print(messageDto.sender, messageDto.content, 'other', 'msg', messageDto.regTime)
-						}
-					})
-
-					printHeader(imageUrl, otherUserId)
-					document.querySelector('.chat-rooms').classList.add('shrink')
-					document.querySelector('.chat-records').classList.add('show')
-				})
-				.catch(error => {
-					console.error('error: ', error)
-				})
-			})
-		})
+		openChatRoom()
 	})
 	.catch(error => {
 		console.error('Error:', error)
+	})
+}
+
+/* 검색 목록 가져오기
+================================================== */
+const searchUser = () => {
+	const searchText = searchTextInput.value
+	const userId = document.querySelector("#userId").getAttribute("data-userId")
+
+	roomList.innerHTML = ''		
+	if(searchText != '') {
+		fetch(`/chat/getRoomList?userId=${userId}&searchText=${searchText}`)
+		.then(response => response.json())
+		.then(data => {
+			data.forEach(chatRoomDto => {
+				printRoomList(chatRoomDto)
+			})
+			openChatRoom()
+		})
+		.catch(error => {
+			console.error('Error:', error)
+		})
+	} else {
+		getRoomList()
+	}
+}
+
+/* 검색창 엔터키 리스너
+================================================== */
+const handleSearchOnEnter = () => {
+	searchTextInput.addEventListener('keydown', (event) => {
+		if(event.key == 'Enter') {
+			searchUser()
+		}
+	})
+}
+
+/* 채팅 목록 클릭시 채팅방 열기
+================================================== */
+const openChatRoom = () => {
+	document.querySelectorAll(".chat-room").forEach(room => {
+		room.addEventListener('click', function() {
+			const roomId = this.getAttribute('data-room-id')
+			const otherUserId = this.querySelector(".userNickname").textContent
+			const imageUrl = this.querySelector("img").src
+			const unreadBadge = this.querySelector(".message-badge")
+			const userId = document.querySelector("#userId").getAttribute("data-userId")
+
+			hideUnreadBadge(unreadBadge, roomId, userId)
+			getChatHistory(roomId, imageUrl, otherUserId)
+			connect()
+		})
+	})
+}
+
+/* 각 채팅방 안읽음 표시 없애기
+================================================== */
+const hideUnreadBadge = (unreadBadge, roomId, userId) => {
+	if(unreadBadge) {
+		fetch('/chat/setIsRead', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				roomId: roomId,
+				receiver: userId
+			})
+		})
+		.then(response => {
+			if(response.ok) {
+				unreadBadge.style.display = 'none'
+				getUnreadMessageTotalCount()
+			} else {
+				console.error('failed to update')
+			}
+		})
+		.catch(error => {
+			console.error('error: ', error)
+		})
+	}
+}
+
+/* 채팅방 내용 불러오기
+================================================== */
+const getChatHistory = (roomId, imageUrl, otherUserId) => {
+	fetch(`/chat/getChatHistory?roomId=${roomId}`)
+	.then(response => response.json())
+	.then(data => {
+		chatList.innerHTML = ''
+
+		data.forEach(messageDto => {
+			if(messageDto.sender == userId) {
+				print(messageDto.sender, messageDto.content, 'me', 'msg', messageDto.regTime)	
+			} else {
+				print(messageDto.sender, messageDto.content, 'other', 'msg', messageDto.regTime)
+			}
+		})
+
+		printHeader(imageUrl, otherUserId)
+		document.querySelector('.chat-rooms').classList.add('shrink')
+		document.querySelector('.chat-records').classList.add('show')
+	})
+	.catch(error => {
+		console.error('error: ', error)
 	})
 }
 
@@ -133,13 +187,7 @@ window.onclick = function(event) {
 	document.querySelector('.chat-records').classList.remove('show')
 }
 
-/* 클릭 이벤트 전파 차단
-================================================== */
-chatRecords.addEventListener('click', function(event) {
-    event.stopPropagation(); 
-})
-
-/* 가장 아래로 스크롤
+/* 새로운 내용이 추가되면 가장 아래로 스크롤
 ================================================== */
 const scrollList = () => {
 	if(chatList) {
@@ -154,12 +202,12 @@ const scrollList = () => {
 ================================================== */
 const printHeader = (uprofile_image, otherUserId) => {
 	const header = document.querySelector("#header")
-			
+	console.log(`printHeader(): ${otherUserId}`)
 	header.innerHTML = 
 	`
 		<div class="header">
 			<img src=${uprofile_image} alt="image" class="user-avatar">
-			<span class="userNickname">${otherUserId}</span>
+			<span class="userNickname" data-userNickname="${otherUserId}">${otherUserId}</span>
 		</div>
 	`
 }
@@ -249,7 +297,7 @@ const print = (name, msg, side, state, time) => {
 		return
 	}
 	
-	scrollList() // 새로운 내용이 추가되면 가장 아래로 스크롤
+	scrollList()
 }
 
 /* 오늘 일자 표시
@@ -299,14 +347,13 @@ const printEmotion = (name, msg, side, state, time) => {
 		alert('chatList 찾을 수 없음')
 		return
 	}
-	setTimeout(scrollList, 100) // 이미지 로딩 시간때문에 0.1초 시간차 둠
+	setTimeout(scrollList, 100)
 }
 
 /* 웹소캣 연결
 ================================================== */
 window.connect = () => {
 
-	// msg 요소 여부 체크
     const msg = document.querySelector("#msg")
     if (msg) {
         msg.focus()
@@ -316,11 +363,11 @@ window.connect = () => {
     }
     
     // window.name 여부 체크
-    const userIdElement = document.querySelector("#userId")
-	const userId = userIdElement ? userIdElement.getAttribute("data-userId") : null
-	const bNameElement = document.querySelector("#bName")
-	const receiver = bNameElement ? bNameElement.getAttribute("data-bName") : null
-	
+    const userId = document.querySelector("#userId").getAttribute("data-userId")
+	const receiver = document.querySelector("#userNickname").getAttribute("data-userNickname")
+	console.log(userId)
+	console.log(receiver)
+
 	window.name = `${userId}`
 	if(!window.name) {
 		log('window.name 없음')
@@ -339,6 +386,7 @@ window.connect = () => {
 	
 	// code: 1 웹소켓 연결이 성공한 경우
 	// 내 대화창
+	/* 
     ws.onopen = function(evt) {
 		log('서버 연결 성공')
 		
@@ -359,6 +407,7 @@ window.connect = () => {
 		// 과거 메시지가 있으면 가져오고 오늘일자를 그 밑에 보여줌, 그 밑에는 오늘 대화 내용이 들어가도록
 		msg.focus()
     }
+		*/
     
     // code: 2, 채팅방을 나가는 경우
     const disconnect = () => {
@@ -410,8 +459,7 @@ window.connect = () => {
 		}
 	}
 
-    // 서버에서 클라이언트에게 전달한 메시지
-    // 상대방 대화창
+    // 서버에서 클라이언트에게 전달한 메시지(상대방 대화창)
     ws.onmessage = function(msg) {
 		let message = JSON.parse(msg.data)
 		console.log(msg.data)
@@ -435,10 +483,16 @@ window.connect = () => {
 		}
     }
 	
-} /* connect */
+}
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
-window.onload = function(){
+window.onload = function() {
 	getUnreadMessageTotalCount()
+	handleSearchOnEnter()
+	
+	// 클릭 이벤트 전파 차단
+	chatRecords.addEventListener('click', function(event) {
+		event.stopPropagation(); 
+	})
 }

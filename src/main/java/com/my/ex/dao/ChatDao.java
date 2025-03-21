@@ -32,8 +32,8 @@ public class ChatDao implements IChatDao {
 	}
 
 	@Override
-	public MessageDto getLastMessage(String roomId) {
-		return session.selectOne(NAMESPACE + "getLastMessage", roomId);
+	public MessageDto getLastMessage(Map<String, String> map) {
+		return session.selectOne(NAMESPACE + "getLastMessage", map);
 	}
 
 	@Override

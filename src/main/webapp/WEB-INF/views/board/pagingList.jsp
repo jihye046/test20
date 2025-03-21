@@ -55,7 +55,7 @@
 									<h5>${dto.bName}</h5>
 									<h3>${dto.bTitle}</h3>
 									<footer>
-										<div class="date">${dto.bDate}</div>
+										<div class="create-date">${dto.bDate}</div>
 										<div class="icons">
 											<div class="views"><i class="ion-eye"></i>${dto.bHit}</div>
 											<div class="love"><i class="ion-heart"></i>${dto.bLike}</div>
