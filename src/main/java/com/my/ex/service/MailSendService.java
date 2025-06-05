@@ -36,8 +36,14 @@ public class MailSendService {
 		makeRandomNum();
 		String setFrom = emailUsername; 
 		String toMail = uemail;
-		String title = "[회원가입 인증 이메일]"; 
-		String content = "인증 번호는 <h1>" + authNum + "</h1>입니다.</br>해당 인증번호를 기입해주세요.";
+		String title = "[HomeTalk] 회원가입 인증 이메일";
+		String boxStyle = "width:250px; height:60px; border:1.5px solid Tomato; border-radius:8px; " +
+                		  "display:flex; justify-content:center; " +
+                		  "align-items:center; font-size:20px; font-weight:500; color:Tomato;";
+		String content = "<h2>HomeTalk 회원가입 인증문자입니다.</h2><br><br>" +
+                		 "<p>HomeTalk에 가입하신 것을 환영합니다.</p>" +
+                		 "<p>아래의 인증코드를 입력하시면 가입이 정상적으로 완료됩니다.</p>" +
+						 "<div style=\"" + boxStyle + "\">" + authNum + "</div>";
 		boolean result = mailSend(setFrom, toMail, title, content);
 		String message = "";
 		message = (result) ? "success" : "fail";

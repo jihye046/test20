@@ -16,12 +16,12 @@
 			<div class="join-form">
 				<form action="/user/join" method="post">
 					<p>👋 Hello</p>
-					<input type="text" name="username" placeholder="userName" required><br>
-					<input type="text" name="umobile" placeholder="010-xxxx-xxxx" required><br>
-					<input type="text" name="userId" placeholder="UserId" required><br>
-					<input type="password" name="userPw" placeholder="Password" required><br>
-					<input type="text" name="unickName" placeholder="Nickname" required><br>
-					<input id="uemail" type="email" name="uemail" placeholder="Email" required>
+					<input type="text" name="username" placeholder="이름" required><br>
+					<input type="text" name="umobile" placeholder="'-'를 포함해서 입력해주세요." required><br>
+					<input type="text" name="userId" placeholder="아이디" required><br>
+					<input type="password" name="userPw" placeholder="비밀번호" required><br>
+					<input type="text" name="unickName" placeholder="닉네임" required><br>
+					<input id="uemail" type="email" name="uemail" placeholder="이메일" required>
 					<button class="btn" type="button" id="mailCodeButton">본인인증</button>
 					<br>
 					<div class="mail-Check-Box">

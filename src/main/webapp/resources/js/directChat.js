@@ -180,9 +180,6 @@ window.connect2 = (roomId, otherUserId, userId) => {
 					print(message.sender, message.content, 'me', 'msg', message.regTime)
 				} else {
 					print(message.sender, message.content, 'other', 'msg', message.regTime)	
-					if(typeof window.opener.getUnreadMessageTotalCount === 'function') {
-						window.opener.getUnreadMessageTotalCount()
-					}
 				}
 			} else if (message.code == '4') {
 				printEmotion(message.sender, message.content, 'other', 'msg', message.regTime)
