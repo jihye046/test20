@@ -8,13 +8,14 @@
 </head>
 <body>
 	<div id="main">
-		<div id="header"><small>${bName}님과의 대화방</small></div>
+		<div id="header"><small>${receiver}님과의 대화방</small></div>
 		<div id="dateDisplay"></div>
 		<div id="chatList"></div>
-		<input type="text" id="msg" placeholder = "대화 내용을 입력하세요." onkeydown="handleKeyDown(event)">
+ 		<input type="text" id="msg" placeholder = "대화 내용을 입력하세요." onkeydown="handleKeyDown(event)">
 	</div>
 </body>
 <div id="userId" data-userId="${sessionScope.userId}"></div>
-<div id="bName" data-bName="${bName}"></div>
-<script src="../../../resources/js/chatPage1.js" defer></script>
+<div id="bName" data-bName="${receiver}"></div>
+<!-- <script src="../../../resources/js/chatPage1.js" defer></script> -->
+<script src="../../../resources/js/directChat.js" defer></script>
 </html>

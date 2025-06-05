@@ -13,8 +13,8 @@ const getUnreadMessageTotalCount = () => {
 	fetch(`/chat/getUnreadMessageTotalCount?receiver=${userId}`)
 	.then(response => response.json())
 	.then(data => {
+		const badge = document.querySelector(".badge")
 		if(data > 0){
-			const badge = document.querySelector(".badge")
 			badge.innerHTML = `<div id="notificationBadge" class="notification-badge">${data}</div>`
 		} else {
 			badge.innerHTML = ''
@@ -98,10 +98,121 @@ const openChatRoom = () => {
 			const userId = document.querySelector("#userId").getAttribute("data-userId")
 
 			hideUnreadBadge(unreadBadge, roomId, userId)
-			getChatHistory(roomId, imageUrl, otherUserId)
-			connect()
+			getChatHistory(roomId, imageUrl, otherUserId, userId)
+			connect2(roomId, otherUserId, userId)
 		})
 	})
+}
+
+let ws = ''
+const connect2 = (roomId, otherUserId, userId) => {
+	const msg = document.querySelector("#msg")
+	window.name = userId
+
+	if(!ws || ws.readyState == WebSocket.CLOSED) {
+		ws = new WebSocket('ws://localhost/chatServer')
+
+		// 웹소캣 연결
+		ws.onopen = () => {
+			log('서버 연결 성공')
+
+			let message = {
+				code: '1', 
+				//roomId: roomId,
+				sender: window.name, 
+				receiver: otherUserId, 
+				content: '', 
+				regdate: displayDate(),
+				regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+			}
+			ws.send(JSON.stringify(message))
+			msg.focus()
+		}
+
+		// 서버로부터 수신한 메시지(상대방 대화창)
+		ws.onmessage = (msg) => {
+			let message = JSON.parse(msg.data)
+			
+			if(message.code == '1') {
+				/*
+				if(message.sender == window.name) {
+					print(message.sender, message.content, 'me', 'msg', message.regTime)
+				} else {
+					print(message.sender, message.content, 'other', 'msg', message.regTime)	
+				}
+				*/
+
+				displayDate()
+			} else if (message.code == '2') {
+				print('', `[${message.sender}]님이 나갔습니다.`, 'other', 'state', message.regTime)
+				msg.disabled = true
+				msg.placeholder = '대화상대가 없습니다.'
+				msg.style.backgroundColor = '#f0f0f0'
+			} else if (message.code == '3') {
+				if(message.sender == window.name) {
+					print(message.sender, message.content, 'me', 'msg', message.regTime)
+				} else {
+					print(message.sender, message.content, 'other', 'msg', message.regTime)	
+				}
+			} else if (message.code == '4') {
+				printEmotion(message.sender, message.content, 'other', 'msg', message.regTime)
+			}
+		}
+
+		// 웹소캣 종료
+		window.addEventListener('beforeunload', function(event){
+			disconnect()
+		})
+
+		// 메시지 전송
+		window.handleKeyDown = (event) => {
+			if(event.key === 'Enter') {
+				let message = {
+					code: '3',
+					roomId: roomId,
+					sender: window.name,
+					receiver: otherUserId,
+					content: msg.value,
+					regdate: displayDate(),
+					regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+				}
+
+				if(msg.value.startsWith('/')) {
+					message.code = '4'
+				}
+
+				ws.send(JSON.stringify(message))
+				msg.value = ''
+				msg.focus()
+
+				if(message.code == '3') {
+					print(window.name, message.content, 'me', 'msg', message.regTime)	
+				} else if(message.code == '4') {
+					printEmotion(window.name, '고양이', 'me', 'msg', message.regTime)	
+				}
+			}
+		}
+	}
+
+}
+
+/* 채팅방을 나가는 경우
+================================================== */
+const disconnect = () => {
+	if(ws && ws.readyState == WebSocket.OPEN) {
+		let message = {
+			code: '2',
+			sender: window.name,
+			receiver: '',
+			content: '',
+			regdate: displayDate(),
+			regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
+		}
+
+		ws.send(JSON.stringify(message))
+		ws.close()
+		log('웹소캣 연결 종료')
+	}
 }
 
 /* 각 채팅방 안읽음 표시 없애기
@@ -134,7 +245,9 @@ const hideUnreadBadge = (unreadBadge, roomId, userId) => {
 
 /* 채팅방 내용 불러오기
 ================================================== */
-const getChatHistory = (roomId, imageUrl, otherUserId) => {
+const getChatHistory = (roomId, imageUrl, otherUserId, userId) => {
+	
+
 	fetch(`/chat/getChatHistory?roomId=${roomId}`)
 	.then(response => response.json())
 	.then(data => {
@@ -168,6 +281,8 @@ function sendMessage() {
         newMessage.textContent = message
         document.querySelector('.chat-records').appendChild(newMessage)
         input.value = ""
+
+
     }
 }
 
@@ -202,7 +317,6 @@ const scrollList = () => {
 ================================================== */
 const printHeader = (uprofile_image, otherUserId) => {
 	const header = document.querySelector("#header")
-	console.log(`printHeader(): ${otherUserId}`)
 	header.innerHTML = 
 	`
 		<div class="header">
@@ -277,6 +391,9 @@ const printDate = (regdate) => {
 /* 채팅창 출력
 ================================================== */
 const print = (name, msg, side, state, time) => {
+	
+	console.log(`side: ${side}`)
+
 	let temp = 
 	`
 		<div class="item ${state} ${side}">
@@ -348,141 +465,6 @@ const printEmotion = (name, msg, side, state, time) => {
 		return
 	}
 	setTimeout(scrollList, 100)
-}
-
-/* 웹소캣 연결
-================================================== */
-window.connect = () => {
-
-    const msg = document.querySelector("#msg")
-    if (msg) {
-        msg.focus()
-    } else {
-        console.error('msg 요소 없음')
-        return
-    }
-    
-    // window.name 여부 체크
-    const userId = document.querySelector("#userId").getAttribute("data-userId")
-	const receiver = document.querySelector("#userNickname").getAttribute("data-userNickname")
-	console.log(userId)
-	console.log(receiver)
-
-	window.name = `${userId}`
-	if(!window.name) {
-		log('window.name 없음')
-		return
-	}
-	
-	// 소켓 생성
-    const ws = new WebSocket('ws://localhost/chatServer')
-    /*
-		code: 상태코드
-			  1: 새로운 유저가 들어옴
-			  2: 기존 유저가 나감
-			  3: 메시지 전달
-			  4: 이모티콘 전달
-	*/
-	
-	// code: 1 웹소켓 연결이 성공한 경우
-	// 내 대화창
-	/* 
-    ws.onopen = function(evt) {
-		log('서버 연결 성공')
-		
-		let message = {
-			code: '1', 
-			sender: window.name, 
-			receiver: receiver, 
-			content: '', 
-			regdate: displayDate(),
-			regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
-		}
-        // 연결된 서버에게 메시지를 전송할 때: ws.send('전달할 메시지')
-		ws.send(JSON.stringify(message))
-		
-		
-		//print('', `대화방에 참여했습니다.`, 'me', 'state', message.regTime)
-		
-		// 과거 메시지가 있으면 가져오고 오늘일자를 그 밑에 보여줌, 그 밑에는 오늘 대화 내용이 들어가도록
-		msg.focus()
-    }
-		*/
-    
-    // code: 2, 채팅방을 나가는 경우
-    const disconnect = () => {
-		let message = {
-			code: '2',
-			sender: window.name,
-			receiver: '',
-			content: '',
-			regdate: displayDate(),
-			regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
-		}
-	
-		ws.send(JSON.stringify(message))
-	}
-	
-	window.addEventListener('beforeunload', function(event){ // beforeunload: 사용자가 페이지를 떠나려고 할 때 발생
-		event.preventDefault()
-		event.returnValue = '' // 크롬에서는 컨펌 창 메시지를 커스터마이징할 수 없으므로 공란으로 둠
-		disconnect()
-	})
-	
-	// cdoe: 3, 메시지를 전송하는 경우
-	window.handleKeyDown = (event) => {
-		if(event.key === 'Enter') {
-			
-			let message = {
-				code: '3',
-				sender: window.name,
-				receiver: receiver,
-				content: msg.value,
-				regdate: displayDate(),
-				regTime: new Date().toLocaleTimeString("ko-KR", {hour: "2-digit", minute: "2-digit"})
-			}
-			
-			// code: 4, 이모티콘을 전송하는 경우 
-			if(msg.value.startsWith('/')) {
-				message.code = '4'
-			}
-
-			ws.send(JSON.stringify(message))
-            msg.value = ''
-			msg.focus()
-
-			if(message.code == '3') {
-				print(window.name, message.content, 'me', 'msg', message.regTime)	
-			} else if(message.code == '4') {
-				printEmotion(window.name, '고양이', 'me', 'msg', message.regTime)	
-			}
-		}
-	}
-
-    // 서버에서 클라이언트에게 전달한 메시지(상대방 대화창)
-    ws.onmessage = function(msg) {
-		let message = JSON.parse(msg.data)
-		console.log(msg.data)
-		console.log(message)
-		
-		if(message.code == '1') {
-			if(message.sender == window.name) {
-				print(message.sender, message.content, 'me', 'msg', message.regTime)
-			} else {
-				print(message.sender, message.content, 'other', 'msg', message.regTime)	
-			}
-			displayDate()
-			
-			//print('', `[${message.sender}]님이 들어왔습니다.`, 'other', 'state', message.regTime)
-		} else if (message.code == '2') {
-			print('', `[${message.sender}]님이 나갔습니다.`, 'other', 'state', message.regTime)
-		} else if (message.code == '3') {
-			print(message.sender, message.content, 'other', 'msg', message.regTime)
-		} else if (message.code == '4') {
-			printEmotion(message.sender, message.content, 'other', 'msg', message.regTime)
-		}
-    }
-	
 }
 
 /* 페이지 로드 시 실행될 함수

@@ -7,7 +7,6 @@ if(updateResult == "true"){
 
 /* 이미지 목록
 ================================================== */
-
 	// Fancybox 설정
 $('[data-fancybox="gallery"]').fancybox({
   buttons: [
@@ -149,18 +148,36 @@ const renderImages = () => {
 	})
 }
 
+const receiver = chatButton.getAttribute("data-bName") // 받는 사람(작성자)
+const sender = document.querySelector("#userId").getAttribute("data-userId") // 보내는 사람
+
+/* 로그인한 사용자가 작성자면 채팅 버튼 숨김 */
+const hideChatButton = () => {
+	const chatButton = document.querySelector("#chatButton")
+	if(receiver == sender) {
+		chatButton.style.display = 'none'
+	}
+}
+
+/* 로그인한 사용자가 작성자인 경우만 수정, 삭제 버튼 보여주기 */
+const hideDropdownMenu = () => {
+	const dropdownMenu = document.querySelector('.dropdown')
+	if(receiver != sender) {
+		dropdownMenu.style.display = 'none'
+	}
+}
+
 /* 웹소캣 1:1 채팅
 ================================================== */
-const chatButton = document.querySelector("#chatButton")
 chatButton.addEventListener('click', () => {
-
-	const bName = chatButton.getAttribute("data-bName") // receiver
-
-	const chatWindow = window.open(`/user/chat/${bName}`, 'chat', 'width=400,height=500,scrollbars=yes')
+	const sorted = [receiver, sender].sort()
+	const sortedName = `${sorted[0]}_${sorted[1]}`
+	const chatWindow = window.open(`/user/chat/${receiver}`, 'chat', 'width=400,height=500,scrollbars=yes')
 	
 	chatWindow.addEventListener('load', function(){
+		chatWindow.getChatHistory(sortedName.toString(), sender)
     	chatWindow.displayDate()
-		chatWindow.connect()
+		chatWindow.connect2(sortedName, receiver, sender)
     })
 })
 
@@ -168,3 +185,5 @@ chatButton.addEventListener('click', () => {
 ================================================== */
 renderImages()
 closeModal()
+hideChatButton()
+hideDropdownMenu()

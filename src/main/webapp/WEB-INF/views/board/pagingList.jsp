@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/list.css" rel="styleSheet">
+<link href="../../../resources/css/common.css" rel="styleSheet">
 <script>
 	var paging = ${paging.page}
 	var searchGubun = "${param.searchGubun}"
@@ -52,8 +53,8 @@
 									<!-- 이미지가 없는 게시글이면 흰색 배경 기본 -->
 								</div>
 								<figcaption>
-									<h5>${dto.bName}</h5>
-									<h3>${dto.bTitle}</h3>
+									<div class="post-bName">${dto.bName}</div>
+									<div class="post-bTitle">${dto.bTitle}</div>
 									<footer>
 										<div class="create-date">${dto.bDate}</div>
 										<div class="icons">

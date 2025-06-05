@@ -44,11 +44,13 @@
 				SELECT DISTINCT receiver
 		  		  FROM mvc_chat6
 		 		 WHERE room_id = #{roomId}
+		 		 AND receiver != #{userId}
 			</when>
 			<otherwise>
 				SELECT DISTINCT sender
 		  		  FROM mvc_chat6
 		 		 WHERE room_id = #{roomId}
+		 		   AND sender != #{userId}
 			</otherwise>
 		</choose>
 	</select>

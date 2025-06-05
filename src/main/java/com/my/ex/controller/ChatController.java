@@ -1,6 +1,7 @@
 package com.my.ex.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.my.ex.dto.ChatRoomDto;
 import com.my.ex.dto.MessageDto;
 import com.my.ex.service.ChatService;
+import com.my.ex.service.MessageService;
 import com.my.ex.service.UserService;
 
 @RestController
@@ -28,6 +30,9 @@ public class ChatController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private MessageService messageService;
+	
 	// 안읽은 메시지 총 개수
 	@RequestMapping("/getUnreadMessageTotalCount")
 	public int getUnreadMessageTotalCount(@RequestParam String receiver) {
@@ -38,7 +43,7 @@ public class ChatController {
 	@RequestMapping("/getRoomList")
 	public List<ChatRoomDto> getRoomList(@RequestParam String userId,
 										 @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText) {
-		List<String> roomIdList = service.getRoomId(userId);
+		List<String> roomIdList = service.getRoomId(userId); // hong1_hong3, hong1_hong2 2개
 		
 		List<ChatRoomDto> lastMessageList = new ArrayList<>();
 		for(String roomId : roomIdList) {
@@ -73,6 +78,17 @@ public class ChatController {
 	@ResponseStatus(HttpStatus.OK)
 	public void setIsRead(@RequestBody Map<String, String> map) {
 		service.setIsRead(map);
+	}
+	
+	// 신규 채팅인지 체크
+	@RequestMapping("/hasRoomId")
+	public String hasRoomId(@RequestParam String receiver, @RequestParam String sender) {
+		Map<String, String> map = new HashMap<>();
+		map.put("receiver", receiver);
+		map.put("sender", sender);
+		String roomId = null;
+		roomId = messageService.findRoomId(map);
+		return roomId;
 	}
 	
 }

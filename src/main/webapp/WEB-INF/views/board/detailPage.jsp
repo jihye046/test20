@@ -14,8 +14,8 @@
 				<!-- 포스트 상단 -->
 				<div class="post-header">
 					<div class="title-and-name">
-						<h1>${dto.bTitle}</h1>
-						<div>
+						<h2>${dto.bTitle}</h2>
+						<div style="padding: 20px 0px 20px 0px;">
 							<img src="${imageUrl}" alt="image" class="user-avatar">
 							<span class=bName>${dto.bName}</span>
 							<button class="button-primary" type="button" id="followButton">팔로우</button>
@@ -255,6 +255,7 @@
 <div id="isLiked" data-isLiked="${isLiked}"></div>
 <div id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
 <div id="userNickname" data-userId="${sessionScope.userNickname}"></div>
+<div id="userId" data-userId="${sessionScope.userId}"></div>
 
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/fixedButton.js"></script>
