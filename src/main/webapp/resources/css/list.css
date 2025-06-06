@@ -40,8 +40,24 @@
 	color: #8C8C8C; font-size: 13px;
 }
 
+/* weather
+=========================================== */
+.weather-container {
+	background-color: rgb(245, 238, 232);
+	height: 50vh;
+	width: 100%;
+	margin-top: -40px;
+	
+}
+
+.weather-container video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 /* pagination 
-	======================================== */
+=========================================== */
 .pagination {
 	margin: 20px 0;
 }
@@ -51,7 +67,7 @@ span.page-link {
 }
 
 /* card 
-	======================================== */
+=========================================== */
 	
 .card-container {
     display: grid;

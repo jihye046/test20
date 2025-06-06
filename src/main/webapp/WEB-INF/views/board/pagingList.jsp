@@ -15,9 +15,8 @@
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
 	<!-- weather -->
-	<div class="weather-container" style="background-color: rgb(245, 238, 232); height: 50vh; width: 100%; margin-top: -40px;">
-<!-- 		<img style="width: 100%; height: 100%; object-fit: cover;" id="weatherImg"> -->
-		<video id="weatherVideo" style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop></video>
+	<div class="weather-container">
+		<video id="weatherVideo" autoplay muted loop></video>
 	</div>
 	<div class="container-fluid">
 		<div class="row">
