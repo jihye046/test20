@@ -139,7 +139,7 @@ const updateCurrentWeatherInfo = (currentWeatherDto) => {
   const temp = (currentWeatherDto.main.temp - KELVIN_OFFSET).toFixed(1)
   const temp_max = (currentWeatherDto.main.temp_max - KELVIN_OFFSET).toFixed(1)
   const temp_min = (currentWeatherDto.main.temp_min - KELVIN_OFFSET).toFixed(1)
-  const {icon, weather}= getWeatherIconAndText(main)
+  const {icon, weather}= getWeatherIconAndText(main) // weather: 맑음, 바람, 흐림, 비, 눈
   let output = ''
   output +=
     `

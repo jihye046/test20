@@ -15,7 +15,7 @@
 		<div class="login-background">
 			<div class="login-form">
 				<form action="/user/login" method="post">
-					<p>Welcome Back 👊</p>
+					<p class="logo-title">HomeTalk</p>
 					<input type="text" value="${empty sessionScope.userId ? '' : sessionScope.userId}" name="userId" placeholder="아이디"><br>
 					<input type="password" name="userPw" placeholder="비밀번호"><br>
 					<button class="btn btn-block btn-outline-secondary" type="submit">Sign In</button>

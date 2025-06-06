@@ -10,12 +10,15 @@
 	var searchGubun = "${param.searchGubun}"
 	var searchText = "${param.searchText}"
     var sortType = ("${param.sortType}" == "") ? "latest" : "${param.sortType}"
-<%--     var sortType = "<%= (request.getParameter("sortType") == null) ? --%>
-<%--     				"latest" : request.getParameter("sortType") %>"  --%>
 </script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
+	<!-- weather -->
+	<div class="weather-container" style="background-color: rgb(245, 238, 232); height: 50vh; width: 100%; margin-top: -40px;">
+<!-- 		<img style="width: 100%; height: 100%; object-fit: cover;" id="weatherImg"> -->
+		<video id="weatherVideo" style="width: 100%; height: 100%; object-fit: cover;" autoplay muted loop></video>
+	</div>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">

@@ -40,8 +40,8 @@ public class MailSendService {
 		String boxStyle = "width:250px; height:60px; border:1.5px solid Tomato; border-radius:8px; " +
                 		  "display:flex; justify-content:center; " +
                 		  "align-items:center; font-size:20px; font-weight:500; color:Tomato;";
-		String content = "<h2>HomeTalk 회원가입 인증문자입니다.</h2><br><br>" +
-                		 "<p>HomeTalk에 가입하신 것을 환영합니다.</p>" +
+		String content = "<h2>HomeTalk 회원가입 인증문자입니다.</h2><br>" +
+                		 "<p>HomeTalk에 오신 것을 환영합니다.</p>" +
                 		 "<p>아래의 인증코드를 입력하시면 가입이 정상적으로 완료됩니다.</p>" +
 						 "<div style=\"" + boxStyle + "\">" + authNum + "</div>";
 		boolean result = mailSend(setFrom, toMail, title, content);

@@ -4,6 +4,18 @@ body {
 	background-color: #EAEAEA !important;
 }
 
+@font-face {
+    font-family: 'MBC1961M';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/MBC1961M.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.logo-title {
+	font-family: 'MBC1961M';
+	font-size: 1.5rem;
+}
+
 /* logo */
 .header-logo {
     position: relative;  

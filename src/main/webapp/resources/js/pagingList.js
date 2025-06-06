@@ -5,10 +5,85 @@ if(createResult == "true") {
 	alert("게시글이 등록되었습니다.")
 }
 
+/* 주요 날씨에 따라 메인 설정
+================================================== */
+
+	// 위도, 경도 가져오기
+const weatherLocation = (position) => {
+	const locationObj = {
+		latitude: position.coords.latitude,
+		longitude: position.coords.longitude
+	}
+	return locationObj
+}
+
+	// 서울(기본) 위도, 경도
+const weatherDefaultLocation = () => {
+	const SEOUL_LATITUDE = 37.5665
+	const SEOUL_LONGITUDE = 126.9780
+	const defaultLocationObj = {
+		latitude: SEOUL_LATITUDE,
+		longitude: SEOUL_LONGITUDE
+	}
+	return defaultLocationObj
+}
+
+	// 오늘 주요 날씨 정보
+const updateCurrentWeatherInfo = (currentWeatherDto) => {
+	const weather = currentWeatherDto.weather[0].main // Clear, Wind, Clouds, Rain, Sno
+	updateMainImageByWeather(weather)
+}
+
+	// 날씨에 따라 메인 화면 변경
+const updateMainImageByWeather = (weather) => {
+	const video = document.querySelector("#weatherVideo")
+	const basePath = '../../../resources/images/weather/'
+	const extension = '.mp4'
+	const updateSrc = basePath + weather + extension
+	
+	video.src = updateSrc
+}
+
+	// 서버에서 날씨 정보 가져오기
+const getWeatherInfo = (latitude, longitude) => {
+	if (!(latitude) || !(longitude)) {
+		const defaultLocation  = weatherDefaultLocation()
+		latitude = defaultLocation.latitude;
+		longitude = defaultLocation.longitude;
+	}
+
+	$.ajax({
+		type: "get",
+		url: "/weather/getCurrentWeather",
+		data: {latitude, longitude},
+		success: function(currentWeatherDto){
+			updateCurrentWeatherInfo(currentWeatherDto)
+		},
+		error: function(error){
+			console.error("날씨 정보 가져오기 실패", error)
+		}
+	})
+}
+
+	// 현위치 정보 가져오기
+const getCurrentLocationAndFetchWeather = () => {
+	if ("geolocation" in navigator) {
+		navigator.geolocation.getCurrentPosition((position) => {
+			const locationObj = weatherLocation(position)
+			getWeatherInfo(locationObj.latitude, locationObj.longitude)
+		})
+	} else {
+		console.log("현재 위치 사용 불가능")
+	}
+}
+
+/* 목록 정렬
+================================================== */
+
 const sort_latest = document.querySelector("#sort_latest")
 const sort_hit = document.querySelector("#sort_hit")
 
-// 최신순 기본 설정
+	// 최신순 기본 설정
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("sort_latest").classList.add("active")
 	let page = paging
@@ -76,7 +151,7 @@ const updateHitBtnClass = () => {
 	sort_latest.classList.add('btn')
 }
 
-// 현재 위치한 페이지 정렬
+	// 현재 위치한 페이지 정렬
 const sort = (type) => {
 	let page = paging
 	let gubun = searchGubun
@@ -135,6 +210,8 @@ const updateSortedByHits = (pagingList, paging) => {
 	updateBoardCards()
 }
 
+/* 페이징
+================================================== */
 const pagination = (paging) => {
 	let output = `<nav><ul class="pagination justify-content-center">`
 	
@@ -210,7 +287,7 @@ const updateBoardCards = () => {
 	})
 }
 
-
-
-
+/* 페이지 로드 시 실행될 함수
+================================================== */
 updateBoardCards()
+getCurrentLocationAndFetchWeather()
