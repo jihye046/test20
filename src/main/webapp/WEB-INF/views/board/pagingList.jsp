@@ -136,9 +136,8 @@
 			</div>
 		</div>
 	</div>
-	<!-- 채팅아이콘 -->
 	<%@ include file="/WEB-INF/views/include/chatManage.jsp" %>
-<%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
+	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 <div id="createResult" data-create-result="${createResult}"></div>
 <div id="deleteResult" data-delete-result="${deleteResult}"></div>

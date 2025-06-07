@@ -25,10 +25,26 @@
 }
 
 .currentHourWeather {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  	justify-content: center;
+  	gap: 6px;
+  	min-height: 100%;
+}
+
+.weather-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  	width: 100%;
+  	max-width: 400px;
+}
+
+.weather-cell {
+	width: 80px;
 	text-align: center;
-	margin: 0 auto;
-	text-align: center;
-	margin: 0 auto;
+	white-space: nowrap;
 }
 
 #hour {
@@ -37,7 +53,17 @@
 	border: 1px solid gray;
 	border-radius: 25px;
 	background-color: #EAEAEA;
-	padding: 5px;
+	display: flex;               
+	align-items: center;         
+	justify-content: center;
+}
+
+.weekly-weather-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+  	padding: 4px 0;
+  	border-bottom: 1px solid #ccc;
 }
 
 .bi{
@@ -52,11 +78,10 @@
 	color: crimson;
 }
 
-span {
+.detailPage-main span {
 	margin: 20px;
 }
 
-h3 {
-	border-bottom: 1px solid gray; 
-	padding-top: 80px;
+.detailPage-main h3 {
+	padding-top: 50px;
 }

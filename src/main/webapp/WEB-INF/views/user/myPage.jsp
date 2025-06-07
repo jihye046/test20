@@ -40,12 +40,11 @@
 							좋아요한 게시글
 						</a>
 					</div>
-					<div class="mypage-link">
-<!-- 						<a href="/user/chat">1:1 채팅상담</a> -->
-						<a href="javascript:void(0)" onclick="openChatWindow();">
-						   1:1 채팅상담
-						</a>
-					</div>
+<!-- 					<div class="mypage-link"> -->
+<!-- 						<a href="javascript:void(0)" onclick="openChatWindow();"> -->
+<!-- 						   1:1 채팅상담 -->
+<!-- 						</a> -->
+<!-- 					</div> -->
 				</div>
 			</div>
 			<div class="col-md-2"></div>

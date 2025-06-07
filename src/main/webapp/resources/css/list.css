@@ -25,8 +25,8 @@
 }
 
 .container-fluid {
-	padding: 50px; width: 1200px;
-	padding: 50px;
+	padding: 80px 50px ; 
+	width: 1200px;
 	width: 100%;
 	max-width: 1200px;
 	margin: 0 auto;

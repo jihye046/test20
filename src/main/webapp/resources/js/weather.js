@@ -167,6 +167,7 @@ const updateWeeklyWeatherInfo = (weeklyWeatherDto) => {
     const {icon, weather}= getWeatherIconAndText(main)
     output +=
       `
+        <div class="weekly-weather-row">
           <span>${dateTime.month} / ${dateTime.day}</span>
           <span>${icon}</span>
           <span id="hour">${dateTime.hour}</span>
@@ -176,6 +177,7 @@ const updateWeeklyWeatherInfo = (weeklyWeatherDto) => {
           <span>
             <span id="temp_min">${temp_min}</span> / <span id="temp_max">${temp_max}</span>
           </span><br>
+        </div>
       `
     })
   return output
@@ -195,10 +197,12 @@ const hourlyWeather = (weeklyWeatherDto) => {
     const {icon, weather}= getWeatherIconAndText(main)
     output += 
       `
-        <span id="hour">${dateTime.hour}시</span>
-        <span>${temp}°</span>
-        <span>${icon}</span>
-        <span>${weather}</span><br>
+        <div class="weather-row">
+          <div class="weather-cell" id="hour">${dateTime.hour}시</div>
+          <div class="weather-cell">${temp}°</div>
+          <div class="weather-cell">${icon}</div>
+          <div class="weather-cell">${weather}</div><br>
+        </div>
       `
   })
   return output

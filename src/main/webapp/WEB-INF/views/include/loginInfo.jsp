@@ -10,7 +10,7 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ml-auto py-4 py-md-0">
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link" href="/user/myPage">Mypage</a>
+									<a class="nav-link" href="/">Community</a>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
 									<a class="nav-link" href="/weather/weatherPage">Weather</a>
@@ -27,6 +27,9 @@
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
 									<a class="nav-link" href="#">Contact</a>
 								</li>
+								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+									<a class="nav-link" href="/user/myPage">Mypage</a>
+								</li>
 							</ul>
 						</div>
 						<div class="col-md-6 header-welcomeText">
@@ -36,7 +39,9 @@
 														  '/user/logout'}" 
 														  style="padding: 10px; font-size: 14px;">
 														  ${empty sessionScope.userId ? 'LOGIN' : 'Logout'}</a>
-							<a class="menubar-button-primary" href="/board/createPage" style="font-size: 14px;">Write</a>
+							<a class="menubar-button-primary write" href="/board/createPage" style="font-size: 14px;"> 
+								글쓰기
+							</a>
 						</div>
 					</nav>		
 				</div>

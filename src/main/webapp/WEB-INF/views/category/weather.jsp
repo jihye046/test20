@@ -9,7 +9,7 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
-	<main class="container">
+	<main class="container" style="padding:  30px 0px 100px 0px;">
 		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="col-md-8 detailPage-main" >
@@ -28,6 +28,7 @@
 			<div class="col-md-2"></div>
 		</div>
 	</main>
+	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 <div id="latitude" data-latitude="${sessionScope.latitude}"></div>
 <div id="longitude" data-longitude="${sessionScope.longitude}"></div>
