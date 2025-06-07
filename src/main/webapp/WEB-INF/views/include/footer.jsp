@@ -18,7 +18,7 @@
 <!--                             <i class="fas fa-map-marker-alt"></i> -->
                             <div class="cta-text">
                                 <h4>찾아오시는 길</h4>
-                                <span>1010 Avenue, sw 54321, chandigarh</span>
+                                <span>서울특별시 중구 세종대로</span>
                             </div>
                         </div>
                     </div>
