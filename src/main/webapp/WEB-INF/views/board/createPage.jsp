@@ -4,6 +4,8 @@
 <link href="../../../resources/css/createPage.css" rel="styleSheet">
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
+<!-- 주소 검색 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
@@ -16,6 +18,13 @@
 							<input type="text" size="100" name="bName" placeholder="${sessionScope.userId}" value="${sessionScope.userId}" readonly>
 							<input type="text" size="100" name="bTitle" placeholder="* 제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
+							
+							<!-- map -->
+							<div class="search-box">
+								<input type="text" id="inputAdd" name="bAddress" placeholder="주소" readonly>
+								<input type="button" onclick="searchedAdd()" value="주소 검색"><br>
+							</div>
+							
 							<button class="btn btn-outline-info" type="submit">등록</button>
 						</form>
 					</div>
@@ -26,5 +35,6 @@
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
+<!-- 	<script src="../../../resources/js/searchedAdd.js"></script> -->
 </body>
 </html>

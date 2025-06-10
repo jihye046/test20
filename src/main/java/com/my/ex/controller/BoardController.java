@@ -66,7 +66,8 @@ public class BoardController {
 	
 	// 게시글 등록 페이지
 	@RequestMapping("/createPage")
-	public String createPage() {
+	public String createPage(Model model) {
+		model.addAttribute("jsKey", kakao.getJsKey());
 		return "/board/createPage";
 	}
 	
@@ -102,6 +103,7 @@ public class BoardController {
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
 		model.addAttribute("imageUrl", imageUrl);
+		model.addAttribute("jsKey", kakao.getJsKey());
 		return "/board/detailPage";
 	}
 	

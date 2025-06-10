@@ -20,12 +20,13 @@ public class BoardDto {
 	private String sortType;
 	private boolean recommended;
 	private String isDeleted;
+	private String bAddress;
 	
 	public BoardDto() {}
 
 	public BoardDto(int bId, String bName, String bTitle, String bContent, Date bDate, int bHit, int bGroup, int bStep,
 			int bIndent, String bLike, int bBookmark, int commentCount, String searchGubun, String searchText,
-			String sortType, boolean recommended, String isDeleted) {
+			String sortType, boolean recommended, String isDeleted, String bAddress) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -43,6 +44,7 @@ public class BoardDto {
 		this.sortType = sortType;
 		this.recommended = recommended;
 		this.isDeleted = isDeleted;
+		this.bAddress = bAddress;
 	}
 
 	public int getbId() {
@@ -181,13 +183,21 @@ public class BoardDto {
 		this.isDeleted = isDeleted;
 	}
 
+	public String getbAddress() {
+		return bAddress;
+	}
+
+	public void setbAddress(String bAddress) {
+		this.bAddress = bAddress;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardDto [bId=" + bId + ", bName=" + bName + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bDate=" + bDate + ", bHit=" + bHit + ", bGroup=" + bGroup + ", bStep=" + bStep + ", bIndent="
 				+ bIndent + ", bLike=" + bLike + ", bBookmark=" + bBookmark + ", commentCount=" + commentCount
 				+ ", searchGubun=" + searchGubun + ", searchText=" + searchText + ", sortType=" + sortType
-				+ ", recommended=" + recommended + ", isDeleted=" + isDeleted + "]";
+				+ ", recommended=" + recommended + ", isDeleted=" + isDeleted + ", bAddress=" + bAddress + "]";
 	}
-
+	
 }

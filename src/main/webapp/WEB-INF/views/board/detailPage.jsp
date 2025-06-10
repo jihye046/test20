@@ -5,6 +5,9 @@
 <link href="../../../resources/css/detailPage.css" rel="styleSheet">
 <link href="../../../resources/css/fixedButton.css" rel="styleSheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.0/dist/jquery.fancybox.min.css">
+<!-- 지도 표시 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${jsKey}&libraries=services"></script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
@@ -48,6 +51,9 @@
 				<!-- 포스트 중단 -->	
 				<div class="post">
 					${dto.bContent}
+					<!-- 지도 표시 -->
+					<div id="mapContainer" data-bAddress="${dto.bAddress}"></div>
+
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">
 							<span class="post-meta-item">${dto.bDate} </span>

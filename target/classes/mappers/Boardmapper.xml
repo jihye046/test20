@@ -10,7 +10,8 @@
 			bName, 
 			bTitle, 
 			bContent, 
-			bGroup
+			bGroup,
+			bAddress
 			)
 		VALUES
 			(
@@ -18,7 +19,8 @@
 			#{bName},
 			#{bTitle},
 			#{bContent}, 
-			seq_mvc_board6.CURRVAL
+			seq_mvc_board6.CURRVAL,
+			#{bAddress}
 		 	)
 	</insert>
 	
