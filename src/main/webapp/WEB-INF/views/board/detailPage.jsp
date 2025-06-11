@@ -52,7 +52,10 @@
 				<div class="post">
 					${dto.bContent}
 					<!-- 지도 표시 -->
-					<div id="mapContainer" data-bAddress="${dto.bAddress}"></div>
+					<div id="mapContainer">
+						<div id="mapView" data-bAddress="${dto.bAddress}"></div>
+						<div id="addressInfo"></div>
+					</div>
 
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">

@@ -5,6 +5,8 @@
 <link href="../../../resources/css/updatePage.css" rel="styleSheet">
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
+<!-- 주소 검색 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
     <%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
@@ -23,6 +25,11 @@
 			                	* 제목 <input type="text" name="bTitle" value="${dto.bTitle}">
 			                </div>
 			                <textarea rows="10" cols="40" name="bContent" id="editor">${dto.bContent}</textarea>
+			                <!-- map -->
+							<div class="search-box">
+								<input type="text" id="inputAdd" name="bAddress" value="${dto.bAddress}" readonly>
+								<input type="button" onclick="searchedAdd()" value="주소 검색"><br>
+							</div>
 			                <button class="btn btn-outline-info" type="submit" id="updateBtn">완료</button>
 			            </form>
 		            </div>

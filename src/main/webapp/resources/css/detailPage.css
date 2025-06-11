@@ -59,6 +59,7 @@ body {
     justify-content: space-between; 
     align-items: center;
     flex-grow: 0; 
+    clear: both;
 }
 
 .post-meta-dl {
@@ -75,6 +76,25 @@ body {
 	font-size: 13px;
 	margin: 0px;
 }
+
+#mapContainer {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 40px;  
+}
+
+#mapContainer #mapView {
+	width: 100%;
+  	height: 300px;
+  	display: block;
+}
+
+#mapContainer #addressInfo {
+	font-size: 14px;
+  	color: #333;
+  	text-align: right;
+}
+
 
 /* 각 dt 항목 뒤에 · 추가 */
 .post-meta-dl .post-meta-item:not(:first-child)::before {
