@@ -78,15 +78,15 @@ body {
 }
 
 #mapContainer {
-	display: flex;
+	display: none;
 	flex-direction: column;
 	margin-bottom: 40px;  
 }
 
 #mapContainer #mapView {
+  	display: none;
 	width: 100%;
   	height: 300px;
-  	display: block;
 }
 
 #mapContainer #addressInfo {

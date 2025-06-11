@@ -190,8 +190,8 @@ const address = mapView.getAttribute("data-bAddress")
 const addressInfo = mapContainer.querySelector("#addressInfo")
 
 if(address) {
-	mapContainer.style.display = "block"
-	mapContainer.style.height = '300px'
+	mapContainer.style.display = "flex"
+	mapView.style.display = "block"
 	// 저장된 지도가 있다면
 	const mapOption = { // 지도 생성 시 필요한 기본 옵션
 		center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -206,7 +206,6 @@ if(address) {
 		position: new daum.maps.LatLng(37.537187, 127.005476),
 		map: map
 	})
-
 	
 	// 주소로 상세 정보를 검색
 	geocoder.addressSearch(address, function(results, status) {
@@ -222,10 +221,7 @@ if(address) {
 		}
 	})
 	addressInfo.innerHTML = `<div>${address}</div>`
-} else {
-	mapContainer.style.display = 'none'
-	// addressText.style.display = 'none'
-}
+} 
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
