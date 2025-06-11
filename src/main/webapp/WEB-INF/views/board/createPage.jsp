@@ -15,14 +15,14 @@
         		<div class="col-md-2"></div>
 					<div class="col-md-8 createPage-main">
 						<form action="/board/createBoard" method="post" class="create-form">
-							<input type="text" size="100" name="bName" placeholder="${sessionScope.userId}" value="${sessionScope.userId}" readonly>
-							<input type="text" size="100" name="bTitle" placeholder="* 제목" required>
+							<input type="hidden" size="100" name="bName" placeholder="${sessionScope.userId}" value="${sessionScope.userId}" readonly>
+							<input class="bTitleInput" type="text" size="100" name="bTitle" placeholder="제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
 							
 							<!-- map -->
 							<div class="search-box">
 								<input type="text" id="inputAdd" name="bAddress" placeholder="주소" readonly>
-								<input type="button" onclick="searchedAdd()" value="주소 검색"><br>
+								<input type="button" class="address-search-btn" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
 							
 							<button class="btn btn-outline-info" type="submit">등록</button>
@@ -32,9 +32,8 @@
 			</div>
 		</div>
 	</main>
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
-<!-- 	<script src="../../../resources/js/searchedAdd.js"></script> -->
 </body>
 </html>
