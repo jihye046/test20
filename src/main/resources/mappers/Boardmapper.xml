@@ -42,7 +42,8 @@
 		UPDATE mvc_board6
 		   SET bName = #{bName},
 		   	   bTitle = #{bTitle},
-		   	   bContent = #{bContent}
+		   	   bContent = #{bContent},
+		   	   bAddress = #{bAddress}
 		 WHERE bId = #{bId}
 	</update>
 	

@@ -18,3 +18,13 @@ function MyCustomUploadAdapterPlugin(editor) {
       return new UploadAdapter(loader)
   }
 }
+
+// 검색한 주소를 [input]에 set
+const searchedAdd = () => {
+    new daum.Postcode({
+        oncomplete: function(data) {
+          const addr = data.address // 최종 주소 변수
+          document.querySelector('#inputAdd').value = addr
+        }
+    }).open()
+}
