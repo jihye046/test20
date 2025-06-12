@@ -14,6 +14,31 @@
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
+	<!-- auto-popup -->
+	<div id="popup" class="popup-wrapper">
+		<div class="popup-content">
+			<button id="closePopup" class="popup-close-btn">&times;</button>
+			<h3>🔥 테스트 계정을 사용해보세요</h3>
+			<p class="popup-description">
+	            사이트의 모든 기능을 자유롭게 체험할 수 있습니다.
+	        </p>
+	        <div class="account-info">
+	        	<div>
+	        		<span>아이디</span>
+	        		<p>hong1</p>
+	        	</div>
+	        	<div>
+	        		<span>비밀번호</span>
+	        		<p>1234</p>
+	        	</div>
+	        </div>
+	        <div class="popup-options">
+	        	<input type="checkbox" id=hideForDay>
+	        	<p class="popup-hide-for-day">하루 동안 보지 않기</p>
+	        </div>
+		</div>
+	</div>
+	
 	<!-- weather -->
 	<div class="weather-container">
 		<video id="weatherVideo" autoplay muted loop></video>
