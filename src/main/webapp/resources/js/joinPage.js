@@ -1,3 +1,37 @@
+/* 휴대폰 번호 입력 시 하이픈 자동 생성
+================================================== */
+const mobileInput = document.querySelector("#umobile")
+
+mobileInput.addEventListener('input', (e) => {
+  const oldValue = mobileInput.value
+  const oldCursor = mobileInput.selectionStart
+  
+  let numbers = oldValue.replace(/\D/g, '') // 숫자 이외 문자는 제거
+	
+  // 하이픈 포함한 새 값 생성
+  let formatted = ''
+  if(numbers.length <= 3){
+    formatted = numbers
+  } else if(numbers.length <= 7){
+    formatted = numbers.slice(0, 3) + '-' + numbers.slice(3)
+  } else {
+    formatted = numbers.slice(0, 3) + '-' + numbers.slice(3, 7) + '-' + numbers.slice(7, 11)
+  }
+
+  if(formatted != oldValue){
+  	// 새로운 input창 값  
+    mobileInput.value = formatted
+
+	// 새로운 커서 위치
+    let newCursor = oldCursor
+    if(oldCursor == 4 || oldCursor == 9){
+      newCursor++
+    }
+
+    mobileInput.setSelectionRange(newCursor, newCursor)
+  }
+})
+
 document.addEventListener("DOMContentLoaded", function() {
   // 이메일 인증
   const uemailInput = document.querySelector('#uemail')

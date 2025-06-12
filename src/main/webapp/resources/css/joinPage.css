@@ -1,133 +1,223 @@
 @charset "UTF-8";
 
+
 body {
-	background-color: #EAEAEA !important;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f7f7f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
-/* logo */
+/* 로고
+================================================== */
+.header-div {
+    width: 100%;
+    padding: 25px 0;
+    text-align: center;
+    box-sizing: border-box;
+}
+
 .header-logo {
-    position: relative;  
-    top: 20px;              
-    left: 30px;             
-    display: block;
-    width: 100%;         
-    z-index: 100;
-    transition: all 250ms linear;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .header-logo img {
-    height: 3rem;
-    width: auto;
+    max-width: 100px;
+    height: auto;
     display: block;
-    filter: brightness(10%);
-    transition: all 250ms linear;
 }
 
-/* form */
+/* 회원가입 폼
+================================================== */
 .join-background {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	background-color: #EAEAEA;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-grow: 1;
+    padding: 0 20px 20px 20px;
+    box-sizing: border-box;
+}
+
+.join-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 480px;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join-title {
+    font-family: 'Pretendard-Bold', 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    color: #333333;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.join-subtitle {
+    font-size: 15px;
+    color: #666666;
+    margin-bottom: 30px;
+    text-align: center;
 }
 
 .join-form {
-/* 	width: 400px;  */
-/* 	height: 600px; */
-	width: 30vw;
-	height: 85vh;
-	background-color: #ffffff;
-	display: flex;
-	flex-direction: column; 
-	justify-content: center;
-	align-items: center;
-	border-radius: 20px;
-	box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.form-header {
-	text-align: center;
-	width: 100%;
-	font-size: 1.5rem;
-	padding-bottom: 50px;
+.input-group {
+    width: 100%;
+    margin-bottom: 20px;
 }
 
-.form-body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-/* 	flex-grow: 1; */
-}
-
-.form-footer {
-	display: flex;
-	justify-content: center;
-	width: 100%;
-	padding-top: 2rem;
-}
-
-.form-footer button {
-	width: 30%;
-}
-
-.join-form p {
-	font-family: 'Pretendard-Bold', sans-serif;
-	text-align: center;
-	font-size: 30px;
-	width: 80%;
-}
-
-.join-form > form {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	align-items: center;
-}
-
-.join-form > form input,
-.join-form > form button {
-	margin: 2px 0; /* 위아래 여백 설정 */
-	width: 70%;
+.input-group label {
+    display: block;
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
 
 .join-form input {
-	background-color: #EAEAEA;
-	border: none;
-/* 	height: 40px; */
-	height: 7%;
-	width: 20%;
-	padding: 5px;
-	border-radius: 10px;
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fcfcfc;
+    font-size: 15px;
+    color: #333333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    appearance: none;
 }
 
-.join-form-links {
-	padding-top: 10px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 80%;
+.join-form input::placeholder {
+    color: #b0b0b0;
 }
 
-.join-form-links a {
-	margin-right: 10px;
+.join-form input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+    outline: none;
+}
+
+.email-verification-group .email-input-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.email-verification-group input {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+.btn-verify-email {
+    background-color: #6c757d;
+    color: #ffffff;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+    height: 42px;
+    line-height: 18px;
+}
+
+.btn-verify-email:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+.btn-submit {
+    background-color: #4a90e2;
+    color: #ffffff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 25px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background-color: #357bd8;
+}
+
+.btn-submit:disabled,
+.btn-verify-email:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 .mail-Check-Box {
-	display: none;	
+    width: 100%;
+    display: none; /* 초기에는 숨김 */
+}
+
+.mail-Check-Box label {
+    display: block;
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.verification-message {
+    display: block;
+    text-align: left;
+    font-size: 13px;
+    margin-top: 5px;
+    padding-left: 5px;
 }
 
 .mailCheckSuccess {
-	color: green;
+    color: #28a745;
 }
 
 .mailCheckFail {
-	color: red;
+    color: #dc3545;
+}
+
+.form-links {
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
+}
+
+.form-links a {
+    color: #666666;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.form-links a:hover {
+    color: #4a90e2;
+    text-decoration: underline;
 }
 
 /* 프로필 이미지 스타일
@@ -229,14 +319,98 @@ body {
 	text-align: center;
 }
 
-@media (max-width: 480px) {
-    .login-form {
-        width: 80vw;  
-        height: 50vh; 
-    }
+/* @media (max-width: 480px) { */
+/*     .login-form { */
+/*         width: 80vw;   */
+/*         height: 50vh;  */
+/*     } */
     
-    .join-form > form input,
-	.join-form > form button {
-		width: 20%;
-	}
+/*     .join-form > form input, */
+/* 	.join-form > form button { */
+/* 		width: 20%; */
+/* 	} */
+/* } */
+@media (max-width: 768px) {
+	.header-div {
+        padding: 20px 0; /* 패딩 조정 */
+    }
+    .header-logo img {
+        max-width: 120px; /* 로고 크기 조정 */
+    }
+    .join-background {
+        padding: 0 15px 15px 15px; /* 패딩 조정 */
+    }
+    .join-card {
+        margin: 0; /* 모바일에서 margin 제거 */
+    }
+    .join-title {
+        font-size: 24px;
+    }
+
+    .join-subtitle {
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .input-group {
+        margin-bottom: 18px;
+    }
+
+    .join-form input {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .btn-verify-email {
+        padding: 10px 15px;
+        font-size: 13px;
+        height: 38px;
+        line-height: 18px;
+    }
+
+    .btn-submit {
+        padding: 13px 20px;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .form-links {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+	.header-div {
+        padding: 15px 0; /* 패딩 조정 */
+    }
+    .header-logo img {
+        max-width: 100px; /* 로고 크기 조정 */
+    }
+    .join-background {
+        padding: 0 10px 10px 10px; /* 패딩 조정 */
+    }
+    .join-card {
+        padding: 25px 20px;
+    }
+
+    .join-title {
+        font-size: 22px;
+    }
+
+    .join-subtitle {
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .input-group label,
+    .form-links a {
+        font-size: 13px;
+    }
+
+    .join-form input,
+    .btn-verify-email,
+    .btn-submit {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
 }
