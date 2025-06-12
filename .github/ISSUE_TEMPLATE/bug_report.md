@@ -1,4 +1,5 @@
 ---
+name: bug report
 about: 버그 발견 시 작성
 title: "[BUG] 제목"
 labels: 버그
