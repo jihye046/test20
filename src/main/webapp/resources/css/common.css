@@ -872,7 +872,7 @@ body.dark .logo img {
     position: fixed;
     bottom: 40px;
     right: 40px;
-    z-index: 1000;
+    z-index: 999;
 }
 
 .chat-icon {

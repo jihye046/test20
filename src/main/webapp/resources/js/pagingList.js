@@ -5,9 +5,57 @@ if(createResult == "true") {
 	alert("게시글이 등록되었습니다.")
 }
 
+/* 자동 팝업
+================================================== */
+	// 로컬스토리지에 팝업 숨김 만료 시간 저장 또는 삭제
+const updatePopupHideTime = (hideForDayCheckbox) => {
+	if(hideForDayCheckbox.checked) {
+		const expireTime = Date.now() + 24 * 60 * 60 * 1000 // 24시간 후
+		localStorage.setItem('hidePopupUntil', expireTime.toString())
+	} else {
+		localStorage.removeItem('hidePopupUntil')
+	}
+	popup.classList.remove('active')
+}
+
+	// 자동 팝업 표시 및 닫기
+const showAutoPopup = () => {
+	const popup = document.querySelector("#popup")
+	const popupCloseBtn = document.querySelector("#closePopup")
+	const hideForDayCheckbox = document.querySelector("#hideForDay")
+	const hideUntil = localStorage.getItem('hidePopupUntil')
+	const now = Date.now()
+
+	// 팝업 표시
+	// 로컬스토리지에 저장된 시간이 있고, 현재 시간이 만료시간보다 작으면 팝업 숨김
+	if(hideUntil && now < Number(hideUntil)){
+		popup.classList.remove('active')
+	} else {
+		setTimeout(() => {
+			popup.classList.add('active')
+		}, 500)
+	}
+
+	// 팝업 닫기
+	if(popup && popupCloseBtn) {
+		// 닫기 버튼 클릭 시
+		popupCloseBtn.addEventListener('click', () => {
+			updatePopupHideTime(hideForDayCheckbox)
+		})
+
+		// 팝업 배경 클릭 시
+		popup.addEventListener('click', (event) => {
+			if(event.target == popup) {
+				updatePopupHideTime(hideForDayCheckbox)
+				popup.classList.remove('active')
+			}
+		})
+	}
+}
+
+
 /* 주요 날씨에 따라 메인 설정
 ================================================== */
-
 	// 위도, 경도 가져오기
 const weatherLocation = (position) => {
 	const locationObj = {
@@ -289,5 +337,6 @@ const updateBoardCards = () => {
 
 /* 페이지 로드 시 실행될 함수
 ================================================== */
+showAutoPopup()
 updateBoardCards()
 getCurrentLocationAndFetchWeather()
