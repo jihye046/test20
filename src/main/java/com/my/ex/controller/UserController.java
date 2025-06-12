@@ -82,9 +82,9 @@ public class UserController {
 	public String join(UserDto dto, RedirectAttributes rttr, HttpSession session) {
 		boolean joinResult = service.join(dto);
 		if(joinResult) {
-			session.setAttribute("userId", dto.getUserId());
+			rttr.addFlashAttribute("userId", dto.getUserId());
+			rttr.addFlashAttribute("joinResult", true);
 		}
-		rttr.addFlashAttribute("joinResult", true);
 		return "redirect:loginPage";
 	}
 
