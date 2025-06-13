@@ -4,27 +4,23 @@
 <link href="../../../resources/css/loginPage.css" rel="styleSheet">
 </head>
 <body>
-	<div class="row header-div" style="background-color: #EAEAEA">
-		<div class="col-md-12 header-logo">
-			<a href="/">
-				<img alt="logo" src="../../../resources/images/logo2.png">
-			</a>
-		</div>
-	</div>
 	<main>
 		<div class="login-background">
 			<div class="login-form">
 				<form action="/user/login" method="post">
-					<p class="logo-title">HomeTalk</p>
+					<a href="/">
+						<img class="logo-image" alt="logo" src="../../../resources/images/logo2.png">
+					</a>
 					<input type="text" value="${empty userId ? '' : userId}" name="userId" placeholder="아이디"><br>
 					<input type="password" name="userPw" placeholder="비밀번호"><br>
 					<button class="btn btn-block btn-outline-secondary" type="submit">Sign In</button>
 					<div class="login-form-links">
-						<a href="/user/joinPage">회원가입</a>
-						<a href="#">비밀번호찾기</a>
+							<a href="/user/joinPage">회원가입</a>
+							<a href="#">아이디찾기</a>
+							<a href="#">비밀번호찾기</a>
 					</div>
 				</form><br>
-				<span style="color: gray;">다른 계정으로 로그인하기</span>
+				<span>다른 계정으로 로그인하기</span>
 				<div class="social-button">
 					<a href="/social/naverLogin">
 						<img class="social-login-logo" id="naverLogin" alt="naverLogin" src="../../../resources/images/btnG_Squareicon.png">
