@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<link href="../../../resources/css/detailPage.css" rel="styleSheet">
+<!-- <link href="../../../resources/css/detailPage.css" rel="styleSheet"> -->
 <link href="../../../resources/css/myPage.css" rel="styleSheet">
 <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
 </head>
@@ -13,25 +13,15 @@
 			<div class="col-md-2"></div>
 			<div class="col-md-8 detailPage-main">
 				<div class="myPage-title">
-					<h3>마이페이지</h3>
+					<h1>마이페이지</h1>
+					<p class="page-desc">대표 프로필과 비밀번호를 수정하실 수 있습니다.</p>
 				</div>
-				<div class="mypage-links">
-					<div class="mypage-link">
-						<a href="/user/updateProfileForm">프로필 수정</a>
-					</div>
-					<div class="mypage-link">
-						<a href="/user/changePasswordForm">비밀번호 변경</a>
-					</div>
+	
+				<div class="mypage-links card-area">
 					<div class="mypage-link">
 						<a href="/user/getUserPosts">
 							<i class="fa-regular fa-pen-to-square"></i>
-							내가 작성한 게시글
-						</a>
-					</div>
-					<div class="mypage-link">
-						<a href="/user/getUserComments">
-							<i class="fa-regular fa-comment"></i>
-							내가 작성한 댓글
+							작성한 게시글
 						</a>
 					</div>
 					<div class="mypage-link">
@@ -40,11 +30,21 @@
 							좋아요한 게시글
 						</a>
 					</div>
-<!-- 					<div class="mypage-link"> -->
-<!-- 						<a href="javascript:void(0)" onclick="openChatWindow();"> -->
-<!-- 						   1:1 채팅상담 -->
-<!-- 						</a> -->
-<!-- 					</div> -->
+					<div class="mypage-link">
+						<a href="/user/getUserComments">
+							<i class="fa-regular fa-comment"></i>
+							작성한 댓글
+						</a>
+					</div>
+				</div>
+	
+				<div class="mypage-links settings-area">
+					<div class="mypage-link">
+						<a href="/user/updateProfileForm">프로필 수정</a>
+					</div>
+					<div class="mypage-link">
+						<a href="/user/changePasswordForm">비밀번호 변경</a>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-2"></div>
