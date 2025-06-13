@@ -1,20 +1,93 @@
-.myPage-title {
-	padding-left: 19px;
+/* 최상단
+================================================== */
+.detailPage-main {
+	min-height: 400px;
 }
 
+/* 타이틀
+================================================== */
+.myPage-title {
+	color: #111827;
+  	margin: 3.0rem 0rem;
+}
+	
+	/* h1 타이틀 */
+.myPage-title h1 {
+	font-size: 2.3rem;
+  	text-align: left;
+}
+
+	/* 설명 타이틀 */
+.page-desc {
+	color: #6B7280;
+  	font-size: 0.95rem;
+  	margin-top: 0.25rem;
+}
+
+/* 큰 카드 스타일
+================================================== */
 .mypage-links {
 	padding-top: 50px;
+  	background-color: #fff;
+  	border: 1px solid #E5E7EB;
+  	border-radius: 0.75rem;
+  	padding: 2rem;
+  	display: flex;
+  	justify-content: space-around;
+  	align-items: center;
+  	margin-bottom: 2rem;
+  	box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.mypage-link {
-	padding: 10px 0px;
+	/* 각 링크 항목 (공통) */
+.mypage-link a {
+	display: flex;
+	flex-direction: column;
+	gap: 1.0rem;
+	color: #111827;
+  	text-decoration: none;
+  	font-weight: 500;
+  	font-size: 0.95rem;
+  	display: flex;
+  	align-items: center;
+  	transition: color 0.2s ease;
 }
 
-a {
-	color: black;
+	/* 아이콘 */
+.mypage-link i {
+	margin-right: 0.5rem;
+  	font-size: 1.1rem;
 }
 
-.fa {
-	padding-right: 4px;
+	/* 카테고리별 아이콘 색상 */
+.card-area .mypage-link:nth-child(1) i {
+	color: #6366F1;
 }
 
+.card-area .mypage-link:nth-child(2) i {
+	color: #EF4444;
+}
+
+.card-area .mypage-link:nth-child(3) i {
+	color: #0EA5E9;
+}
+
+	/* 텍스트 선택 시 hover */
+.mypage-link a:hover,
+.settings-area .mypage-link a:hover {
+	color: #6366F1;
+}
+
+	/* 프로필 수정, 비밀번호 변경 */
+.settings-area {
+	padding: 1rem 2rem;
+}
+
+.settings-area .mypage-link {
+	padding: 10px 0;
+}
+
+.settings-area .mypage-link a {
+	color: #6B7280;
+	font-size: 0.9rem;
+}
