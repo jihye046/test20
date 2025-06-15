@@ -24,6 +24,25 @@
 		 	)
 	</insert>
 	
+	<select id="existsByTagName" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_tag6
+		 WHERE tagName = #{tagName}
+	</select>
+	
+	<insert id="createTag">
+		INSERT INTO mvc_tag6
+			(
+			tagId,
+			tagName
+			)
+		VALUES
+			(
+			seq_mvc_tag6.nextval,
+			#{tagName}
+			)
+	</insert>
+	
 	<select id="findAll" resultType="BoardDto">
 		SELECT *
 		  FROM mvc_board6

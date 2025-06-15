@@ -11,6 +11,7 @@ import com.my.ex.dao.BoardDao;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.CommentsPagingDto;
+import com.my.ex.dto.TagDto;
 
 @Service
 public class BoardService implements IBoardService {
@@ -243,6 +244,21 @@ public class BoardService implements IBoardService {
 	@Override
 	public boolean updateCommentStep(Map<String, Integer> map) {
 		return dao.updateCommentStep(map) > 0;
+	}
+
+	@Override
+	public void createTag(List<TagDto> tags) {
+		for(TagDto tag : tags) {
+			if(!existsByTagName(tag.getTagName())) { // 새로 등록할 태그가 중복이 아닌 경우만 등록
+				dao.createTag(tag.getTagName());
+			}
+		}
+	}
+
+	@Override
+	public boolean existsByTagName(String tagName) {
+		int result = dao.existsByTagName(tagName);
+		return result > 0; 
 	}
 
 }

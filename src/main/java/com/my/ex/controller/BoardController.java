@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.CommentsListResponse;
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
@@ -39,6 +44,7 @@ import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.BookmarkDto;
 import com.my.ex.dto.CommentsPagingDto;
 import com.my.ex.dto.LikeDto;
+import com.my.ex.dto.TagDto;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
 import com.my.ex.service.BookmarkService;
@@ -73,14 +79,31 @@ public class BoardController {
 	
 	// 게시글 등록
 	@RequestMapping(value = "/createBoard", method = RequestMethod.POST )
-	public String createBoard(BoardDto dto, RedirectAttributes rttr) {
+	public void createBoard(BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(dto.getTags());
+//		String jsonArrayStr = mapper.readValue(dto.getTags(), String.class);
+//		List<TagDto> tags = mapper.readValue(jsonArrayStr, new TypeReference<List<TagDto>>() {});
+		
+		if(dto.getTags() == null || dto.getTags().trim().isEmpty() || dto.getTags().equals("")) {
+			System.out.println("error");
+		} else {
+			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
+			service.createTag(tags);
+		}
+		
+		
+		
+		/*
 		boolean create = service.createBoard(dto);
 		String result = "false";
 		
 		if(create) result = "true";
 		rttr.addFlashAttribute("createResult", result);
 		return "redirect:paging";
+		*/
 	}
+	
 	
 	// 게시글 상세보기
 	@RequestMapping("/detailBoard")

@@ -8,6 +8,11 @@ import com.my.ex.dto.BoardDto;
 
 public interface IBoardDao {
 	int createBoard(BoardDto dto);
+	
+	// 태그
+	void createTag(String tagName);
+	int existsByTagName(String tagName);
+	
 	List<BoardDto> findAll();
 	BoardDto detailBoard(int bId);
 	int updateBoard(BoardDto dto);

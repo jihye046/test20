@@ -6,9 +6,15 @@ import java.util.Map;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.CommentsPagingDto;
+import com.my.ex.dto.TagDto;
 
 public interface IBoardService {
 	boolean createBoard(BoardDto dto);
+	
+	// 태그
+	void createTag(List<TagDto> tags);
+	boolean existsByTagName(String tagName);
+	
 	List<BoardDto> findAll();
 	BoardDto detailBoard(int bId);
 	boolean updateBoard(BoardDto dto);

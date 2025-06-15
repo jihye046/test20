@@ -2,8 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/createPage.css" rel="styleSheet">
+
+<!-- tagify -->
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
+
 <!-- 주소 검색 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -25,6 +31,9 @@
 								<input type="button" class="address-search-btn" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
 							
+							<!-- 태그 -->
+							<input id="tagInput" placeholder="태그는 다섯개까지만 가능합니다." >
+							<input id="tagValue" type="hidden" name="tags">
 							<button class="btn btn-outline-info" type="submit">등록</button>
 						</form>
 					</div>

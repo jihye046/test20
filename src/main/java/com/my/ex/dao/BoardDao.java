@@ -183,4 +183,14 @@ public class BoardDao implements IBoardDao {
 		return session.update(NAMESPACE + "updateCommentStep", map);
 	}
 
+	@Override
+	public void createTag(String tagName) {
+		session.insert("createTag", tagName);
+	}
+
+	@Override
+	public int existsByTagName(String tagName) {
+		return session.selectOne("existsByTagName", tagName);
+	}
+
 }
