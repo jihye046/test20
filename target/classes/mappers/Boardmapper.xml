@@ -4,6 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.my.ex.BoardMapper">
 	<insert id="createBoard" parameterType="BoardDto">
+		<selectKey keyProperty="bId" resultType="Integer" order="BEFORE">
+			SELECT seq_mvc_board6.NEXTVAL 
+			  FROM dual
+		</selectKey>
 		INSERT INTO mvc_board6
 			(
 			bId,
@@ -15,7 +19,7 @@
 			)
 		VALUES
 			(
-			seq_mvc_board6.nextval,
+			#{bId},
 			#{bName},
 			#{bTitle},
 			#{bContent}, 
@@ -30,7 +34,11 @@
 		 WHERE tagName = #{tagName}
 	</select>
 	
-	<insert id="createTag">
+	<insert id="createTag" parameterType="TagDto">
+		<selectKey keyProperty="tagId" resultType="Integer" order="BEFORE">
+			SELECT seq_mvc_tag6.NEXTVAL 
+			  FROM dual
+		</selectKey>
 		INSERT INTO mvc_tag6
 			(
 			tagId,
@@ -38,10 +46,36 @@
 			)
 		VALUES
 			(
-			seq_mvc_tag6.nextval,
+			#{tagId},
 			#{tagName}
 			)
 	</insert>
+	
+	<insert id="addTagToPost" parameterType="PostTagDto">
+		INSERT INTO mvc_post_tags
+			(
+			bId,
+			tagId
+			)
+		VALUES
+			(
+			#{bId},
+			#{tagId}
+			)
+	</insert>
+	
+	<select id="findTagsByPostId" resultType="TagDto">
+		SELECT tagName
+		  FROM mvc_post_tags pt
+	  	  JOIN mvc_tag6 t ON pt.tagId = t.tagId
+		 WHERE bId = #{bId}
+	</select>
+	
+	<select id="findTagIdByName" resultType="Integer">
+		SELECT tagId
+		  FROM mvc_tag6
+		 WHERE tagName = #{tagName}
+	</select>
 	
 	<select id="findAll" resultType="BoardDto">
 		SELECT *

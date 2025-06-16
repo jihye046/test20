@@ -11,9 +11,6 @@ import com.my.ex.dto.TagDto;
 public interface IBoardService {
 	boolean createBoard(BoardDto dto);
 	
-	// 태그
-	void createTag(List<TagDto> tags);
-	boolean existsByTagName(String tagName);
 	
 	List<BoardDto> findAll();
 	BoardDto detailBoard(int bId);
@@ -24,6 +21,11 @@ public interface IBoardService {
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
 	int commentsCount(int bGroup);
+	
+	// 태그
+	void createTag(int bId, List<TagDto> tags);
+	boolean existsByTagName(String tagName);
+	List<TagDto> findTagsByPostId(int bId);
 	
 	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);

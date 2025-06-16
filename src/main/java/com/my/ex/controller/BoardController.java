@@ -79,29 +79,19 @@ public class BoardController {
 	
 	// 게시글 등록
 	@RequestMapping(value = "/createBoard", method = RequestMethod.POST )
-	public void createBoard(BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(dto.getTags());
-//		String jsonArrayStr = mapper.readValue(dto.getTags(), String.class);
-//		List<TagDto> tags = mapper.readValue(jsonArrayStr, new TypeReference<List<TagDto>>() {});
+	public String createBoard(BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
+		// 게시글 생성
+		boolean create = service.createBoard(dto);
+		rttr.addFlashAttribute("createResult", create ? "true" : "false");
 		
-		if(dto.getTags() == null || dto.getTags().trim().isEmpty() || dto.getTags().equals("")) {
-			System.out.println("error");
-		} else {
+		// 태그 생성
+		ObjectMapper mapper = new ObjectMapper();
+		if(dto.getTags() != null && dto.getTags() != "") {
 			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
-			service.createTag(tags);
+			service.createTag(dto.getbId(), tags);
 		}
 		
-		
-		
-		/*
-		boolean create = service.createBoard(dto);
-		String result = "false";
-		
-		if(create) result = "true";
-		rttr.addFlashAttribute("createResult", result);
 		return "redirect:paging";
-		*/
 	}
 	
 	
@@ -121,12 +111,14 @@ public class BoardController {
 		updateHitCount(bId);
 		String filename = userService.getProfileFilename(userId);
 		String imageUrl = "/user/getProfileImage/" + filename;
+		List<TagDto> tagList = service.findTagsByPostId(bId);
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
 		model.addAttribute("imageUrl", imageUrl);
 		model.addAttribute("jsKey", kakao.getJsKey());
+		model.addAttribute("tagList", tagList);
 		return "/board/detailPage";
 	}
 	
@@ -134,7 +126,10 @@ public class BoardController {
 	@RequestMapping("/updatePage")
 	public String updatePage(@RequestParam("bId") int bId, Model model) {
 		BoardDto dto = service.detailBoard(bId);
+		List<TagDto> tagList = service.findTagsByPostId(bId);
+		
 		model.addAttribute("dto", dto);
+		model.addAttribute("tagList", tagList);
 		return "/board/updatePage";
 	}
 	

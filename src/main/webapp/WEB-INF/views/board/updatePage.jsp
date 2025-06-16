@@ -3,6 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/updatePage.css" rel="styleSheet">
+
+<!-- tagify -->
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
 <!-- 주소 검색 -->
@@ -25,11 +30,14 @@
 			                	* 제목 <input type="text" name="bTitle" value="${dto.bTitle}">
 			                </div>
 			                <textarea rows="10" cols="40" name="bContent" id="editor">${dto.bContent}</textarea>
-			                <!-- map -->
+			                <!-- 주소 검색 -->
 							<div class="search-box">
 								<input type="text" id="inputAdd" name="bAddress" value="${dto.bAddress}" readonly>
 								<input type="button" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
+							
+							<!-- 태그 -->
+							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
 			                <button class="btn btn-outline-info" type="submit" id="updateBtn">완료</button>
 			            </form>
 		            </div>
@@ -38,7 +46,9 @@
         </div>
     </main>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
-	<script src="../../../resources/js/uploadAdapter.js"></script>
-	<script src="../../../resources/js/updatePage.js"></script>
 </body>
+<div id="tagList" data-tagList="${tagList}"></div>
+
+<script src="../../../resources/js/uploadAdapter.js"></script>
+<script src="../../../resources/js/updatePage.js"></script>
 </html>

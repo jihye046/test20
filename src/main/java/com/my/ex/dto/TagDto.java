@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class TagDto {
-	int tagId;
+	private int tagId;
 	
 	@JsonProperty("value")
-	String tagName;
+	private String tagName;
 }

@@ -33,13 +33,9 @@ const searchedAdd = () => {
 /* 태그 입력창
 ================================================== */
 const tagInput = document.querySelector("#tagInput") // 실제 태그 입력창
-const tagValue = document.querySelector("#tagValue") // 서버로 전송할 태그
-
-document.querySelector('form').addEventListener('submit', () => {
-  const tagData = tagInput.value
-  tagValue.value = JSON.stringify(tagData)
-  console.log(tagValue.value) 
-})
+/* 
+const tagJsonInput = document.querySelector("#tagJsonInput") // 서버로 전송할 태그
+*/
 
 const tagify = new Tagify(tagInput, {
   // 드롭다운 자동완성
@@ -58,3 +54,4 @@ const tagify = new Tagify(tagInput, {
 //   console.log(Array.isArray(e.detail.value))
 // })
 tagify.addTags(["a"])
+

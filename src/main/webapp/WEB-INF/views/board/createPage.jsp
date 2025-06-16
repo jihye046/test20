@@ -25,15 +25,14 @@
 							<input class="bTitleInput" type="text" size="100" name="bTitle" placeholder="제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
 							
-							<!-- map -->
+							<!-- 주소 검색 -->
 							<div class="search-box">
 								<input type="text" id="inputAdd" name="bAddress" placeholder="주소" readonly>
 								<input type="button" class="address-search-btn" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
 							
 							<!-- 태그 -->
-							<input id="tagInput" placeholder="태그는 다섯개까지만 가능합니다." >
-							<input id="tagValue" type="hidden" name="tags">
+							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
 							<button class="btn btn-outline-info" type="submit">등록</button>
 						</form>
 					</div>

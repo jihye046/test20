@@ -56,6 +56,13 @@
 						<div id="mapView" data-bAddress="${dto.bAddress}"></div>
 						<div id="addressInfo"></div>
 					</div>
+					
+					<!-- 태그 표시 -->
+					<div>
+						<c:forEach items="${tagList}" var="tag">
+							<span>${tag.tagName}</span>
+						</c:forEach>
+					</div>
 
 					<div class="post-meta-div">
 						<dl class="post-meta-dl">
