@@ -1236,3 +1236,9 @@ body.dark .logo img {
 #chatList .msg img {
 	height: 100px;
 }
+
+/* 데이터 전달용 <div> 숨기기
+================================================== */
+.hideen-data {
+	display: none;
+}

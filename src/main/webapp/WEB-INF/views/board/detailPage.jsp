@@ -264,14 +264,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.0/dist/jquery.fancybox.min.js"></script>	
 </body>
 
-<div id="updateResult" data-update-result="${updateResult}"></div>
-<div id="bId" data-bId="${dto.bId}"></div>
-<div id="bTitle" data-bTitle="${dto.bTitle}"></div>
-<div id="bContent" data-bContent='${dto.bContent}'></div>
-<div id="isLiked" data-isLiked="${isLiked}"></div>
-<div id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
-<div id="userNickname" data-userId="${sessionScope.userNickname}"></div>
-<div id="userId" data-userId="${sessionScope.userId}"></div>
+<div class="hideen-data" id="updateResult" data-update-result="${updateResult}"></div>
+<div class="hideen-data" id="bId" data-bId="${dto.bId}"></div>
+<div class="hideen-data" id="bTitle" data-bTitle="${dto.bTitle}"></div>
+<div class="hideen-data" id="bContent" data-bContent='${dto.bContent}'></div>
+<div class="hideen-data" id="isLiked" data-isLiked="${isLiked}"></div>
+<div class="hideen-data" id="isBookmarked" data-isBookmarked="${isBookmarked}"></div>
+<div class="hideen-data" id="userNickname" data-userId="${sessionScope.userNickname}"></div>
+<div class="hideen-data" id="userId" data-userId="${sessionScope.userId}"></div>
 
 <script src="../../../resources/js/common.js"></script>
 <script src="../../../resources/js/fixedButton.js"></script>

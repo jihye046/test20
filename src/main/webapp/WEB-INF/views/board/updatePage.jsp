@@ -18,23 +18,21 @@
     <%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
     <main>
         <div class="container">
-        	<div class="row">
+<!--         	<div class="row"> -->
         		<div class="col-md-2"></div>
         			<div class="col-md-8 updatePage-main">
-			            <form action="/board/updateBoard" method="post" class="update-form"> <!-- 수정된 부분 -->
+			            <form class="update-form" action="/board/updateBoard" method="post">
 			                <input type="hidden" name="bId" value="${dto.bId}">
 			                <input type="hidden" name="bGroup" value="${dto.bGroup}">
+			                <input type="hidden" name="bName" value="${dto.bName}">
 			                <div>
-			                	* 이름 <input type="text" name="bName" value="${dto.bName}" readonly>
-			                </div>
-			                <div>
-			                	* 제목 <input type="text" name="bTitle" value="${dto.bTitle}">
+			                	<input class="bTitleInput" type="text" size="100" name="bTitle" value="${dto.bTitle}">
 			                </div>
 			                <textarea rows="10" cols="40" name="bContent" id="editor">${dto.bContent}</textarea>
 			                <!-- 주소 검색 -->
 							<div class="search-box">
 								<input type="text" id="inputAdd" name="bAddress" value="${dto.bAddress}" readonly>
-								<input type="button" onclick="searchedAdd()" value="주소 검색"><br>
+								<input type="button" class="address-search-btn" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
 							
 							<!-- 태그 -->
@@ -46,7 +44,7 @@
             </div>
         </div>
     </main>
-	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
 </body>
 <div id="tagJsonList" data-tagJsonList="${fn:escapeXml(tagJsonList)}"></div>
 <div id="allTagJsonList" data-allTagJsonList="${fn:escapeXml(allTagJsonList)}"></div>
