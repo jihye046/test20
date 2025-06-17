@@ -137,9 +137,10 @@ public class BoardController {
 		BoardDto dto = service.detailBoard(bId);
 		model.addAttribute("dto", dto);
 		
+		ObjectMapper mapper = new ObjectMapper();
+		
 		// 게시글에 등록되어있던 태그 목록
 		List<TagDto> tagList = service.findTagsByPostId(bId);
-		ObjectMapper mapper = new ObjectMapper();
 		String tagJsonList = mapper.writeValueAsString(tagList);
 		model.addAttribute("tagJsonList", tagJsonList);
 		
