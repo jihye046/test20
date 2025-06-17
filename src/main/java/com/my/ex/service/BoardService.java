@@ -277,4 +277,25 @@ public class BoardService implements IBoardService {
 		return dao.findTagsByPostId(bId);
 	}
 
+	@Override
+	public void updateTag(int bId, List<TagDto> tags) {
+		dao.deleteTagsByPostId(bId);
+		
+		for(TagDto tag : tags) {
+			int tagId;
+			
+			if(!existsByTagName(tag.getTagName())) { // 새로 등록할 태그가 중복이 아닌 경우만 등록
+				dao.createTag(tag);
+				tagId = tag.getTagId();
+			} else {
+				tagId = dao.findTagIdByName(tag.getTagName());
+			}
+			
+			PostTagDto postTagDto = new PostTagDto();
+			postTagDto.setBId(bId);
+			postTagDto.setTagId(tagId);
+			dao.addTagToPost(postTagDto);
+		}
+	}
+
 }

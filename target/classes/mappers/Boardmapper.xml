@@ -77,6 +77,11 @@
 		 WHERE tagName = #{tagName}
 	</select>
 	
+	<delete id="deleteTagsByPostId">
+		DELETE FROM mvc_post_tags
+		 WHERE bId = #{bId}
+	</delete>
+	
 	<select id="findAll" resultType="BoardDto">
 		SELECT *
 		  FROM mvc_board6

@@ -46,6 +46,6 @@ const tagify = new Tagify(tagInput, {
   whitelist: ["a", "aa", "b", "bb", "ccc"]
 })
 
-const tagList = document.querySelector("#tagList")
-console.log(tagList)
-// tagify.addTags(["a"])
+const tagJsonStr = document.querySelector("#tagJsonList").getAttribute("data-tagJsonList")
+const tagList = JSON.parse(tagJsonStr)
+tagify.addTags(tagList)

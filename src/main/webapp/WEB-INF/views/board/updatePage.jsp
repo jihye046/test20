@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/updatePage.css" rel="styleSheet">
 
@@ -47,7 +48,7 @@
     </main>
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
-<div id="tagList" data-tagList="${tagList}"></div>
+<div id="tagJsonList" data-tagJsonList="${fn:escapeXml(tagJsonList)}"></div>
 
 <script src="../../../resources/js/uploadAdapter.js"></script>
 <script src="../../../resources/js/updatePage.js"></script>

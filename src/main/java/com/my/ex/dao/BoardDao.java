@@ -210,4 +210,9 @@ public class BoardDao implements IBoardDao {
 		return session.selectOne(NAMESPACE + "findTagIdByName", tagName);
 	}
 
+	@Override
+	public void deleteTagsByPostId(int bId) {
+		session.delete(NAMESPACE + "deleteTagsByPostId", bId);
+	}
+
 }

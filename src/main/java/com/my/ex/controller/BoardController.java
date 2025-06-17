@@ -34,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -124,22 +125,35 @@ public class BoardController {
 	
 	// 게시글 수정 페이지
 	@RequestMapping("/updatePage")
-	public String updatePage(@RequestParam("bId") int bId, Model model) {
+	public String updatePage(@RequestParam("bId") int bId, Model model) throws JsonProcessingException {
+		// 게시글
 		BoardDto dto = service.detailBoard(bId);
+		
+		// 태그
 		List<TagDto> tagList = service.findTagsByPostId(bId);
+		ObjectMapper mapper = new ObjectMapper();
+		String tagJsonList = mapper.writeValueAsString(tagList);
 		
 		model.addAttribute("dto", dto);
-		model.addAttribute("tagList", tagList);
+		model.addAttribute("tagJsonList", tagJsonList);
 		return "/board/updatePage";
 	}
 	
 	// 게시글 수정
 	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
-	public String updateBoard(HttpServletRequest request, @ModelAttribute BoardDto dto, RedirectAttributes rttr) {
+	public String updateBoard(HttpServletRequest request, @ModelAttribute BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
+		// 게시글 수정
 		boolean update = service.updateBoard(dto);
-		String result = "false";
-		if(update) result = "true";
-		rttr.addFlashAttribute("updateResult", result);
+		rttr.addFlashAttribute("updateResult", update ? "true" : "false");
+		
+		// 태그 수정
+		ObjectMapper mapper = new ObjectMapper();
+		if(dto.getTags() != null && dto.getTags() != "") {
+			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
+			service.updateTag(dto.getbId(), tags);
+		}
+		
+		
 		return "redirect:detailBoard?bId=" + dto.getbId() + "&bGroup=" + dto.getbGroup();
 	}
 	
@@ -205,7 +219,6 @@ public class BoardController {
 		response.put("bookmarkCount", bookmarkCount);
 		return response;
 	}
-	
 	
 	// 게시글 북마크 해제
 	@ResponseBody

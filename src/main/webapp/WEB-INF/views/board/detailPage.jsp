@@ -58,9 +58,9 @@
 					</div>
 					
 					<!-- 태그 표시 -->
-					<div>
+					<div class="tag-list">
 						<c:forEach items="${tagList}" var="tag">
-							<span>${tag.tagName}</span>
+							<a href="#" class="tag-item"># ${tag.tagName}</a>
 						</c:forEach>
 					</div>
 
