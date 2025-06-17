@@ -49,6 +49,7 @@
 	<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 </body>
 <div id="tagJsonList" data-tagJsonList="${fn:escapeXml(tagJsonList)}"></div>
+<div id="allTagJsonList" data-allTagJsonList="${fn:escapeXml(allTagJsonList)}"></div>
 
 <script src="../../../resources/js/uploadAdapter.js"></script>
 <script src="../../../resources/js/updatePage.js"></script>

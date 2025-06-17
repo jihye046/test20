@@ -215,4 +215,9 @@ public class BoardDao implements IBoardDao {
 		session.delete(NAMESPACE + "deleteTagsByPostId", bId);
 	}
 
+	@Override
+	public List<TagDto> getAllTags() {
+		return session.selectList(NAMESPACE + "getAllTags");
+	}
+
 }

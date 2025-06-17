@@ -82,6 +82,11 @@
 		 WHERE bId = #{bId}
 	</delete>
 	
+	<select id="getAllTags" resultType="TagDto">
+		SELECT *
+		  FROM mvc_tag6
+	</select>
+	
 	<select id="findAll" resultType="BoardDto">
 		SELECT *
 		  FROM mvc_board6

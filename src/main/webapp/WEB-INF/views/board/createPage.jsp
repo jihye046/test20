@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link href="../../../resources/css/createPage.css" rel="styleSheet">
 
 <!-- tagify -->
@@ -41,6 +42,7 @@
 		</div>
 	</main>
 <%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
+	<div id="allTagJsonList" data-allTagJsonList="${fn:escapeXml(allTagJsonList)}"></div>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
 </body>

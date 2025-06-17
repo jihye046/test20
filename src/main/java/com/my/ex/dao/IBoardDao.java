@@ -25,6 +25,7 @@ public interface IBoardDao {
 	List<TagDto> findTagsByPostId(int bId);
 	int findTagIdByName(String tagName);
 	void deleteTagsByPostId(int bId);
+	List<TagDto> getAllTags();
 	
 	// 게시글 좋아요
 	int incrementLikesCount(int bId); 

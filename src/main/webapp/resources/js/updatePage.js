@@ -33,8 +33,12 @@ const searchedAdd = () => {
 /* 태그 입력창
 ================================================== */
 const tagInput = document.querySelector("#tagInput") // 실제 태그 입력창
+const allTagJsonStr = document.querySelector("#allTagJsonList").getAttribute("data-allTagJsonList")
+const allTagList = JSON.parse(allTagJsonStr)
+
 const tagify = new Tagify(tagInput, {
-  // 드롭다운 자동완성
+  maxTags: 5,
+  // 드롭다운 자동완성 글자 수
   dropdown: {
     enabled: 1,
   },
@@ -43,9 +47,10 @@ const tagify = new Tagify(tagInput, {
     enabled: false
   },
   // 자동완성 목록
-  whitelist: ["a", "aa", "b", "bb", "ccc"]
+  whitelist: allTagList
 })
 
+// 등록되어 있던 태그로 초기화
 const tagJsonStr = document.querySelector("#tagJsonList").getAttribute("data-tagJsonList")
 const tagList = JSON.parse(tagJsonStr)
 tagify.addTags(tagList)

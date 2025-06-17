@@ -73,8 +73,15 @@ public class BoardController {
 	
 	// 게시글 등록 페이지
 	@RequestMapping("/createPage")
-	public String createPage(Model model) {
+	public String createPage(Model model) throws JsonProcessingException {
 		model.addAttribute("jsKey", kakao.getJsKey());
+		
+		// 자동완성 태그 목록
+		List<TagDto> allTagList = service.getAllTags();
+		ObjectMapper mapper = new ObjectMapper();
+		String allTagJsonList = mapper.writeValueAsString(allTagList);
+		model.addAttribute("allTagJsonList", allTagJsonList);
+		
 		return "/board/createPage";
 	}
 	
@@ -128,14 +135,19 @@ public class BoardController {
 	public String updatePage(@RequestParam("bId") int bId, Model model) throws JsonProcessingException {
 		// 게시글
 		BoardDto dto = service.detailBoard(bId);
+		model.addAttribute("dto", dto);
 		
-		// 태그
+		// 게시글에 등록되어있던 태그 목록
 		List<TagDto> tagList = service.findTagsByPostId(bId);
 		ObjectMapper mapper = new ObjectMapper();
 		String tagJsonList = mapper.writeValueAsString(tagList);
-		
-		model.addAttribute("dto", dto);
 		model.addAttribute("tagJsonList", tagJsonList);
+		
+		// 자동완성 태그 목록
+		List<TagDto> allTagList = service.getAllTags();
+		String allTagJsonList = mapper.writeValueAsString(allTagList);
+		model.addAttribute("allTagJsonList", allTagJsonList);
+		
 		return "/board/updatePage";
 	}
 	
@@ -152,7 +164,6 @@ public class BoardController {
 			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
 			service.updateTag(dto.getbId(), tags);
 		}
-		
 		
 		return "redirect:detailBoard?bId=" + dto.getbId() + "&bGroup=" + dto.getbGroup();
 	}

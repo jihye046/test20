@@ -27,6 +27,7 @@ public interface IBoardService {
 	boolean existsByTagName(String tagName);
 	List<TagDto> findTagsByPostId(int bId);
 	void updateTag(int bId, List<TagDto> tags);
+	List<TagDto> getAllTags();
 	
 	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);

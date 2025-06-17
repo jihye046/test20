@@ -298,4 +298,9 @@ public class BoardService implements IBoardService {
 		}
 	}
 
+	@Override
+	public List<TagDto> getAllTags() {
+		return dao.getAllTags();
+	}
+
 }
