@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.HtmlUtils;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.my.ex.CommentsListResponse;
 import com.my.ex.SortResponse;
 import com.my.ex.dto.BoardDto;
@@ -39,6 +45,7 @@ import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.BookmarkDto;
 import com.my.ex.dto.CommentsPagingDto;
 import com.my.ex.dto.LikeDto;
+import com.my.ex.dto.TagDto;
 import com.my.ex.dto.map.KakaoMapRequestDto;
 import com.my.ex.service.BoardService;
 import com.my.ex.service.BookmarkService;
@@ -66,21 +73,35 @@ public class BoardController {
 	
 	// 게시글 등록 페이지
 	@RequestMapping("/createPage")
-	public String createPage(Model model) {
+	public String createPage(Model model) throws JsonProcessingException {
 		model.addAttribute("jsKey", kakao.getJsKey());
+		
+		// 자동완성 태그 목록
+		List<TagDto> allTagList = service.getAllTags();
+		ObjectMapper mapper = new ObjectMapper();
+		String allTagJsonList = mapper.writeValueAsString(allTagList);
+		model.addAttribute("allTagJsonList", allTagJsonList);
+		
 		return "/board/createPage";
 	}
 	
 	// 게시글 등록
 	@RequestMapping(value = "/createBoard", method = RequestMethod.POST )
-	public String createBoard(BoardDto dto, RedirectAttributes rttr) {
+	public String createBoard(BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
+		// 게시글 생성
 		boolean create = service.createBoard(dto);
-		String result = "false";
+		rttr.addFlashAttribute("createResult", create ? "true" : "false");
 		
-		if(create) result = "true";
-		rttr.addFlashAttribute("createResult", result);
+		// 태그 생성
+		ObjectMapper mapper = new ObjectMapper();
+		if(dto.getTags() != null && dto.getTags() != "") {
+			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
+			service.createTag(dto.getbId(), tags);
+		}
+		
 		return "redirect:paging";
 	}
+	
 	
 	// 게시글 상세보기
 	@RequestMapping("/detailBoard")
@@ -98,30 +119,53 @@ public class BoardController {
 		updateHitCount(bId);
 		String filename = userService.getProfileFilename(userId);
 		String imageUrl = "/user/getProfileImage/" + filename;
+		List<TagDto> tagList = service.findTagsByPostId(bId);
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("isBookmarked", isBookmarked);
 		model.addAttribute("imageUrl", imageUrl);
 		model.addAttribute("jsKey", kakao.getJsKey());
+		model.addAttribute("tagList", tagList);
 		return "/board/detailPage";
 	}
 	
 	// 게시글 수정 페이지
 	@RequestMapping("/updatePage")
-	public String updatePage(@RequestParam("bId") int bId, Model model) {
+	public String updatePage(@RequestParam("bId") int bId, Model model) throws JsonProcessingException {
+		// 게시글
 		BoardDto dto = service.detailBoard(bId);
 		model.addAttribute("dto", dto);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		// 게시글에 등록되어있던 태그 목록
+		List<TagDto> tagList = service.findTagsByPostId(bId);
+		String tagJsonList = mapper.writeValueAsString(tagList);
+		model.addAttribute("tagJsonList", tagJsonList);
+		
+		// 자동완성 태그 목록
+		List<TagDto> allTagList = service.getAllTags();
+		String allTagJsonList = mapper.writeValueAsString(allTagList);
+		model.addAttribute("allTagJsonList", allTagJsonList);
+		
 		return "/board/updatePage";
 	}
 	
 	// 게시글 수정
 	@RequestMapping(value = "/updateBoard", method = RequestMethod.POST)
-	public String updateBoard(HttpServletRequest request, @ModelAttribute BoardDto dto, RedirectAttributes rttr) {
+	public String updateBoard(HttpServletRequest request, @ModelAttribute BoardDto dto, RedirectAttributes rttr) throws JsonParseException, JsonMappingException, IOException {
+		// 게시글 수정
 		boolean update = service.updateBoard(dto);
-		String result = "false";
-		if(update) result = "true";
-		rttr.addFlashAttribute("updateResult", result);
+		rttr.addFlashAttribute("updateResult", update ? "true" : "false");
+		
+		// 태그 수정
+		ObjectMapper mapper = new ObjectMapper();
+		if(dto.getTags() != null && dto.getTags() != "") {
+			List<TagDto> tags = mapper.readValue(dto.getTags(), new TypeReference<List<TagDto>>() {});
+			service.updateTag(dto.getbId(), tags);
+		}
+		
 		return "redirect:detailBoard?bId=" + dto.getbId() + "&bGroup=" + dto.getbGroup();
 	}
 	
@@ -187,7 +231,6 @@ public class BoardController {
 		response.put("bookmarkCount", bookmarkCount);
 		return response;
 	}
-	
 	
 	// 게시글 북마크 해제
 	@ResponseBody

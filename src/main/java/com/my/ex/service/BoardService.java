@@ -11,6 +11,8 @@ import com.my.ex.dao.BoardDao;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.CommentsPagingDto;
+import com.my.ex.dto.PostTagDto;
+import com.my.ex.dto.TagDto;
 
 @Service
 public class BoardService implements IBoardService {
@@ -243,6 +245,62 @@ public class BoardService implements IBoardService {
 	@Override
 	public boolean updateCommentStep(Map<String, Integer> map) {
 		return dao.updateCommentStep(map) > 0;
+	}
+
+	@Override
+	public void createTag(int bId, List<TagDto> tags) {
+		for(TagDto tag : tags) {
+			int tagId;
+			
+			if(!existsByTagName(tag.getTagName())) { // 새로 등록할 태그가 중복이 아닌 경우만 등록
+				dao.createTag(tag);
+				tagId = tag.getTagId();
+			} else {
+				tagId = dao.findTagIdByName(tag.getTagName());
+			}
+			
+			PostTagDto postTagDto = new PostTagDto();
+			postTagDto.setBId(bId);
+			postTagDto.setTagId(tagId);
+			dao.addTagToPost(postTagDto);
+		}
+	}
+
+	@Override
+	public boolean existsByTagName(String tagName) {
+		int result = dao.existsByTagName(tagName);
+		return result > 0; 
+	}
+
+	@Override
+	public List<TagDto> findTagsByPostId(int bId) {
+		return dao.findTagsByPostId(bId);
+	}
+
+	@Override
+	public void updateTag(int bId, List<TagDto> tags) {
+		dao.deleteTagsByPostId(bId);
+		
+		for(TagDto tag : tags) {
+			int tagId;
+			
+			if(!existsByTagName(tag.getTagName())) { // 새로 등록할 태그가 중복이 아닌 경우만 등록
+				dao.createTag(tag);
+				tagId = tag.getTagId();
+			} else {
+				tagId = dao.findTagIdByName(tag.getTagName());
+			}
+			
+			PostTagDto postTagDto = new PostTagDto();
+			postTagDto.setBId(bId);
+			postTagDto.setTagId(tagId);
+			dao.addTagToPost(postTagDto);
+		}
+	}
+
+	@Override
+	public List<TagDto> getAllTags() {
+		return dao.getAllTags();
 	}
 
 }

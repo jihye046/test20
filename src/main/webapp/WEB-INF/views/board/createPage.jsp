@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link href="../../../resources/css/createPage.css" rel="styleSheet">
+
+<!-- tagify -->
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
+
 <!-- 주소 검색 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -19,12 +26,14 @@
 							<input class="bTitleInput" type="text" size="100" name="bTitle" placeholder="제목" required>
 							<textarea id="editor" name="bContent" placeholder="내용을 입력해주세요"></textarea>
 							
-							<!-- map -->
+							<!-- 주소 검색 -->
 							<div class="search-box">
 								<input type="text" id="inputAdd" name="bAddress" placeholder="주소" readonly>
 								<input type="button" class="address-search-btn" onclick="searchedAdd()" value="주소 검색"><br>
 							</div>
 							
+							<!-- 태그 -->
+							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
 							<button class="btn btn-outline-info" type="submit">등록</button>
 						</form>
 					</div>
@@ -33,6 +42,7 @@
 		</div>
 	</main>
 <%-- 	<%@ include file="/WEB-INF/views/include/footer.jsp" %> --%>
+	<div id="allTagJsonList" data-allTagJsonList="${fn:escapeXml(allTagJsonList)}"></div>
 	<script src="../../../resources/js/createPage.js"></script>
 	<script src="../../../resources/js/uploadAdapter.js"></script>
 </body>

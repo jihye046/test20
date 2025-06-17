@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.my.ex.dto.BoardDto;
+import com.my.ex.dto.PostTagDto;
+import com.my.ex.dto.TagDto;
 
 @Repository
 public class BoardDao implements IBoardDao {
@@ -181,6 +183,41 @@ public class BoardDao implements IBoardDao {
 	@Override
 	public int updateCommentStep(Map<String, Integer> map) {
 		return session.update(NAMESPACE + "updateCommentStep", map);
+	}
+
+	@Override
+	public void createTag(TagDto tag) {
+		session.insert(NAMESPACE + "createTag", tag);
+	}
+
+	@Override
+	public int existsByTagName(String tagName) {
+		return session.selectOne(NAMESPACE + "existsByTagName", tagName);
+	}
+
+	@Override
+	public void addTagToPost(PostTagDto postTagDto) {
+		session.insert(NAMESPACE+ "addTagToPost", postTagDto);
+	}
+
+	@Override
+	public List<TagDto> findTagsByPostId(int bId) {
+		return session.selectList(NAMESPACE + "findTagsByPostId", bId);
+	}
+
+	@Override
+	public int findTagIdByName(String tagName) {
+		return session.selectOne(NAMESPACE + "findTagIdByName", tagName);
+	}
+
+	@Override
+	public void deleteTagsByPostId(int bId) {
+		session.delete(NAMESPACE + "deleteTagsByPostId", bId);
+	}
+
+	@Override
+	public List<TagDto> getAllTags() {
+		return session.selectList(NAMESPACE + "getAllTags");
 	}
 
 }

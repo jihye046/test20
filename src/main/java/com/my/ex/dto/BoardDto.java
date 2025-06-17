@@ -1,6 +1,7 @@
 package com.my.ex.dto;
 
 import java.sql.Date;
+import java.util.List;
 
 public class BoardDto {
 	private int bId;
@@ -21,12 +22,13 @@ public class BoardDto {
 	private boolean recommended;
 	private String isDeleted;
 	private String bAddress;
+	private String tags;
 	
 	public BoardDto() {}
 
 	public BoardDto(int bId, String bName, String bTitle, String bContent, Date bDate, int bHit, int bGroup, int bStep,
 			int bIndent, String bLike, int bBookmark, int commentCount, String searchGubun, String searchText,
-			String sortType, boolean recommended, String isDeleted, String bAddress) {
+			String sortType, boolean recommended, String isDeleted, String bAddress, String tags) {
 		this.bId = bId;
 		this.bName = bName;
 		this.bTitle = bTitle;
@@ -45,6 +47,7 @@ public class BoardDto {
 		this.recommended = recommended;
 		this.isDeleted = isDeleted;
 		this.bAddress = bAddress;
+		this.tags = tags;
 	}
 
 	public int getbId() {
@@ -191,13 +194,22 @@ public class BoardDto {
 		this.bAddress = bAddress;
 	}
 
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardDto [bId=" + bId + ", bName=" + bName + ", bTitle=" + bTitle + ", bContent=" + bContent
 				+ ", bDate=" + bDate + ", bHit=" + bHit + ", bGroup=" + bGroup + ", bStep=" + bStep + ", bIndent="
 				+ bIndent + ", bLike=" + bLike + ", bBookmark=" + bBookmark + ", commentCount=" + commentCount
 				+ ", searchGubun=" + searchGubun + ", searchText=" + searchText + ", sortType=" + sortType
-				+ ", recommended=" + recommended + ", isDeleted=" + isDeleted + ", bAddress=" + bAddress + "]";
+				+ ", recommended=" + recommended + ", isDeleted=" + isDeleted + ", bAddress=" + bAddress + ", tags="
+				+ tags + "]";
 	}
-	
+
 }

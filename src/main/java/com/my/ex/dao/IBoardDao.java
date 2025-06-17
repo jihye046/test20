@@ -5,14 +5,27 @@ import java.util.List;
 import java.util.Map;
 
 import com.my.ex.dto.BoardDto;
+import com.my.ex.dto.PostTagDto;
+import com.my.ex.dto.TagDto;
 
 public interface IBoardDao {
 	int createBoard(BoardDto dto);
+	
+	
 	List<BoardDto> findAll();
 	BoardDto detailBoard(int bId);
 	int updateBoard(BoardDto dto);
 	int deleteBoard(int bId);
 	void updateHitCount(int bId);
+	
+	// 태그
+	void createTag(TagDto tag);
+	int existsByTagName(String tagName);
+	void addTagToPost(PostTagDto postTagDto);
+	List<TagDto> findTagsByPostId(int bId);
+	int findTagIdByName(String tagName);
+	void deleteTagsByPostId(int bId);
+	List<TagDto> getAllTags();
 	
 	// 게시글 좋아요
 	int incrementLikesCount(int bId); 

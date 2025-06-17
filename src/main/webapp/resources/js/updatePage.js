@@ -19,7 +19,8 @@ function MyCustomUploadAdapterPlugin(editor) {
   }
 }
 
-// 검색한 주소를 [input]에 set
+/* 검색한 주소를 [input]에 set
+================================================== */
 const searchedAdd = () => {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -28,3 +29,28 @@ const searchedAdd = () => {
         }
     }).open()
 }
+
+/* 태그 입력창
+================================================== */
+const tagInput = document.querySelector("#tagInput") // 실제 태그 입력창
+const allTagJsonStr = document.querySelector("#allTagJsonList").getAttribute("data-allTagJsonList")
+const allTagList = JSON.parse(allTagJsonStr)
+
+const tagify = new Tagify(tagInput, {
+  maxTags: 5,
+  // 드롭다운 자동완성 글자 수
+  dropdown: {
+    enabled: 1,
+  },
+  // ghost-text 비활성화
+  autoComplete: {
+    enabled: false
+  },
+  // 자동완성 목록
+  whitelist: allTagList
+})
+
+// 등록되어 있던 태그로 초기화
+const tagJsonStr = document.querySelector("#tagJsonList").getAttribute("data-tagJsonList")
+const tagList = JSON.parse(tagJsonStr)
+tagify.addTags(tagList)

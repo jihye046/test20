@@ -6,9 +6,12 @@ import java.util.Map;
 import com.my.ex.dto.BoardDto;
 import com.my.ex.dto.BoardPagingDto;
 import com.my.ex.dto.CommentsPagingDto;
+import com.my.ex.dto.TagDto;
 
 public interface IBoardService {
 	boolean createBoard(BoardDto dto);
+	
+	
 	List<BoardDto> findAll();
 	BoardDto detailBoard(int bId);
 	boolean updateBoard(BoardDto dto);
@@ -18,6 +21,13 @@ public interface IBoardService {
 	int decrementLikesCount(int bId);
 	int getTotalLikes(int bId);
 	int commentsCount(int bGroup);
+	
+	// 태그
+	void createTag(int bId, List<TagDto> tags);
+	boolean existsByTagName(String tagName);
+	List<TagDto> findTagsByPostId(int bId);
+	void updateTag(int bId, List<TagDto> tags);
+	List<TagDto> getAllTags();
 	
 	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);

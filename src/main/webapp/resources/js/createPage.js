@@ -29,3 +29,23 @@ const searchedAdd = () => {
         }
     }).open()
 }
+
+/* 태그 입력창
+================================================== */
+const tagInput = document.querySelector("#tagInput") // 실제 태그 입력창
+const allTagJsonStr = document.querySelector("#allTagJsonList").getAttribute("data-allTagJsonList")
+const allTagList = JSON.parse(allTagJsonStr)
+
+const tagify = new Tagify(tagInput, {
+  maxTags: 5,
+  // 드롭다운 자동완성 글자 수
+  dropdown: {
+    enabled: 1,
+  },
+  // ghost-text 비활성화
+  autoComplete: {
+    enabled: false
+  },
+  // 자동완성 목록
+  whitelist: allTagList
+})
