@@ -1,0 +1,268 @@
+@charset "UTF-8";
+
+body {
+    background-color: #F5EEE8;
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    height: 100vh;
+}
+
+.find-id-background {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.5rem 2rem 1.5rem;
+    padding-top: 3vh !important;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
+.find-id-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    min-width: 450px;
+    max-width: 600px;
+    padding: 2.5rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+/* 제목 */
+.find-id-title {
+    font-family: 'Pretendard-Bold', 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    color: #333333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 작성 폼 */
+.find-id-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 인증 방식 선택 라디오 버튼 */
+.auth-method-selection {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.auth-method-selection .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #555;
+    white-space: nowrap;
+}
+
+.auth-method-selection input[type="radio"] {
+    margin-right: 0.5rem;
+    accent-color: tomato;
+    width: 1rem;
+    height: 1rem;
+}
+
+/* 인증 방식 설명 */
+.auth-method-description {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f0f8ff;
+    border: 1px solid #e0f2ff;
+    border-radius: 8px;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.auth-method-description p {
+    margin: 0;
+}
+
+/* 입력 input */
+.input-group {
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.95rem;
+    color: #555555;
+    margin: 0.8rem 0 0.5rem 0;
+    font-weight: 500;
+}
+
+/* 모든 input과 select 공통 스타일 */
+.find-id-form input[type="text"],
+.find-id-form input[type="email"],
+.find-id-form input[type="number"],
+.find-id-form select {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+    appearance: none;
+}
+
+/* placeholder 스타일 */
+.find-id-form input::placeholder {
+    color: #b0b0b0;
+}
+
+/* focus 시 스타일 */
+.find-id-form input:focus,
+.find-id-form select:focus {
+    border-color: #5A67D8;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+    outline: none;
+}
+
+/* 전화번호 및 이메일 입력 wrapper (버튼 포함) */
+.phone-input-wrapper,
+.email-input-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+}
+
+.phone-input-wrapper select,
+.email-input-wrapper select {
+    flex-shrink: 0; /* 크기 줄어들지 않게 */
+    width: auto;
+}
+
+.phone-input-wrapper input[type="text"],
+.email-input-wrapper input[type="email"],
+.email-input-wrapper input[type="text"]#directEmailDomain { 
+    flex-grow: 1; /* 남은 공간 채우기 */
+}
+
+/* 인증번호 받기 버튼 */
+.btn-verify {
+    background-color: #6c757d;
+    color: #ffffff;
+    padding: 0.8rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+    height: 48px; /* input 높이와 맞추기 */
+    line-height: normal; /* 텍스트 세로 중앙 정렬 */
+}
+
+.btn-verify:hover:not(:disabled) {
+    background-color: #5a6268;
+}
+
+/* 인증번호 입력 섹션 (초기에는 숨김 처리) */
+.verification-code-group {
+    margin-top: 1rem;
+    display: none;
+}
+
+/* 인증 메시지 (성공/실패 등) */
+.verification-code-group .message {
+    display: block;
+    text-align: left;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-left: 0.2rem;
+    min-height: 1.2rem;
+}
+
+/* 아이디 찾기 버튼 */
+.btn-submit {
+    background-color: tomato;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    transition: background-color 0.2s ease;
+}
+
+/* 활성화 버튼 스타일 */
+.btn-submit:hover:not(:disabled) {
+    background-color: #CC4028;
+}
+
+/* 비활성화된 버튼 스타일 */
+.btn-submit:disabled,
+.btn-verify:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 하단 링크 */
+.form-links {
+    margin-top: 1.5rem;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0;
+}
+
+.form-links a {
+    color: #666666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.form-links a:hover {
+    color: #5A67D8;
+    text-decoration: underline;
+}
+
+/* 특정 섹션 초기 숨김 */
+#emailAuthSection,
+#directEmailDomain {
+    display: none; /* JS를 통해 제어 */
+}
+#phoneDescription {
+    display: block; /* 초기에는 전화 설명 보임 */
+}
+#emailDescription {
+    display: none; /* 초기에는 이메일 설명 숨김 */
+}

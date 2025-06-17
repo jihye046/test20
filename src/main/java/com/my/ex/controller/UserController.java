@@ -265,4 +265,10 @@ public class UserController {
 		return "/user/chatPage";
 	}
 	
+	// 아이디 찾기 페이지
+	@RequestMapping("/findIdPage")
+	public String findId() {
+		return "/user/findIdPage";
+	}
+	
 }
