@@ -63,4 +63,5 @@ public interface IBoardDao {
 	List<BoardDto> commentsPagingList(HashMap<String, Object> map);
 	List<BoardDto> comments_sort_likePagingList(HashMap<String, Object> map);
 	int commentsCount(int bGroup);
+	
 }

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/findIdPage.css" rel="styleSheet">
+<script type="module" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 	<main>
@@ -11,7 +12,7 @@
 				<!-- 인증 -->
 				<h2 class="find-id-title">아이디 찾기</h2>
 				
-				<form action="/user/findId" method="post" class="find-id-form">
+				<form action="/user/findIdResultPage" method="post" class="find-id-form">
 					<div class="auth-method-selection">
 						<label class="radio-label">
 							<input type="radio" name="authMethod" value="phone" checked>
@@ -31,7 +32,7 @@
 					<!-- 휴대폰 인증 -->
 					<div id="phoneAuthSection" class="input-group">
 						<label for="namePhone">이름</label>
-						<input type="text" id="namePhone" name="userName" placeholder="이름을 입력해주세요">
+						<input type="text" id="namePhone" name="userNamePhone" placeholder="이름을 입력해주세요">
 						
 						<label for="mobileNumber">휴대전화</label>
 						<div class="phone-input-wrapper">
@@ -46,19 +47,19 @@
 					<!-- 이메일 인증 -->
 					<div id="emailAuthSection" class="input-group">
 						<label for="nameEmail">이름</label>
-						<input type="text" id="nameEmail" name="userName" placeholder="이름을 입력해주세요">
+						<input type="text" id="nameEmail" name="userNameEmail" placeholder="이름을 입력해주세요">
 						
 						<label for="userEmail">이메일 주소</label>
 						<div class="email-input-wrapper">
-							<input type="email" id="userEmail" name="userEmail" placeholder="이메일 주소를 입력해주세요">
+							<input type="text" id="userEmail" name="userEmail" placeholder="이메일 아이디를 입력해주세요">
+							<input type="email" id="directEmailDomain" name="directEmailDomain" placeholder="이메일 주소를 입력해주세요">
 							<select id="emailDomain" name="emailDomain">
-								<option value="@naver.com">@naver.com</option>
+								<option value="@naver.com" selected>@naver.com</option>
 								<option value="@gmail.com">@gmail.com</option>
 								<option value="@daum.net">@daum.net</option>
 								<option value="@nate.com">@nate.com</option>
 								<option value="direct">직접 입력</option>
 							</select>
-							<input type="text" id="directEmailDomain" name="directEmailDomain" placeholder="도메인 입력">
 							<button type="button" id="sendEmailButton" class="btn-verify">인증번호 받기</button>
 						</div>
 					</div>
@@ -66,8 +67,11 @@
 					<!-- 인증번호 입력 -->
 					<div class="input-group verification-code-group">
 						<label for="verificationCode">인증번호</label>
-						<input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호 6자리 입력">
-						<span id="verificationMessage" class="message"></span>
+						<input type="text" maxlength="6" id="verificationCode" name="verificationCode" placeholder="인증번호 6자리 입력">
+						<div class="verification-status">
+							<span id="verificationMessage" class="message"></span>
+							<span id="verificationTimer" class="timer-message"></span>
+						</div>
 					</div>
 					
 					<button type="submit" id="findIdButton" class="btn-submit" disabled>아이디 찾기</button>

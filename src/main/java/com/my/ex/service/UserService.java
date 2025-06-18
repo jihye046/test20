@@ -1,5 +1,6 @@
 package com.my.ex.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,6 +90,23 @@ public class UserService implements IUserService {
 	@Override
 	public String getProfileFilename(String bName) {
 		return dao.getProfileFilename(bName);
+	}
+
+	// 아이디 찾기 - 사용자 정보 확인
+	@Override
+	public boolean checkUserInfoMatch(String userName, String uemail) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userName", userName);
+		map.put("uemail", uemail);
+		int selectCount = dao.checkUserInfoMatch(map);
+		
+		return selectCount > 0;
+	}
+
+	// 아이디 찾기 - 인증 후 사용자정보 가져오기
+	@Override
+	public List<UserDto> findUserIdByEmail(HashMap<String, String> hashMap) {
+		return dao.findUserIdByEmail(hashMap);
 	}
 	
 }

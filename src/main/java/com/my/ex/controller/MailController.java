@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.my.ex.service.MailSendService;
 
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/userMail")
 public class MailController {
 	
@@ -21,7 +23,7 @@ public class MailController {
 	private MailSendService mailService;
 	private String authNum = "";
 	
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value= "/send", method = RequestMethod.GET, produces = "application/text;charset=utf8")
 	public ResponseEntity<String> sendMail(@RequestParam("uemail")String uemail){
 		HashMap<String, String> map = mailService.joinEmail(uemail);
@@ -29,7 +31,7 @@ public class MailController {
 		return ResponseEntity.ok(map.get("message"));
 	}
 	
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value= "/check", method = RequestMethod.POST, produces = "application/text;charset=utf8")
 	public ResponseEntity<String> emailCheck(@RequestParam("userCode")String userCode){
 		String result = (userCode.equals(authNum)) ? "인증성공" : "인증실패";

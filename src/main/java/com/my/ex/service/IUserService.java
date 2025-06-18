@@ -1,5 +1,6 @@
 package com.my.ex.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,8 @@ public interface IUserService {
 	
 	// 댓글 프로필 이미지 가져오기
 	String getProfileFilename(String bName);
+	
+	// 아이디 찾기 - 사용자 정보 확인
+	boolean checkUserInfoMatch(String userName, String uemail);
+	List<UserDto> findUserIdByEmail(HashMap<String, String> hashMap);
 }
