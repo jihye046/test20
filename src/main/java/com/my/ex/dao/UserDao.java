@@ -104,4 +104,16 @@ public class UserDao implements IUserDao {
 		return session.selectOne(NAMESPACE + "getProfileFilename" , bName);
 	}
 
+	// 아이디 찾기 - 사용자 정보 확인
+	@Override
+	public int checkUserInfoMatch(HashMap<String, String> map) {
+		return session.selectOne(NAMESPACE + "checkUserInfoMatch", map);
+	}
+
+	// 아이디 찾기 - 인증 후 사용자정보 가져오기
+	@Override
+	public List<UserDto> findUserIdByEmail(HashMap<String, String> hashMap) {
+		return session.selectList(NAMESPACE + "findUserIdByEmail", hashMap);
+	}
+
 }

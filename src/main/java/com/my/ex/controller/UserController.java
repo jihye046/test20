@@ -265,4 +265,43 @@ public class UserController {
 		return "/user/chatPage";
 	}
 	
+	// 아이디 찾기 페이지
+	@RequestMapping("/findIdPage")
+	public String findId() {
+		return "/user/findIdPage";
+	}
+	
+	// 사용자 정보가 일치하는지 확인
+	@ResponseBody
+	@RequestMapping("/checkUserInfoMatch")
+	public boolean checkUserInfoMatch(@RequestParam String userName, @RequestParam String uemail) {
+		return service.checkUserInfoMatch(userName, uemail);
+	}
+	
+	// 사용자 정보 가져오기
+	@RequestMapping("/findIdResultPage")
+	public String findIdResultPage(@RequestParam Map<String, String> map, Model model) {
+		String authMethod = map.get("authMethod");
+		if(authMethod.equals("phone")) {
+			System.out.println("휴대폰 인증");
+			// 휴대폰 인증은 사용하지 않음
+		} else if(authMethod.equals("email")) {
+			String userName = map.get("userNameEmail");
+			String domain = map.get("emailDomain");
+			String uemail = "";
+			uemail = domain.equals("direct")
+				? map.get("directEmailDomain")
+				: map.get("userEmail") + domain;
+			
+			HashMap<String, String> hashMap = new HashMap<>();
+			hashMap.put("userName", userName);
+			hashMap.put("uemail", uemail);
+			
+			List<UserDto> findIdResultList = service.findUserIdByEmail(hashMap);
+			model.addAttribute("findIdResultList", findIdResultList);
+		}
+		
+		return "/user/findIdResultPage";
+	}
+	
 }
