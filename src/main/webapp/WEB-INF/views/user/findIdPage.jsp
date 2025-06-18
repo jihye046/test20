@@ -14,12 +14,14 @@
 				
 				<form action="/user/findIdResultPage" method="post" class="find-id-form">
 					<div class="auth-method-selection">
-						<label class="radio-label">
-							<input type="radio" name="authMethod" value="phone" checked>
+						<!-- 휴대전화 인증은 유료 SMS API 필요로 인해 현재 미구현 -->
+						<!-- 이메일 인증만 지원하며, UI는 추후 확장 대비해 유지 -->
+						<!-- <label class="radio-label">
+							<input type="radio" name="authMethod" value="phone">
 							휴대전화 인증
-						</label>
+						</label> -->
 						<label class="radio-label">							
-							<input type="radio" name="authMethod" value="email">
+							<input type="radio" name="authMethod" value="email" checked>
 							이메일 인증
 						</label>
 					</div>

@@ -284,6 +284,7 @@ public class UserController {
 		String authMethod = map.get("authMethod");
 		if(authMethod.equals("phone")) {
 			System.out.println("휴대폰 인증");
+			// 휴대폰 인증은 사용하지 않음
 		} else if(authMethod.equals("email")) {
 			String userName = map.get("userNameEmail");
 			String domain = map.get("emailDomain");

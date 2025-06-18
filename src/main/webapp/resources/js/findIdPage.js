@@ -119,6 +119,7 @@ const checkUserInfoMatch = () => {
 
 	// 휴대폰 인증 - 인증번호 받기 클릭 시
 document.querySelector("#sendSmsButton").addEventListener('click', () => {
+    // SMS 인증 기능은 유료 API 필요로 인해 미구현
 })
 
 	// 이메일 인증 - 인증번호 받기 클릭 시
