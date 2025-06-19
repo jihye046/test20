@@ -31,6 +31,12 @@
 		   AND userPw = #{userPw}
 	</select>
 	
+	<select id="getUserPassword" resultType="String">
+		SELECT userPw
+		  FROM mvc_login6
+		 WHERE userId = #{userId}
+	</select>
+	
 	<select id="getUserNickname" resultType="String">
 		SELECT unickName
 		  FROM mvc_login6
@@ -112,12 +118,17 @@
 		 WHERE userId = #{bName}
 	</select>
 	
-	<!-- 아이디 찾기: 사용자정보 확인 -->
+	<!-- 사용자 이름, 이메일, (비밀번호 찾기인 경우) 아이디까지 일치하는지 확인 -->
+	<!-- 아이디 찾기: userName + uemail만 확인 -->
+	<!-- 비밀번호 찾기: userName + uemail + userId까지 확인 -->
 	<select id="checkUserInfoMatch" parameterType="java.util.HashMap" resultType="Integer">
 		SELECT COUNT(*)
 		  FROM mvc_login6
 		 WHERE userName = #{userName}
-		   AND uemail = #{uemail} 
+		   AND uemail = #{uemail}
+		   <if test="userId != null and userId != ''">
+		       AND userId = #{userId}
+		   </if> 
 	</select>
 	
 	<!-- 아이디 찾기: 인증 후 사용자정보 가져오기 -->
@@ -127,4 +138,18 @@
 		 WHERE userName = #{userName}
 		   AND uemail = #{uemail}
 	</select>
+	
+	<!-- 인증 단계: 아이디 존재여부 확인 -->
+	<select id="checkUserIdMatch" resultType="Integer">
+		SELECT COUNT(*)
+		  FROM mvc_login6
+		 WHERE userId = #{userId}
+	</select>
+	
+	<!-- 비밀번호 변경(해시 알고리즘) -->
+	<update id="resetPassword" parameterType="java.util.HashMap">
+		UPDATE mvc_login6
+		   SET userPw = #{password}
+		 WHERE userId = #{userId}
+	</update>
 </mapper>

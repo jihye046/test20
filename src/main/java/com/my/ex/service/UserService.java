@@ -92,12 +92,15 @@ public class UserService implements IUserService {
 		return dao.getProfileFilename(bName);
 	}
 
-	// 아이디 찾기 - 사용자 정보 확인
+	// 사용자 이름, 이메일, (비밀번호 찾기인 경우) 아이디까지 일치하는지 확인
+	// 아이디 찾기: userName + uemail만 확인
+	// 비밀번호 찾기: userName + uemail + userId까지 확인
 	@Override
-	public boolean checkUserInfoMatch(String userName, String uemail) {
+	public boolean checkUserInfoMatch(String userName, String uemail, String userId) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("userName", userName);
 		map.put("uemail", uemail);
+		map.put("userId", userId);
 		int selectCount = dao.checkUserInfoMatch(map);
 		
 		return selectCount > 0;
@@ -107,6 +110,27 @@ public class UserService implements IUserService {
 	@Override
 	public List<UserDto> findUserIdByEmail(HashMap<String, String> hashMap) {
 		return dao.findUserIdByEmail(hashMap);
+	}
+	
+	// 인증 단계: 사용자 아이디 존재여부 확인
+	@Override
+	public boolean checkUserIdMatch(String userId) {
+		int selectCount = dao.checkUserIdMatch(userId);
+		return selectCount > 0;
+	}
+
+	@Override
+	public boolean resetPassword(String userId, String password) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("password", password);
+		
+		return dao.resetPassword(map) > 0;
+	}
+
+	@Override
+	public String getUserPassword(String userId) {
+		return dao.getUserPassword(userId);
 	}
 	
 }

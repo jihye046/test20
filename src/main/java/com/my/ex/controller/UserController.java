@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,9 +51,15 @@ public class UserController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) {
 		String userId = request.getParameter("userId");
+		
 		String userPw = request.getParameter("userPw");
-		boolean loginResult = service.login(userId, userPw);
-		if(loginResult) {
+		String encodePassword = service.getUserPassword(userId);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		// 비밀번호 일치 여부 확인
+		boolean isPasswordMatch = passwordEncoder.matches(userPw, encodePassword);
+		
+//		boolean loginResult = service.login(userId, userPw);
+		if(isPasswordMatch) {
 			session.setAttribute("userId", userId);
 			String userNickname = service.getUserNickname(userId);
 			session.setAttribute("userNickname", userNickname);
@@ -265,20 +272,31 @@ public class UserController {
 		return "/user/chatPage";
 	}
 	
-	// 아이디 찾기 페이지
-	@RequestMapping("/findIdPage")
-	public String findId() {
-		return "/user/findIdPage";
+	// 사용자 인증 페이지
+	@RequestMapping("/verify-user")
+	public String showVerifyPage(@RequestParam String mode,
+		                         @RequestParam(required = false) String userId,
+		                         Model model) {
+		if(mode.equals("password")) {
+			model.addAttribute("verifyUserId", userId);
+		}
+		model.addAttribute("mode", mode);
+		
+		return "/user/verify-user";
 	}
 	
-	// 사용자 정보가 일치하는지 확인
+	// 사용자 이름, 이메일, (비밀번호 찾기인 경우) 아이디까지 일치하는지 확인
+	// 아이디 찾기: userName + uemail만 확인
+	// 비밀번호 찾기: userName + uemail + userId까지 확인
 	@ResponseBody
 	@RequestMapping("/checkUserInfoMatch")
-	public boolean checkUserInfoMatch(@RequestParam String userName, @RequestParam String uemail) {
-		return service.checkUserInfoMatch(userName, uemail);
+	public boolean checkUserInfoMatch(@RequestParam String userName,
+				                      @RequestParam String uemail,
+				                      @RequestParam(required = false) String userId) {
+		return service.checkUserInfoMatch(userName, uemail, userId);
 	}
 	
-	// 사용자 정보 가져오기
+	// 아이디 찾기 - 인증 후 사용자정보 가져오기
 	@RequestMapping("/findIdResultPage")
 	public String findIdResultPage(@RequestParam Map<String, String> map, Model model) {
 		String authMethod = map.get("authMethod");
@@ -302,6 +320,66 @@ public class UserController {
 		}
 		
 		return "/user/findIdResultPage";
+	}
+	
+	// 아이디 입력 받을 페이지
+	@RequestMapping("/password-userid-input")
+	public String showUseridInputPage() {
+		return "/user/password-userid-input";
+	}
+
+	// 인증 단계: 사용자 아이디 존재여부 확인
+	@ResponseBody
+	@RequestMapping("/check-userid-match")
+	public boolean checkUseridMatch(@RequestParam String userId) {
+		return service.checkUserIdMatch(userId);
+	}
+	
+	// 비밀번호 재설정 페이지
+	@RequestMapping("/password-reset-page")
+	public String showPasswordResetPage(@RequestParam String verifyUserId, Model model) {
+		model.addAttribute("verifyUserId", verifyUserId);
+		return "/user/password-reset";
+	}
+	
+	// 비밀번호 재설정
+	@RequestMapping(value = "/password-reset", method = RequestMethod.POST)
+	public String updatePassword(@RequestParam String verifyUserId, 
+								 @RequestParam String confirmPassword, 
+								 RedirectAttributes rttr) {
+		boolean result = isPasswordValid(confirmPassword);
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		if(result) {
+			// 사용자 비밀번호를 BCrypt 해시 알고리즘으로 단방향 암호화 처리
+			String hashedPassword = passwordEncoder.encode(confirmPassword);
+			boolean updateResult = service.resetPassword(verifyUserId, hashedPassword);
+			
+			if(updateResult) {
+				System.out.println("비밀번호 변경 완료");
+				rttr.addFlashAttribute("error", "비밀번호가 변경되었습니다.");
+				return "redirect:/user/loginPage?reset=success"; 
+			} else {
+				System.out.println("비밀번호 변경 실패");
+				rttr.addFlashAttribute("error", "비밀번호 변경에 실패했습니다. 다시 시도해주세요");
+				return "redirect:/user/password-userid-input?reset=fail";
+			}
+		} else {
+			rttr.addFlashAttribute("error", "잘못된 비밀번호 형식입니다.");
+			System.out.println("비밀번호 유효성 검사 탈락");
+			return "redirect:/user/password-userid-input?reset=fail";
+		}
+	}
+	
+	// 비밀번호 유효성 검사(서버에서 한번 더 검사)
+	private boolean isPasswordValid(String password) {
+		if(password == null || password.length() < 8 || password.length() > 16) return false;
+		if(password.matches(".*\\s+.*")) return false; // 공백 체크
+		if(!password.matches(".*[A-Z].*")) return false; // 대문자
+		if(!password.matches(".*[a-z].*")) return false; // 소문자
+		if(!password.matches(".*\\d.*")) return false; // 숫자
+		if(!password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\/,.<>\\/?].*")) return false; // 특수문자
+		return true;
 	}
 	
 }

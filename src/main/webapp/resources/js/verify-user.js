@@ -9,6 +9,25 @@ const directEmailDomainInput = document.querySelector("#directEmailDomain") // �
 const userEmailInput = document.querySelector("#userEmail") // 이메일 아이디 입력 input
 const verificationMessageSpan = document.querySelector("#verificationMessage") // 인증번호 발송 안내 메시지
 
+
+/* 전송 버튼 제어
+================================================== */
+const submitForm = () => {
+    document.querySelector("#submitButton").addEventListener('click', () => {
+        const form = document.querySelector("#verify-form")
+        const mode = document.querySelector("#mode").getAttribute("data-mode")
+        const userId = document.querySelector("#verifyUserId").getAttribute("data-verifyUserId")
+
+        if(mode == 'id'){
+            form.action = '/user/findIdResultPage'
+        } else if(mode == 'password'){
+            form.action = '/user/password-reset-page'
+        }
+
+        form.submit()
+    })
+}
+
 /* 인증번호 발송, 응답
 ================================================== */
     // 사용자가 입력한 인증 코드 확인
@@ -21,10 +40,10 @@ const checkVerificationCode = () => {
             verificationMessageSpan.textContent = response.data
             if(response.data == '인증성공'){
                 verificationMessageSpan.style.color = '#28a745'
-                document.querySelector("#findIdButton").disabled = false
+                document.querySelector("#submitButton").disabled = false
             } else if(response.data == '인증실패'){
                 verificationMessageSpan.style.color = '#dc3545'
-                document.querySelector("#findIdButton").disabled = true
+                document.querySelector("#submitButton").disabled = true
             }
         })
         .catch(error => {
@@ -88,8 +107,10 @@ const sendEmailVerificationCode = (uemail) => {
 
     // 사용자 연락처 정보가 DB와 일치하는지 확인
 const checkUserInfoMatch = () => {
+    const mode = document.querySelector("#mode").getAttribute("data-mode")
     const name = document.querySelector("#nameEmail").value
     let email = ''
+    const verifyUserId = document.querySelector("#verifyUserId").getAttribute("data-verifyUserId")
     
     if(emailDomain.value == 'direct'){
         email = directEmailDomainInput.value
@@ -97,24 +118,25 @@ const checkUserInfoMatch = () => {
         email = userEmailInput.value + emailDomain.value
     }
 
-    axios.get('/user/checkUserInfoMatch', {
-        params: {
-            userName: name,
-            uemail: email
-        }
-    })
-    .then(response => {
-        if(response.data){
-            sendEmailVerificationCode(email)
-        } else {
-            alert('정보가 일치하지 않습니다. 확인 후 다시 시도해주세요.')
-            document.querySelector("#nameEmail").value = ''
-            document.querySelector("#userEmail").value = ''
-        }
-    })
-    .catch(error => {
-        console.error('error: ', error)
-    })
+    let params = {userName: name, uemail: email}
+    if(mode == 'password'){
+        params.userId = verifyUserId
+    }
+
+    axios.get('/user/checkUserInfoMatch', {params})
+        .then(response => {
+            if(response.data){
+                sendEmailVerificationCode(email)
+            } else {
+                alert('일치하는 정보가 없습니다. 확인 후 다시 시도해주세요.')
+                document.querySelector("#nameEmail").value = ''
+                document.querySelector("#userEmail").value = ''
+            }
+        })
+        .catch(error => {
+            console.error('error: ', error)
+        })
+
 }
 
 	// 휴대폰 인증 - 인증번호 받기 클릭 시
@@ -179,7 +201,7 @@ const toggleAuthMethod = () => {
     document.querySelector(".verification-code-group").style.display = 'none' // 인증번호 입력 섹션 숨기기
     document.querySelector("#verificationCode").value = '' // 인증번호 초기화
     document.querySelector("#verificationMessage").textContent = '' // 인증메시지 초기화
-    document.querySelector("#findIdButton").disabled = true // 버튼 비활성화
+    document.querySelector("#submitButton").disabled = true // 버튼 비활성화
     userEmailInput.style.display = 'inline-block'
 }
 
@@ -191,3 +213,4 @@ authMethodRadios.forEach(radio => {
 })
 
 toggleAuthMethod()
+submitForm()

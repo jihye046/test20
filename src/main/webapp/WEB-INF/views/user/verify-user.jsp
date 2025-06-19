@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<link href="../../../resources/css/findIdPage.css" rel="styleSheet">
+<link href="../../../resources/css/verify-user.css" rel="styleSheet">
 <script type="module" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -10,9 +10,15 @@
 			<div class="find-id-card">
 			
 				<!-- 인증 -->
-				<h2 class="find-id-title">아이디 찾기</h2>
+				<h2 class="find-id-title">본인 인증</h2>
 				
-				<form action="/user/findIdResultPage" method="post" class="find-id-form">
+				<form id="verify-form" method="post" class="find-id-form">
+					<!--
+						비밀번호 찾기 시 사용자가 입력한 아이디를 비밀번호 변경 페이지로 전달하기 위해 숨김 필드로 포함함.
+						아이디 찾기 컨트롤러에도 빈 값으로 전송되지만 동작에는 영향 없음
+					-->
+					 <input type="hidden" name="verifyUserId" value="${verifyUserId}">
+
 					<div class="auth-method-selection">
 						<!-- 휴대전화 인증은 유료 SMS API 필요로 인해 현재 미구현 -->
 						<!-- 이메일 인증만 지원하며, UI는 추후 확장 대비해 유지 -->
@@ -76,7 +82,7 @@
 						</div>
 					</div>
 					
-					<button type="submit" id="findIdButton" class="btn-submit" disabled>아이디 찾기</button>
+					<button type="button" id="submitButton" class="btn-submit" disabled>다음</button>
 					
 					<!-- 로그인 페이지로 돌아가기 -->
 					<div class="form-links">
@@ -88,5 +94,7 @@
 		</div>
 	</main>
 </body>
-<script src="../../../resources/js/findIdPage.js"></script>
+<script src="../../../resources/js/verify-user.js"></script>
+<div class="hideen-data" id="mode" data-mode="${mode}"></div>
+<div class="hideen-data" id="verifyUserId" data-verifyUserId="${verifyUserId}"></div>
 </html>

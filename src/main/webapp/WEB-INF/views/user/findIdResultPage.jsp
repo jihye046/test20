@@ -23,7 +23,7 @@
 
                 <div class="button-group">
                     <button type="button" class="btn-primary" onclick="location.href='/user/loginPage'">로그인하기</button>
-                    <button type="button" class="btn-secondary" onclick="location.href='/user/findPasswordPage'">비밀번호 찾기</button>
+                    <button type="button" class="btn-secondary" onclick="location.href='/user/password-userid-input'">비밀번호 찾기</button>
                 </div>
             </div>
         </div>
