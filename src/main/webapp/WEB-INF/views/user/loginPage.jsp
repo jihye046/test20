@@ -16,8 +16,8 @@
 					<button class="btn btn-block btn-outline-secondary" type="submit">Sign In</button>
 					<div class="login-form-links">
 							<a href="/user/joinPage">회원가입</a>
-							<a href="/user/findIdPage">아이디찾기</a>
-							<a href="#">비밀번호찾기</a>
+							<a href="/user/verify-user?mode=id">아이디찾기</a>
+							<a href="/user/password-userid-input">비밀번호찾기</a>
 					</div>
 				</form><br>
 				<span>다른 계정으로 로그인하기</span>

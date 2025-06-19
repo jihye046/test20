@@ -104,7 +104,9 @@ public class UserDao implements IUserDao {
 		return session.selectOne(NAMESPACE + "getProfileFilename" , bName);
 	}
 
-	// 아이디 찾기 - 사용자 정보 확인
+	// 사용자 이름, 이메일, (비밀번호 찾기인 경우) 아이디까지 일치하는지 확인
+	// 아이디 찾기: userName + uemail만 확인
+	// 비밀번호 찾기: userName + uemail + userId까지 확인
 	@Override
 	public int checkUserInfoMatch(HashMap<String, String> map) {
 		return session.selectOne(NAMESPACE + "checkUserInfoMatch", map);
@@ -114,6 +116,23 @@ public class UserDao implements IUserDao {
 	@Override
 	public List<UserDto> findUserIdByEmail(HashMap<String, String> hashMap) {
 		return session.selectList(NAMESPACE + "findUserIdByEmail", hashMap);
+	}
+
+	// 인증 단계: 사용자 아이디 존재여부 확인
+	@Override
+	public int checkUserIdMatch(String userId) {
+		return session.selectOne(NAMESPACE + "checkUserIdMatch", userId);
+	}
+	
+	// 비밀번호 변경
+	@Override
+	public int resetPassword(Map<String, String> map) {
+		return session.update(NAMESPACE + "resetPassword", map);
+	}
+
+	@Override
+	public String getUserPassword(String userId) {
+		return session.selectOne(NAMESPACE + "getUserPassword", userId);
 	}
 
 }
