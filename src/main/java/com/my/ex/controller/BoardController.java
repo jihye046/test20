@@ -174,7 +174,7 @@ public class BoardController {
 	public String deleteBoard(@RequestParam("bId")int bId, RedirectAttributes rttr) {
 		service.deleteTagsByPostId(bId);
 		boolean isBoardDeleted = service.deleteBoard(bId);
-		rttr.addFlashAttribute("deleteResult", isBoardDeleted ? true : false);
+		rttr.addFlashAttribute("deleteResult", isBoardDeleted ? "true" : "false");
 		
 		return "redirect:/board/paging";
 	}

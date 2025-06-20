@@ -7,12 +7,8 @@ if(createResult == "true") {
 
 const deleteResult = document.querySelector("#deleteResult").getAttribute("data-delete-result")
 
-if(deleteResult == null || deleteResult == ""){
-	return
-} else if(deleteResult){
+if(deleteResult == "true"){
 	alert("게시글이 삭제되었습니다.")
-} else if(!deleteResult){
-	alert("게시글 삭제가 정상적으로 완료되지 않았습니다.")
 }
 
 const userId = document.querySelector("#userId").getAttribute("data-userId")
