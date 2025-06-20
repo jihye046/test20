@@ -5,6 +5,25 @@ if(createResult == "true") {
 	alert("게시글이 등록되었습니다.")
 }
 
+const deleteResult = document.querySelector("#deleteResult").getAttribute("data-delete-result")
+
+if(deleteResult == null || deleteResult == ""){
+	return
+} else if(deleteResult){
+	alert("게시글이 삭제되었습니다.")
+} else if(!deleteResult){
+	alert("게시글 삭제가 정상적으로 완료되지 않았습니다.")
+}
+
+const userId = document.querySelector("#userId").getAttribute("data-userId")
+const userNickname = document.querySelector("#userNickname").getAttribute("data-userNickname")
+
+if(userId) {
+	document.querySelector("#welcomeText").innerHTML = `<a class="menubar-button-primary" href="/user/myPage">${userNickname}</a><span style="font-size: 16px;">님 환영합니다.<span>`
+} else {
+	//document.querySelector("#welcomeText").innerHTML = "로그인"		
+}
+
 /* 자동 팝업
 ================================================== */
 	// 로컬스토리지에 팝업 숨김 만료 시간 저장 또는 삭제
@@ -294,24 +313,6 @@ const pagination = (paging) => {
 		output += `<li class="page-item">${nextPageLink}</li>`
 	}
 	return output
-}
-
-
-let deleteElement = document.querySelector("#deleteResult")
-let deleteResult = deleteElement ? deleteElement.getAttribute("data-delete-result") : null
-
-const userId = document.querySelector("#userId").getAttribute("data-userId")
-const userNickname = document.querySelector("#userNickname").getAttribute("data-userNickname")
-
-
-if(deleteResult == "true"){
-	alert("게시글이 삭제되었습니다.")
-}
-
-if(userId) {
-	document.querySelector("#welcomeText").innerHTML = `<a class="menubar-button-primary" href="/user/myPage">${userNickname}</a><span style="font-size: 16px;">님 환영합니다.<span>`
-} else {
-	//document.querySelector("#welcomeText").innerHTML = "로그인"		
 }
 
 const badge = document.querySelector(".badge")

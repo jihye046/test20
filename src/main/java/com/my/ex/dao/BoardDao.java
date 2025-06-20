@@ -167,7 +167,7 @@ public class BoardDao implements IBoardDao {
 	public int removeReply(Map<String, Object> map) {
  		int updateCount = session.update(NAMESPACE + "updateCommentContent", map);
 		int deleteCount = session.delete(NAMESPACE + "removeComment", map);
-		
+
 		if(updateCount > 0 || deleteCount > 0) {
 			return 1;
 		}

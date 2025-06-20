@@ -297,6 +297,11 @@ public class BoardService implements IBoardService {
 			dao.addTagToPost(postTagDto);
 		}
 	}
+	
+	@Override
+	public void deleteTagsByPostId(int bId) {
+		dao.deleteTagsByPostId(bId);
+	}
 
 	@Override
 	public List<TagDto> getAllTags() {
