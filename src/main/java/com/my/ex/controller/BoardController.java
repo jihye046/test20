@@ -172,12 +172,11 @@ public class BoardController {
 	// 게시글 삭제
 	@RequestMapping("/deleteBoard")
 	public String deleteBoard(@RequestParam("bId")int bId, RedirectAttributes rttr) {
-		boolean deleteResult = service.deleteBoard(bId);
-		String result = "false";
+		service.deleteTagsByPostId(bId);
+		boolean isBoardDeleted = service.deleteBoard(bId);
+		rttr.addFlashAttribute("deleteResult", isBoardDeleted ? "true" : "false");
 		
-		if(deleteResult) result = "true";
-		rttr.addFlashAttribute("deleteResult", result);
-		return "redirect:paging";
+		return "redirect:/board/paging";
 	}
 	
 	// 조회수

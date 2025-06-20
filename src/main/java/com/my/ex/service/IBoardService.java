@@ -28,6 +28,7 @@ public interface IBoardService {
 	List<TagDto> findTagsByPostId(int bId);
 	void updateTag(int bId, List<TagDto> tags);
 	List<TagDto> getAllTags();
+	void deleteTagsByPostId(int bId);
 	
 	// 게시글 좋아요
 	int incrementBookmarkAndGetCount(int bId);
