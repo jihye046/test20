@@ -149,26 +149,27 @@ body {
 }
 
 .btn-submit {
-    background-color: #4a90e2;
-    color: #ffffff;
-    padding: 15px 25px;
+    background-color: tomato;
+    color: #fff;
+    padding: 1rem 1.5rem;
     border: none;
     border-radius: 8px;
-    font-size: 17px;
+    font-size: 1.05rem;
     font-weight: 600;
     cursor: pointer;
     width: 100%;
-    margin-top: 25px;
+    margin-top: 1.5rem;
+    margin-bottom: 0;
     transition: background-color 0.2s ease;
 }
 
 .btn-submit:hover:not(:disabled) {
-    background-color: #357bd8;
+    background-color: #CC4028;
 }
 
 .btn-submit:disabled,
 .btn-verify-email:disabled {
-    background-color: #cccccc;
+    background-color: #ccc;
     cursor: not-allowed;
     opacity: 0.7;
 }
@@ -186,12 +187,30 @@ body {
     font-weight: 500;
 }
 
+/* 인증번호 발송 안내 메시지, 타이머 div */
+.verification-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    min-height: 1.2rem;
+    font-size: 0.85rem;
+}
+
+/* 인증 메시지 */
 .verification-message {
     display: block;
     text-align: left;
     font-size: 13px;
     margin-top: 5px;
     padding-left: 5px;
+}
+
+/* 타이머 */
+.mail-Check-Box .timer-message {
+	padding-right: 0.2rem;
+    color: #ff6347;
+    font-weight: 600;
 }
 
 .mailCheckSuccess {

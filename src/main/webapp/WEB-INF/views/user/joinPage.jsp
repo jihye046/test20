@@ -49,7 +49,14 @@
 	                <div class="input-group mail-Check-Box">
 	                    <label for="mailCheckInput">인증번호</label>
 	                    <input id="mailCheckInput" type="number" placeholder="인증번호 6자리 입력" size="6" required>
-	                    <span id="mailCheckSpan" class="verification-message"></span>
+	                    
+	                    <!-- 인증 결과 실시간 -->
+	                    <div class="verification-status">
+		                    <span id="mailCheckSpan" class="verification-message"></span>
+		                    <!-- verify-timer 추가 -->
+		                    <span id="verificationTimer" class="timer-message"></span>
+	                    </div>
+	                    
 	                </div>
 	                
 	                <button id="joinBtn" class="btn-submit" type="submit" disabled="disabled">회원가입</button>
