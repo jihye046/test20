@@ -32,6 +32,33 @@ mobileInput.addEventListener('input', (e) => {
   }
 })
 
+// 인증 시간 타이머
+let timerInterval
+const startVerificationTimer = (durationInSeconds) => {
+    clearInterval(timerInterval) // 시간 초기화
+    const timer = document.querySelector("#verificationTimer")
+    let remainingTime = durationInSeconds
+
+    const updateDisplay = () => {
+        const minutes = String(Math.floor(remainingTime / 60)).padStart(2, '0')
+        const seconds = String(remainingTime % 60).padStart(2, '0')
+        timer.textContent = `${minutes} : ${seconds}`
+    }
+
+    updateDisplay()
+    timerInterval = setInterval(() => {
+        remainingTime--
+
+        if(remainingTime <= 0) {
+            clearInterval(timerInterval)
+            timer.textContent = '인증 시간이 만료되었습니다.'
+            document.querySelector("#joinBtn").disabled = 'true'
+        } else {
+            updateDisplay()
+        }
+    }, 1000)
+}
+
 document.addEventListener("DOMContentLoaded", function() {
   // 이메일 인증
   const uemailInput = document.querySelector('#uemail')
@@ -55,8 +82,9 @@ document.addEventListener("DOMContentLoaded", function() {
         url: "/userMail/send?uemail=" + uemail,
         success: function(data){
           if(data == "success"){
-            alert('인증번호가 전송되었습니다!')
+            alert('인증번호가 전송되었습니다.')
             mailCheckBox.style.display = 'block'
+            startVerificationTimer(5 * 60) // 5분
           } else {
             alert('이메일을 확인해 주신 후 본인인증 버튼을 다시 눌러주세요.')
           }

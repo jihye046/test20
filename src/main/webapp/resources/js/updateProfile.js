@@ -54,6 +54,7 @@ const setProfileImageFromFile = () => {
     const fileImage = document.querySelector("#fileImage")
     const maxSize = 5 * 1024 * 1024 // 5MB
     const profileImageInput = document.querySelector("#profileImageInput")
+
     let selectedFile = null // 선택된 파일 저장
 
     fileImage.addEventListener('click', function() {

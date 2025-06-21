@@ -54,9 +54,11 @@ public class UserController {
 		
 		String userPw = request.getParameter("userPw");
 		String encodePassword = service.getUserPassword(userId);
+		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		// 비밀번호 일치 여부 확인
 		boolean isPasswordMatch = passwordEncoder.matches(userPw, encodePassword);
+		System.out.println(isPasswordMatch);
 		
 //		boolean loginResult = service.login(userId, userPw);
 		if(isPasswordMatch) {
@@ -87,6 +89,7 @@ public class UserController {
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(UserDto dto, RedirectAttributes rttr, HttpSession session) {
+		System.out.println(dto);
 		boolean joinResult = service.join(dto);
 		if(joinResult) {
 			rttr.addFlashAttribute("userId", dto.getUserId());
