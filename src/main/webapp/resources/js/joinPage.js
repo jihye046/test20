@@ -1,3 +1,96 @@
+const newPasswordInput = document.querySelector("#password") // 설정할 비밀번호 Input
+const confirmPasswordInput = document.querySelector("#confirmPassword") // 새 비밀번호 확인 Input
+const requirementMessage = document.querySelector("#passwordRequirement") // 비밀번호 요구사항 출력 필드
+const mismatchMessage = document.querySelector("#passwordMismatchMessage") // 비밀번호 일치여부 출력 필드
+const joinBtn = document.querySelector("#joinBtn") // 회원가입 버튼
+
+/* 아이디 유효성 검사
+================================================== */
+
+/* 아이디 중복 검사
+================================================== */
+
+/* 메시지 스타일
+================================================== */
+    // 성공
+const setValidStyle = (el, message) => {
+    el.textContent = message
+    el.style.color = '#28a745'
+}
+
+    // 실패
+const setInvalidStyle = (el, message) => {
+    el.textContent = message
+    el.style.color = '#ff6347'
+}
+
+/* 비밀번호 유효성 검사
+================================================== */
+const validatePassword = (password) => {
+    const minLenght = 8 // 최소 8자 이상
+    const maxLenght = 16 // 최대 16자 이하
+    const hasSpace = /\s/.test(password) // 스페이스, 탭, 줄바꿈이 있으면 true, 없으면 false
+    const hasUpper = /[A-Z]/.test(password) // 대문자가 하나 이상이면 true, 없으면 false
+    const hasLower = /[a-z]/.test(password) // 소문자가 하나 이상이면 true, 없으면 false
+    const hasNumber = /[0-9]/.test(password) // 숫자가 하나 이상이면 true, 없으면 false
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) // 특수문자가 하나 이상이면 true, 없으면 false
+    
+    if(password.length < minLenght || password.length > maxLenght){
+        setInvalidStyle(requirementMessage, '비밀번호는 8자 이상 16자 이하로 입력해주세요.')
+        return false
+    } else if(hasSpace){
+        setInvalidStyle(requirementMessage, '비밀번호에 공백은 사용할 수 없습니다.')
+        return false
+    } else if(!hasUpper){
+        setInvalidStyle(requirementMessage, '비밀번호에 최소 하나 이상의 대문자가 포함되어야 합니다.')
+        return false
+    } else if(!hasLower){
+        setInvalidStyle(requirementMessage, '비밀번호에 최소 하나 이상의 소문자가 포함되어야 합니다.')
+        return false
+    } else if(!hasNumber){
+        setInvalidStyle(requirementMessage, '비밀번호에 최소 하나 이상의 숫자가 포함되어야 합니다.')
+        return false
+    } else if(!hasSpecial){
+        setInvalidStyle(requirementMessage, '비밀번호에 최소 하나 이상의 특수문자가 포함되어야 합니다.')
+        return false
+    } else {
+        setValidStyle(requirementMessage, '')
+        return true
+    }
+}
+
+/* 비밀번호 일치 여부 검사
+================================================== */
+const checkPasswordMatch = () => {
+    const password = newPasswordInput.value
+    let confirmPassword = confirmPasswordInput.value
+
+    if(password != confirmPassword){
+        setInvalidStyle(mismatchMessage, '비밀번호가 일치하지 않습니다.')
+        return false
+    } else {
+        setValidStyle(mismatchMessage, '')
+        return true
+    }
+}
+
+/* 폼 전송 제어
+================================================== */
+const form = document.querySelector("#join-form")
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  const isValid = validatePassword(newPasswordInput.value)
+  const isMatched = checkPasswordMatch()
+
+  if(!isValid || !isMatched){
+    alert('비밀번호를 다시 확인해주세요.')
+    return
+  }
+
+  //form.submit()
+})
+
 /* 휴대폰 번호 입력 시 하이픈 자동 생성
 ================================================== */
 const mobileInput = document.querySelector("#umobile")
@@ -22,7 +115,7 @@ mobileInput.addEventListener('input', (e) => {
   	// 새로운 input창 값  
     mobileInput.value = formatted
 
-	// 새로운 커서 위치
+	  // 새로운 커서 위치
     let newCursor = oldCursor
     if(oldCursor == 4 || oldCursor == 9){
       newCursor++
@@ -32,7 +125,8 @@ mobileInput.addEventListener('input', (e) => {
   }
 })
 
-// 인증 시간 타이머
+/* 인증 시간 타이머
+================================================== */
 let timerInterval
 const startVerificationTimer = (durationInSeconds) => {
     clearInterval(timerInterval) // 시간 초기화
@@ -59,6 +153,8 @@ const startVerificationTimer = (durationInSeconds) => {
     }, 1000)
 }
 
+/* 페이지 로드 시 실행될 함수
+================================================== */
 document.addEventListener("DOMContentLoaded", function() {
   // 이메일 인증
   const uemailInput = document.querySelector('#uemail')
@@ -114,21 +210,44 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     })
   })
+	
+  /* 회원가입 버튼 활성화 조건
+    - 이메일 인증 성공
+    - 새 비밀번호 유효성 검사 통과
+    - 새 비밀번호와 확인 비밀번호 일치
+  ================================================== */
+  let isEmailVerified = false // 이메일 인증 성공 여부
 
+  // 조건에 따라 회원가입 버튼 활성화/비활성화 처리
+  const updateJoinBtnState = () => {
+    const isValid = validatePassword(newPasswordInput.value) // 비밀번호 유효성 검사
+    const isMatched = checkPasswordMatch()                   // 비밀번호 일치 여부 확인
+
+    joinBtn.disabled = !(isEmailVerified && isValid && isMatched) // 세 조건 모두 만족해야 활성화
+  }
+
+  // 이메일 인증번호 일치 여부에 따른 상태 처리 및 결과 출력
   const mailCheckResultStyle = (result) => {
     let output = ""
     if(result == "인증성공"){
       output = `
                   <span id="mailCheckSpan" class="mailCheckSuccess">${result}</span>
               `
-      joinBtn.disabled = false
+      isEmailVerified = true
     } else{
       output = `
                   <span id="mailCheckSpan" class="mailCheckFail">${result}</span>
               `
-      joinBtn.disabled = true
+      isEmailVerified = false
     }
     mailCheckSpan.innerHTML = output
+    updateJoinBtnState()
   }
+
+  // 새 비밀번호 입력 시 리스너
+  newPasswordInput.addEventListener('input', updateJoinBtnState)
+
+  // 새 비밀번호 확인 입력 시 리스너
+  confirmPasswordInput.addEventListener('input', updateJoinBtnState)
 
 })

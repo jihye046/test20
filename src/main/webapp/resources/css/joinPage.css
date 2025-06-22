@@ -118,6 +118,22 @@ body {
     outline: none;
 }
 
+/* 메시지 스타일 (예: 비밀번호 요구사항, 불일치 메시지) */
+.requirement-message {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+    padding-left: 0.2rem;
+}
+
+.error-message {
+    font-size: 0.85rem;
+    color: #ff6347;
+    margin-top: 0.5rem;
+    padding-left: 0.2rem;
+    min-height: 1.2rem;
+}
+
 .email-verification-group .email-input-wrapper {
     display: flex;
     gap: 10px;

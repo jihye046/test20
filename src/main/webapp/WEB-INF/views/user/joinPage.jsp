@@ -17,7 +17,7 @@
 	            <h2 class="join-title">회원가입</h2>
 	            <p class="join-subtitle">새로운 계정을 만들고 서비스를 이용해보세요.</p>
 	
-	            <form action="/user/join" method="post" class="join-form">
+	            <form id="join-form" action="/user/join" method="post" class="join-form">
 	                <div class="input-group">
 	                    <label for="username">이름</label>
 	                    <input type="text" id="username" name="username" placeholder="이름을 입력해주세요" required>
@@ -31,8 +31,14 @@
 	                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
 	                </div>
 	                <div class="input-group">
-	                    <label for="userPw">비밀번호</label>
-	                    <input type="password" id="userPw" name="userPw" placeholder="영문, 숫자, 특수문자 포함 8자 이상" required>
+	                    <label for="password">비밀번호</label>
+	                    <input type="password" id="password" name="userPw" placeholder="새 비밀번호를 입력해주세요 (8~16자)" required>
+		                <p id="passwordRequirement" class="requirement-message">영문, 숫자, 특수문자 조합 8~16자</p>
+	                </div>
+	                <div class="input-group">
+	                    <label for="confirmPassword">새 비밀번호 확인</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="새 비밀번호를 다시 입력해주세요">
+                        <p id="passwordMismatchMessage" class="error-message"></p>
 	                </div>
 	                <div class="input-group">
 	                    <label for="unickName">닉네임</label>
