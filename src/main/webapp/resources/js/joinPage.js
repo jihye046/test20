@@ -2,6 +2,7 @@
 ================================================== */
 	// 이메일 관련
 let isEmailVerified = false                                                        // 이메일 인증 성공 여부
+let isEmailVerificationExpired = false                                             // 인증 유효시간 만료 여부(유효 시 false, 만료 시 true)
 
 	// 비밀번호 관련
 const newPasswordInput = document.querySelector("#password")                       // 설정할 비밀번호 필드
@@ -182,8 +183,10 @@ const startVerificationTimer = (durationInSeconds) => {
         if(remainingTime <= 0) {
             clearInterval(timerInterval)
             timer.textContent = '인증 시간이 만료되었습니다.'
-            document.querySelector("#joinBtn").disabled = 'true'
+            document.querySelector("#mailCheckInput").disabled = true
+            isEmailVerificationExpired = true
         } else {
+            isEmailVerificationExpired = false
             updateDisplay()
         }
     }, 1000)
@@ -239,7 +242,8 @@ document.addEventListener("DOMContentLoaded", function() {
           if(data == "success"){
             alert('인증번호가 전송되었습니다.')
             mailCheckBox.style.display = 'block'
-            startVerificationTimer(5 * 60) // 5분
+            // startVerificationTimer(5 * 60) // 5분
+            startVerificationTimer(60)
           } else {
             alert('이메일을 확인해 주신 후 본인인증 버튼을 다시 눌러주세요.')
           }
@@ -274,14 +278,23 @@ document.addEventListener("DOMContentLoaded", function() {
     - 이메일 인증 성공
     - 새 비밀번호 유효성 검사 통과
     - 새 비밀번호와 확인 비밀번호 일치
+    - 아이디 유효성 검사 통과
+    - 이메일 인증 시간 유효
   ================================================== */
   	// 조건에 따라 회원가입 버튼 활성화/비활성화 처리
   const updateJoinBtnState = () => {
       const isPasswordValid = validatePassword(newPasswordInput.value, false) // 비밀번호 유효성 검사
       const isPasswordMatched = checkPasswordMatch(false)                     // 비밀번호 일치 여부 확인
       const isIdValid = validateId(userIdInput.value, false)                  // 아이디 유효성 검사
-
-      joinBtn.disabled = !(isEmailVerified && isPasswordValid && isPasswordMatched && isIdValid) // 네 조건 모두 만족해야 활성화
+      
+      // 다섯가지 조건 모두 만족해야 버튼 활성화
+      joinBtn.disabled = !(
+          isEmailVerified &&
+          isPasswordValid &&
+          isPasswordMatched && 
+          isIdValid && 
+          !isEmailVerificationExpired
+      ) 
   }
 
   	// 이메일 인증번호 일치 여부에 따른 상태 처리 및 결과 출력

@@ -48,7 +48,7 @@
 	                <div class="input-group email-verification-group">
 	                    <label for="uemail">이메일 주소</label>
 	                    <div class="email-input-wrapper">
-	                        <input type="email" id="uemail" name="uemail" placeholder="이메일 주소를 입력해주세요" required>
+	                        <input type="email" id="uemail" name="uemail" maxlength="6" placeholder="이메일 주소를 입력해주세요" required>
 	                        <button type="button" id="mailCodeButton" class="btn-verify-email">인증번호 발송</button>
 	                    </div>
 	                </div>
