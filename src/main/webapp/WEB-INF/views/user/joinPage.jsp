@@ -29,6 +29,7 @@
 	                <div class="input-group">
 	                    <label for="userId">아이디</label>
 	                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
+	                    <p id="idRequirement" class="requirement-message"></p>
 	                </div>
 	                <div class="input-group">
 	                    <label for="password">비밀번호</label>
