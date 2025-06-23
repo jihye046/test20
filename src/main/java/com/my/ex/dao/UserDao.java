@@ -134,5 +134,17 @@ public class UserDao implements IUserDao {
 	public String getUserPassword(String userId) {
 		return session.selectOne(NAMESPACE + "getUserPassword", userId);
 	}
+	
+	// 아이디 중복 검사
+	@Override
+	public int checkIdDuplicate(String checkId) {
+		return session.selectOne(NAMESPACE + "checkIdDuplicate", checkId);
+	}
+	
+	// 닉네임 중복 검사
+	@Override
+	public int checkNicknameDuplicate(String checkNickanme) {
+		return session.selectOne(NAMESPACE + "checkNicknameDuplicate", checkNickanme);
+	}
 
 }

@@ -13,6 +13,12 @@ const mismatchMessage = document.querySelector("#passwordMismatchMessage")      
 	// 아이디 관련
 const userIdInput = document.querySelector("#userId")
 const idRequirementMessage = document.querySelector("#idRequirement")              // 아이디 요구사항 출력 필드
+let isIdChecked = false
+
+  // 닉네임 관련
+const nicknameInput = document.querySelector("#unickName")
+const nicknameCheckMessage = document.querySelector("#nicknameRequirement")
+let isNicknameChecked = false
 
 	// 버튼
 const joinBtn = document.querySelector("#joinBtn")                                 // 회원가입 버튼
@@ -57,9 +63,6 @@ const validateId = (id) => {
         return true
     }
 }
-
-/* 아이디 중복 검사
-================================================== */
 
 /* 비밀번호 유효성 검사
 ================================================== */
@@ -183,7 +186,8 @@ const startVerificationTimer = (durationInSeconds) => {
         if(remainingTime <= 0) {
             clearInterval(timerInterval)
             timer.textContent = '인증 시간이 만료되었습니다.'
-            document.querySelector("#mailCheckInput").disabled = true
+            document.querySelector("#mailCodeButton").disabled = true // 인증번호 발송 버튼
+            document.querySelector("#mailCheckInput").disabled = true // 인증번호 입력 필드
             isEmailVerificationExpired = true
         } else {
             isEmailVerificationExpired = false
@@ -211,9 +215,13 @@ form.addEventListener('submit', (e) => {
   } else if(!isIdValid) {
     alert('아이디를 다시 확인해주세요.')
     return
+  } else if(isEmailVerificationExpired){
+    alert('인증 시간이 만료되었습니다. 새로고침 후 다시 시도해주세요.')
+  } else if(!isIdChecked){
+    alert('아이디 중복 여부를 확인해 주세요.')
   }
 
-  //form.submit()
+  form.submit()
 })
 
 /* 페이지 로드 시 실행될 함수
@@ -229,12 +237,12 @@ document.addEventListener("DOMContentLoaded", function() {
   // 메일 발송
   mailCodeButton.addEventListener('click', function(){
     let uemail = uemailInput.value
-    console.log(`uemail:${uemail}`)
+    
     if(uemail == null || uemail == "") {
-      console.log('a')
       alert('이메일을 입력해주세요')
     } else {
-      console.log('b')
+      uemailInput.readOnly = true
+      
       $.ajax({
         type: "get",
         url: "/userMail/send?uemail=" + uemail,
@@ -242,8 +250,7 @@ document.addEventListener("DOMContentLoaded", function() {
           if(data == "success"){
             alert('인증번호가 전송되었습니다.')
             mailCheckBox.style.display = 'block'
-            // startVerificationTimer(5 * 60) // 5분
-            startVerificationTimer(60)
+            startVerificationTimer(5 * 60) // 5분
           } else {
             alert('이메일을 확인해 주신 후 본인인증 버튼을 다시 눌러주세요.')
           }
@@ -280,6 +287,8 @@ document.addEventListener("DOMContentLoaded", function() {
     - 새 비밀번호와 확인 비밀번호 일치
     - 아이디 유효성 검사 통과
     - 이메일 인증 시간 유효
+    - 아이디 중복 검사 통과
+    - 닉네임 중복 검사 통과
   ================================================== */
   	// 조건에 따라 회원가입 버튼 활성화/비활성화 처리
   const updateJoinBtnState = () => {
@@ -287,13 +296,15 @@ document.addEventListener("DOMContentLoaded", function() {
       const isPasswordMatched = checkPasswordMatch(false)                     // 비밀번호 일치 여부 확인
       const isIdValid = validateId(userIdInput.value, false)                  // 아이디 유효성 검사
       
-      // 다섯가지 조건 모두 만족해야 버튼 활성화
+      // 일곱가지 조건 모두 만족해야 버튼 활성화
       joinBtn.disabled = !(
           isEmailVerified &&
           isPasswordValid &&
           isPasswordMatched && 
           isIdValid && 
-          !isEmailVerificationExpired
+          !isEmailVerificationExpired &&
+          isIdChecked &&
+          isNicknameChecked
       ) 
   }
 
@@ -327,8 +338,59 @@ document.addEventListener("DOMContentLoaded", function() {
 
   	// 아이디 입력 시 리스너
   userIdInput.addEventListener('input', () => {
-      validateId(userIdInput.value, true)
+      isIdChecked = false
+      const isIdValid = validateId(userIdInput.value)
+      checkIdButton.disabled = !isIdValid
       updateJoinBtnState()
   })
+
+    // 아이디 중복 확인 버튼 리스너
+  document.querySelector("#checkIdButton").addEventListener('click', () => {
+      axios.get('/user/check-id-duplicate', {
+          params: {checkId: userIdInput.value}
+      })
+          .then(response => {
+              if(response.data){
+              	  alert('사용중인 아이디입니다.')
+                  isIdChecked = false
+              } else if(!(response.data)) {
+              	  alert('사용 가능한 아이디입니다.')
+                  isIdChecked = true
+              }
+              updateJoinBtnState()
+          })
+          .catch(error => {
+              console.error('error: ', error)
+          })
+  })
+  
+    // 닉네임 입력 시 리스너
+  nicknameInput.addEventListener('input', _.debounce(() => {
+      const nickname = nicknameInput.value.trim()
+      if(nickname == ''){
+          setInvalidStyle(nicknameCheckMessage, '닉네임을 입력해주세요.')
+          isNicknameChecked = false
+          updateJoinBtnState()
+          return
+      }
+    
+      // debounce: 입력이 멈춘 뒤 0.3초 후에 중복 검사 요청을 보내 서버 과부하 방지
+      axios.get('/user/check-nickname-duplicate', {
+        params: {checkNickanme: nickname}
+      })
+          .then(response => {
+              if(response.data){
+                  setInvalidStyle(nicknameCheckMessage, '사용중인 닉네임입니다.')
+                  isNicknameChecked = false
+              } else if(!(response.data)) {
+                  setValidStyle(nicknameCheckMessage, '사용 가능한 닉네임입니다.')
+                  isNicknameChecked = true
+              }
+              updateJoinBtnState()
+          })
+          .catch(error => {
+              console.error('error: ', error)
+          })
+  }, 300))
   
 })

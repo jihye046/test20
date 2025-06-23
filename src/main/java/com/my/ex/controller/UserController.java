@@ -89,12 +89,23 @@ public class UserController {
 	// 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String join(UserDto dto, RedirectAttributes rttr, HttpSession session) {
-		System.out.println(dto);
-		boolean joinResult = service.join(dto);
-		if(joinResult) {
-			rttr.addFlashAttribute("userId", dto.getUserId());
-			rttr.addFlashAttribute("joinResult", true);
+		boolean isPasswordValid = isPasswordValid(dto.getUserPw());
+		boolean isIdValid = isIdValid(dto.getUserId());
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		if(isPasswordValid && isIdValid) {
+			String hashedPassword = passwordEncoder.encode(dto.getUserPw());
+			dto.setUserPw(hashedPassword);
+			boolean joinResult = service.join(dto);
+			
+			if(joinResult) {
+				rttr.addFlashAttribute("userId", dto.getUserId());
+				rttr.addFlashAttribute("joinResult", true);
+			}
+			return "redirect:loginPage";
 		}
+		
+		rttr.addFlashAttribute("joinResult", false);
 		return "redirect:loginPage";
 	}
 
@@ -385,4 +396,25 @@ public class UserController {
 		return true;
 	}
 	
+	// 아이디 유효성 검사(서버에서 한번 더 검사)
+	private boolean isIdValid(String userId) {
+		if(userId == null || userId.length() < 4 || userId.length() > 12) return false;
+		if(userId.matches(".*\\s+.*")) return false; // 공백 체크
+		if(!userId.matches("^[a-z][a-z0-9_.]*$")) return false; // 소문자 시작 + 허용 문자만 사용
+		return true;
+	}
+	
+	// 아이디 중복 체크
+	@ResponseBody
+	@RequestMapping("/check-id-duplicate")
+	public boolean checkIdDuplicate(@RequestParam String checkId) {
+		return service.checkIdDuplicate(checkId);
+	}
+	
+	// 닉네임 중복 검사
+	@ResponseBody
+	@RequestMapping("/check-nickname-duplicate")
+	public boolean checkNicknameDuplicate(@RequestParam String checkNickanme) {
+		return service.checkNicknameDuplicate(checkNickanme);
+	}
 }

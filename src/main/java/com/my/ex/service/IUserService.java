@@ -16,6 +16,10 @@ public interface IUserService {
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
 	String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword);
+	// 아이디 중복 검사
+	boolean checkIdDuplicate(String checkId);
+	// 닉네임 중복 검사
+	boolean checkNicknameDuplicate(String checkNickanme);
 	
 	// 프로필 이미지, 닉네임
 	UserDto getCurrentProfile(String userId);

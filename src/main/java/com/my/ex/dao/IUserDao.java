@@ -18,6 +18,10 @@ public interface IUserDao {
 	int isOldPasswordCorrect(String userId, String oldPassword);
 	String getCurrentPassword(String userId);
 	boolean updatePassword(String userId, String newPassword);
+	// 아이디 중복 검사
+	int checkIdDuplicate(String checkId);
+	// 닉네임 중복 검사
+	int checkNicknameDuplicate(String checkNickanme);
 	
 	// 프로필 이미지, 닉네임
 	UserDto getCurrentProfile(String userId);

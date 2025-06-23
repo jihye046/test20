@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/joinPage.css" rel="styleSheet">
+
+<!-- axios -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- lodach -->
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
 </head>
 <body>
 <!-- 	<div class="row header-div"> -->
@@ -28,7 +35,10 @@
 	                </div>
 	                <div class="input-group">
 	                    <label for="userId">아이디</label>
-	                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
+	                    <div class="id-input-wrapper">
+	                    	<input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
+	                    	<button type="button" id="checkIdButton" class="btn-check-id" disabled>중복 확인</button>
+	                    </div>
 	                    <p id="idRequirement" class="requirement-message"></p>
 	                </div>
 	                <div class="input-group">
@@ -43,19 +53,20 @@
 	                </div>
 	                <div class="input-group">
 	                    <label for="unickName">닉네임</label>
-	                    <input type="text" id="unickName" name="unickName" placeholder="닉네임을 입력해주세요" required>
+	                    <input type="text" id="unickName" name="unickName" maxlength="8" placeholder="닉네임을 입력해주세요" required>
+						<p id="nicknameRequirement" class="requirement-message"></p>
 	                </div>
 	                <div class="input-group email-verification-group">
 	                    <label for="uemail">이메일 주소</label>
 	                    <div class="email-input-wrapper">
-	                        <input type="email" id="uemail" name="uemail" maxlength="6" placeholder="이메일 주소를 입력해주세요" required>
+	                        <input type="email" id="uemail" name="uemail" placeholder="이메일 주소를 입력해주세요" required>
 	                        <button type="button" id="mailCodeButton" class="btn-verify-email">인증번호 발송</button>
 	                    </div>
 	                </div>
 	
 	                <div class="input-group mail-Check-Box">
 	                    <label for="mailCheckInput">인증번호</label>
-	                    <input id="mailCheckInput" type="number" placeholder="인증번호 6자리 입력" size="6" required>
+	                    <input id="mailCheckInput" type="number" maxlength="6" placeholder="인증번호 6자리 입력" required>
 	                    
 	                    <!-- 인증 결과 실시간 -->
 	                    <div class="verification-status">
@@ -63,7 +74,6 @@
 		                    <!-- verify-timer 추가 -->
 		                    <span id="verificationTimer" class="timer-message"></span>
 	                    </div>
-	                    
 	                </div>
 	                
 	                <button id="joinBtn" class="btn-submit" type="submit" disabled="disabled">회원가입</button>
