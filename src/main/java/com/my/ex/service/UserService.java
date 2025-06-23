@@ -133,4 +133,16 @@ public class UserService implements IUserService {
 		return dao.getUserPassword(userId);
 	}
 	
+	// 아이디 중복 검사
+	@Override
+	public boolean checkIdDuplicate(String checkId) {
+		return dao.checkIdDuplicate(checkId) > 0;
+	}
+	
+	// 닉네임 중복 검사
+	@Override
+	public boolean checkNicknameDuplicate(String checkNickanme) {
+		return dao.checkNicknameDuplicate(checkNickanme) > 0;
+	}
+	
 }

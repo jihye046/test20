@@ -2,6 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link href="../../../resources/css/joinPage.css" rel="styleSheet">
+
+<!-- axios -->
+<script type="module" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- lodach -->
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
 </head>
 <body>
 <!-- 	<div class="row header-div"> -->
@@ -17,7 +24,7 @@
 	            <h2 class="join-title">회원가입</h2>
 	            <p class="join-subtitle">새로운 계정을 만들고 서비스를 이용해보세요.</p>
 	
-	            <form action="/user/join" method="post" class="join-form">
+	            <form id="join-form" action="/user/join" method="post" class="join-form">
 	                <div class="input-group">
 	                    <label for="username">이름</label>
 	                    <input type="text" id="username" name="username" placeholder="이름을 입력해주세요" required>
@@ -28,15 +35,26 @@
 	                </div>
 	                <div class="input-group">
 	                    <label for="userId">아이디</label>
-	                    <input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
+	                    <div class="id-input-wrapper">
+	                    	<input type="text" id="userId" name="userId" placeholder="아이디를 입력해주세요" required>
+	                    	<button type="button" id="checkIdButton" class="btn-check-id" disabled>중복 확인</button>
+	                    </div>
+	                    <p id="idRequirement" class="requirement-message"></p>
 	                </div>
 	                <div class="input-group">
-	                    <label for="userPw">비밀번호</label>
-	                    <input type="password" id="userPw" name="userPw" placeholder="영문, 숫자, 특수문자 포함 8자 이상" required>
+	                    <label for="password">비밀번호</label>
+	                    <input type="password" id="password" name="userPw" placeholder="새 비밀번호를 입력해주세요 (8~16자)" required>
+		                <p id="passwordRequirement" class="requirement-message">영문, 숫자, 특수문자 조합 8~16자</p>
+	                </div>
+	                <div class="input-group">
+	                    <label for="confirmPassword">새 비밀번호 확인</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="새 비밀번호를 다시 입력해주세요">
+                        <p id="passwordMismatchMessage" class="error-message"></p>
 	                </div>
 	                <div class="input-group">
 	                    <label for="unickName">닉네임</label>
-	                    <input type="text" id="unickName" name="unickName" placeholder="닉네임을 입력해주세요" required>
+	                    <input type="text" id="unickName" name="unickName" maxlength="8" placeholder="닉네임을 입력해주세요" required>
+						<p id="nicknameRequirement" class="requirement-message"></p>
 	                </div>
 	                <div class="input-group email-verification-group">
 	                    <label for="uemail">이메일 주소</label>
@@ -48,7 +66,7 @@
 	
 	                <div class="input-group mail-Check-Box">
 	                    <label for="mailCheckInput">인증번호</label>
-	                    <input id="mailCheckInput" type="number" placeholder="인증번호 6자리 입력" size="6" required>
+	                    <input id="mailCheckInput" type="number" maxlength="6" placeholder="인증번호 6자리 입력" required>
 	                    
 	                    <!-- 인증 결과 실시간 -->
 	                    <div class="verification-status">
@@ -56,7 +74,6 @@
 		                    <!-- verify-timer 추가 -->
 		                    <span id="verificationTimer" class="timer-message"></span>
 	                    </div>
-	                    
 	                </div>
 	                
 	                <button id="joinBtn" class="btn-submit" type="submit" disabled="disabled">회원가입</button>
