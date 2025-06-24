@@ -1,0 +1,262 @@
+@charset "UTF-8";
+
+/* 메인 컨텐츠 영역
+================================================== */
+.my-posts-main {
+/*     flex-grow: 1; */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px 150px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.my-posts-container {
+    width: 100%;
+    max-width: 960px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* 제목 섹션
+================================================== */
+.page-title-section {
+    text-align: center;
+    margin-bottom: 10px;
+}
+	/* 제목 */
+.page-title {
+    font-family: 'Pretendard-Bold', 'Noto Sans KR', sans-serif;
+    font-size: 28px;
+    color: #333;
+    font-weight: 700;
+}
+
+/* 정렬 버튼 섹션
+================================================== */
+.sort-buttons-section {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.sort-buttons-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+	/* 정렬 버튼 */
+.sort-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #e0e0e0;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* 게시글 테이블 섹션
+================================================== */
+.posts-table-section {
+    width: 100%;
+}
+
+	/* 테이블 */
+.my-posts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+	/* 테이블 제목 */
+.my-posts-table thead th {
+    background-color: #f8f8f8;
+    color: #666;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+	/* 테이블 행 */
+.my-posts-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+	/* 테이블 행 hover 시 */
+.my-posts-table tbody tr:hover {
+    background-color: #fdfdfd;
+}
+
+	/* 테이블 열 */
+.my-posts-table tbody td {
+    padding: 14px 20px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #444;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 넘치는 내용을 '...'으로 표시 */
+}
+
+	/* 'No.' 열 */
+.my-posts-table tbody td:nth-child(1) {
+    width: 7rem;
+    font-weight: 500;
+    color: #777;
+}
+
+	/* '작성자' 열 */
+.my-posts-table tbody td:nth-child(2) {
+    width: 7rem;
+    text-align: left;
+}
+
+	/* '제목' 열 */
+.my-posts-table tbody td:nth-child(3) {
+    width: auto; /* 남은 모든 공간을 차지하도록 설정 */
+    text-align: left;
+    font-weight: 500;
+    display: flex; /* 제목과 댓글 수를 한 줄에 배치 */
+    align-items: center;
+    gap: 8px;
+}
+
+	/* '제목' 링크 */
+.my-posts-table tbody td:nth-child(3) a {
+    flex-grow: 1; /* 링크가 가능한 많은 공간을 차지하도록 */
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0; /* flex 아이템이 content보다 작아질 수 있도록 */
+    max-width: calc(100% - 40px); /* 댓글 아이콘+수 공간을 대략적으로 제외. 이 값을 조절하여 제목 길이 미세 조정 가능 */
+}
+
+	/* '제목' 링크 hover 시 */
+.my-posts-table tbody td:nth-child(3) a:hover {
+    color: #4a90e2;
+    text-decoration: underline;
+}
+	
+	/* '작성일' 열 */
+.my-posts-table tbody td:nth-child(4) {
+    width: 5rem;
+    color: #777;
+    font-size: 13px;
+    white-space: nowrap; /* 한 줄로 */
+}
+
+	/* '조회수' 열 */
+.my-posts-table tbody td:nth-child(5) {
+    width: 11rem;
+    color: #777;
+    font-size: 13px;
+    white-space: nowrap; /* 한 줄로 */
+}
+
+	/* 댓글 아이콘 */
+.comment-icon {
+    font-size: 12px;
+    color: #888;
+    margin-left: 0; /* gap으로 간격 조절하므로 제거 */
+    flex-shrink: 0; /* 공간이 부족해도 줄어들지 않도록 */
+}
+
+	/* 댓글 수 */
+.commentCount {
+    font-size: 12px;
+    color: #888;
+    margin-left: 0; /* gap으로 간격 조절하므로 제거 */
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* 모바일 반응형
+================================================== */
+@media (max-width: 768px) {
+    .my-posts-container {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .sort-buttons-section {
+        justify-content: center;
+    }
+
+    .sort-btn {
+        padding: 6px 15px;
+        font-size: 13px;
+    }
+
+    .my-posts-table thead th {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .my-posts-table tbody td {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+
+    /* 모바일에서는 특정 컬럼 너비 조정 또는 숨김 */
+    .my-posts-table tbody td:nth-child(1), /* No. */
+    .my-posts-table tbody td:nth-child(4), /* 작성일 */
+    .my-posts-table tbody td:nth-child(5) { /* 조회수 */
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 576px) {
+    /* 더 작은 모바일 화면에서는 일부 컬럼 숨기기 */
+    .my-posts-table thead th:nth-child(1), /* No. */
+    .my-posts-table tbody td:nth-child(1),
+    .my-posts-table thead th:nth-child(4), /* 작성일 */
+    .my-posts-table tbody td:nth-child(4),
+    .my-posts-table thead th:nth-child(5), /* 조회수 */
+    .my-posts-table tbody td:nth-child(5) {
+        display: none; /* 해당 컬럼 숨김 */
+    }
+
+    /* 숨겨진 컬럼으로 인해 남은 컬럼들의 너비 조정 */
+    .my-posts-table tbody td:nth-child(2), /* 작성자 */
+    .my-posts-table tbody td:nth-child(3) { /* 제목 */
+        width: auto;
+        text-align: left;
+        justify-content: flex-start;
+        gap: 5px;
+    }
+
+    /* 모바일에서 작성자 컬럼 너비 조정 */
+    .my-posts-table tbody td:nth-child(2) {
+        width: 80px;
+        padding-left: 10px;
+    }
+
+    /* 모바일에서 제목 컬럼의 링크 최대 너비 재조정 */
+    .my-posts-table tbody td:nth-child(3) a {
+        max-width: calc(100% - 35px); /* 댓글 아이콘+수 공간을 대략적으로 제외 (모바일용) */
+    }
+}
