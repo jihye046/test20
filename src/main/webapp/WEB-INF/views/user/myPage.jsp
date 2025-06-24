@@ -43,7 +43,8 @@
 						<a href="/user/updateProfileForm">프로필 수정</a>
 					</div>
 					<div class="mypage-link">
-						<a href="/user/changePasswordForm">비밀번호 변경</a>
+<!-- 						<a href="/user/changePasswordForm">비밀번호 변경</a> -->
+						<a href="/user/verify-user?mode=password&userId=${sessionScope.userId}">비밀번호 변경</a>
 					</div>
 				</div>
 			</div>
