@@ -15,15 +15,16 @@
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
 									<a class="nav-link" href="/weather/weatherPage">Weather</a>
 								</li>
-								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Map</a>
-									<div class="dropdown-menu">
-										<a class="dropdown-item" href="/map/searchedAddMap">검색한 주소지 지도</a>
-										<a class="dropdown-item" href="/map/specificAddMap">특정 주소지 지도</a>
-										<a class="dropdown-item" href="/map/findRoutePage">특정 주소지까지 길찾기</a>
-										<a class="dropdown-item" href="/map/findRoute">검색한 주소지까지 길찾기</a>
-									</div>
-								</li>
+								<!-- Map 삭제 -->
+<!-- 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4"> -->
+<!-- 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Map</a> -->
+<!-- 									<div class="dropdown-menu"> -->
+<!-- 										<a class="dropdown-item" href="/map/searchedAddMap">검색한 주소지 지도</a> -->
+<!-- 										<a class="dropdown-item" href="/map/specificAddMap">특정 주소지 지도</a> -->
+<!-- 										<a class="dropdown-item" href="/map/findRoutePage">특정 주소지까지 길찾기</a> -->
+<!-- 										<a class="dropdown-item" href="/map/findRoute">검색한 주소지까지 길찾기</a> -->
+<!-- 									</div> -->
+<!-- 								</li> -->
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
 									<a class="nav-link" href="#">Contact</a>
 								</li>
@@ -48,13 +49,6 @@
 			</div>
 		</div>
 	</div>
-<!-- 	<div class="my-5 py-5"> -->
-<!-- 	</div> -->
 	<div class="ee5">
 	</div>
-		<!-- logo & userInfo -->
-<!-- 		<a href="/"> -->
-<!-- 			<img alt="logo" src="../../../resources/images/home.png"> -->
-<!-- 		</a> -->
-<!-- 	</div> -->
 <script src="../../../resources/js/loginInfo.js"></script>

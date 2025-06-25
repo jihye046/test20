@@ -65,17 +65,13 @@
 					</div>
 
 					<div class="post-meta-div">
-						<dl class="post-meta-dl">
-							<span class="post-meta-item">${dto.bDate} </span>
-							<dt class="post-meta-item like-button-container">
-								좋아요
-							</dt>
-							<dd class="post-meta-item" id="totalLikes">${dto.bLike}</dd>
-							<dt class="post-meta-item">스크랩</dt>
-							<dd class="post-meta-item">0</dd>
-							<dt class="post-meta-item">조회수</dt>
-							<dd class="post-meta-item">${dto.bHit}</dd>
-						</dl>
+					    <span class="post-meta-item">${dto.bDate}</span>
+					    <span class="separator"> | </span> <span class="post-meta-item">좋아요</span>
+					    <span class="post-meta-item" id="totalLikes">${dto.bLike}</span>
+					    <span class="separator"> | </span> <span class="post-meta-item">스크랩</span>
+					    <span class="post-meta-item">0</span>
+					    <span class="separator"> | </span> <span class="post-meta-item">조회수</span>
+					    <span class="post-meta-item">${dto.bHit}</span>
 					</div>
 					<hr id="postImageDivider" class="hidden-hr">
 				</div> 
@@ -159,12 +155,14 @@
 															<img id="profile-photo-${comment.bId}" src="${profileImageUrls[status.index]}" />
 														<span class="author-name"><a href="#">${comment.bName}</a></span>
 													</div>
-													<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
-																													   data-bGroup="${comment.bGroup}"
-																													   data-bStep="${comment.bStep}"
-																													   data-bIndent="${comment.bIndent}">
-														<i class="fa-regular fa-trash-can"></i>
-													</button>
+													<c:if test="${comment.bName == sessionScope.userId}">
+														<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="${comment.bId}" 
+																														   data-bGroup="${comment.bGroup}"
+																														   data-bStep="${comment.bStep}"
+																														   data-bIndent="${comment.bIndent}">
+															<i class="fa-regular fa-trash-can"></i>
+														</button>
+													</c:if>
 												</div>
 												<p class="post-content">${comment.bContent}</p>
 												<time class="post-time">${comment.bDate}</time>
@@ -190,12 +188,14 @@
 												<img id="profile-photo-${comment.bId} comment-child" src="${profileImageUrls[status.index]}" />
 												<span class="author-name comment-child"><a href="#">${comment.bName}</a></span>
 											</div>
-											<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}"
-																															 data-bGroup="${comment.bGroup}"
-																															 data-bStep="${comment.bStep}"
-																															 data-bIndent="${comment.bIndent}">
-												<i class="fa-regular fa-trash-can"></i>
-											</button>
+											<c:if test="${comment.bName == sessionScope.userId}">
+												<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="${comment.bId}"
+																																 data-bGroup="${comment.bGroup}"
+																																 data-bStep="${comment.bStep}"
+																																 data-bIndent="${comment.bIndent}">
+													<i class="fa-regular fa-trash-can"></i>
+												</button>
+											</c:if>
 										</div>
 									    <p class="post-content comment-child">${comment.bContent}</p>
 										<time class="post-time comment-child">${comment.bDate}</time>
@@ -279,6 +279,8 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script> <!-- 카카오 공유 -->
 
 <script>
+const userId = document.querySelector("#userId").getAttribute("data-userId")
+
 /* 결과 메시지
 ================================================== */
 const setMessage = (msg) => {
@@ -325,14 +327,18 @@ const editCommentTable = (replyList, profileImageUrls) => {
 								<div class="left-info">
 									<img id="profile-photo-\${replyList[i].bId}" src="\${profileImageUrls[i]}" />
 									<span class="author-name"><a href="#">\${replyList[i].bName}</a></span>
-								</div>
-								<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
-																								   data-bGroup="\${replyList[i].bGroup}"
-																								   data-bStep="\${replyList[i].bStep}"
-																								   data-bIndent="\${replyList[i].bIndent}">
-									<i class="fa-regular fa-trash-can"></i>
-								</button>
-							</div>
+								</div>`
+								if(replyList[i].bName == userId){
+									output += `
+										<button type="button" class="button-filled-primary comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
+																									   data-bGroup="\${replyList[i].bGroup}"
+																									   data-bStep="\${replyList[i].bStep}"
+																									   data-bIndent="\${replyList[i].bIndent}">
+											<i class="fa-regular fa-trash-can"></i>
+										</button>
+									`
+								}
+					output += `</div>
 					    	<p class="post-content">\${replyList[i].bContent}</p>
 					    	<time class="post-time">\${replyList[i].bDate}</time>
 					    	<button type="button" class="button-filled-primary comment-child-btn" 
@@ -353,14 +359,19 @@ const editCommentTable = (replyList, profileImageUrls) => {
 									<div class="left-info">
 										<img id="profile-photo-\${replyList[i].bId} comment-child" src="\${profileImageUrls[i]}" />
 										<span class="author-name comment-child"><a href="#">\${replyList[i].bName}</a></h4>
-									</div>
-									<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
+									</div>`
+								if(replyList[i].bName == userId){
+									output += `
+										<button type="button" class="button-filled-primary comment-child comment-remove" data-comment-remove-bId="\${replyList[i].bId}"
 																												 	 data-bGroup="\${replyList[i].bGroup}"
 																												 	 data-bStep="\${replyList[i].bStep}"
 																											 		 data-bIndent="\${replyList[i].bIndent}">
-										<i class="fa-regular fa-trash-can"></i>
-									</button>
-								</div>
+											<i class="fa-regular fa-trash-can"></i>
+										</button>
+									`
+								}
+									
+					output += `</div>
 							    <p class="post-content comment-child">\${replyList[i].bContent}</p>
 							    <time class="post-time comment-child">\${replyList[i].bDate}</time>
 							    <button type="button" class="button-filled-primary comment-child"  id="thumbupButton" data-recommend-bId="\${replyList[i].bId}">
