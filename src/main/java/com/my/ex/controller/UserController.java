@@ -115,13 +115,31 @@ public class UserController {
 		return "/user/myPage";
 	}
 	
-	// 내가 작성한 게시글
+	// 내가 작성한 게시글 (동기)
 	@RequestMapping("/getUserPosts")
-	public String getUserPosts(HttpSession session, Model model) {
+	public String getUserPosts(HttpSession session, 
+			Model model, 
+			@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+			@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
+			@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
 		String userId = getUserIdFromSession(session);
-		List<BoardDto> list = service.getUserPosts(userId);
-		model.addAttribute("getUserPosts", list);
+		
+		List<BoardDto> list = service.getUserPosts(userId, searchGubun, searchText, sortType);
+ 		model.addAttribute("getUserPosts", list);
 		return "/user/getUserPosts";
+	}
+	
+	// 내가 작성한 게시글 (비동기)
+	@ResponseBody
+	@RequestMapping("/getUserPosts/axios")
+	public List<BoardDto> getUserPostsAxios(HttpSession session, 
+			Model model, 
+			@RequestParam(value = "searchGubun", required = false, defaultValue = "") String searchGubun,
+			@RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
+			@RequestParam(value = "sortType", required = false, defaultValue = "latest") String sortType) {
+		String userId = getUserIdFromSession(session);
+		List<BoardDto> list = service.getUserPosts(userId, searchGubun, searchText, sortType);
+		return list;
 	}
 	
 	// 내가 작성한 댓글

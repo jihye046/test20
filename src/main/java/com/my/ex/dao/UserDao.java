@@ -38,8 +38,8 @@ public class UserDao implements IUserDao {
 	}
 
 	@Override
-	public List<BoardDto> getUserPosts(String userId) {
-		return session.selectList(NAMESPACE + "getUserPosts", userId);
+	public List<BoardDto> getUserPosts(HashMap<String, String> map) {
+		return session.selectList(NAMESPACE + "getUserPosts", map);
 	}
 
 	@Override

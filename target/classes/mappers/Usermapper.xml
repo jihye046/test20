@@ -43,11 +43,26 @@
 		 WHERE userId = #{userId}
 	</select>
 	
-	<select id="getUserPosts" resultType="BoardDto">
+	<select id="getUserPosts" parameterType="java.util.HashMap" resultType="BoardDto">
 		SELECT * 
 		  FROM mvc_board6
 		 WHERE bName = #{userId}
-		 ORDER BY bId DESC
+		   AND bStep = 0
+		   AND bIndent = 0
+		   <if test="searchText != null and searchText != ''">
+   		   	   AND ${searchGubun} LIKE '%' || #{searchText} ||'%'
+   		   </if>
+  		<choose>
+  			<when test="sortType == 'sort_latest'">
+				ORDER BY bId DESC
+  			</when>
+  			<when test="sortType == 'sort_hit'">
+  				ORDER BY bHit DESC, bId DESC		
+  			</when>
+  			<otherwise>
+  				ORDER BY bId DESC
+  			</otherwise>
+  		</choose>
 	</select>
 	
 	<select id="getUserComments" resultType="BoardDto">
@@ -55,6 +70,7 @@
 		  FROM mvc_board6
 		 WHERE bName = #{userId} 
 		   AND bStep >= 1
+		  ORDER BY bId DESC 
 	</select>
 	
 	<select id="getUserLikedPosts" resultType="BoardDto">

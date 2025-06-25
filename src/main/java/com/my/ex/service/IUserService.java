@@ -12,7 +12,7 @@ public interface IUserService {
 	boolean login(String userId, String userPw);
 	String getUserPassword(String userId);
 	String getUserNickname(String userId);
-	List<BoardDto> getUserPosts(String userId);
+	List<BoardDto> getUserPosts(String userId, String searchGubun, String searchText, String sortType);
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
 	String checkCurrentPasswordAndChange(String userId, String oldPassword, String newPassword);

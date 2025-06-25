@@ -12,7 +12,7 @@ public interface IUserDao {
 	UserDto login(String userId, String userPw);
 	String getUserPassword(String userId);
 	String getUserNickname(String userId);
-	List<BoardDto> getUserPosts(String userId);
+	List<BoardDto> getUserPosts(HashMap<String, String> map);
 	List<BoardDto> getUserComments(String userId);
 	List<BoardDto> getUserLikedPosts(String userId);
 	int isOldPasswordCorrect(String userId, String oldPassword);
