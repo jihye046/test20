@@ -37,8 +37,14 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<BoardDto> getUserPosts(String userId) {
-		return dao.getUserPosts(userId);
+	public List<BoardDto> getUserPosts(String userId, String searchGubun, String searchText, String sortType) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("searchGubun",searchGubun);
+		map.put("searchText", searchText);
+		map.put("sortType", sortType);
+		
+		return dao.getUserPosts(map);
 	}
 
 	@Override
@@ -144,5 +150,5 @@ public class UserService implements IUserService {
 	public boolean checkNicknameDuplicate(String checkNickanme) {
 		return dao.checkNicknameDuplicate(checkNickanme) > 0;
 	}
-	
+
 }

@@ -39,13 +39,16 @@
     font-weight: 700;
 }
 
-/* 정렬 버튼 섹션
+/* 정렬 및 검색 섹션
 ================================================== */
-.sort-buttons-section {
+.sort-and-search-section {
     width: 100%;
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .sort-buttons-wrapper {
@@ -53,17 +56,41 @@
     gap: 10px;
 }
 
-	/* 정렬 버튼 */
-.sort-btn {
-    background-color: #f0f0f0;
-    color: #555;
-    border: 1px solid #e0e0e0;
-    padding: 8px 18px;
-    border-radius: 20px;
+	/* 검색 섹션 */
+.search-box-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+	/* select 필드 및 option 필드*/
+.search-box-wrapper .form-select,
+.search-box-wrapper .form-select option {
+	padding: 8px 15px;
+    border: 1px solid #ced4da;
+	border-radius: 8px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100px;
+}
+
+	/* 검색어 입력 섹션 */
+.search-box-wrapper .form-control {
+    border-radius: 8px;
+    padding: 8px 15px;
+    border: 1px solid #ced4da;
+    font-size: 14px;
+    width: 200px;
+    transition: border-color 0.2s ease;
+}
+
+.search-box-wrapper .form-control:focus {
+    border-color: #007bff;
+    outline: 0;
+}
+
+.search-box-wrapper .btn.btn-dark {
+	font-size: 14px;
 }
 
 /* 게시글 테이블 섹션
