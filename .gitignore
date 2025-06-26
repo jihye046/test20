@@ -16,6 +16,7 @@ local.properties
 .target/
 
 # ignore properties file
+/**/spring/
 config/
 pom.xml
 web.xml

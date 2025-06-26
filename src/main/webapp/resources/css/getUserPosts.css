@@ -194,7 +194,7 @@
 
 	/* '조회수' 열 */
 .my-posts-table tbody td:nth-child(5) {
-    width: 11rem;
+    width: 7rem;
     color: #777;
     font-size: 13px;
     white-space: nowrap; /* 한 줄로 */

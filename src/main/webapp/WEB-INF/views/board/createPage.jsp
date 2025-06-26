@@ -34,7 +34,8 @@
 							
 							<!-- 태그 -->
 							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
-							<button class="btn btn-outline-info" type="submit">등록</button>
+							
+							<button class="post-submit-btn" type="submit">등록</button>
 						</form>
 					</div>
 				<div class="col-md-2"></div>

@@ -458,7 +458,7 @@ p.removeMessage {
     border: none;
     color: #999;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 13px;
     padding: 5px 10px;
     transition: color 0.2s ease;
 }
@@ -542,11 +542,13 @@ p.post-content {
 
 /* 답글 섹션
  ================================================== */
+ article.comment-child {
+	margin-left: 20px; 	
+ }
 .comment-child {
     background-color: #F6F6F6;
     margin-top: 5px;
-    margin-left: 20px;
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 0;
     border: none;
     box-shadow: none;
@@ -573,6 +575,7 @@ p.post-content {
 
 	/* 답글 - 내용 */
 .comment-child p.post-content {
+	padding-left: 0px;
     margin: 0 0 5px 0;
     clear: both;
 }
@@ -600,21 +603,21 @@ span.author-name.comment-child {
 	/* 답글 - 좋아요 버튼 */
 .comment-child #thumbupButton {
     float: none;
-    font-size: 12px;
+/*     font-size: 12px; */
     padding: 3px 0;
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 8px;
 }
 
 	/* 답글 - 좋아요 아이콘 */
-.comment-child #thumbupButton i {
-    font-size: 13px;
-}
+/* .comment-child #thumbupButton i { */
+/*     font-size: 13px; */
+/* } */
 
 	/* 답글 - 삭제 버튼 */
-.comment-child .comment-remove {
-    font-size: 13px;
-}
+/* .comment-child .comment-remove { */
+/*     font-size: 13px; */
+/* } */
 
 /* 페이징 스타일 
  ================================================== */

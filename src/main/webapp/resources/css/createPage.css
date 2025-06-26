@@ -1,5 +1,7 @@
 @charset "UTF-8";
-/* ckeditor */
+
+/* ckeditor
+ ================================================== */
 .createPage-main {
 	padding: 50px 0px;
 }
@@ -17,18 +19,37 @@
 	margin: 0
 }
 
+/* 제목 섹션
+ ================================================== */
+	/* 제목 입력창 */
 .bTitleInput {
 	border: 1px solid #ccced1;
 	padding: 6px 3px;	
 	font-size: 13px;
 }
 
-/* 주소 검색 div */
+	/* 제목 입력창 hover 시  */
+.bTitleInput:hover:not(:disabled) {
+    border-color: #2977ff;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+    outline: none;
+}
+
+	/* 제목 입력창 focus 시 */
+.bTitleInput:focus {
+    border-color: #2977ff;
+    box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.15);
+    outline: none;
+}
+
+/* 태그 섹션
+ ================================================== */
+	/* 주소 검색 div */
 .search-box {
 	padding-bottom: 30px;
 }
 
-/* 검색된 주소창 input */
+	/* 주소창 input */
 #inputAdd {
 	border: 1px solid #ccced1;
 	font-size: 14px;
@@ -37,7 +58,7 @@
 	padding:6px 0px;
 }
 
-/* 주소 검색 버튼 */
+	/* 주소 검색 버튼 */
 .address-search-btn {
 	background-color: #f5f5f5;
 	color: #333;
@@ -50,7 +71,41 @@
   	transition: all 0.3s ease;
 }
 
+	/* 주소 검색 버튼 hover 시 */
 .address-search-btn:hover {
   background-color: #ebebeb;
   border-color: #dcdcdc;
+}
+
+/* 태그 섹션
+ ================================================== */
+	/* 태그창 focus 시 */
+span.tagify__input:focus {
+	border-color: #2977ff !important;
+}
+
+/* 게시글 등록 버튼 섹션
+ ================================================== */
+ 	/* 등록 버튼 */
+.post-submit-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 3rem;
+    background-color: tomato;
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.00rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1.5rem;
+    transition: background-color 0.2s ease;
+}
+
+	/* 등록 버튼 hover 시 */
+.post-submit-btn:hover:not(:disabled) {
+    background-color: #CC4028;
 }
