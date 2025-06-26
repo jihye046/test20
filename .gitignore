@@ -18,7 +18,6 @@ local.properties
 # ignore properties file
 /**/spring/
 config/
-pom.xml
 web.xml
 target/
 .classpath
