@@ -11,13 +11,6 @@
 
 </head>
 <body>
-<!-- 	<div class="row header-div"> -->
-<!-- 		<div class="col-md-12 header-logo"> -->
-<!-- 			<a href="/"> -->
-<!-- 				<img alt="logo" src="../../../resources/images/logo2.png"> -->
-<!-- 			</a> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
 	<main>
 		<div class="join-background">
 	        <div class="join-card">
