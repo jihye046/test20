@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,9 +39,9 @@ public class MailSendService {
 		String toMail = uemail;
 		String title = "[HomeTalk] 본인 확인을 위한 인증 코드입니다.";
 		String boxStyle = "width:250px; height:60px; border:1.5px solid Tomato; border-radius:8px; " +
-                		  "display:flex; justify-content:center; " +
-                		  "align-items:center; font-size:20px; font-weight:500; color:Tomato;";
-		String content = "<h2>요청하신 인증을 위해 아래의 인증 코드를 입력해 주세요.</h2><br>" +
+						  "text-align:center; vertical-align: middle; line-height: 60px;" +
+						  "font-size:20px; font-weight:500; color:Tomato;";
+		String content = "<meta charset=\"UTF-8\"><h2>요청하신 인증을 위해 아래의 인증 코드를 입력해 주세요.</h2><br>" +
                 		 "<p>이 인증 코드는 회원가입 또는 아이디/비밀번호 찾기를 위해 발송되었습니다.</p>" +
                 		 "<p>아래의 인증코드를 입력하시면 다음 단계로 진행됩니다.</p>" +
 						 "<div style=\"" + boxStyle + "\">" + authNum + "</div>" +
