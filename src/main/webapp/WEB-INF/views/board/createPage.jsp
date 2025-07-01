@@ -33,7 +33,7 @@
 							</div>
 							
 							<!-- 태그 -->
-							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
+							<input id="tagInput" name="tags" placeholder="태그는 열개까지만 가능합니다.">
 							
 							<button class="post-submit-btn" type="submit">등록</button>
 						</form>

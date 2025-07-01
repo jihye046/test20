@@ -25,11 +25,11 @@
 	        <div class="account-info">
 	        	<div>
 	        		<span>아이디</span>
-	        		<p>hong1</p>
+	        		<p>my_home</p>
 	        	</div>
 	        	<div>
 	        		<span>비밀번호</span>
-	        		<p>1234</p>
+	        		<p>Test1234!</p>
 	        	</div>
 	        </div>
 	        <div class="popup-options">

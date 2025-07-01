@@ -127,11 +127,11 @@ body {
 /* ckeditor 이미지 업로드 사이즈 */
 .post > figure {
 	overflow: hidden;
-	max-width: 80%;
+	max-width: 100%;
 }
 
 .post img {
-	max-width: 80%;
+	max-width: 100%;
     height: auto; !important;
     object-fit: cover;
 }
@@ -148,6 +148,19 @@ body {
     border-right: 1px solid #ccc;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.post p {
+	line-height: 2;
+	color: rgb(47, 52, 56);
+}
+
+/* ckeditor 인용 문단 */
+.post blockquote {
+    margin: 1.5em 0;
+    padding: 0 1.5em;
+    border-left: 4px solid #ccc;
+/*     font-style: italic; */
 }
 
 /* 이미지 갤러리

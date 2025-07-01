@@ -37,7 +37,7 @@ const allTagJsonStr = document.querySelector("#allTagJsonList").getAttribute("da
 const allTagList = JSON.parse(allTagJsonStr)
 
 const tagify = new Tagify(tagInput, {
-  maxTags: 5,
+  maxTags: 10,
   // 드롭다운 자동완성 글자 수
   dropdown: {
     enabled: 1,

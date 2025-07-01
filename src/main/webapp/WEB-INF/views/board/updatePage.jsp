@@ -11,6 +11,7 @@
 
 <!-- ckeditor -->
 <script src="${pageContext.request.contextPath}/resources/static/ckeditor/build/ckeditor.js"></script>
+
 <!-- 주소 검색 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
@@ -18,16 +19,14 @@
     <%@ include file="/WEB-INF/views/include/loginInfo.jsp" %>
     <main>
         <div class="container">
-<!--         	<div class="row"> -->
+        	<div class="row">
         		<div class="col-md-2"></div>
         			<div class="col-md-8 updatePage-main">
 			            <form class="update-form" action="/board/updateBoard" method="post">
 			                <input type="hidden" name="bId" value="${dto.bId}">
 			                <input type="hidden" name="bGroup" value="${dto.bGroup}">
 			                <input type="hidden" name="bName" value="${dto.bName}">
-			                <div>
-			                	<input class="bTitleInput" type="text" size="100" name="bTitle" value="${dto.bTitle}">
-			                </div>
+		                	<input class="bTitleInput" type="text" size="100" name="bTitle" value="${dto.bTitle}">
 			                <textarea rows="10" cols="40" name="bContent" id="editor">${dto.bContent}</textarea>
 			                <!-- 주소 검색 -->
 							<div class="search-box">
@@ -36,8 +35,8 @@
 							</div>
 							
 							<!-- 태그 -->
-							<input id="tagInput" name="tags" placeholder="태그는 다섯개까지만 가능합니다.">
-			                <button class="btn btn-outline-info" type="submit" id="updateBtn">완료</button>
+							<input id="tagInput" name="tags" placeholder="태그는 열개까지만 가능합니다.">
+			                <button class="post-submit-btn" type="submit" id="updateBtn">완료</button>
 			            </form>
 		            </div>
 	            <div class="col-md-2"></div>
